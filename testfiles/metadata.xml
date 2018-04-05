@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<siardArchive xmlns="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
+	version="2.1">
+	<dbname>SIARD 2.1 Test Import Database</dbname>
+	<dataOwner>Enter AG, Rüti ZH, Switzerland</dataOwner>
+	<dataOriginTimespan>First half of 2017</dataOriginTimespan>
+	<archivalDate>2017-07-07Z</archivalDate>
+	<schemas>
+		<schema>
+			<name>TEST_SCHEMA</name>
+			<folder>schema0</folder>
+		</schema>
+	</schemas>
+	<users />
+</siardArchive>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- build.xml =========================================================
+ANT build file of SiardApi
+Application: SIARD Suite 2.0
+Description: ANT build file of SiardApi
+Platform   : JAVA, ANT
+========================================================================
+Copyright  : 2016, Enter AG, Rüti ZH, Switzerland
+Created    : 30.06.2016, Hartwig Thomas
+==================================================================== -->
+<project basedir="." default="build" name="siardapi" xmlns:if="ant:if" xmlns:unless="ant:unless">
+  <!-- build properties contain local settings. They must reside in
+	   the same folder as this build.xml. Use build.properties.template
+	   as a guide for creating the local copy.
+  -->
+  <property file="build.properties"/>
+  <property name="debuglevel" value="source,lines,vars"/>
+  <property name="target" value="1.7"/>
+  <property name="source" value="1.7"/>
+  <!-- the main folders of the project -->
+  <property name="dirsrc" value="src"/>
+  <property name="dirtest" value="test/"/>
+  <property name="dirlib" value="lib"/>
+  <property name="dirdoc" value="doc"/>
+  <property name="diretc" value="etc"/>
+  <property name="dirtestfiles" value="testfiles"/>
+  <property name="dirtmp" value="tmp"/>
+  <property name="dirdist" value="dist"/>
+
+	<property name="dirapi" value="ch/admin/bar/siard2/api"/>
+	<property name="dirsrcapi" value="${dirsrc}/${dirapi}"/>
+  <property name="dirres" value="${dirsrcapi}/res"/>
+  <property name="dirgenerated" value="${dirsrcapi}/generated"/>
+  <property name="dirjavadoc" value="${dirdoc}/javadoc"/>
+  <property name="dirspecifications" value="${dirdoc}/specifications"/>
+	
+  <!-- enterutils jar -->
+  <property name="jarenterutils" value="enterutils.jar"/>
+  <property name="cpenterutils" value="${dirlib}/${jarenterutils}"/> 
+  <!-- antlr 4 jar -->
+  <property name="jarantlr4runtime" value="antlr-runtime-4.5.2.jar"/>
+  <property name="cpantlr" value="${dirlib}/${jarantlr4runtime}"/>
+  <!-- sqlparser jar -->
+  <property name="jarsqlparser" value="sqlparser.jar"/>
+  <property name="cpsqlparser" value="${dirlib}/${jarsqlparser}"/> 
+	<!-- JAXB jars -->
+  <property name="jarjaxbapi" value="jaxb-api.jar"/>
+  <property name="jarjaxbcore" value="jaxb-core.jar"/>
+  <property name="jarjaxbimpl" value="jaxb-impl.jar"/>
+  <property name="jarjaxbxjc" value="jaxb-xjc.jar"/>
+	<property name="cpjaxb" value="${dirlib}/${jarjaxbapi};${dirlib}/${jarjaxbcore};${dirlib}/${jarjaxbimpl}"/> 
+  <!-- zip64 jar -->
+  <property name="jarzip64" value="zip64.jar"/>
+  <property name="cpzip64" value="${dirlib}/${jarzip64}"/> 
+  <!-- woodstox -->
+  <property name="jarstax2api" value="stax2-api-3.1.1.jar"/>
+  <property name="jarwoodstoxcore" value="woodstox-core-lgpl-4.1.2.jar"/>
+  <property name="cpwoodstox" value="${dirlib}/${jarstax2api};${dirlib}/${jarwoodstoxcore}"/>
+  <!-- msv -->
+  <property name="jarmsvcore" value="msv-core-2010.2.jar"/>
+  <property name="jarxsdlib" value="xsdlib-2010.1.jar"/>
+  <property name="jarwoodstoxmsv" value="woodstox-msv-rng-datatype-20020414.jar"/>
+  <property name="cpmsv" value="${dirlib}/${jarmsvcore};${dirlib}/${jarxsdlib};${dirlib}/${jarwoodstoxmsv}"/>
+  <!-- junit -->
+	<property name="jarhamcrest" value="hamcrest-core-1.3.jar"/>
+	<property name="jarjunit4" value="junit-4.12.jar"/>
+  <property name="cpjunit" value="${dirlib}/${jarhamcrest};${dirlib}/${jarjunit4}"/>
+
+  <!-- delete build folders -->
+  <property name="dirbuild" value="build"/>
+  <property name="dirbuildclasses" value="${dirbuild}/classes"/>
+  <property name="dirbuildtests" value="${dirbuild}/tests"/>
+  <target name="clean">
+    <echo message="${ant.project.name}: clean"/>
+    <delete dir="${dirbuildclasses}"/>
+    <delete dir="${dirbuildtests}"/>
+    <delete dir="${dirtmp}"/>
+    <delete dir="${dirdist}"/>
+    <delete dir="${dirjavadoc}"/>
+    <delete dir="${dirgenerated}"/>
+  </target>
+  
+  <!-- create build folders -->
+  <target name="init" depends="clean">
+    <echo message="${ant.project.name}: init"/>
+    <mkdir dir="${dirbuildclasses}"/>
+    <mkdir dir="${dirbuildtests}"/>
+    <mkdir dir="${dirtmp}"/>
+    <mkdir dir="${dirtmp}/lobs"/>
+    <mkdir dir="${dirdist}"/>
+    <mkdir dir="${dirjavadoc}"/>
+    <mkdir dir="${dirgenerated}"/>
+    <mkdir dir="${dirgenerated}/old10"/>
+    <mkdir dir="${dirgenerated}/table"/>
+  </target>
+  
+  <!-- check if mainfest and local build properties are available -->
+  <property name="filemanifest" value="${dirsrc}/META-INF/MANIFEST.MF"/>
+  <property name="filerevoldproperties" value="${dirtmp}/revold.properties"/>
+  <property name="filegithead" value=".git/HEAD"/>
+  <property name="filebranchproperties" value="${dirtmp}/branch.properties"/>
+  <target name="check" depends="init">
+    <!-- get current date -->
+    <tstamp>
+      <format property="builtdate" pattern="dd. MMM yyyy" locale="en,CH"/>
+    </tstamp>
+    <echo message="builddate: ${builtdate}"/>
+    <!-- current version and revision are taken from manifest -->
+    <copy file="${filemanifest}" tofile="${filerevoldproperties}"/>
+    <!-- reduce it to version and revision properties --> 
+    <replaceregexp file="${filerevoldproperties}" 
+      match=".*Implementation-Version: (\d+\.\d+)\.(\d+).*" 
+      replace="version=\1&#x000A;revold=\2"
+      flags="gms"/>
+    <!-- load the properties -->
+    <property file="${filerevoldproperties}"/>
+    <echo message="version: ${version}"/>
+    <echo message="revold: ${revold}"/>
+    <!-- fail if build.properties are not configured -->
+    <fail  message="External build.properties not configured correctly!">
+      <condition>
+        <not>
+          <and>
+            <isset property="version"/>
+            <isset property="revold"/>
+            <isset property="java7rtjar"/>
+          </and>
+        </not>
+      </condition>
+    </fail>
+    <!-- check .git/HEAD for active branch name -->
+    <copy file="${filegithead}" tofile="${filebranchproperties}"/>
+    <!-- reduce it to branch property -->
+    <replaceregexp file="${filebranchproperties}" 
+      match="^ref: refs/heads/(.*)$" 
+      replace="branch=\1"
+      flags="gms"/>
+    <!-- load the property -->
+    <property file="${filebranchproperties}"/>
+    <!-- compute branch.master -->
+    <condition property="branch.master">
+      <and>
+        <not><isset property="submit"/></not> 
+        <equals arg1="${branch}" arg2="master"/>
+      </and>
+    </condition>
+    <echo message="branch: ${branch}"/>
+    <echo message="branch.master: ${branch.master}"/>
+    <echo message="build.properties.configured: ${build.properties.configured}"/>
+  </target>
+  
+  <!-- commit local work -->
+  <property name="fileadd" value="${dirtmp}/add.txt"/>
+  <property name="filecommit" value="${dirtmp}/commit.txt"/>
+  <property name="filemdxsd" value="metadata.xsd"/>
+  <property name="filetablexsd" value="table.xsd"/>
+  <property name="filemd10xsd" value="old10/metadata.xsd"/>
+  <target name="commit" depends="check" if="git">
+    <echo message="get recent SIARD JARs"/>
+    <!-- TODO: get most recently released version of enterutils.jar -->
+    <copy file="../EnterUtilities/dist/enterutils.jar" todir="${dirlib}" failonerror="false"/>
+    <!-- TODO: get most recently released version of sqlparser.jar -->
+    <copy file="../SqlParser/dist/sqlparser.jar" todir="${dirlib}" failonerror="false"/>
+    <!-- TODO: get most recently released version of zip64.jar -->
+    <copy file="../Zip64File/dist/zip64.jar" todir="${dirlib}" failonerror="false"/>
+    <!-- the metadata in specifications is the master! -->
+    <copy file="${dirspecifications}/${filemdxsd}" tofile="${dirres}/${filemdxsd}"/>
+    <copy file="${dirspecifications}/${filetablexsd}" tofile="${dirres}/${filetablexsd}"/>
+    <copy file="${dirspecifications}/${filemd10xsd}" tofile="${dirres}/${filemd10xsd}"/>
+    <!-- stage all changes -->
+    <echo message="${ant.project.name}: git add -A"/>
+    <exec executable="${git}" output="${fileadd}" failonerror="true">
+      <arg value="add"/>
+      <arg value="-A"/>
+    </exec>
+    <!-- commit all changes -->
+    <echo message="${ant.project.name}: git commit -am &quot;${version}.${revold}&quot;"/>
+    <exec executable="${git}" output="${filecommit}" resultproperty="resultcommit">
+      <arg value="commit"/>
+      <arg value="-am" />
+      <arg value="${version}.${revold}" />
+    </exec>
+    <fail message="git commit failed!">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${resultcommit}" arg2="0"/>
+            <!-- warning, that nothing needed to be committed: -->
+            <equals arg1="${resultcommit}" arg2="1"/>
+          </or>
+        </not>
+      </condition>
+    </fail>
+  </target>
+  
+  <!-- update from remote master -->
+  <property name="filepull" value="${dirtmp}/pull.txt"/>
+  <target name="pull" depends="commit" if="git">
+    <!-- pull master branch
+    <echo message="${ant.project.name}: git pull origin master"/>
+    <exec executable="${git}" output="${filepull}">
+      <arg value="pull"/>
+      <arg value="origin"/>
+      <arg value="master"/>
+    </exec>
+    -->
+  <!-- pull dev branch -->
+    <echo message="${ant.project.name}: git pull origin ${branch}"/>
+    <exec executable="${git}" output="${filepull}" failonerror="true">
+      <arg value="pull"/>
+      <arg value="origin"/>
+      <arg value="${branch}"/>
+    </exec>
+  </target>
+  
+  <!-- increment revision and update manifest -->
+  <property name="filerevisionproperties" value="${dirtmp}/revision.properties"/> 
+  <target name="revision" depends="pull">
+    <echo message="${ant.project.name}: revision"/>
+    <copy file="${filerevoldproperties}" tofile="${filerevisionproperties}" overwrite="true"/>
+    <replaceregexp file="${filerevisionproperties}" 
+      match="^revold=(.*)$" 
+      replace="revision=\1"
+      flags="gm"/>
+    <propertyfile file="${filerevisionproperties}">
+      <entry key="revision" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="${filerevisionproperties}"/>
+    <echo message="revision: ${revision}" />
+    <replaceregexp file="${filemanifest}" 
+      match="^Implementation-Version: .*$" 
+      replace="Implementation-Version: ${version}.${revision}"
+      flags="gm"/>
+    <replaceregexp file="${filemanifest}" 
+      match="^Built-Date: .*$" 
+      replace="Built-Date: ${builtdate}"
+      flags="gm"/>
+  </target>
+  
+  <!-- generate the classes from XSD -->
+  <property name="filemdgenerate" value="${dirtmp}/md-generate.txt"/>
+  <property name="packagemd" value="ch.admin.bar.siard2.api.generated"/>
+  <property name="filemd10generate" value="${dirtmp}/md10-generate.txt"/>
+  <property name="packagemd10" value="ch.admin.bar.siard2.api.generated.old10"/>
+  <property name="filetablegenerate" value="${dirtmp}/table-generate.txt"/>
+  <property name="packagetable" value="ch.admin.bar.siard2.api.generated.table"/>
+  <target name="generate" depends="revision">
+    <delete>
+      <fileset dir="${dirgenerated}">
+        <include name="**/*.java"/>
+      </fileset>
+    </delete>
+    <echo message="${ant.project.name}: generate md"/>
+    <java jar="${dirlib}/${jarjaxbxjc}"
+      output="${filemdgenerate}"
+      fork="true" 
+      failonerror="true">
+      <arg value="-encoding"/>
+      <arg value="UTF-8"/>
+      <arg value="-npa"/>
+      <arg value="-d"/>
+      <arg value="${dirsrc}"/>
+      <arg value="-p"/>
+      <arg value="${packagemd}"/>
+      <arg value="${dirres}/${filemdxsd}"/>
+    </java>
+    <echo message="${ant.project.name}: generate md10"/>
+    <java jar="${dirlib}/${jarjaxbxjc}"
+      output="${filemd10generate}"
+      fork="true" 
+      failonerror="true">
+      <arg value="-encoding"/>
+      <arg value="UTF-8"/>
+      <arg value="-npa"/>
+      <arg value="-d"/>
+      <arg value="${dirsrc}"/>
+      <arg value="-p"/>
+      <arg value="${packagemd10}"/>
+      <arg value="${dirres}/${filemd10xsd}"/>
+    </java>
+    <echo message="${ant.project.name}: generate table"/>
+    <java jar="${dirlib}/${jarjaxbxjc}"
+      output="${filetablegenerate}"
+      fork="true" 
+      failonerror="true">
+      <arg value="-encoding"/>
+      <arg value="UTF-8"/>
+      <arg value="-npa"/>
+      <arg value="-d"/>
+      <arg value="${dirsrc}"/>
+      <arg value="-p"/>
+      <arg value="${packagetable}"/>
+      <arg value="${dirres}/${filetablexsd}"/>
+    </java>
+  </target>
+	
+  <!-- build the SiardApi classes -->
+  <property name="dirbuildapi" value="${dirbuildclasses}/${dirapi}"/>
+  <property name="dirbuildres" value="${dirbuildapi}/res"/>
+  <target name="build" depends="revision,generate">
+    <echo message="${ant.project.name}: build"/>
+    <!-- without this, the package-info class is not generated! -->
+    <touch>
+      <fileset dir="${dirsrc}" includes="**/*.*"/>
+    </touch>
+    <javac debug="true" debuglevel="${debuglevel}"
+      includeantruntime="false"
+      bootclasspath="${java7rtjar}"
+      source="${source}" 
+      target="${target}"
+      encoding="UTF-8"
+      classpath="${cpzip64};${cpjaxb};${cpenterutils};${cpsqlparser};${cpwoodstox};${cpmsv}"
+      srcdir="${dirsrc}"
+      destdir="${dirbuildclasses}">
+    </javac>
+  	<!-- add resources -->
+    <copy todir="${dirbuildres}">
+    	<fileset dir="${dirres}"/>
+  	</copy>
+  </target>
+  
+  <!-- create the JAR file containing all classes -->
+  <property name="jarfile" value="${ant.project.name}.jar"/>
+  <target name="jar" depends="build">
+    <echo message="${ant.project.name}: jar"/>
+    <jar jarfile="${dirdist}/${jarfile}"
+       manifest="${filemanifest}">
+      <fileset dir="${dirbuildclasses}">
+        <include name="**/*.class"/>
+        <include name="**/res/**/*.*"/>
+      </fileset>
+    </jar>
+  </target>
+	
+	<!-- create and run all tests -->
+  <property name="classsiardapitestsuite" value="ch.admin.bar.siard2.api._SiardApiTestSuite"/>
+  <property name="filesiardapitests" value="siardapi-tests"/>
+	<target name="tests" depends="jar">
+    <echo message="${ant.project.name}: tests"/>
+		<!-- build the tests -->
+    <javac debug="true" debuglevel="${debuglevel}"
+      includeantruntime="false"
+      bootclasspath="${java7rtjar}"
+      source="${source}" 
+      target="${target}"
+      encoding="UTF-8"
+      srcdir="${dirtest}"
+      destdir="${dirbuildtests}">
+      <classpath>
+        <pathelement path="${dirdist}/${jarfile}"/>
+        <pathelement path="${cpjaxb}"/>
+        <pathelement path="${cpwoodstox}"/>
+        <pathelement path="${cpmsv}"/>
+        <pathelement path="${cpenterutils}"/>
+        <pathelement path="${cpsqlparser}"/>
+        <pathelement path="${cpantlr}"/>
+        <pathelement path="${cpzip64}"/>
+        <pathelement path="${cpjunit}"/>
+      </classpath>
+    </javac>
+    <junit haltonerror="true" haltonfailure="true" fork="yes" printsummary="on" dir="${basedir}">
+      <sysproperty key="java.util.logging.config.file" value="${diretc}/debug.properties"/>
+      <formatter type="plain"/>
+      <classpath>
+        <pathelement path="${dirbuildtests}"/>
+        <pathelement path="${dirdist}/${jarfile}"/>
+        <pathelement path="${cpjaxb}"/>
+        <pathelement path="${cpwoodstox}"/>
+        <pathelement path="${cpmsv}"/>
+        <pathelement path="${cpenterutils}"/>
+        <pathelement path="${cpsqlparser}"/>
+        <pathelement path="${cpantlr}"/>
+        <pathelement path="${cpzip64}"/>
+        <pathelement path="${cpjunit}"/>
+      </classpath>
+      <test 
+      name="${classsiardapitestsuite}"
+      outfile="${filesiardapitests}"
+      todir="${dirtmp}"/>
+    </junit>
+    <sleep milliseconds="10"/> 
+  </target>
+  
+  <!-- create the javadoc -->
+  <property name="apipackage" value="ch.admin.bar.siard2.api"/>
+  <property name="packages" value="${apipackage}"/>
+  <target name="javadoc">
+     <javadoc access="public" author="true" 
+        classpath="${cpzip64};${cpjaxb};${cpsqlparser};${cpenterutils};${cpwoodstox};${cpmsv}"
+        destdir="${dirjavadoc}" 
+        doctitle="SIARD API" 
+        packagenames="${packages}"
+        nodeprecated="false" 
+        nodeprecatedlist="false" 
+        noindex="false" 
+        nonavbar="false" 
+        notree="false" 
+     	  source="${source}"
+        sourcepath="src" 
+        splitindex="true" 
+        use="true" 
+        version="true"/>
+  </target>
+  
+  <!-- create the ZIP file with binaries for Windows and LINUX -->
+  <target name="zip" depends="tests,javadoc">
+    <echo message="${ant.project.name}: zip"/>
+    <zip zipfile="${dirdist}/${ant.project.name}-${version}.${revision}.zip">
+      <zipfileset dir="${dirdist}" prefix="${ant.project.name}/${dirlib}">
+        <include name="${jarfile}"/>
+      </zipfileset>
+      <zipfileset dir="${dirlib}" prefix="${ant.project.name}/${dirlib}">
+        <exclude name="${jarjaxbxjc}"/>
+      	<exclude name="${jarhamcrest}"/>
+      	<exclude name="${jarjunit4}"/>
+      </zipfileset>
+      <zipfileset dir="${dirdoc}" prefix="${ant.project.name}/${dirdoc}">
+        <include name="**/*.*"/>
+        <exclude name="developer/**/*.*"/>
+      </zipfileset>
+      <zipfileset dir="${diretc}" prefix="${ant.project.name}/${diretc}">
+        <exclude name="debug.properties"/>
+      </zipfileset>
+      <zipfileset dir="${dirtest}" prefix="${ant.project.name}/${dirsrc}">
+        <exclude name="**/jaxb/**"/>
+        <exclude name="**/api/**"/>
+        <exclude name="**/DUTester.java"/>
+      </zipfileset>
+      <zipfileset dir="${dirtestfiles}" prefix="${ant.project.name}/${dirtestfiles}">
+        <include name="sql2003.siard"/>
+        <include name="sample.siard"/>
+      </zipfileset>
+      <zipfileset dir="." prefix="${ant.project.name}">
+        <include name="*.txt"/>
+      </zipfileset>
+    </zip>
+  </target>
+
+  <!-- push to remote dev branch -->
+  <property name="filepush" value="${dirtmp}/push.txt"/>
+  <target name="push" depends="zip" if="git" unless="branch.master">
+    <!-- commit -->
+    <echo message="${ant.project.name}: git commit -am &quot;Build: ${version}.${revision}&quot;"/>
+    <exec executable="${git}" output="${filecommit}" failonerror="true">
+      <arg value="commit"/>
+      <arg value="-am" />
+      <arg value="Build: ${version}.${revision}" />
+    </exec>
+    <!-- push to remote -->
+    <echo message="${ant.project.name}: git push origin ${branch}"/>
+    <exec executable="${git}" output="${filepush}" failonerror="true">
+      <arg value="push"/>
+      <arg value="origin"/>
+      <arg value="${branch}"/>
+    </exec>
+  </target>
+  
+  <!-- deploy to file system -->
+  <target name="deploy" depends="push" if="dirdeploy">
+    <echo message="${ant.project.name}: deploy"/>
+    <delete dir="${dirdeploy}/${ant.project.name}"/>
+    <unzip dest="${dirdeploy}" src="${dirdist}/${ant.project.name}-${version}.${revision}.zip" />
+  </target>
+  
+</project>

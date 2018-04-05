@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ===================================================================
+Users' Manual of SiardApi: Purpose
+Application: SIARD Suite 2.1
+Platform   : HTML5
+========================================================================
+Copyright  : Enter AG, Joweid Zentrum 1, 8036 Rüti ZH, Switzerland, 2018
+==================================================================== -->
+  <head>
+    <title>SiardApi - Users' Manual - Purpose</title>
+    <!-- character set -->
+    <meta charset="utf-8" />
+    <!-- Icon -->
+    <link rel="icon" type="image/gif" href="../assets/img/icon.gif" />
+    <!-- Global style sheet -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/print.css">
+    <link rel="stylesheet" href="../assets/css/siard.css" />
+  </head>
+  <body>
+
+    <div class="container container-main">
+      <header>
+        <div class="clearfix">
+          <div class="table-row">
+            <span class="header-logo">
+              <img src="../assets/img/swiss.svg" onerror="this.onerror=null; this.src='../assets/img/swiss.png'" alt="Confederatio Helvetica" />
+            </span>
+            <h1 class="header-title">SiardApi - Users' Manual</h1>
+          </div>
+        </div>
+      </header>
+      
+      <div class="nav-main navbar" id="main-navigation"></div>
+    
+      <div class="container-fluid hidden-xs">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 id="br1" class="hidden">Breadcrumbs</h2>
+            <ol class="breadcrumb" role="navigation" aria-labelledby="br1">
+              <li><a href="./index.html">SiardApi - Users' Manual</a><span class="icon icon--greater"></span></li>
+              <li class="active" aria-selected="true">Purpose</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 main-column" id="content" role="main">
+            <div class="contentHead">
+              <div class="mod mod-contentpage">
+                <h1>SiardApi - Users' Manual - Purpose</h1>
+              </div>
+            </div>  
+            <div class="mod mod-text">
+              <section class="clearfix">
+                <h2>Purpose of the Project</h2>
+                
+                <p><em>SiardApi</em> was developed as part of the SIARD project. 
+                  It is used by the <em>SiardCmd</em> implementation of the SIARD project in 
+                  order to read and write SIARD files adhering to the standardized 
+                  SIARD Format 2.1.</p>
+                  <p>It is a product of the <a href="" target="_blank">Swiss Federal Archives</a> serving as a 
+                    reference implementation for the new SIARD Format, which 
+                    the <a href="http://kost-ceco.ch/" target="_blank">Swiss Koordinationsstelle für die dauerhafte Archivierung 
+                    elektronischer Unterlagen (KOST)</a> 
+                    uses to replace the previous standard version 1.0
+                    <a href="https://kost-ceco.ch/cms/index.php?siard_de" target="_blank">eCH-0165</a>.</p>
+
+                <p class="pull-right">
+                  <small><a href="#" class="icon icon--before icon--power hidden-print">Top of page</a></small>
+                </p>
+                
+                <h3>Changes from the SIARD Format 1.0</h3>
+                <p>Numerous changes were introduced in SIARD Format 2.1.
+                  They are documented in the standard document.</p>
+                <p>The main changes are:</p>
+                <ul>
+                  <li>SIARD Format 2.1 is based on SQL:2008, whereas version 1.0 was based on SQL:1999;</li>
+                  <li>large objects (BLOBs, CLOBs, ...) can now be stored externally in the file system;</li>
+                  <li>user-defined data types (UDT, DISTINCT) and arrays are supported;</li>
+                  <li>SIARD Files may use compression.</li>
+                </ul>
+                                    
+                <p class="pull-right">
+                  <small><a href="#" class="icon icon--before icon--power hidden-print">Top of page</a></small>
+                </p>
+                
+                <h3>Changes from the final draft of SIARD Format 2.0</h3>
+                <p>The SIARD Format 2.1 is an upgrade from the final draft 
+                  of the SIARD 2.0 format developed together with the 
+                  <a href="http://www.eark-project.com/" target="_blank">E-ARK project</a>.
+                  The version 2.0 of the SIARD Format is now <em>deprecated</em> because of a
+                  number of shortcomings which were addressed in version 2.1.</p>
+                  <p>The main changes from this format (final draft 2.0) are:</p>
+                  <ul>
+                    <li>Change of the folder name for easy version recognition 
+                      (e.g. for Pronom) from <em>version</em> to <em>siardversion</em>
+                      to provide clarity, that it is a SIARD file.</li>
+                    <li>A number of corrections in the <em>metadata.xsd</em>
+                      (e.g. the regular expressions for the predefined data types).</li>
+                    <li>In accordance with standard ISO SQL usage the <em>builtinType</em>
+                     has been renamed to <em>predefinedType</em> in the <em>metadata.xsd</em>.</li>
+                    <li>The predefined data types BINARY and VARBINARY have been 
+                      added and the predefined type BIT was removed, because SQL:2008 
+                      is the basis for the SIARD Format 2.1 standard. The 
+                      types BINARY and VARBINARY were not yet available in SQL:1999 
+                      but they were added in SQL:2008. The BIT type is not 
+                      part of SQL:2008, as it can adequately be replaced 
+                      by BOOLEAN (for BIT(1)) or BINARY.</li>
+                    <li>The types <em>primaryKeyType</em> and <em>candidateKeyType</em>
+                      in the <em>metadata.xsd</em> were recognized as being 
+                      identical. Therefore they were replaced by the single 
+                      type <em>uniqueKeyType</em> for both primary and candidate keys.</li>
+                    <li>The element <em>folder</em> has been removed from 
+                      <em>columnType</em> and <em>fieldType</em> because it is superfluous.</li>
+                    <li>An element <em>name</em> has been added to <em>fieldType</em> and 
+                      <em>parameterFieldType</em>, because the elements of an ARRAY 
+                      type must be represented by a field too. It must be 
+                      possible to reference fields by name.</li>
+                    <li>Elements <em>defaultValue</em> and <em>nullable</em>
+                      have been added to <em>attributeType</em>, because 
+                      these properties are supported by JDBC and partly 
+                      by SQL:2008. (Constraints on nullability are not 
+                      really acceptable for attributes according to SQL:2008 
+                      but supported by JDBC. In SIARD Format 2.1 we support it 
+                      because it may be supported by SQL in the future. 
+                      But we recommend, not to use the <em>nullable</em> element for attributes.)</li>
+                    <li>Element <em>specificName</em> has been added to 
+                      <em>routineType</em>, because the name alone does 
+                      not identify a possibly overloaded routine in the schema.</li>
+                    <li>A generic <em>header/table.xsd</em> has been added to 
+                      the SIARD file which serves as a template for the 
+                      individual <em>content/schema&lt;n&gt;/table&lt;n&gt;/table&lt;n&gt;.xsd</em> files.</li>
+                    <li>The following XSD schema URLs are used:<br/>
+                      http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd and<br/>
+                      http://www.bar.admin.ch/xmlns/siard/2/table.xsd.<br/>
+                      The idea is, that minor, backward-compatible changes 
+                      of the XSD can be published as a new release under 
+                      the same version-URL with only the version attribute 
+                      inside the XSD including the release number 
+                      (recommendation in the excellent <a href="https://www.pearson.com/us/higher-education/program/Walmsley-Definitive-XML-Schema-2nd-Edition/PGM282380.html" target="_blank"><em>Definitive XML Schema</em> by Priscilla Walmsley</a>).</li>
+                    <li>Element <em>cardinality</em> has been removed from 
+                      <em>typeType</em> and added to <em>columnType</em>,
+                      <em>attributeType</em> and <em>parameterType</em>,
+                      because SQL:2008 does not support arrays as 
+                      structured types but as anonymous collection 
+                      types instead. For the same reason the value 
+                      ARRAY has been removed from <em>categoryType</em>.</li>
+                  </ul>
+                  
+                <p class="pull-right">
+                  <small><a href="#" class="icon icon--before icon--power hidden-print">Top of page</a></small>
+                </p>
+                
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="container-fluid">
+          <hr class="footer-line">
+          <img src="../assets/img/logo-CH.svg" onerror="this.onerror=null; this.src='../assets/img/logo-CH.png'" />
+          <h1 class="hidden-xs">Swiss Federal Archives</h1>
+          <p class=pull-right><a href="../../../LICENSE.txt" target="_blank">License</a></p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

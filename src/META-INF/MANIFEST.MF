@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Created-By: Hartwig Thomas, Enter AG, Rüti ZH, Switzerland
+Specification-Title: SIARD API
+Specification-Version: 2.1
+Specification-Vendor: Swiss Federal Archives, Berne, Switzerland
+Implementation-Title: SIARD API
+Implementation-Version: 2.1.45
+Implementation-Vendor: Swiss Federal Archives, Berne, Switzerland
+Built-Date: 29. Mar 2018
+Class-Path: zip64.jar
+  jaxb-api.jar
+  jaxb-core.jar
+  jaxb-impl.jar
+  msv-core-2010.2.jar
+  stax2-api-3.1.1.jar
+  woodstox-core-lgpl-4.1.2.jar
+  woodstox-msv-mg-datatype-20020414.jar
+  xsdlib-2010.1.jar
+  enterutils.jar
