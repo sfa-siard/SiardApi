@@ -3,3 +3,6 @@ Release Notes for SiardApi 2.1
 
 2.1.45
 First release of SiardApi on GitHub.
+
+2.1.50
+.gitattributes added.
