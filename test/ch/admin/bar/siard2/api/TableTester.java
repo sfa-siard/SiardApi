@@ -167,12 +167,8 @@ public class TableTester
   @Test
   public void testIsEmpty()
   {
-	try
-	{
-      assertEquals("New table must be empty (no columns/rows)!",true,_tabNew.isEmpty());
-      assertEquals("Old table is not empty!",false,_tabOld.isEmpty());
-	}
-	catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    assertEquals("New table must be empty (no columns/rows)!",true,_tabNew.isEmpty());
+    assertEquals("Old table is not empty!",false,_tabOld.isEmpty());
   }
 
   @Test
