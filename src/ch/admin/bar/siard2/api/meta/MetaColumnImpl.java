@@ -281,7 +281,7 @@ public class MetaColumnImpl
     boolean bMayBeSet = false;
     if (getLobFolder() == null)
     {
-      if (getArchiveImpl().canModifyPrimaryData() && (getTable() != null) && (getTable().isEmpty()))
+      if ((getTable() != null) && getTable().isEmpty())
         bMayBeSet = true;
     }
     else
