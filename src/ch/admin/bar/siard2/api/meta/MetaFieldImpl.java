@@ -281,9 +281,7 @@ public class MetaFieldImpl
     boolean bMayBeSet = false;
     if (getLobFolder() == null)
     {
-      if (getArchiveImpl().canModifyPrimaryData() &&
-          (getMetaTable() != null) &&
-          (getMetaTable().getTable().isEmpty()))
+      if ((getMetaTable() != null) && getMetaTable().getTable().isEmpty())
         bMayBeSet = true;
     }
     else

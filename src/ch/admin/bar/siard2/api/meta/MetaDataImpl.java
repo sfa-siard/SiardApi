@@ -318,7 +318,7 @@ public class MetaDataImpl
     boolean bMayBeSet = false;
     if (getLobFolder() == null)
     {
-      if (getArchive().canModifyPrimaryData() && (getArchive().isEmpty()))
+      if (getArchive().isEmpty())
         bMayBeSet = true;
     }
     else
