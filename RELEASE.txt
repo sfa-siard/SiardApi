@@ -6,3 +6,6 @@ First release of SiardApi on GitHub.
 
 2.1.50
 .gitattributes added.
+
+2.1.52
+setLobFolder in MetaColumnImpl corrected.
