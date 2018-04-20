@@ -47,8 +47,10 @@ public interface Table
   /*------------------------------------------------------------------*/
   /** check, if table is empty (contains no records).
    * @return true, if table is empty (contains no records).
+   * @throws IOException if an I/O error occurred.
    */
-  public boolean isEmpty();
+  public boolean isEmpty()
+    throws IOException;
 
   /*------------------------------------------------------------------*/
   /** open a record inputs stream on the table.

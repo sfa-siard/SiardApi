@@ -255,8 +255,14 @@ public class TableImpl
   /** {@inheritDoc} */
   @Override
   public boolean isEmpty()
+    throws IOException
   {
-    boolean bEmpty = getMetaTable().getRows() == 0;
+    boolean bEmpty = true;
+    RecordDispenser rd = openRecords();
+    Record rec = rd.get();
+    if (rec != null)
+    	bEmpty = false;
+    rd.close();
     return bEmpty;
   } /* isEmpty */
   
