@@ -10,7 +10,10 @@
 	<classpathentry kind="lib" path="lib/woodstox-core-lgpl-4.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xsdlib-2010.1.jar"/>
 	<classpathentry kind="lib" path="lib/msv-core-2010.2.jar"/>
-	<classpathentry kind="lib" path="lib/activation-jaf1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-impl.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
