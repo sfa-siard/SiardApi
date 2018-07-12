@@ -44,11 +44,10 @@ Created    : 30.06.2016, Hartwig Thomas
   <property name="jarsqlparser" value="sqlparser.jar"/>
   <property name="cpsqlparser" value="${dirlib}/${jarsqlparser}"/> 
 	<!-- JAXB jars -->
-	<property name="jaractivation" value="activation-jaf1.1.1.jar"/>
+	<property name="jaractivation" value="activation-1.1.1.jar"/>
   <property name="jarjaxbapi" value="jaxb-api.jar"/>
   <property name="jarjaxbcore" value="jaxb-core.jar"/>
   <property name="jarjaxbimpl" value="jaxb-impl.jar"/>
-  <property name="jarjaxbxjc" value="jaxb-xjc.jar"/>
 	<property name="cpjaxb" value="${dirlib}/${jaractivation};${dirlib}/${jarjaxbapi};${dirlib}/${jarjaxbcore};${dirlib}/${jarjaxbimpl}"/> 
   <!-- zip64 jar -->
   <property name="jarzip64" value="zip64.jar"/>
@@ -251,12 +250,10 @@ Created    : 30.06.2016, Hartwig Thomas
         <include name="**/*.java"/>
       </fileset>
     </delete>
-    <echo message="${ant.project.name}: generate md"/>
-    <java jar="${dirlib}/${jarjaxbxjc}"
-    	classpath="${cpjaxb}"
-      output="${filemdgenerate}"
-      fork="true" 
-      failonerror="true">
+    <echo message="${ant.project.name}: generate"/>
+    <exec executable="${java.home}/bin/xjc.exe" 
+    	output="${filemdgenerate}" 
+    	failonerror="true">
       <arg value="-encoding"/>
       <arg value="UTF-8"/>
       <arg value="-npa"/>
@@ -265,12 +262,11 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="-p"/>
       <arg value="${packagemd}"/>
       <arg value="${dirres}/${filemdxsd}"/>
-    </java>
+    </exec>
     <echo message="${ant.project.name}: generate md10"/>
-    <java jar="${dirlib}/${jarjaxbxjc}"
-      output="${filemd10generate}"
-      fork="true" 
-      failonerror="true">
+    <exec executable="${java.home}/bin/xjc.exe" 
+    	output="${filemd10generate}" 
+    	failonerror="true">
       <arg value="-encoding"/>
       <arg value="UTF-8"/>
       <arg value="-npa"/>
@@ -279,12 +275,11 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="-p"/>
       <arg value="${packagemd10}"/>
       <arg value="${dirres}/${filemd10xsd}"/>
-    </java>
+    </exec>
     <echo message="${ant.project.name}: generate table"/>
-    <java jar="${dirlib}/${jarjaxbxjc}"
-      output="${filetablegenerate}"
-      fork="true" 
-      failonerror="true">
+    <exec executable="${java.home}/bin/xjc.exe" 
+    	output="${filetablegenerate}" 
+    	failonerror="true">
       <arg value="-encoding"/>
       <arg value="UTF-8"/>
       <arg value="-npa"/>
@@ -293,7 +288,7 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="-p"/>
       <arg value="${packagetable}"/>
       <arg value="${dirres}/${filetablexsd}"/>
-    </java>
+    </exec>
   </target>
 	
   <!-- build the SiardApi classes -->
