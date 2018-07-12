@@ -382,21 +382,24 @@ Created    : 30.06.2016, Hartwig Thomas
   <property name="apipackage" value="ch.admin.bar.siard2.api"/>
   <property name="packages" value="${apipackage}"/>
   <target name="javadoc">
-     <javadoc access="public" author="true" 
-        classpath="${cpzip64};${cpjaxb};${cpsqlparser};${cpenterutils};${cpwoodstox};${cpmsv}"
-        destdir="${dirjavadoc}" 
-        doctitle="SIARD API" 
-        packagenames="${packages}"
-        nodeprecated="false" 
-        nodeprecatedlist="false" 
-        noindex="false" 
-        nonavbar="false" 
-        notree="false" 
-     	  source="${source}"
-        sourcepath="src" 
-        splitindex="true" 
-        use="true" 
-        version="true"/>
+     <javadoc 
+  	   access="public" 
+  	   author="true" 
+    	 additionalparam="&quot;-html5&quot;"
+       classpath="${cpzip64};${cpjaxb};${cpsqlparser};${cpenterutils};${cpwoodstox};${cpmsv}"
+       destdir="${dirjavadoc}" 
+       doctitle="SIARD API" 
+       packagenames="${packages}"
+       nodeprecated="false" 
+       nodeprecatedlist="false" 
+       noindex="false" 
+       nonavbar="false" 
+       notree="false" 
+     	 source="${source}"
+       sourcepath="src" 
+       splitindex="true" 
+       use="true" 
+       version="true"/>
   </target>
   
   <!-- create the ZIP file with binaries for Windows and LINUX -->
