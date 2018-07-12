@@ -253,6 +253,7 @@ Created    : 30.06.2016, Hartwig Thomas
     </delete>
     <echo message="${ant.project.name}: generate md"/>
     <java jar="${dirlib}/${jarjaxbxjc}"
+    	classpath="${cpjaxb}"
       output="${filemdgenerate}"
       fork="true" 
       failonerror="true">
