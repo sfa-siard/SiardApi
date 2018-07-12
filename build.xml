@@ -44,7 +44,7 @@ Created    : 30.06.2016, Hartwig Thomas
   <property name="jarsqlparser" value="sqlparser.jar"/>
   <property name="cpsqlparser" value="${dirlib}/${jarsqlparser}"/> 
 	<!-- JAXB jars -->
-	<property name="jaractivation" value="activation-1.1.1.jar"/>
+	<property name="jaractivation" value="activation-jaf1.1.1.jar"/>
   <property name="jarjaxbapi" value="jaxb-api.jar"/>
   <property name="jarjaxbcore" value="jaxb-core.jar"/>
   <property name="jarjaxbimpl" value="jaxb-impl.jar"/>
