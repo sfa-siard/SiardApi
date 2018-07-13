@@ -1,12 +1,16 @@
-Release Notes for SiardApi 2.1
+Release Notes for SiardApi 2.2
 ==============================
 
-2.1.45
-First release of SiardApi on GitHub.
-
-2.1.50
-.gitattributes added.
+2.2.0
+Release for JAVA 10
+Activation JAR added.
 
 2.1.58
 isEmpty() in TableImpl corrected.
 setLobFolder() in MetaColumnImpl and MetaFieldImpl corrected.
+
+2.1.50
+.gitattributes added.
+
+2.1.45
+First release of SiardApi on GitHub.
