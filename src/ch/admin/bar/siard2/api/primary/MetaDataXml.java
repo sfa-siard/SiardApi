@@ -610,7 +610,7 @@ public class MetaDataXml
       int i = sSchemaLocation.lastIndexOf('/');
       if (i >= 0)
         sSchemaLocation = sSchemaLocation + " " + sSchemaLocation.substring(i+1);
-      Io.writeJaxbObject(sa, osXml, sSchemaLocation, urlXsd);
+      Io.writeJaxbObject(sa, osXml, sSchemaLocation,true,urlXsd);
     }
     else
       Io.writeJaxbObject(sa, osXml);
