@@ -25,6 +25,14 @@ import ch.enterag.utils.reflect.*;
  */
 public abstract class Io
 {
+  static 
+  {
+    /* we will have to upgade to JAXB 2.4.0 as soon as it is available! 
+     * For now we suppress the illegal access warning in a primitive way.
+     */
+    System.err.close();
+    System.setErr(System.out);
+  }
   /*--------------------------------------------------------------------*/
   /** read and unmarshal a JAXB object from an XML file.
    * @param classType JAXB class generated from XSD.
