@@ -468,6 +468,9 @@ public class ArchiveTester
   public void testGetSchemas()
   {
     System.out.println("testGetSchemas");
+      /* we will have to upgade to JAXB 2.4.0 as soon as it is available! 
+       * For now we suppress the illegal access warning in a primitive way.
+       */
     try
     {
       Archive archive = ArchiveImpl.newInstance();

@@ -29,6 +29,30 @@ public class ValidatingJAXBContext extends JAXBContext
   private JAXBContext m_jc = null;
   private URL m_urlSchema = null;
   
+  /* instantiation with suppression of illegal reflective access warning.
+   * We have to move to JAXB 2.4.0 as soon as it is available.
+   */
+  static JAXBContext instantiateJAXBContext(Class<?>... classesToBeBound)
+    throws JAXBException
+  {
+    if (System.err != System.out)
+    {
+      System.err.close();
+      System.setErr(System.out);
+    }
+    return JAXBContext.newInstance(classesToBeBound);
+  }
+  static JAXBContext instantiateJAXBContext(String sPackage)
+    throws JAXBException
+  {
+    if (System.err != System.out)
+    {
+      System.err.close();
+      System.setErr(System.out);
+    }
+    return JAXBContext.newInstance(sPackage);
+  }
+  
   /*==================================================================*/
   /** ContextValidationEventHandler is used for more explicit logging. 
    */
@@ -77,7 +101,7 @@ public class ValidatingJAXBContext extends JAXBContext
   public static ValidatingJAXBContext newInstance(URL urlSchema, Class<?>... classesToBeBound)
     throws JAXBException
   {
-    JAXBContext jc = JAXBContext.newInstance(classesToBeBound);
+    JAXBContext jc = instantiateJAXBContext(classesToBeBound);
     ValidatingJAXBContext vjc = new ValidatingJAXBContext(jc,urlSchema);
     return vjc;
   } /* newInstance */
@@ -91,7 +115,7 @@ public class ValidatingJAXBContext extends JAXBContext
   public static ValidatingJAXBContext newInstance(URL urlSchema, String sPackage)
     throws JAXBException
   {
-    JAXBContext jc = JAXBContext.newInstance(sPackage);
+    JAXBContext jc = instantiateJAXBContext(sPackage);
     ValidatingJAXBContext vjc = new ValidatingJAXBContext(jc,urlSchema);
     return vjc;
   } /* newInstance */

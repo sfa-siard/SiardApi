@@ -25,14 +25,6 @@ import ch.enterag.utils.reflect.*;
  */
 public abstract class Io
 {
-  static 
-  {
-    /* we will have to upgade to JAXB 2.4.0 as soon as it is available! 
-     * For now we suppress the illegal access warning in a primitive way.
-     */
-    System.err.close();
-    System.setErr(System.out);
-  }
   /*--------------------------------------------------------------------*/
   /** read and unmarshal a JAXB object from an XML file.
    * @param classType JAXB class generated from XSD.
@@ -47,7 +39,7 @@ public abstract class Io
     Glue.setPrivate(com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext.class,"errorsCounter",Integer.valueOf(10));
     T jo = null;
     StreamSource ss = new StreamSource(isXml);
-    JAXBContext ctx = JAXBContext.newInstance(classType);
+    JAXBContext ctx = ValidatingJAXBContext.instantiateJAXBContext(classType);
     Unmarshaller u = ctx.createUnmarshaller();
     jo = (T)u.unmarshal(ss,classType).getValue();
     return jo;
@@ -131,9 +123,9 @@ public abstract class Io
     String sNoNamespaceSchemaLocation, String sSchemaLocation, boolean bFormat, URL urlXsd)
     throws JAXBException
   {
-    JAXBContext ctx = JAXBContext.newInstance(jo.getClass());
+    JAXBContext ctx = ValidatingJAXBContext.instantiateJAXBContext(jo.getClass());
     if (urlXsd == null)
-      ctx = JAXBContext.newInstance(jo.getClass());
+      ctx = ValidatingJAXBContext.instantiateJAXBContext(jo.getClass());
     else
       ctx = ValidatingJAXBContext.newInstance(urlXsd,jo.getClass());
     Marshaller m = ctx.createMarshaller();
