@@ -613,7 +613,7 @@ public class MetaDataXml
       Io.writeJaxbObject(sa, osXml, sSchemaLocation,true,urlXsd);
     }
     else
-      Io.writeJaxbObject(sa, osXml);
+      Io.writeJaxbObject(sa, osXml,null,null,true);
   } /* writeXml */
   
 } /* class MetaDataXml */
