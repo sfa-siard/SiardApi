@@ -145,7 +145,7 @@ public class MetaColumnImpl
       setDescription(XU.fromXml(_ctTemplate.getDescription()));
     if (getParentMetaTable() != null)
     {
-      if (getArchiveImpl().isEmpty() && getArchiveImpl().canModifyPrimaryData())
+      if (getArchiveImpl().canModifyPrimaryData())
       {
         if ((getLobFolder() == null) && SU.isNotEmpty(_ctTemplate.getLobFolder()))
           setLobFolder(URI.create(XU.fromXml(_ctTemplate.getLobFolder())));
