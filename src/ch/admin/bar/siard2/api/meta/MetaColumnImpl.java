@@ -145,10 +145,12 @@ public class MetaColumnImpl
       setDescription(XU.fromXml(_ctTemplate.getDescription()));
     if (getParentMetaTable() != null)
     {
-      if (getArchiveImpl().canModifyPrimaryData())
+      if (getArchiveImpl().isEmpty() && getArchiveImpl().canModifyPrimaryData())
       {
         if ((getLobFolder() == null) && SU.isNotEmpty(_ctTemplate.getLobFolder()))
           setLobFolder(URI.create(XU.fromXml(_ctTemplate.getLobFolder())));
+        if ((getMimeType() == null) && SU.isNotEmpty(_ctTemplate.getMimeType()))
+          setMimeType(XU.fromXml(_ctTemplate.getMimeType()));
       }
     }
     FieldsType fts = _ctTemplate.getFields();
