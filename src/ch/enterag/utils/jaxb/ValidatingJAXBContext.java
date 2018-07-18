@@ -28,29 +28,12 @@ public class ValidatingJAXBContext extends JAXBContext
   private static IndentLogger m_il = IndentLogger.getIndentLogger(ValidatingJAXBContext.class.getName());
   private JAXBContext m_jc = null;
   private URL m_urlSchema = null;
-  
-  /* instantiation with suppression of illegal reflective access warning.
-   * We have to move to JAXB 2.4.0 as soon as it is available.
-   */
-  static JAXBContext instantiateJAXBContext(Class<?>... classesToBeBound)
-    throws JAXBException
+
+  static
   {
-    if (System.err != System.out)
-    {
-      System.err.close();
-      System.setErr(System.out);
-    }
-    return JAXBContext.newInstance(classesToBeBound);
-  }
-  static JAXBContext instantiateJAXBContext(String sPackage)
-    throws JAXBException
-  {
-    if (System.err != System.out)
-    {
-      System.err.close();
-      System.setErr(System.out);
-    }
-    return JAXBContext.newInstance(sPackage);
+    /* For JAXB 2.3.0 this suppresses the problem with reflective access.
+     * See: https://github.com/javaee/jaxb-v2/issues/1197 */
+    System.setProperty("com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize","true");
   }
   
   /*==================================================================*/
@@ -101,7 +84,7 @@ public class ValidatingJAXBContext extends JAXBContext
   public static ValidatingJAXBContext newInstance(URL urlSchema, Class<?>... classesToBeBound)
     throws JAXBException
   {
-    JAXBContext jc = instantiateJAXBContext(classesToBeBound);
+    JAXBContext jc = JAXBContext.newInstance(classesToBeBound);
     ValidatingJAXBContext vjc = new ValidatingJAXBContext(jc,urlSchema);
     return vjc;
   } /* newInstance */
@@ -115,7 +98,7 @@ public class ValidatingJAXBContext extends JAXBContext
   public static ValidatingJAXBContext newInstance(URL urlSchema, String sPackage)
     throws JAXBException
   {
-    JAXBContext jc = instantiateJAXBContext(sPackage);
+    JAXBContext jc = JAXBContext.newInstance(sPackage);
     ValidatingJAXBContext vjc = new ValidatingJAXBContext(jc,urlSchema);
     return vjc;
   } /* newInstance */

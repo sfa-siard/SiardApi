@@ -25,6 +25,13 @@ import ch.enterag.utils.reflect.*;
  */
 public abstract class Io
 {
+  static
+  {
+    /* For JAXB 2.3.0 this suppresses the problem with reflective access.
+     * See: https://github.com/javaee/jaxb-v2/issues/1197 */
+    System.setProperty("com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize","true");
+  }
+  
   /*--------------------------------------------------------------------*/
   /** read and unmarshal a JAXB object from an XML file.
    * @param classType JAXB class generated from XSD.
@@ -39,7 +46,7 @@ public abstract class Io
     Glue.setPrivate(com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext.class,"errorsCounter",Integer.valueOf(10));
     T jo = null;
     StreamSource ss = new StreamSource(isXml);
-    JAXBContext ctx = ValidatingJAXBContext.instantiateJAXBContext(classType);
+    JAXBContext ctx = JAXBContext.newInstance(classType);
     Unmarshaller u = ctx.createUnmarshaller();
     jo = (T)u.unmarshal(ss,classType).getValue();
     return jo;
@@ -123,9 +130,9 @@ public abstract class Io
     String sNoNamespaceSchemaLocation, String sSchemaLocation, boolean bFormat, URL urlXsd)
     throws JAXBException
   {
-    JAXBContext ctx = ValidatingJAXBContext.instantiateJAXBContext(jo.getClass());
+    JAXBContext ctx = JAXBContext.newInstance(jo.getClass());
     if (urlXsd == null)
-      ctx = ValidatingJAXBContext.instantiateJAXBContext(jo.getClass());
+      ctx = JAXBContext.newInstance(jo.getClass());
     else
       ctx = ValidatingJAXBContext.newInstance(urlXsd,jo.getClass());
     Marshaller m = ctx.createMarshaller();
