@@ -124,6 +124,7 @@ Created    : 30.06.2016, Hartwig Thomas
             <isset property="version"/>
             <isset property="revold"/>
             <isset property="java8rtjar"/>
+            <isset property="xjc"/>
           </and>
         </not>
       </condition>
@@ -251,7 +252,7 @@ Created    : 30.06.2016, Hartwig Thomas
       </fileset>
     </delete>
     <echo message="${ant.project.name}: generate"/>
-    <exec executable="${java.home}/bin/xjc.exe" 
+    <exec executable="${xjc}" 
     	output="${filemdgenerate}" 
     	failonerror="true">
       <arg value="-encoding"/>
@@ -264,7 +265,7 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="${dirres}/${filemdxsd}"/>
     </exec>
     <echo message="${ant.project.name}: generate md10"/>
-    <exec executable="${java.home}/bin/xjc.exe" 
+    <exec executable="${xjc}" 
     	output="${filemd10generate}" 
     	failonerror="true">
       <arg value="-encoding"/>
@@ -277,7 +278,7 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="${dirres}/${filemd10xsd}"/>
     </exec>
     <echo message="${ant.project.name}: generate table"/>
-    <exec executable="${java.home}/bin/xjc.exe" 
+    <exec executable="${xjc}" 
     	output="${filetablegenerate}" 
     	failonerror="true">
       <arg value="-encoding"/>
