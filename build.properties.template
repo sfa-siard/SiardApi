@@ -30,9 +30,9 @@ java8rtjar=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/jre/
 
 #-----------------------------------------------------------------------
 # The xjc executable in the JAVA distribution.
-#xjc=C:/Program Files/Java/jdk1.8.0_144/bin/xjc.exe
+xjc=C:/Program Files/Java/jdk-10.0.1/bin/xjc.exe
 #xjc=/usr/lib/jvm/java-8-oracle/bin/xjc
-xjc=/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/bin/xjc
+#xjc=/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/bin/xjc
 
 #-----------------------------------------------------------------------
 # The following property definition signals, that git can be 
