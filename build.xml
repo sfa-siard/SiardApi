@@ -125,6 +125,7 @@ Created    : 30.06.2016, Hartwig Thomas
             <isset property="revold"/>
             <isset property="java8rtjar"/>
             <isset property="xjc"/>
+          	<isset property="javadocadd"/>
           </and>
         </not>
       </condition>
@@ -386,7 +387,7 @@ Created    : 30.06.2016, Hartwig Thomas
      <javadoc 
   	   access="public" 
   	   author="true" 
-    	 additionalparam="&quot;-html5&quot;"
+    	 additionalparam="${javadocadd}"
        classpath="${cpzip64};${cpjaxb};${cpsqlparser};${cpenterutils};${cpwoodstox};${cpmsv}"
        destdir="${dirjavadoc}" 
        doctitle="SIARD API" 

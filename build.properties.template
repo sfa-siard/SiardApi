@@ -46,3 +46,8 @@ git=/usr/bin/git
 # which will be created and deleted by the tests.
 lobsfolder=/tmp/lobs
 #lobsfolder=D:/Temp/lobs
+
+#------------------------------------------------------------------------
+# value of additionalparam for javadoc (must be empty for JDK 1.8 and
+# -html5 for later versions.
+javadocadd=-html5
