@@ -105,6 +105,15 @@ public interface MetaSchema
    */
   public MetaView createMetaView(String sName)
     throws IOException;
+  /** remove a view from the meta data.
+   * a view can only be removed if the SIARD archive is open for
+   * modification of primary data.
+   * @param mv view meta data to be removed.
+   * @return true, if view meta data could be removed.
+   * @throws IOException if schema did not fulfill the conditions.
+   */
+  public boolean removeMetaView(MetaView mv)
+    throws IOException;
 
   /*------------------------------------------------------------------*/
   /** get number of routine meta data entries.
