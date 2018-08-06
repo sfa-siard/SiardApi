@@ -386,6 +386,33 @@ public class MetaSchemaImpl
     return mv;
   } /* createMetaView */
   
+  /** {@inheritDoc} */
+  @Override
+  public boolean removeMetaView(MetaView mv)
+    throws IOException
+  {
+    boolean bRemoved = false;
+    if (getArchiveImpl().canModifyPrimaryData())
+    {
+      ViewsType vts = _st.getViews();
+      for (Iterator<ViewType> iterViewType = vts.getView().iterator(); iterViewType.hasNext(); )
+      {
+        ViewType vt = iterViewType.next();
+        if (vt.getName().equals(mv.getName()))
+        {
+          iterViewType.remove();
+          _mapMetaViews.remove(mv.getName());
+          bRemoved = true;
+        }
+      }
+      if (vts.getView().size() == 0)
+        _st.setViews(null);
+    }
+    else
+      throw new IOException("Views can only be removed if archive is open for modification of primary data.");
+    return bRemoved;
+  } /* removeMetaView */
+  
   /* routines */
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
