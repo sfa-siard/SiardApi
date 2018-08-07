@@ -42,7 +42,7 @@ public abstract class XMLStreamFactory
     xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     xif.setProperty(XMLInputFactory2.P_LAZY_PARSING, Boolean.TRUE);
     xif.configureForSpeed();
-    xif.configureForLowMemUsage();
+    // xif.configureForLowMemUsage();
     XMLStreamReader2 xsr = (XMLStreamReader2)xif.createXMLStreamReader(isXml);
     _il.exit(xsr);
     return xsr;   
