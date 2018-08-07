@@ -44,5 +44,11 @@ public interface RecordDispenser
    * @return index of next records.
    */
   public long getPosition();
+
+  /*------------------------------------------------------------------*/
+  /** get byte count already read from XML.
+   * @return byte count read from XML.
+   */
+  public long getByteCount();
   
 } /* interface RecordDispenser */
