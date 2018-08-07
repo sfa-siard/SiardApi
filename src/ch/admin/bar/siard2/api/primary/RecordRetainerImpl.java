@@ -66,6 +66,12 @@ public class RecordRetainerImpl
       _os.write(buf, iOffset, iLength);
       _lCount += iLength;
     }
+    @Override
+    public void close()
+      throws IOException
+    {
+      _os.close();
+    }
     public long getByteCount()
     {
       return _lCount;
