@@ -26,11 +26,55 @@ public class RecordDispenserImpl
 {
   private static final ch.admin.bar.siard2.api.generated.table.ObjectFactory _OF_TABLE = new ch.admin.bar.siard2.api.generated.table.ObjectFactory();
   private Table _table = null;
-  private InputStream _isXml = null;
+  private CountingInputStream _isXml = null;
   InputStream getXmlInputStream() { return _isXml; }
   private XMLStreamReader _xsr = null;
   XMLStreamReader getXmlStreamReader() { return _xsr; }
   private long _lRecord = -1;
+  
+  /*==================================================================*/
+  private class CountingInputStream
+    extends InputStream
+  {
+    private InputStream _is = null;
+    private long _lCount = 0l;
+    public CountingInputStream(InputStream is)
+    {
+      _is = is;
+    }
+    @Override
+    public int read()
+      throws IOException
+    {
+      int iResult = _is.read();
+      if (iResult != -1)
+        _lCount++;
+      return iResult;
+    }
+    @Override
+    public int read(byte[] buf)
+      throws IOException
+    {
+      int iResult = _is.read(buf);
+      if (iResult != -1)
+        _lCount += iResult;
+      return iResult;
+    }
+    @Override
+    public int read(byte[] buf, int iOffset, int iLength)
+      throws IOException
+    {
+      int iResult = _is.read(buf, iOffset, iLength); 
+      if (iResult != -1)
+        _lCount += iResult;
+      return iResult;
+    }
+    public long getByteCount()
+    {
+      return _lCount;
+    }
+  } /* class CountingOutputStream */
+  /*==================================================================*/
   
   /*------------------------------------------------------------------*/
   /** get ArchiveImpl instance.
@@ -85,9 +129,9 @@ public class RecordDispenserImpl
     if (!ai.canModifyPrimaryData())
     {
       if (ti.getSortedTable() == null)
-        _isXml = ai.openFileEntry(ti.getTableXml());
+        _isXml = new CountingInputStream(ai.openFileEntry(ti.getTableXml()));
       else
-        _isXml = ti.getSortedTable().open();
+        _isXml = new CountingInputStream(ti.getSortedTable().open());
       InputStream isXsd = ai.openFileEntry(ti.getTableXsd());
       _xsr = readHeader(isXsd,_isXml);
       _lRecord = 0;
@@ -296,5 +340,13 @@ public class RecordDispenserImpl
   { 
     return _lRecord;
   } /* getPosition */
+  
+  /*------------------------------------------------------------------*/
+  /** {@inheritDoc} */
+  @Override
+  public long getByteCount() 
+  { 
+    return _isXml.getByteCount();
+  } /* getByteCount */
   
 } /* class RecordDispenser */

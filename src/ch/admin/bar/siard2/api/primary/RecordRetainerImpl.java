@@ -29,11 +29,49 @@ public class RecordRetainerImpl
 {
   private static final int iBUFFER_SIZE = 8192;
   private Table _table = null;
-  private OutputStream _osXml = null;
+  private CountingOutputStream _osXml = null;
   private XMLStreamWriter _xsw = null;
   private long _lRecord = -1;
   private File _fileTemporaryLobFolder = null;
   private URI getTemporaryLobFolder() { return FU.toUri(_fileTemporaryLobFolder); }
+  
+  /*==================================================================*/
+  private class CountingOutputStream
+    extends OutputStream
+  {
+    private OutputStream _os = null;
+    private long _lCount = 0l;
+    public CountingOutputStream(OutputStream os)
+    {
+      _os = os;
+    }
+    @Override
+    public void write(int b)
+      throws IOException
+    {
+      _os.write(b);
+      _lCount++;
+    }
+    @Override
+    public void write(byte[] buf)
+      throws IOException
+    {
+      _os.write(buf);
+      _lCount += buf.length;
+    }
+    @Override
+    public void write(byte[] buf, int iOffset, int iLength)
+      throws IOException
+    {
+      _os.write(buf, iOffset, iLength);
+      _lCount += iLength;
+    }
+    public long getByteCount()
+    {
+      return _lCount;
+    }
+  } /* class CountingOutputStream */
+  /*==================================================================*/
   
   /*------------------------------------------------------------------*/
   /** get ArchiveImpl instance.
@@ -98,7 +136,7 @@ public class RecordRetainerImpl
       _fileTemporaryLobFolder.deleteOnExit();
       /* start writing table XML */
       _lRecord = 0;
-      _osXml = getArchiveImpl().createFileEntry(ti.getTableXml());
+      _osXml = new CountingOutputStream(getArchiveImpl().createFileEntry(ti.getTableXml()));
       _xsw = writeHeader(_osXml,_table);
     }
     else
@@ -290,5 +328,13 @@ public class RecordRetainerImpl
   {
     return _lRecord;
   } /* getPosition */
-  
+
+  /*------------------------------------------------------------------*/
+  /** {@inheritDoc} */
+  @Override
+  public long getByteCount()
+  {
+    return _osXml.getByteCount();
+  } /* getByteCount */
+
 } /* class RecordRetainer */

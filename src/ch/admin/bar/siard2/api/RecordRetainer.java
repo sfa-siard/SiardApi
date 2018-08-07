@@ -45,4 +45,10 @@ public interface RecordRetainer
    */
   public long getPosition();
   
+  /*------------------------------------------------------------------*/
+  /** get byte count already written to XML.
+   * @return byte count written to XML.
+   */
+  public long getByteCount();
+  
 } /* RecordRetainer */
