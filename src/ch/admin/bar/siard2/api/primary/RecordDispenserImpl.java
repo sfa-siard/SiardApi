@@ -69,6 +69,12 @@ public class RecordDispenserImpl
         _lCount += iResult;
       return iResult;
     }
+    @Override
+    public void close()
+      throws IOException
+    {
+      _is.close();
+    }
     public long getByteCount()
     {
       return _lCount;
