@@ -27,6 +27,8 @@ public interface Archive
   public static final String sSIARD_DEFAULT_EXTENSION = "siard";
   /** the oldest version of the meta data XSD still supported for reading */
   public static final String sMETA_DATA_VERSION_1_0 = "1.0";
+  /** the abrogated version of the meta data XSD (unsupported) */
+  public static final String sMETA_DATA_VERSION_2_0 = "2.0";
   /** the current version of the meta data XSD */
   public static final String sMETA_DATA_VERSION = "2.1";
   /** default maximum string size for inlining LOBs */
