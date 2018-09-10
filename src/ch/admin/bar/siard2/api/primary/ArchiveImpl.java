@@ -22,7 +22,9 @@ public class ArchiveImpl
   private static final String _sCONTENT_FOLDER = "content/";
   public static String getContentFolder() { return _sCONTENT_FOLDER; }
   private static final String _sSIARDVERSION_FOLDER = "siardversion/";
+  private static final String _sSIARDVERSION_FOLDER_2_0 = "version/";
   public static String getSiardVersionFolder() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER+Archive.sMETA_DATA_VERSION+"/"; }
+  public static String getSiardVersionFolder20() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER_2_0+Archive.sMETA_DATA_VERSION_2_0+"/"; }
   private static final String _sMETADATA_XML = "metadata.xml";
   public static String getMetaDataXml() { return _sHEADER_FOLDER+_sMETADATA_XML; }
   private static final String _sMETADATA_XSD = "metadata.xsd";
@@ -305,12 +307,19 @@ public class ArchiveImpl
     if (feMetaData != null)
     {
       SiardArchive sa = null;
+      // format version 2.1
       if (existsFolderEntry(getSiardVersionFolder()))
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
         sa = MetaDataXml.readXml(isMetaData);
         isMetaData.close();
       }
+      // format version 2.0 (abrogated)
+      else if (existsFolderEntry(getSiardVersionFolder20()))
+      {
+        throw new IOException("Unsupported SIARD format version 2.0!");
+      }
+      // format version 1.0
       else
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
