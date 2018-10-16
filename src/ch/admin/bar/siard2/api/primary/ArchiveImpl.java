@@ -287,7 +287,10 @@ public class ArchiveImpl
     if (saTemplate != null)
     {
       if (getSchemas() == 0)
+      {
         _md = MetaDataImpl.newInstance(this,saTemplate);
+        _bMetaDataModified = true;
+      }
       MetaDataImpl mdi = (MetaDataImpl)getMetaData();
       mdi.setTemplate(saTemplate);
     }
