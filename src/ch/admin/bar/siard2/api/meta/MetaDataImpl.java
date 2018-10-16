@@ -845,7 +845,10 @@ public class MetaDataImpl
       bValid = false;
     for (int iSchema = 0; bValid && (iSchema < getMetaSchemas()); iSchema++)
     {
-      if (!getMetaSchema(iSchema).isValid())
+      MetaSchema ms = getMetaSchema(iSchema);
+      if (ms == null)
+        bValid = false;
+      else if (!ms.isValid())
         bValid = false;
     }
     return bValid;
