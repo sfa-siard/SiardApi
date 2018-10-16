@@ -283,10 +283,14 @@ public class ArchiveImpl
   public void importMetaDataTemplate(InputStream isXml)
     throws IOException
   {
-    MetaDataImpl mdi = (MetaDataImpl)getMetaData();
     SiardArchive saTemplate = MetaDataXml.readXml(isXml);
     if (saTemplate != null)
+    {
+      if (getSchemas() == 0)
+        _md = MetaDataImpl.newInstance(this,saTemplate);
+      MetaDataImpl mdi = (MetaDataImpl)getMetaData();
       mdi.setTemplate(saTemplate);
+    }
     else 
       throw new IOException("Error importing metadata!");
   } /* importMetaDataTemplate */

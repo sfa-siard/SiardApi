@@ -342,16 +342,18 @@ public class ArchiveTester
   public void testImportMetaDataTemplate()
   {
     System.out.println("testImportMetaDataSchema");
+    /* create archive and import template */
     Archive archive = ArchiveImpl.newInstance();
     try
     {
       archive.create(_fileSIARD_21_NEW);
-      FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
-      setMandatoryMetaData(archive);
+
       MetaData md = archive.getMetaData();
       md.setDbName("(...)");
       md.setDataOwner("(...)");
       md.setDataOriginTimespan("(...)");
+      
+      FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
       archive.importMetaDataTemplate(fis);
       fis.close();
       md = archive.getMetaData();

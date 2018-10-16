@@ -153,14 +153,6 @@ public class MetaDataImpl
   } /* setTemplate */
 
   /*------------------------------------------------------------------*/
-  /** copy the template meta data to the main meta data
-   */
-  public void copyMetaDataTemplate()
-  {
-    _sa = _saTemplate;
-  }
-  
-  /*------------------------------------------------------------------*/
   /** create an empty SiardArchive instance.
    * @return new empty SiardArchive instance.
    */
