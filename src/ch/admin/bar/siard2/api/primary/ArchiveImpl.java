@@ -585,7 +585,10 @@ public class ArchiveImpl
       bValid = false;
     for (int iSchema = 0; bValid && (iSchema < getSchemas()); iSchema++)
     {
-      if (!getSchema(iSchema).isValid())
+      Schema schema = getSchema(iSchema);
+      if (schema == null)
+        bValid = false; 
+      else if (!schema.isValid())
         bValid = false; 
     }
     return bValid;
