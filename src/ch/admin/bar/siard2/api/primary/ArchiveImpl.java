@@ -289,6 +289,18 @@ public class ArchiveImpl
       if (getSchemas() == 0)
       {
         _md = MetaDataImpl.newInstance(this,saTemplate);
+        SchemasType sts = saTemplate.getSchemas();
+        for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
+        {
+          SchemaType st = sts.getSchema().get(iSchema);
+          Schema schema = createSchema(st.getName());
+          TablesType tts = st.getTables();
+          for (int iTable = 0; iTable < tts.getTable().size(); iTable++)
+          {
+            TableType tt = tts.getTable().get(iTable);
+            schema.createTable(tt.getName());
+          }
+        }
         _bMetaDataModified = true;
       }
       MetaDataImpl mdi = (MetaDataImpl)getMetaData();
