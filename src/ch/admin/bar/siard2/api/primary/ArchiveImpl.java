@@ -288,6 +288,7 @@ public class ArchiveImpl
     {
       if (getSchemas() == 0)
       {
+        _bModifyPrimaryData = true;
         _md = MetaDataImpl.newInstance(this,saTemplate);
         SchemasType sts = saTemplate.getSchemas();
         for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
