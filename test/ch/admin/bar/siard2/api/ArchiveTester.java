@@ -356,7 +356,7 @@ public class ArchiveTester
       FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
       archive.importMetaDataTemplate(fis);
       fis.close();
-      assertFalse("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
+      assertTrue("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
       md = archive.getMetaData();
       assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
