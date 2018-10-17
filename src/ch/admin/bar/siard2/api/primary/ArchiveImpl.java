@@ -286,16 +286,13 @@ public class ArchiveImpl
     SiardArchive saTemplate = MetaDataXml.readXml(isXml);
     if (saTemplate != null)
     {
-      if (getSchemas() == 0)
+      if (getZipFile() == null) /* import before open or create goes to temporary SIARD file */
       {
-        _bModifyPrimaryData = true;
+        File fileArchive = File.createTempFile("mdo",".siard");
+        fileArchive.delete();
+        create(fileArchive);
+        fileArchive.deleteOnExit();
         _md = MetaDataImpl.newInstance(this,saTemplate);
-        SchemasType sts = saTemplate.getSchemas();
-        for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
-        {
-          SchemaType st = sts.getSchema().get(iSchema);
-          createSchema(st.getName());
-        }
         _bMetaDataModified = false;
       }
       MetaDataImpl mdi = (MetaDataImpl)getMetaData();
