@@ -296,7 +296,7 @@ public class ArchiveImpl
           SchemaType st = sts.getSchema().get(iSchema);
           createSchema(st.getName());
         }
-        _bMetaDataModified = true;
+        _bMetaDataModified = false;
       }
       MetaDataImpl mdi = (MetaDataImpl)getMetaData();
       mdi.setTemplate(saTemplate);
