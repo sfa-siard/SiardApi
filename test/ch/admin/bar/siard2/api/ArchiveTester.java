@@ -17,7 +17,7 @@ public class ArchiveTester
   private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
   private static final File _fileMETADATA_XML = new File("tmp/metadata.xml");
-  private static final File _fileIMPORT_METADATA_XML = new File("testfiles/metadata.xml");
+  private static final File _fileIMPORT_METADATA_XML = new File("testfiles/import.xml");
   private static final File _fileMETADATA_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/metadata.xsd");
   private static final File _fileMETADATA_XSD = new File("tmp/metadata.xsd");
   private static final File _fileTABLE_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/table.xsd");
@@ -356,12 +356,17 @@ public class ArchiveTester
       FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
       archive.importMetaDataTemplate(fis);
       fis.close();
-      assertFalse("Archive without primary data is not valid!",archive.isValid());
       assertFalse("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
       md = archive.getMetaData();
-      assertEquals("DbName not set correctly!","SIARD 2.1 Test Import Database",md.getDbName());
+      assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
-      assertEquals("DataOriginTimespan not set correctly!","First half of 2017",md.getDataOriginTimespan());
+      assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
+      FileOutputStream fos = new FileOutputStream(_fileMETADATA_XML);
+      archive.exportMetaData(fos);
+      fos.close();
+      archive.close();
+      archive.open(_fileSIARD_21_NEW);
+      assertFalse("New archive without primary data is valid!",archive.isValid());
       archive.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
