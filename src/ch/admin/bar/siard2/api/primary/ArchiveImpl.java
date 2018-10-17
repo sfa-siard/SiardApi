@@ -293,6 +293,12 @@ public class ArchiveImpl
         create(fileArchive);
         fileArchive.deleteOnExit();
         _md = MetaDataImpl.newInstance(this,saTemplate);
+        SchemasType sts = saTemplate.getSchemas();
+        for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
+        {
+          SchemaType st = sts.getSchema().get(iSchema);
+          createSchema(st.getName());
+        }
         _bMetaDataModified = false;
       }
       MetaDataImpl mdi = (MetaDataImpl)getMetaData();
