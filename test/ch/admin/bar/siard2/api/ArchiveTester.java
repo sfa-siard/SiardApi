@@ -363,6 +363,12 @@ public class ArchiveTester
       assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
       assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
+      assertEquals("Wrong number of schemas!",1,archive.getSchemas());
+      assertEquals("Wrong number of meta data schemas!",1,md.getMetaSchemas());
+      MetaSchema ms = md.getMetaSchema(0);
+      Schema schema = archive.getSchema(0);
+      assertEquals("Wrong number of meta data tables!",2,ms.getMetaTables());
+      assertEquals("Wrong number of tables!",2,schema.getTables());
       FileOutputStream fos = new FileOutputStream(_fileMETADATA_XML);
       archive.exportMetaData(fos);
       fos.close();

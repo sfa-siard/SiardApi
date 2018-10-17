@@ -295,20 +295,11 @@ public class ArchiveImpl
         _md = MetaDataImpl.newInstance(this,saTemplate);
         SchemasType sts = saTemplate.getSchemas();
         if (sts != null)
-          {
+        {
           for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
           {
             SchemaType st = sts.getSchema().get(iSchema);
-            Schema schema = createSchema(st.getName());
-            TablesType tts = st.getTables();
-            if (tts != null)
-            {
-              for (int iTable = 0; iTable < tts.getTable().size(); iTable++)
-              {
-                TableType tt = tts.getTable().get(iTable);
-                schema.createTable(tt.getName());
-              }
-            }
+            createSchema(st.getName());
           }
         }
         _bMetaDataModified = false;
