@@ -356,14 +356,18 @@ public class ArchiveTester
       FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
       archive.importMetaDataTemplate(fis);
       fis.close();
+      assertTrue("Archive primary data cannot be changed!",archive.canModifyPrimaryData());
       assertTrue("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
+      assertFalse("New archive without primary data is valid!",archive.isValid());
       md = archive.getMetaData();
       assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
       assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
+      /***
       FileOutputStream fos = new FileOutputStream(_fileMETADATA_XML);
       archive.exportMetaData(fos);
       fos.close();
+      ***/
       archive.close();
       archive.open(_fileSIARD_21_NEW);
       assertFalse("New archive without primary data is valid!",archive.isValid());
