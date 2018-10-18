@@ -264,6 +264,8 @@ public class ArchiveImpl
     { 
       MetaDataXml.writeXml(mdi.getSiardArchive(), osXml, bValidate);
       osXml.close();
+      if (isEmpty())
+        _bMetaDataModified = false;
     }
     catch(JAXBException je) { throw new IOException("Error exporting metadata!",je); }
   } /* exportMetaData */
@@ -390,6 +392,7 @@ public class ArchiveImpl
       /* open/create the ZIP file */
       _zipFile = new Zip64File(file);
       _bModifyPrimaryData = true;
+      _bMetaDataModified = true;
       createFolderEntry(_sCONTENT_FOLDER);
       _md = MetaDataImpl.newInstance(this,MetaDataImpl.createSiardArchive());
     }
