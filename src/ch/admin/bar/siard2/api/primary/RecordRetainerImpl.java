@@ -126,7 +126,7 @@ public class RecordRetainerImpl
   public RecordRetainerImpl(Table table)
     throws IOException
   {
-    TableImpl ti = (TableImpl)_table;
+    TableImpl ti = (TableImpl)table;
     ti.setCreating(true);
     _table = table;
     /* open table XML */
