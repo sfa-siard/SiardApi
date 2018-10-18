@@ -40,7 +40,18 @@ public class SchemaImpl
 
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
-  @Override public boolean isEmpty() { return _mapTables.size() == 0; }
+  @Override public boolean isEmpty() 
+  {
+    boolean bEmpty = true;
+    for (Iterator<String> iterTable = _mapTables.keySet().iterator(); iterTable.hasNext(); )
+    {
+      String sTable = iterTable.next();
+      Table table = _mapTables.get(sTable);
+      if (!table.isEmpty())
+        bEmpty = false; 
+    }
+    return bEmpty; 
+  } /* isEmpty */
 
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */

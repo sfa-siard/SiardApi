@@ -360,6 +360,7 @@ public class ArchiveTester
       assertTrue("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
       assertFalse("New archive without primary data is valid!",archive.isValid());
       MetaData md = archive.getMetaData();
+      md.setLobFolder(null);
       assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
       assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
