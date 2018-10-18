@@ -352,6 +352,10 @@ public class TableImpl
     return new RecordDispenserImpl(this);
   } /* openRecords */
   
+  private boolean _bCreating = false;
+  public boolean isCreating() { return _bCreating; }
+  public void setCreating(boolean bCreating) { _bCreating = bCreating; }
+  
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override

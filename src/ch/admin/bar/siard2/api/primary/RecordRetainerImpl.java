@@ -126,8 +126,9 @@ public class RecordRetainerImpl
   public RecordRetainerImpl(Table table)
     throws IOException
   {
-    _table = table;
     TableImpl ti = (TableImpl)_table;
+    ti.setCreating(true);
+    _table = table;
     /* open table XML */
     if (getArchiveImpl().canModifyPrimaryData())
     {
@@ -314,6 +315,7 @@ public class RecordRetainerImpl
         throw new IOException("Table records have not been created!");
     }
     catch(XMLStreamException xse) { throw new IOException("XMLStreamWriter could not be closed!",xse); }
+    ((TableImpl)_table).setCreating(false);
     _lRecord = -1;
   } /* close */
   
