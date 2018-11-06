@@ -124,6 +124,8 @@ public interface Archive
    * the template and they are not yet set.
    * This value can only be set if the SIARD archive is open for
    * modification of primary data.
+   * If the SIARD archive is empty and no meta data have been set,
+   * its meta data are initialized from the template.
    * @param isMetaDataTemplate stream with meta data XML for the template.
    * @throws IOException if the value cannot be set or an I/O error occurred.
    */

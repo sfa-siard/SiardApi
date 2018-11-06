@@ -271,27 +271,24 @@ public class TableImpl
     boolean bValid = getMetaTable().isValid();
     if (bValid && (getMetaTable().getMetaColumns() == 0))
       bValid = false;
-    if (!getParentSchema().getParentArchive().canModifyPrimaryData())
+    try
     {
-      try
+      long lRowsExpected = getMetaTable().getRows();
+      long lRows = 0;
+      RecordDispenser rd = openRecords();
+      if (lRowsExpected < lROWS_MAX_VALIDATE)
       {
-        long lRowsExpected = getMetaTable().getRows();
-        long lRows = 0;
-        RecordDispenser rd = openRecords();
-        if (lRowsExpected < lROWS_MAX_VALIDATE)
-        {
-          for (Record record = rd.get(); record != null; record = rd.get())
-            lRows++;
-        }
-        rd.close();
-        if (lRowsExpected < lROWS_MAX_VALIDATE)
-        {
-          if (lRows != lRowsExpected)
-            bValid = false;
-        }
+        for (Record record = rd.get(); record != null; record = rd.get())
+          lRows++;
       }
-      catch(IOException ie) { bValid = false; }
+      rd.close();
+      if (lRowsExpected < lROWS_MAX_VALIDATE)
+      {
+        if (lRows != lRowsExpected)
+          bValid = false;
+      }
     }
+    catch(IOException ie) { bValid = false; }
     return bValid;
   } /* isValid */
   
@@ -354,6 +351,10 @@ public class TableImpl
   {
     return new RecordDispenserImpl(this);
   } /* openRecords */
+  
+  private boolean _bCreating = false;
+  public boolean isCreating() { return _bCreating; }
+  public void setCreating(boolean bCreating) { _bCreating = bCreating; }
   
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */

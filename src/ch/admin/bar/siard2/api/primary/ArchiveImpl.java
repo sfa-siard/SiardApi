@@ -264,6 +264,8 @@ public class ArchiveImpl
     { 
       MetaDataXml.writeXml(mdi.getSiardArchive(), osXml, bValidate);
       osXml.close();
+      if (isEmpty())
+        _bMetaDataModified = false;
     }
     catch(JAXBException je) { throw new IOException("Error exporting metadata!",je); }
   } /* exportMetaData */
@@ -283,10 +285,30 @@ public class ArchiveImpl
   public void importMetaDataTemplate(InputStream isXml)
     throws IOException
   {
-    MetaDataImpl mdi = (MetaDataImpl)getMetaData();
     SiardArchive saTemplate = MetaDataXml.readXml(isXml);
     if (saTemplate != null)
+    {
+      if (getZipFile() == null) /* import before open or create goes to temporary SIARD file */
+      {
+        File fileArchive = File.createTempFile("mdo",".siard");
+        fileArchive.delete();
+        create(fileArchive);
+        fileArchive.deleteOnExit();
+        _md = MetaDataImpl.newInstance(this,saTemplate);
+        SchemasType sts = saTemplate.getSchemas();
+        if (sts != null)
+        {
+          for (int iSchema = 0; iSchema < sts.getSchema().size(); iSchema++)
+          {
+            SchemaType st = sts.getSchema().get(iSchema);
+            createSchema(st.getName());
+          }
+        }
+        _bMetaDataModified = false;
+      }
+      MetaDataImpl mdi = (MetaDataImpl)getMetaData();
       mdi.setTemplate(saTemplate);
+    }
     else 
       throw new IOException("Error importing metadata!");
   } /* importMetaDataTemplate */
@@ -370,6 +392,7 @@ public class ArchiveImpl
       /* open/create the ZIP file */
       _zipFile = new Zip64File(file);
       _bModifyPrimaryData = true;
+      _bMetaDataModified = true;
       createFolderEntry(_sCONTENT_FOLDER);
       _md = MetaDataImpl.newInstance(this,MetaDataImpl.createSiardArchive());
     }
@@ -578,7 +601,10 @@ public class ArchiveImpl
       bValid = false;
     for (int iSchema = 0; bValid && (iSchema < getSchemas()); iSchema++)
     {
-      if (!getSchema(iSchema).isValid())
+      Schema schema = getSchema(iSchema);
+      if (schema == null)
+        bValid = false; 
+      else if (!schema.isValid())
         bValid = false; 
     }
     return bValid;

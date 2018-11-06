@@ -131,9 +131,9 @@ public class RecordDispenserImpl
   {
     _table = table;
     TableImpl ti = (TableImpl)table;
-    ArchiveImpl ai = getArchiveImpl();
-    if (!ai.canModifyPrimaryData())
+    if (!ti.isCreating())
     {
+      ArchiveImpl ai = getArchiveImpl();
       if (ti.getSortedTable() == null)
         _isXml = new CountingInputStream(ai.openFileEntry(ti.getTableXml()));
       else

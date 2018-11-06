@@ -995,7 +995,6 @@ public class RecordTester
       assertEquals("Invalid number of rows!",1,_tabComplexNew.getMetaTable().getRows());
 
       setMandatoryMetaData(_tabSimpleNew.getParentSchema());
-      assertTrue("We now have a valid archive!",_tabSimpleNew.getParentSchema().getParentArchive().isValid());
 
       OutputStream osXml = new FileOutputStream("tmp/import.xml"); 
       _tabSimpleNew.getParentSchema().getParentArchive().exportMetaData(osXml);
@@ -1005,8 +1004,13 @@ public class RecordTester
       InputStream is = new FileInputStream(_fileIMPORT_XML);
       _tabSimpleNew.getParentSchema().getParentArchive().importMetaDataTemplate(is);
       is.close();
-      
+      File file = _tabSimpleNew.getParentSchema().getParentArchive().getFile();
       _tabSimpleNew.getParentSchema().getParentArchive().close();
+      Archive archive = ArchiveImpl.newInstance();
+      archive.open(file);
+      assertTrue("We now have a valid archive!",archive.isValid());
+      archive.close();
+      
       if (!_fileSIARD_21_SOURCE.exists())
         Files.copy(_fileSIARD_21_NEW.toPath(), _fileSIARD_21_SOURCE.toPath(),StandardCopyOption.REPLACE_EXISTING);
       FU.copyFiles(_fileLOBS_FOLDER,_fileLOBS_FOLDER_SOURCE,true);

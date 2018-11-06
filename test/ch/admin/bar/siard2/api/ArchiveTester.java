@@ -17,7 +17,7 @@ public class ArchiveTester
   private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
   private static final File _fileMETADATA_XML = new File("tmp/metadata.xml");
-  private static final File _fileIMPORT_METADATA_XML = new File("testfiles/metadata.xml");
+  private static final File _fileIMPORT_METADATA_XML = new File("testfiles/import.xml");
   private static final File _fileMETADATA_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/metadata.xsd");
   private static final File _fileMETADATA_XSD = new File("tmp/metadata.xsd");
   private static final File _fileTABLE_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/table.xsd");
@@ -342,22 +342,39 @@ public class ArchiveTester
   public void testImportMetaDataTemplate()
   {
     System.out.println("testImportMetaDataSchema");
+    /* create archive and import template */
     Archive archive = ArchiveImpl.newInstance();
     try
     {
+      /***
       archive.create(_fileSIARD_21_NEW);
-      FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
-      setMandatoryMetaData(archive);
       MetaData md = archive.getMetaData();
       md.setDbName("(...)");
       md.setDataOwner("(...)");
       md.setDataOriginTimespan("(...)");
+      ***/
+      FileInputStream fis = new FileInputStream(_fileIMPORT_METADATA_XML);
       archive.importMetaDataTemplate(fis);
       fis.close();
-      md = archive.getMetaData();
-      assertEquals("DbName not set correctly!","SIARD 2.1 Test Import Database",md.getDbName());
+      assertTrue("Archive primary data cannot be changed!",archive.canModifyPrimaryData());
+      assertTrue("Meta data of archive have been changed!",archive.isMetaDataUnchanged());
+      assertFalse("New archive without primary data is valid!",archive.isValid());
+      MetaData md = archive.getMetaData();
+      md.setLobFolder(null);
+      assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
-      assertEquals("DataOriginTimespan not set correctly!","First half of 2017",md.getDataOriginTimespan());
+      assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
+      assertEquals("Wrong number of schemas!",1,archive.getSchemas());
+      assertEquals("Wrong number of meta data schemas!",1,md.getMetaSchemas());
+      MetaSchema ms = md.getMetaSchema(0);
+      Schema schema = archive.getSchema(0);
+      assertEquals("Wrong number of meta data tables!",2,ms.getMetaTables());
+      assertEquals("Wrong number of tables!",2,schema.getTables());
+      /***
+      FileOutputStream fos = new FileOutputStream(_fileMETADATA_XML);
+      archive.exportMetaData(fos);
+      fos.close();
+      ***/
       archive.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
