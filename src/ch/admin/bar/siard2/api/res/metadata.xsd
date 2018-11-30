@@ -638,15 +638,15 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:pattern value="FLOAT(\s*\(\s*[1-9]\d*\s*\))?"/>
       <!-- character strings -->
       <xs:pattern value="(CHARACTER|CHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(CHARACTER\s+VARYING|CHAR\s+VARYING|VARCHAR)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(CHARACTER\s+VARYING|CHAR\s+VARYING|VARCHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(CHARACTER\s+LARGE\s+OBJECT|CLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <xs:pattern value="(NATIONAL\s+CHARACTER|NATIONAL\s+CHAR|NCHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(NATIONAL\s+CHARACTER\s+VARYING|NATIONAL\s+CHAR\s+VARYING|NCHAR VARYING)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(NATIONAL\s+CHARACTER\s+VARYING|NATIONAL\s+CHAR\s+VARYING|NCHAR VARYING)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(NATIONAL\s+CHARACTER\s+LARGE\s+OBJECT|NCHAR\s+LARGE\s+OBJECT|NCLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <xs:pattern value="XML"/>
       <!-- BINARY strings from SQL:2008 -->
       <xs:pattern value="BINARY(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(BINARY\s+VARYING|VARBINARY)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(BINARY\s+VARYING|VARBINARY)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(BINARY\s+LARGE\s+OBJECT|BLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <!-- datetimes -->
       <xs:pattern value="DATE"/>
