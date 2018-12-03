@@ -1,6 +1,10 @@
 Release Notes for SiardApi 2.2
 ==============================
 
+2.2.74
+Small change in metadata.xsd (added length option for VARCHR, NVARCHAR, VARBINARY)
+Small change in xs:date handling: UTC conversion corrected. 
+
 2.2.0
 Release for JAVA 10
 Activation JAR added.
