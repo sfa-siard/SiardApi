@@ -343,6 +343,7 @@ public class RecordTester
           break;
         case _sTEST_COLUMN20_NAME: // DATE
           long lDate = lMillisPerDay*(now.getTime()/lMillisPerDay);
+          System.out.println("populate: "+String.valueOf(lDate));
           Date date = new Date(lDate);
           cell.setDate(date);
           break;
@@ -466,8 +467,11 @@ public class RecordTester
           break;
         case _sTEST_COLUMN20_NAME: // DATE
           long lDate = lMillisPerDay*(now.getTime()/lMillisPerDay);
+          System.out.println("verify: "+String.valueOf(lDate));
           Date date = new Date(lDate);
-          assertEquals("Invalid DATE value!",date,cell.getDate());
+          Date dateCell = cell.getDate();
+          System.out.println("verify cell: "+String.valueOf(dateCell.getTime()));
+          assertEquals("Invalid DATE value!",date,dateCell);
           break;
         case _sTEST_COLUMN21_NAME: // TIME(3)
           long lTime = now.getTime()%lMillisPerDay;
@@ -699,7 +703,7 @@ public class RecordTester
     try 
     { 
       Files.copy(_fileSIARD_10_SOURCE.toPath(), _fileSIARD_10.toPath(),StandardCopyOption.REPLACE_EXISTING);
-      Files.copy(_fileSIARD_21_SOURCE.toPath(), _fileSIARD_21.toPath(),StandardCopyOption.REPLACE_EXISTING);
+      // Files.copy(_fileSIARD_21_SOURCE.toPath(), _fileSIARD_21.toPath(),StandardCopyOption.REPLACE_EXISTING);
       FU.copyFiles(_fileLOBS_FOLDER_SOURCE,_fileLOBS_FOLDER,true);
       Files.deleteIfExists(_fileSIARD_21_NEW.toPath());
       Archive archive = ArchiveImpl.newInstance();
