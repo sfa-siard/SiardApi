@@ -6,6 +6,8 @@ import java.net.*;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Calendar;
+
 import javax.xml.datatype.*;
 
 import static org.junit.Assert.*;
@@ -99,6 +101,7 @@ public class RecordTester
   private static final String _sTEST_UDT_COMPLEX_ATTRIBUTE1_NAME = "ID";
   private static final String _sTEST_UDT_COMPLEX_ATTRIBUTE2_NAME = "NESTEDROW";
   private static final DU _du = DU.getInstance("en", "dd.MM.yyyy");
+  private static final long _lNOW_TIME = 1543832334062l;
   
   Table _tabSimpleNew = null;
   Table _tabComplexNew = null;
@@ -269,8 +272,7 @@ public class RecordTester
   {
     boolean bNull = false;
     long lMillisPerDay = 1000*60*60*24;
-    java.util.Date now = new java.util.Date();
-    now.setTime(1471338523879l);
+    java.util.Date now = new java.util.Date(_lNOW_TIME);
     if (cell.getMetaColumn().isNullable())
     {
       if ((iRecord+4) % 25 == iCell)
@@ -342,9 +344,13 @@ public class RecordTester
           cell.setBoolean(true);
           break;
         case _sTEST_COLUMN20_NAME: // DATE
-          long lDate = lMillisPerDay*(now.getTime()/lMillisPerDay);
-          System.out.println("populate: "+String.valueOf(lDate));
-          Date date = new Date(lDate);
+          // get date from now with 00:00:00 in local time zone
+          Calendar cal = _du.toGregorianCalendar(now);
+          cal.set(Calendar.MILLISECOND, 0);
+          cal.set(Calendar.SECOND, 0);
+          cal.set(Calendar.MINUTE, 0);
+          cal.set(Calendar.HOUR_OF_DAY, 0);
+          Date date = new Date(cal.getTime().getTime());
           cell.setDate(date);
           break;
         case _sTEST_COLUMN21_NAME: // TIME(3)
@@ -390,8 +396,7 @@ public class RecordTester
     throws IOException
   {
     long lMillisPerDay = 1000*60*60*24;
-    java.util.Date now = new java.util.Date();
-    now.setTime(1471338523879l);
+    java.util.Date now = new java.util.Date(_lNOW_TIME);
     if (cell.getMetaColumn().isNullable())
     {
       if ((iRecord+4) % 25 == iCell)
@@ -466,11 +471,14 @@ public class RecordTester
           assertEquals("Invalid BOOLEAN value!",Boolean.valueOf(true),cell.getBoolean());
           break;
         case _sTEST_COLUMN20_NAME: // DATE
-          long lDate = lMillisPerDay*(now.getTime()/lMillisPerDay);
-          System.out.println("verify: "+String.valueOf(lDate));
-          Date date = new Date(lDate);
+          // get date from now with 00:00:00 in local time zone
+          Calendar cal = _du.toGregorianCalendar(now);
+          cal.set(Calendar.MILLISECOND, 0);
+          cal.set(Calendar.SECOND, 0);
+          cal.set(Calendar.MINUTE, 0);
+          cal.set(Calendar.HOUR_OF_DAY, 0);
+          Date date = new Date(cal.getTime().getTime());
           Date dateCell = cell.getDate();
-          System.out.println("verify cell: "+String.valueOf(dateCell.getTime()));
           assertEquals("Invalid DATE value!",date,dateCell);
           break;
         case _sTEST_COLUMN21_NAME: // TIME(3)
@@ -703,9 +711,14 @@ public class RecordTester
     try 
     { 
       Files.copy(_fileSIARD_10_SOURCE.toPath(), _fileSIARD_10.toPath(),StandardCopyOption.REPLACE_EXISTING);
-      // Files.copy(_fileSIARD_21_SOURCE.toPath(), _fileSIARD_21.toPath(),StandardCopyOption.REPLACE_EXISTING);
+      if (_fileSIARD_21_SOURCE.exists())
+      {
+        System.out.println("Copying "+_fileSIARD_21_SOURCE.getAbsolutePath()+" to "+_fileSIARD_21.getAbsolutePath());
+        Files.copy(_fileSIARD_21_SOURCE.toPath(), _fileSIARD_21.toPath(),StandardCopyOption.REPLACE_EXISTING);
+      }
       FU.copyFiles(_fileLOBS_FOLDER_SOURCE,_fileLOBS_FOLDER,true);
       Files.deleteIfExists(_fileSIARD_21_NEW.toPath());
+      System.out.println("Creating "+_fileSIARD_21_NEW);
       Archive archive = ArchiveImpl.newInstance();
       archive.create(_fileSIARD_21_NEW);
       /**
@@ -854,47 +867,48 @@ public class RecordTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   } /* testOld */
 
-  @Test
-  public void testCreateSimple()
-  {
-    URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
-    uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
-    uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
-    File fileLobsFolder = new File(uriLobsFolder);
-    FU.deleteFiles(fileLobsFolder);
-
-    RecordRetainer rr = null;
-    try
-    {
-      rr = _tabSimpleNew.createRecords();
-      Record record = rr.create();
-      for (int iCell = 0; iCell < record.getCells(); iCell++)
-      {
-        Cell cell = record.getCell(iCell);
-        populateSimpleCell(cell,iCell,0);
-      }
-      rr.put(record);
-    }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    finally
-    {
-      if (rr != null)
-      {
-        try 
-        { 
-          rr.close();
-          assertEquals("Invalid number of rows!",1,_tabSimpleNew.getMetaTable().getRows());
-        }
-        catch(IOException ie) {}
-      }
-    }
-  } /* testCreateSimple */
+//  @Test
+//  public void testCreateSimple()
+//  {
+//    URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
+//    uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
+//    uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
+//    File fileLobsFolder = new File(uriLobsFolder);
+//    FU.deleteFiles(fileLobsFolder);
+//
+//    RecordRetainer rr = null;
+//    try
+//    {
+//      rr = _tabSimpleNew.createRecords();
+//      Record record = rr.create();
+//      for (int iCell = 0; iCell < record.getCells(); iCell++)
+//      {
+//        Cell cell = record.getCell(iCell);
+//        populateSimpleCell(cell,iCell,0);
+//      }
+//      rr.put(record);
+//    }
+//    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
+//    finally
+//    {
+//      if (rr != null)
+//      {
+//        try 
+//        { 
+//          rr.close();
+//          assertEquals("Invalid number of rows!",1,_tabSimpleNew.getMetaTable().getRows());
+//        }
+//        catch(IOException ie) {}
+//      }
+//    }
+//  } /* testCreateSimple */
 
   @Test
   public void testVerifySimple()
   {
     try
     {
+      System.out.println("Verifying "+_fileSIARD_21.getAbsolutePath());
       Archive archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_21);
       Schema schema = archive.getSchema(0);
@@ -912,37 +926,38 @@ public class RecordTester
     catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
   } /* testVerifySimple */
 
-  @Test
-  public void testCreateComplex()
-  {
-    try
-    {
-      URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
-      uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
-      uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
-      File fileLobsFolder = new File(uriLobsFolder);
-      FU.deleteFiles(fileLobsFolder);
-
-      RecordRetainer rr = _tabComplexNew.createRecords();
-      Record record = rr.create();
-      for (int iCell = 0; iCell < record.getCells(); iCell++)
-      {
-        Cell cell = record.getCell(iCell);
-        populateComplexCell(cell,iCell,0);
-      }
-      rr.put(record);
-      rr.close();
-      assertEquals("Invalid number of rows!",1,_tabComplexNew.getMetaTable().getRows());
-      
-    }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-  } /* testCreateComplex */
+//  @Test
+//  public void testCreateComplex()
+//  {
+//    try
+//    {
+//      URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
+//      uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
+//      uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
+//      File fileLobsFolder = new File(uriLobsFolder);
+//      FU.deleteFiles(fileLobsFolder);
+//
+//      RecordRetainer rr = _tabComplexNew.createRecords();
+//      Record record = rr.create();
+//      for (int iCell = 0; iCell < record.getCells(); iCell++)
+//      {
+//        Cell cell = record.getCell(iCell);
+//        populateComplexCell(cell,iCell,0);
+//      }
+//      rr.put(record);
+//      rr.close();
+//      assertEquals("Invalid number of rows!",1,_tabComplexNew.getMetaTable().getRows());
+//      
+//    }
+//    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
+//  } /* testCreateComplex */
   
   @Test
   public void testVerifyComplex()
   {
     try
     {
+      System.out.println("Verifying "+_fileSIARD_21.getAbsolutePath());
       Archive archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_21);
       Schema schema = archive.getSchema(0);
@@ -1016,7 +1031,10 @@ public class RecordTester
       archive.close();
       
       if (!_fileSIARD_21_SOURCE.exists())
+      {
+        System.out.println("Copying "+_fileSIARD_21_NEW.getAbsolutePath()+" to "+ _fileSIARD_21_SOURCE.getAbsolutePath());
         Files.copy(_fileSIARD_21_NEW.toPath(), _fileSIARD_21_SOURCE.toPath(),StandardCopyOption.REPLACE_EXISTING);
+      }
       FU.copyFiles(_fileLOBS_FOLDER,_fileLOBS_FOLDER_SOURCE,true);
     }
     catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
