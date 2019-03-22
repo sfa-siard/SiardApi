@@ -207,13 +207,25 @@ public interface MetaValue extends MetaSearch
     throws IOException;
   /** get meta data of array element of this array value or the field 
    * of this value's ROW or UDT associated with the given attribute name.
-   * N.B.: The fields of a column must match the attributes of the ROW or UDT.
+   * N.B.: The fields of a column or field must match the attributes of 
+   * the ROW or UDT.
    * @param sName name of associated attribute.
    * @return meta data of array element of this array value or the field of 
    * this value's ROW or UDT with the given attribute name.
    * @throws IOException if default field meta data could not be created.
    */
   public MetaField getMetaField(String sName)
+    throws IOException;
+  /** add meta data of array element of this array value ir the field
+   * of this value's ROW or UDT associated with the given attribute name.
+   * N.B.: The fields of a column or field must match the attributes of 
+   * the ROW or UDT.
+   * N.B.: The resulting field meta data is invalid, until the type
+   * or the type name have been set!
+   * @return field meta data.
+   * @throws IOException if the field meta data could not be created.
+   */
+  public MetaField createMetaField()
     throws IOException;
   
   /*------------------------------------------------------------------*/
