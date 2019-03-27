@@ -8,11 +8,13 @@ public class RandomSchema
 {
   private Schema _schema = null;
   private SchemaType _s = null;
+  private double _dFraction = 1.0;
   
-  RandomSchema(Schema schema, SchemaType s)
+  RandomSchema(Schema schema, SchemaType s, double dFraction)
   {
     _schema = schema;
     _s = s;
+    _dFraction = dFraction;
   } /* constructor */
 
   private int createTrigger(MetaTrigger mt, TriggerType tt)
@@ -21,7 +23,8 @@ public class RandomSchema
     try
     {
       mt.setTriggerEvent(tt.getTriggerEvent());
-      mt.setActionTime(tt.getActionTime().toString());
+      if (tt.getActionTime() != null)
+        mt.setActionTime(tt.getActionTime().toString());
       mt.setTriggeredAction(tt.getTriggeredAction());
       mt.setAliasList(tt.getAliasList());
       mt.setDescription(tt.getDescription());
@@ -49,9 +52,12 @@ public class RandomSchema
     int iReturn = RandomArchive.iRETURN_ERROR;
     try
     {
-      mfk.setMatchType(fk.getMatchType().toString());
-      mfk.setDeleteAction(fk.getDeleteAction().toString());
-      mfk.setUpdateAction(fk.getUpdateAction().toString());
+      if (fk.getMatchType() != null)
+        mfk.setMatchType(fk.getMatchType().toString());
+      if (fk.getDeleteAction() != null)
+        mfk.setDeleteAction(fk.getDeleteAction().toString());
+      if (fk.getUpdateAction() != null)
+        mfk.setUpdateAction(fk.getUpdateAction().toString());
       mfk.setDescription(fk.getDescription());
       mfk.setReferencedSchema(fk.getReferencedSchema());
       mfk.setReferencedTable(fk.getReferencedTable());
@@ -90,10 +96,14 @@ public class RandomSchema
     {
       mp.setMode(p.getMode());
       mp.setType(p.getType());
-      mp.setTypeName(p.getTypeName());
-      mp.setTypeSchema(p.getTypeSchema());
+      if (p.getTypeName() != null)
+      {
+        mp.setTypeName(p.getTypeName());
+        mp.setTypeSchema(p.getTypeSchema());
+      }
       mp.setTypeOriginal(p.getTypeOriginal());
-      mp.setCardinality(p.getCardinality().intValue());
+      if (p.getCardinality() != null)
+        mp.setCardinality(p.getCardinality().intValue());
       mp.setDescription(p.getDescription());
       iReturn = RandomArchive.iRETURN_OK;
     }
@@ -131,12 +141,17 @@ public class RandomSchema
     try
     {
       mc.setType(c.getType());
-      mc.setTypeName(c.getTypeName());
-      mc.setTypeSchema(c.getTypeSchema());
+      if (c.getTypeName() != null)
+      {
+        mc.setTypeName(c.getTypeName());
+        mc.setTypeSchema(c.getTypeSchema());
+      }
       mc.setTypeOriginal(c.getTypeOriginal());
       mc.setMimeType(c.getMimeType());
+      mc.setNullable(c.isNullable());
       mc.setDefaultValue(c.getDefaultValue());
-      mc.setCardinality(c.getCardinality().intValue());
+      if (c.getCardinality() != null)
+        mc.setCardinality(c.getCardinality().intValue());
       mc.setDescription(c.getDescription());
       iReturn = RandomArchive.iRETURN_OK;
       // fields
@@ -161,11 +176,16 @@ public class RandomSchema
     try
     {
       ma.setType(a.getType());
-      ma.setTypeName(a.getTypeName());
-      ma.setTypeSchema(a.getTypeSchema());
+      if (a.getTypeName() != null)
+      {
+        ma.setTypeName(a.getTypeName());
+        ma.setTypeSchema(a.getTypeSchema());
+      }
       ma.setTypeOriginal(a.getTypeOriginal());
+      ma.setNullable(a.isNullable());
       ma.setDefaultValue(a.getDefaultValue());
-      ma.setCardinality(a.getCardinality().intValue());
+      if (a.getCardinality() != null)
+        ma.setCardinality(a.getCardinality().intValue());
       ma.setDescription(a.getDescription());
       iReturn = RandomArchive.iRETURN_OK;
     }
@@ -178,7 +198,9 @@ public class RandomSchema
     int iReturn = RandomArchive.iRETURN_ERROR;
     try
     {
-      mt.setRows(t.getRows().intValue());
+      int iRows = t.getRows().intValue();
+      iRows = (int)(_dFraction*iRows);
+      mt.setRows(iRows);
       mt.setDescription(t.getDescription());
       iReturn = RandomArchive.iRETURN_OK;
       // primary key
@@ -307,7 +329,8 @@ public class RandomSchema
     int iReturn = RandomArchive.iRETURN_ERROR;
     try
     {
-      mt.setCategory(t.getCategory().toString());
+      if (t.getCategory() != null)
+        mt.setCategory(t.getCategory().toString());
       mt.setBase(t.getBase());
       mt.setUnderType(t.getUnderType());
       mt.setUnderSchema(t.getUnderSchema());
@@ -377,6 +400,7 @@ public class RandomSchema
         for (int iTable = 0; (iReturn == RandomArchive.iRETURN_OK) && (iTable < tabt.getTable().size()); iTable++)
         {
           TableType t = tabt.getTable().get(iTable);
+          System.out.println("  Table: "+t.getName());
           Table table = _schema.createTable(t.getName());
           // meta data
           iReturn = createTable(table.getMetaTable(),t);

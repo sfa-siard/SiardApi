@@ -25,8 +25,16 @@ public class RandomTable
         RandomRecord rrec = new RandomRecord(record);
         iReturn = rrec.createRecord();
         rr.put(record);
+        if ((lRecord % 1000) == 999)
+        {
+          System.out.print('.');
+          if ((lRecord % 80000) == 79999)
+            System.out.println();
+        }
       }
       rr.close();
+      if ((_table.getMetaTable().getRows() & 80000) != 0)
+        System.out.println();
     }
     catch (IOException ie) { System.err.println(RandomArchive.getExceptionMessage(ie)); }
     return iReturn;

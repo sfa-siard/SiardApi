@@ -76,7 +76,16 @@ public class RandomArchive
       FileInputStream fis = new FileInputStream(fileInput);
       _sa = MetaDataXml.readXml(fis);
       fis.close();
-      iReturn = iRETURN_OK;
+      if (_sa != null)
+        iReturn = iRETURN_OK;
+      else
+      {
+        fis = new FileInputStream(fileInput);
+        _sa = MetaDataXml.readXmlOld10(fis);
+        fis.close();
+        if (_sa != null)
+          iReturn = iRETURN_OK;
+      }
     }
     catch (FileNotFoundException fnfe) { System.err.println(getExceptionMessage(fnfe)); }
     catch (IOException ie) {System.err.println(getExceptionMessage(ie)); }
@@ -130,7 +139,8 @@ public class RandomArchive
         {
           PrivilegeType p = pt.getPrivilege().get(iPrivilege);
           MetaPrivilege mp = md.createMetaPrivilege(p.getType(), p.getObject(), p.getGrantor(), p.getGrantee());
-          mp.setOption(p.getOption().toString());
+          if (p.getOption() != null)
+            mp.setOption(p.getOption().toString());
           mp.setDescription(p.getDescription());
         }
       }
@@ -139,7 +149,7 @@ public class RandomArchive
     return iReturn;
   } /* createMetaData */
   
-  private int createRandomFile(File fileOutput)
+  private int createRandomFile(File fileOutput, double dFraction)
   {
     int iReturn = iRETURN_ERROR;
     try
@@ -156,13 +166,22 @@ public class RandomArchive
           for (int iSchema = 0; (iReturn == iRETURN_OK) && (iSchema < st.getSchema().size()); iSchema++)
           {
             SchemaType s = st.getSchema().get(iSchema);
+            System.out.println("Schema: "+s.getName());
             Schema schema = archive.createSchema(s.getName());
             schema.getMetaSchema().setDescription(s.getDescription());
-            RandomSchema rs = new RandomSchema(schema,s);
+            RandomSchema rs = new RandomSchema(schema,s,dFraction);
             iReturn = rs.createSchema();
           }
         }
       }
+      /***
+      String sOutput = fileOutput.getAbsolutePath();
+      sOutput = sOutput.substring(0,sOutput.length()-".siard".length())+".xml";
+      File fileXml = new File(sOutput);
+      FileOutputStream fosXml = new FileOutputStream(fileXml);
+      archive.exportMetaData(fosXml);
+      fosXml.close();
+      ***/
       archive.close();
       iReturn = iRETURN_OK;
     }
@@ -177,6 +196,8 @@ public class RandomArchive
     System.out.println("java ch.admin.bar.siard.generate.RandomArchive [-h | [-f] -i:<metadata file> -o:<siard file>]");
     System.out.println("with the following arguments:");
     System.out.println("-h (or no arguments): display this help text.");
+    System.out.println("-f: overwrite output file");
+    System.out.println("-p:<percent>: percent of size (default: 100.0)");
     System.out.println("-i:<metadata file>: use this meta data for creating the random SIARD file.");
     System.out.println("-o:<siard file>: random SIARD file - force overwrite, if -f option is given.");
     System.out.println();
@@ -195,36 +216,46 @@ public class RandomArchive
         String sOutput = arguments.getOption("o");
         if (sOutput != null)
         {
-          boolean bForce = false;
-          if (arguments.getOption("f") != null)
-            bForce = true;
-          File fileOutput = new File(sOutput);
-          if (bForce && fileOutput.exists())
+          String sPercent = arguments.getOption("p");
+          double dFraction = 1.0;
+          if (sPercent != null)
+            dFraction = Double.parseDouble(sPercent)/100.0;
+          if ((dFraction >= 0.01) && (dFraction < 100.00))
           {
-            if (!fileOutput.delete())
-              System.err.println("File "+fileOutput.getAbsolutePath()+" could not be deleted!");
+            boolean bForce = false;
+            if (arguments.getOption("f") != null)
+              bForce = true;
+            File fileOutput = new File(sOutput);
+            if (bForce && fileOutput.exists())
+            {
+              if (!fileOutput.delete())
+                System.err.println("File "+fileOutput.getAbsolutePath()+" could not be deleted!");
+            }
+            if (!fileOutput.exists())
+            {
+              _iReturn = readMetaData(fileInput);
+              if (_iReturn == iRETURN_OK)
+                _iReturn = createRandomFile(fileOutput,dFraction);
+            }
+            else if (!bForce)
+              System.err.println("File "+fileOutput.getAbsolutePath()+" exists already! Use option -f for forcing overwrite.");
           }
-          if (!fileOutput.exists())
-          {
-            _iReturn = readMetaData(fileInput);
-            if (_iReturn == iRETURN_OK)
-              _iReturn = createRandomFile(fileOutput);
-          }
-          else if (!bForce)
-            System.err.println("File "+fileOutput.getAbsolutePath()+" exists already! Use option -f for forcing overwrite.");
+          else
+            System.err.println("Percent "+sPercent+" must be [1.0,10000.0]!");
         }
         else
-          _iReturn = displaySyntax();
+          System.err.println("Ouput file was not given!");
       }
       else
         System.err.println("File "+fileInput.getAbsolutePath()+" does not exist!");
+      if (_iReturn != iRETURN_OK)
+        _iReturn = displaySyntax();
     }
-    _iReturn = displaySyntax();
   } /* constructor */
 
   public static void main(String[] args)
   {
-    System.out.println("Sample application of "+_ma.getImplementationTitle()+" "+_ma.getImplementationVersion());
+    System.out.println("Random application of "+_ma.getImplementationTitle()+" "+_ma.getImplementationVersion());
     int iReturn = iRETURN_FATAL;
     try
     {
@@ -233,7 +264,7 @@ public class RandomArchive
     }
     catch(Exception e) { System.err.println(getExceptionMessage(e)); }
     catch(Error e) { System.err.println(getErrorMessage(e)); }
-    System.out.print("Sample application terminates ");
+    System.out.print("Random application terminates ");
     switch(iReturn)
     {
       case iRETURN_OK:
