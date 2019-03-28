@@ -199,7 +199,7 @@ public class RandomSchema
     try
     {
       int iRows = t.getRows().intValue();
-      iRows = (int)(_dFraction*iRows);
+      iRows = (int)Math.ceil(_dFraction*iRows);
       mt.setRows(iRows);
       mt.setDescription(t.getDescription());
       iReturn = RandomArchive.iRETURN_OK;

@@ -97,7 +97,7 @@ public class RandomArchive
     int iReturn = iRETURN_ERROR;
     try
     {
-      md.setDbName(_sa.getDbname());
+      md.setDbName(_sa.getDbname()+"-randomized");
       md.setDescription(_sa.getDescription());
       md.setArchiver(_sa.getArchiver());
       md.setArchiverContact(_sa.getArchiverContact());
