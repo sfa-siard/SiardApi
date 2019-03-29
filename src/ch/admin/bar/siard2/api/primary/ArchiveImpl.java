@@ -41,7 +41,7 @@ public class ArchiveImpl
   static final String _sATTR_DIGEST_TYPE = "digestType";
   static final String _sATTR_MESSAGE_DIGEST = "digest";
   public StopWatch _swValid = StopWatch.getInstance();
-  private boolean _bValid = false;
+  private boolean _bValid = false; // cached value
 
   private Zip64File _zipFile = null;
   public Zip64File getZipFile() { return _zipFile; }
@@ -380,6 +380,8 @@ public class ArchiveImpl
     }
     else
       throw new IOException("SIARD file "+file.getAbsolutePath()+" does not exist!");
+    _bValid = isValid();
+    _bMetaDataModified = false;
   } /* open */
 
   /*------------------------------------------------------------------*/
