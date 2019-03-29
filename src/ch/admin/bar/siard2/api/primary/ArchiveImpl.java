@@ -353,7 +353,7 @@ public class ArchiveImpl
       if (sa == null)
         throw new IOException("Invalid SIARD meta data!");
       _md = MetaDataImpl.newInstance(this,sa);
-      _bMetaDataModified = false;
+      _bMetaDataModified = true;
     }
     else
       throw new IOException("Invalid SIARD file (missing metadata.xml)!");
