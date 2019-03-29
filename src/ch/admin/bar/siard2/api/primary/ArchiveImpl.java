@@ -353,7 +353,6 @@ public class ArchiveImpl
       if (sa == null)
         throw new IOException("Invalid SIARD meta data!");
       _md = MetaDataImpl.newInstance(this,sa);
-      _bMetaDataModified = true;
     }
     else
       throw new IOException("Invalid SIARD file (missing metadata.xml)!");
@@ -380,7 +379,11 @@ public class ArchiveImpl
     }
     else
       throw new IOException("SIARD file "+file.getAbsolutePath()+" does not exist!");
+    /* compute initial cached validity */
+    _bMetaDataModified = true;
+    _bModifyPrimaryData = true;    
     _bValid = isValid();
+    _bModifyPrimaryData = false;
     _bMetaDataModified = false;
   } /* open */
 
@@ -601,8 +604,9 @@ public class ArchiveImpl
   {
     _swValid.start();
     if (_bMetaDataModified)
-    {
       _bValid = getMetaData().isValid();
+    if (canModifyPrimaryData())
+    {
       if (_bValid && (getSchemas() < 1))
         _bValid = false;
       for (int iSchema = 0; _bValid && (iSchema < getSchemas()); iSchema++)
