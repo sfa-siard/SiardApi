@@ -5,8 +5,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.io.*;
 import javax.xml.bind.*;
-import ch.enterag.utils.BU;
-import ch.enterag.utils.SU;
+import ch.enterag.utils.*;
 import ch.enterag.utils.zip.*;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
@@ -41,6 +40,7 @@ public class ArchiveImpl
   static final String _sATTR_LENGTH = "length";
   static final String _sATTR_DIGEST_TYPE = "digestType";
   static final String _sATTR_MESSAGE_DIGEST = "digest";
+  public StopWatch _swValid = StopWatch.getInstance();
 
   private Zip64File _zipFile = null;
   public Zip64File getZipFile() { return _zipFile; }
@@ -596,6 +596,7 @@ public class ArchiveImpl
   @Override
   public boolean isValid()
   {
+    _swValid.start();
     boolean bValid = getMetaData().isValid();
     if (bValid && (getSchemas() < 1))
       bValid = false;
@@ -607,6 +608,7 @@ public class ArchiveImpl
       else if (!schema.isValid())
         bValid = false; 
     }
+    _swValid.stop();
     return bValid;
   } /* isValid */
 
