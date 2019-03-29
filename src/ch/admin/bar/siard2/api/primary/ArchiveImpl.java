@@ -41,6 +41,7 @@ public class ArchiveImpl
   static final String _sATTR_DIGEST_TYPE = "digestType";
   static final String _sATTR_MESSAGE_DIGEST = "digest";
   public StopWatch _swValid = StopWatch.getInstance();
+  private boolean _bValid = false;
 
   private Zip64File _zipFile = null;
   public Zip64File getZipFile() { return _zipFile; }
@@ -597,19 +598,22 @@ public class ArchiveImpl
   public boolean isValid()
   {
     _swValid.start();
-    boolean bValid = getMetaData().isValid();
-    if (bValid && (getSchemas() < 1))
-      bValid = false;
-    for (int iSchema = 0; bValid && (iSchema < getSchemas()); iSchema++)
+    if (_bMetaDataModified)
     {
-      Schema schema = getSchema(iSchema);
-      if (schema == null)
-        bValid = false; 
-      else if (!schema.isValid())
-        bValid = false; 
+      _bValid = getMetaData().isValid();
+      if (_bValid && (getSchemas() < 1))
+        _bValid = false;
+      for (int iSchema = 0; _bValid && (iSchema < getSchemas()); iSchema++)
+      {
+        Schema schema = getSchema(iSchema);
+        if (schema == null)
+          _bValid = false; 
+        else if (!schema.isValid())
+          _bValid = false; 
+      }
     }
     _swValid.stop();
-    return bValid;
+    return _bValid;
   } /* isValid */
 
   /*------------------------------------------------------------------*/
