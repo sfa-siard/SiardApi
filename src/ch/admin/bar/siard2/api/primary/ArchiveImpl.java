@@ -595,8 +595,12 @@ public class ArchiveImpl
     return bEmpty;
   } /* isEmpty */
 
+  /*------------------------------------------------------------------*/
+  /** check validity of archive.
+   */
   private void validate()
   {
+    _swValid.start();
     _bValid = getMetaData().isValid();
     if (_bValid && (getSchemas() < 1))
       _bValid = false;
@@ -608,6 +612,7 @@ public class ArchiveImpl
       else if (!schema.isValid())
         _bValid = false; 
     }
+    _swValid.stop();
   } /* validate */
   
   /*------------------------------------------------------------------*/
@@ -615,10 +620,8 @@ public class ArchiveImpl
   @Override
   public boolean isValid()
   {
-    _swValid.start();
     if (canModifyPrimaryData())
       validate();
-    _swValid.stop();
     return _bValid;
   } /* isValid */
 
