@@ -38,7 +38,7 @@ public class TableImpl
 {
   public static final String _sTABLE_FOLDER_PREFIX = "table";
   private static final int iBUFFER_SIZE = 8192;
-  private static final long lROWS_MAX_VALIDATE = 1024;
+  private static final long lROWS_MAX_VALIDATE = Long.MAX_VALUE; //1024;
   public static final String _sXML_NS = "xmlns";
   public static final String _sXSI_PREFIX = "xsi";
   public static final String _sTAG_SCHEMA_LOCATION = "schemaLocation";
