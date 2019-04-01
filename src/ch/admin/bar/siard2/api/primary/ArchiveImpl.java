@@ -376,15 +376,13 @@ public class ArchiveImpl
         SchemaType st = sts.getSchema().get(iSchema);
         SchemaImpl.newInstance(this, st.getName());
       }
+      _bModifyPrimaryData = false;
+      _bMetaDataModified = false;
+      /* compute initial cached validity */
+      validate();
     }
     else
       throw new IOException("SIARD file "+file.getAbsolutePath()+" does not exist!");
-    /* compute initial cached validity */
-    _bMetaDataModified = true;
-    _bModifyPrimaryData = true;    
-    _bValid = isValid();
-    _bModifyPrimaryData = false;
-    _bMetaDataModified = false;
   } /* open */
 
   /*------------------------------------------------------------------*/
@@ -597,27 +595,29 @@ public class ArchiveImpl
     return bEmpty;
   } /* isEmpty */
 
+  private void validate()
+  {
+    _bValid = getMetaData().isValid();
+    if (_bValid && (getSchemas() < 1))
+      _bValid = false;
+    for (int iSchema = 0; _bValid && (iSchema < getSchemas()); iSchema++)
+    {
+      Schema schema = getSchema(iSchema);
+      if (schema == null)
+        _bValid = false; 
+      else if (!schema.isValid())
+        _bValid = false; 
+    }
+  } /* validate */
+  
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
   public boolean isValid()
   {
     _swValid.start();
-    if (_bMetaDataModified)
-      _bValid = getMetaData().isValid();
     if (canModifyPrimaryData())
-    {
-      if (_bValid && (getSchemas() < 1))
-        _bValid = false;
-      for (int iSchema = 0; _bValid && (iSchema < getSchemas()); iSchema++)
-      {
-        Schema schema = getSchema(iSchema);
-        if (schema == null)
-          _bValid = false; 
-        else if (!schema.isValid())
-          _bValid = false; 
-      }
-    }
+      validate();
     _swValid.stop();
     return _bValid;
   } /* isValid */
