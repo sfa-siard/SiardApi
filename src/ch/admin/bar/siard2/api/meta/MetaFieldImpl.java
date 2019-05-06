@@ -640,15 +640,9 @@ public class MetaFieldImpl
   } /* getMetaField */
 
   /*------------------------------------------------------------------*/
-  /** add new field to this field's ROW or UDT.
-   * N.B.: The fields of a field must match the attributes of the ROW orUDT.
-   * Can only be added if the SIARD archive is open for modification
-   * of primary data, the table is still empty, and a type for this 
-   * column has been set, which has a corresponding attribute.
-   * @return field description to this column's UDT.
-   * @throws IOException if the value could not be set.
-   */
-  private MetaField createMetaField()
+  /** {@inheritDoc} */
+  @Override
+  public MetaField createMetaField()
     throws IOException
   {
     MetaField mf = null;

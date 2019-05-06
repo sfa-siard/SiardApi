@@ -5,8 +5,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.io.*;
 import javax.xml.bind.*;
-import ch.enterag.utils.BU;
-import ch.enterag.utils.SU;
+import ch.enterag.utils.*;
 import ch.enterag.utils.zip.*;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
@@ -41,6 +40,8 @@ public class ArchiveImpl
   static final String _sATTR_LENGTH = "length";
   static final String _sATTR_DIGEST_TYPE = "digestType";
   static final String _sATTR_MESSAGE_DIGEST = "digest";
+  public StopWatch _swValid = StopWatch.getInstance();
+  private boolean _bValid = false; // cached value
 
   private Zip64File _zipFile = null;
   public Zip64File getZipFile() { return _zipFile; }
@@ -352,7 +353,6 @@ public class ArchiveImpl
       if (sa == null)
         throw new IOException("Invalid SIARD meta data!");
       _md = MetaDataImpl.newInstance(this,sa);
-      _bMetaDataModified = false;
     }
     else
       throw new IOException("Invalid SIARD file (missing metadata.xml)!");
@@ -376,6 +376,10 @@ public class ArchiveImpl
         SchemaType st = sts.getSchema().get(iSchema);
         SchemaImpl.newInstance(this, st.getName());
       }
+      _bModifyPrimaryData = false;
+      _bMetaDataModified = false;
+      /* compute initial cached validity */
+      validate();
     }
     else
       throw new IOException("SIARD file "+file.getAbsolutePath()+" does not exist!");
@@ -592,22 +596,33 @@ public class ArchiveImpl
   } /* isEmpty */
 
   /*------------------------------------------------------------------*/
+  /** check validity of archive.
+   */
+  private void validate()
+  {
+    _swValid.start();
+    _bValid = getMetaData().isValid();
+    if (_bValid && (getSchemas() < 1))
+      _bValid = false;
+    for (int iSchema = 0; _bValid && (iSchema < getSchemas()); iSchema++)
+    {
+      Schema schema = getSchema(iSchema);
+      if (schema == null)
+        _bValid = false; 
+      else if (!schema.isValid())
+        _bValid = false; 
+    }
+    _swValid.stop();
+  } /* validate */
+  
+  /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
   public boolean isValid()
   {
-    boolean bValid = getMetaData().isValid();
-    if (bValid && (getSchemas() < 1))
-      bValid = false;
-    for (int iSchema = 0; bValid && (iSchema < getSchemas()); iSchema++)
-    {
-      Schema schema = getSchema(iSchema);
-      if (schema == null)
-        bValid = false; 
-      else if (!schema.isValid())
-        bValid = false; 
-    }
-    return bValid;
+    if (canModifyPrimaryData())
+      validate();
+    return _bValid;
   } /* isValid */
 
   /*------------------------------------------------------------------*/

@@ -38,7 +38,7 @@ public class TableImpl
 {
   public static final String _sTABLE_FOLDER_PREFIX = "table";
   private static final int iBUFFER_SIZE = 8192;
-  private static final long lROWS_MAX_VALIDATE = 1024;
+  private static final long lROWS_MAX_VALIDATE = 1024; // Long.MAX_VALUE;
   public static final String _sXML_NS = "xmlns";
   public static final String _sXSI_PREFIX = "xsi";
   public static final String _sTAG_SCHEMA_LOCATION = "schemaLocation";
@@ -271,24 +271,25 @@ public class TableImpl
     boolean bValid = getMetaTable().isValid();
     if (bValid && (getMetaTable().getMetaColumns() == 0))
       bValid = false;
+    RecordDispenser rd = null;
     try
     {
-      long lRowsExpected = getMetaTable().getRows();
-      long lRows = 0;
-      RecordDispenser rd = openRecords();
-      if (lRowsExpected < lROWS_MAX_VALIDATE)
-      {
-        for (Record record = rd.get(); record != null; record = rd.get())
-          lRows++;
-      }
-      rd.close();
-      if (lRowsExpected < lROWS_MAX_VALIDATE)
-      {
-        if (lRows != lRowsExpected)
+      rd = openRecords();
+      long lRowsValidate = Math.min(lROWS_MAX_VALIDATE, getMetaTable().getRows());
+      rd.skip(lRowsValidate);
+      if (lRowsValidate == getMetaTable().getRows())
+        if (rd.get() != null)
           bValid = false;
-      }
     }
     catch(IOException ie) { bValid = false; }
+    finally
+    {
+      if (rd != null)
+      {
+        try { rd.close(); }
+        catch(IOException ie) { }
+      }
+    }
     return bValid;
   } /* isValid */
   
