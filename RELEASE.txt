@@ -1,6 +1,9 @@
 Release Notes for SiardApi 2.2
 ==============================
 
+2.2.87
+Caching of validation for speeding up open.
+
 2.2.74
 Small change in metadata.xsd (added length option for VARCHR, NVARCHAR, VARBINARY)
 Small change in xs:date handling: UTC conversion corrected. 
