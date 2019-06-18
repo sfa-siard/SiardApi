@@ -301,21 +301,16 @@ public class RecordDispenserImpl
   public void skip(long lSkip)
     throws IOException
   {
-    if (!getArchiveImpl().canModifyPrimaryData())
+    try
     {
-      try
-      {
-        if (_lRecord + lSkip > _table.getMetaTable().getRows())
-          lSkip = _table.getMetaTable().getRows() - _lRecord;
-        if (lSkip == skip(lSkip,TableImpl._sTAG_RECORD))
-          _lRecord = _lRecord + lSkip;
-        else
-          throw new IOException("Unexpected end of records encountered!");
-      }
-      catch(XMLStreamException xse) { throw new IOException(String.valueOf(lSkip)+" records starting with "+String.valueOf(_lRecord)+" could not be skipped!"); }
+      if (_lRecord + lSkip > _table.getMetaTable().getRows())
+        lSkip = _table.getMetaTable().getRows() - _lRecord;
+      if (lSkip == skip(lSkip,TableImpl._sTAG_RECORD))
+        _lRecord = _lRecord + lSkip;
+      else
+        throw new IOException("Unexpected end of records encountered!");
     }
-    else
-      throw new IOException("SIARD archive is open for modification of primary data!");
+    catch(XMLStreamException xse) { throw new IOException(String.valueOf(lSkip)+" records starting with "+String.valueOf(_lRecord)+" could not be skipped!"); }
   } /* skip */
   
   /*------------------------------------------------------------------*/
