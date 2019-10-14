@@ -149,7 +149,7 @@ public class MetaColumnTester
   {
     try
     {
-      String sType = "INTEGER";
+      String sType = "INT";
       _mcNew.setType(sType);
       assertEquals("Wrong type!",sType,_mcNew.getType());
       try

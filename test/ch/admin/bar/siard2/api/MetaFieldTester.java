@@ -136,7 +136,7 @@ public class MetaFieldTester
       assertEquals("Invalid parent column!",_mcRow,mf.getParentMetaColumn());
       MetaAttribute ma = mf.getMetaAttribute();
       assertEquals("Invalid attribute name!",_sTEST_UDTS_ATTRIBUTE1_NAME,ma.getName());
-      assertEquals("Invalid field type!","INTEGER",ma.getType());
+      assertEquals("Invalid field type!","INT",ma.getType());
 
       mf = _mcRow.getMetaField(1);
       assertEquals("Invalid parent column!",_mcRow,mf.getParentMetaColumn());
@@ -154,7 +154,7 @@ public class MetaFieldTester
       assertEquals("Invalid parent column!",_mcUdt,mf.getParentMetaColumn());
       ma = mf.getMetaAttribute();
       assertEquals("Invalid attribute name!",_sTEST_UDTC_ATTRIBUTE1_NAME,ma.getName());
-      assertEquals("Invalid field type!","INTEGER",ma.getType());
+      assertEquals("Invalid field type!","INT",ma.getType());
       
       mf = _mcUdt.getMetaField(1);
       assertEquals("Invalid parent column!",_mcUdt,mf.getParentMetaColumn());
@@ -259,7 +259,7 @@ public class MetaFieldTester
       assertEquals("Invalid parent field!",mfParent,mf.getParentMetaField());
       MetaAttribute ma = mf.getMetaAttribute();
       assertEquals("Invalid attribute name!",_sTEST_UDTS_ATTRIBUTE1_NAME,ma.getName());
-      assertEquals("Invalid field type!","INTEGER",ma.getType());
+      assertEquals("Invalid field type!","INT",ma.getType());
 
       mf = mfParent.getMetaField(1);
       assertNull("Parent is not a column!!",mf.getParentMetaColumn());

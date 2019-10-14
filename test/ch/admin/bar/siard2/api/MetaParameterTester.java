@@ -94,7 +94,7 @@ public class MetaParameterTester
   {
     try
     {
-      String sType = "INTEGER";
+      String sType = "INT";
       _mpNew.setType(sType);
       assertEquals("Wrong type!",sType,_mpNew.getType());
       try
