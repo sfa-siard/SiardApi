@@ -286,11 +286,10 @@ public class RecordDispenserImpl
     boolean bContinue = _xsr.isStartElement() && sTag.equals(_xsr.getLocalName());
     while (bContinue && (lSkipped < lSkip))
     {
-      _xsr.nextTag();
+      _xsr.next();
       if (_xsr.isEndElement() && sTag.equals(_xsr.getLocalName()))
       {
         lSkipped++;
-        System.out.println(String.valueOf(lSkipped));
         _xsr.nextTag();
         bContinue = _xsr.isStartElement() && sTag.equals(_xsr.getLocalName());
       }

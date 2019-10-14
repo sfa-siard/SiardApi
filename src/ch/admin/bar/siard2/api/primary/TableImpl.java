@@ -281,11 +281,7 @@ public class TableImpl
         if (rd.get() != null)
           bValid = false;
     }
-    catch(IOException ie) 
-    {
-      bValid = false;
-      System.err.println(EU.getExceptionMessage(ie));
-    }
+    catch(IOException ie) { bValid = false; }
     finally
     {
       if (rd != null)

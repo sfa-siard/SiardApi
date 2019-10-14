@@ -13,6 +13,8 @@ public class ArchiveTester
   private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
   private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
   private static final File _fileSIARD_21 = new File("testfiles/sql2008.siard");
+  private static final File _fileSIARD_BUG = new File("tmp/sybilp_20191001_failed.siard");
+  private static final File _fileSIARD_FIXED = new File("tmp/fixed.siard");
   @SuppressWarnings("unused")
   private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
@@ -413,9 +415,50 @@ public class ArchiveTester
       assertFalse("New archive is valid!",archive.isValid());
       setMandatoryMetaData(archive);
       archive.close();
-      archive = ArchiveImpl.newInstance();
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+  
+  @Test
+  public void testIsValidOld()
+  {
+    System.out.println("testIsValidOld");
+    try
+    {
+      Archive archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_10);
       assertTrue("Old archive is not valid!",archive.isValid());
+      archive.close();
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+  
+  @Test
+  public void testIsValidBug()
+  {
+    System.out.println("testIsValidBug");
+    try
+    {
+      Archive archive = ArchiveImpl.newInstance();
+      archive.open(_fileSIARD_BUG);
+      assertFalse("Bug archive is valid!",archive.isValid());
+      archive.close();
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+  
+  @Test
+  public void testIsValidFixed()
+  {
+    System.out.println("testIsValidBug");
+    try
+    {
+      Archive archive = ArchiveImpl.newInstance();
+      archive.open(_fileSIARD_FIXED);
+      assertTrue("Bug archive is not valid!",archive.isValid());
       archive.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
