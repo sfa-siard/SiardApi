@@ -620,8 +620,7 @@ public class ArchiveImpl
   @Override
   public boolean isValid()
   {
-    if (canModifyPrimaryData())
-      validate();
+    validate();
     return _bValid;
   } /* isValid */
 
