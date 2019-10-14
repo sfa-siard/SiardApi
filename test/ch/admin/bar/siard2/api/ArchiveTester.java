@@ -434,7 +434,8 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
+  /***
   @Test
   public void testIsValidBug()
   {
@@ -453,7 +454,7 @@ public class ArchiveTester
   @Test
   public void testIsValidFixed()
   {
-    System.out.println("testIsValidBug");
+    System.out.println("testIsValidFixed");
     try
     {
       Archive archive = ArchiveImpl.newInstance();
@@ -464,6 +465,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
+  ***/
   
   private Table createTable(Schema schema)
       throws IOException
