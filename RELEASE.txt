@@ -1,8 +1,8 @@
 Release Notes for SiardApi 2.2
 ==============================
 
-2.2.110
-corrected another validation error.
+2.2.96
+Corrected another validation error.
 
 2.2.90
 Corrected validation error (Issue 8).
