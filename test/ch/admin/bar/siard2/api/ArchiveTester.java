@@ -16,6 +16,7 @@ public class ArchiveTester
   @SuppressWarnings("unused")
   private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
+  private static final File _fileSIARD_BUG = new File("tmp/sybil_ifs.siard");
   private static final File _fileMETADATA_XML = new File("tmp/metadata.xml");
   private static final File _fileIMPORT_METADATA_XML = new File("testfiles/import.xml");
   private static final File _fileMETADATA_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/metadata.xsd");
@@ -427,6 +428,21 @@ public class ArchiveTester
       Archive archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_10);
       assertTrue("Old archive is not valid!",archive.isValid());
+      archive.close();
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+
+  @Test
+  public void testIsValidBug()
+  {
+    System.out.println("testIsValidBug");
+    try
+    {
+      Archive archive = ArchiveImpl.newInstance();
+      archive.open(_fileSIARD_BUG);
+      assertTrue("Bug archive is not valid!",archive.isValid());
       archive.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
