@@ -86,7 +86,7 @@ public class MetaAttributeTester
   {
     try
     {
-      String sType = "INTEGER";
+      String sType = "INT";
       _maNew.setType(sType);
       assertEquals("Wrong type!",sType,_maNew.getType());
       try

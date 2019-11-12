@@ -413,7 +413,18 @@ public class ArchiveTester
       assertFalse("New archive is valid!",archive.isValid());
       setMandatoryMetaData(archive);
       archive.close();
-      archive = ArchiveImpl.newInstance();
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+  
+  @Test
+  public void testIsValidOld()
+  {
+    System.out.println("testIsValidOld");
+    try
+    {
+      Archive archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_10);
       assertTrue("Old archive is not valid!",archive.isValid());
       archive.close();
@@ -421,7 +432,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   private Table createTable(Schema schema)
       throws IOException
     {

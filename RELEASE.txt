@@ -1,8 +1,11 @@
 Release Notes for SiardApi 2.2
 ==============================
 
+2.2.99
+Corrected another validation error (before date 0001-01-01 and after 9999-12-31 in non-UTC time zone).
+
 2.2.90
-Corrected validation error (Issue 8)
+Corrected validation error (Issue 8).
 
 2.2.87
 Caching of validation for speeding up open.

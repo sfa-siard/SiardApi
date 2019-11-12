@@ -12,6 +12,8 @@ import java.io.*;
 import java.util.*;
 import javax.xml.stream.*;
 import org.w3c.dom.*;
+
+import ch.enterag.utils.EU;
 import ch.enterag.utils.jaxb.*;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.Table;
@@ -310,7 +312,7 @@ public class RecordDispenserImpl
       else
         throw new IOException("Unexpected end of records encountered!");
     }
-    catch(XMLStreamException xse) { throw new IOException(String.valueOf(lSkip)+" records starting with "+String.valueOf(_lRecord)+" could not be skipped!"); }
+    catch(XMLStreamException xse) { throw new IOException(String.valueOf(lSkip)+" records starting with "+String.valueOf(_lRecord)+" could not be skipped ("+EU.getExceptionMessage(xse)+")!"); }
   } /* skip */
   
   /*------------------------------------------------------------------*/
