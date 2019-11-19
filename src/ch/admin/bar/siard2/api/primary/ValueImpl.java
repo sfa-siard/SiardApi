@@ -433,7 +433,7 @@ public abstract class ValueImpl
       {
         String sTag = getTag(mt, iCardinality, iField);
         Field field = getFieldMap().get(sTag);
-        if (!field.isNull())
+        if ((field != null) && (!field.isNull()))
         {
           Element elField = ((FieldImpl)field).getValue();
           if (elField != null)
