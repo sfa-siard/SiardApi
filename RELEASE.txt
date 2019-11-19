@@ -1,6 +1,9 @@
 Release Notes for SiardApi 2.2
 ==============================
 
+2.2.109
+Fixed shrinking array problem.
+ 
 2.2.99
 Corrected another validation error (before date 0001-01-01 and after 9999-12-31 in non-UTC time zone).
 
