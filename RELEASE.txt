@@ -1,6 +1,9 @@
 Release Notes for SiardApi 2.2
 ==============================
 
+2.2.110
+Corrected treatment of TIMESTAMP and DATE limits.
+
 2.2.109
 Fixed shrinking array problem.
  
