@@ -1344,7 +1344,7 @@ public abstract class ValueImpl
     int iElements = 0;
     int iCardinality = getCardinality();
     if (iCardinality >= 0)
-      iElements = getFieldMap().size();
+      iElements = getMetaValue().getMetaFields();
     return iElements;
   } /* getElements */
   
