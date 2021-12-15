@@ -20,6 +20,9 @@ src/ch/admin/bar/siard2/api/generated/**
 
 /build/
 
-
+# intellij project files
 .idea/
 *.iml
+
+# asdf configuration
+.tool-versions
