@@ -4,7 +4,7 @@
 # Application : SIARD Suite 2.0
 # Description : user-specific build properties of SiardApi
 #-----------------------------------------------------------------------
-# Copyright  : 2016, Enter AG, Rüti ZH, Switzerland
+# Copyright  : 2016, Enter AG, Rï¿½ti ZH, Switzerland
 # Created    : 09.05.2015, Hartwig Thomas
 #=======================================================================
 
@@ -18,20 +18,20 @@
 #-----------------------------------------------------------------------
 #-----------------------------------------------------------------------
 # The deployment folder to which the binaries are to be unzipped.
-dirdeploy=/Users/Hartwig/test
+dirdeploy=~/temp
 #dirdeploy=/home/hartwig/test
 #dirdeploy=D:/Temp
 
 #-----------------------------------------------------------------------
 # The bootstrap class (run-time jar) for compiling code compatible with JSE 1.8.
 #java8rtjar=C:/Program Files/Java/jdk1.8.0_144/jre/lib/rt.jar
-#java8rtjar=/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar
-java8rtjar=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/jre/lib/rt.jar
+java8rtjar=/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar
+#java8rtjar=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/jre/lib/rt.jar
 
 #-----------------------------------------------------------------------
 # The xjc executable in the JAVA distribution.
-xjc=C:/Program Files/Java/jdk-10.0.1/bin/xjc.exe
-#xjc=/usr/lib/jvm/java-8-oracle/bin/xjc
+#xjc=C:/Program Files/Java/jdk-10.0.1/bin/xjc.exe
+xjc=/usr/lib/jvm/java-8-oracle/bin/xjc
 #xjc=/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/bin/xjc
 
 #-----------------------------------------------------------------------
