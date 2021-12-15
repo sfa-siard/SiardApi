@@ -6,6 +6,8 @@
 /tmp/**
 # dist contains the binary build results
 /dist/**
+# target is the default deployment folder where the binaries are unzipped.
+/target
 # generated sources
 src/ch/admin/bar/siard2/api/generated/**
 # build.properties store the user-specific properties 

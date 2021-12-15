@@ -18,7 +18,7 @@
 #-----------------------------------------------------------------------
 #-----------------------------------------------------------------------
 # The deployment folder to which the binaries are to be unzipped.
-dirdeploy=~/temp
+dirdeploy=./target
 #dirdeploy=/home/hartwig/test
 #dirdeploy=D:/Temp
 
