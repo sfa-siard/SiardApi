@@ -334,7 +334,7 @@ Created    : 30.06.2016, Hartwig Thomas
 	<!-- create and run all tests -->
   <property name="classsiardapitestsuite" value="ch.admin.bar.siard2.api._SiardApiTestSuite"/>
   <property name="filesiardapitests" value="siardapi-tests"/>
-	<target name="tests" depends="jar">
+	<target name="test" depends="jar">
     <echo message="${ant.project.name}: tests"/>
 		<!-- build the tests -->
     <javac debug="true" debuglevel="${debuglevel}"
@@ -405,7 +405,7 @@ Created    : 30.06.2016, Hartwig Thomas
   </target>
   
   <!-- create the ZIP file with binaries for Windows and LINUX -->
-  <target name="zip" depends="tests,javadoc">
+  <target name="zip" depends="test,javadoc">
     <echo message="${ant.project.name}: zip"/>
     <zip zipfile="${dirdist}/${ant.project.name}-${version}.${revision}.zip">
       <zipfileset dir="${dirdist}" prefix="${ant.project.name}/${dirlib}">

@@ -18,7 +18,7 @@ ant generate
 
 Run all tests:
 ```bash
-ant tests
+ant test
 ```
 
 Create a release
