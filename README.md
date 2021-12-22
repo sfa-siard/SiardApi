@@ -8,8 +8,7 @@ SIARD Format 2.1
 For building the binaries, Java JDK (1.8 or higher), Ant, and Git must
 have been installed.
 
-Rename build.properties.template to build.properties and change the configuration to your needs - a sensible default is provided that should work on unix systems.
-
+Check `build.properties` and make changes according to your system. No special configuration should be necessary, if the java binaries are available in your `$PATH`.  
 
 Generate Siard 2.1 classes from [metadata.xsd](./doc/specifications/metadata.xsd):
 ```bash
@@ -41,8 +40,6 @@ More information about the build process can be found in
 ## IDEs
 
 No specific IDE is needed. 
-
-The project can be opened in Eclipse. But use of Eclipse is optional.
 
 
 ## Documentation
