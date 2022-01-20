@@ -10,11 +10,6 @@
 /target
 # generated sources
 src/ch/admin/bar/siard2/api/generated/**
-# build.properties store the user-specific properties 
-# and should never be checked in or out.
-# use build.properties.template as a template for 
-# creating your own build.properties.
-
 # sometimes junit4 produces temporary files that we do not want to check in
 /junit*.*
 # bug tests
