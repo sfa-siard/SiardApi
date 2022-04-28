@@ -31,7 +31,6 @@ this target also:
 * runs all tests.
 * copies `siardapi.jar` to the `dist` folder
 * updates [MANIFEST.MF](src/META-INF/MANIFEST.MF)
-* makes a git commit (if git is configure in `build.properties`)
 
 ## IDEs
 
