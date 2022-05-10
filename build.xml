@@ -236,7 +236,7 @@ Created    : 30.06.2016, Hartwig Thomas
   <!-- build the SiardApi classes -->
   <property name="dirbuildapi" value="${dirbuildclasses}/${dirapi}"/>
   <property name="dirbuildres" value="${dirbuildapi}/res"/>
-  <target name="build" depends="revision,generate">
+  <target name="build" depends="generate">
     <echo message="${ant.project.name}: build"/>
     <!-- without this, the package-info class is not generated! -->
     <touch>
@@ -257,10 +257,23 @@ Created    : 30.06.2016, Hartwig Thomas
     	<fileset dir="${dirres}"/>
   	</copy>
   </target>
-  
+
+  <!-- create the JAR file for tests without creating a new revision -->
+  <property name="jarfile" value="${ant.project.name}.jar"/>
+  <target name="jar-test" depends="build">
+    <echo message="${ant.project.name}: jar"/>
+    <jar jarfile="${dirdist}/${jarfile}"
+         manifest="${filemanifest}">
+      <fileset dir="${dirbuildclasses}">
+        <include name="**/*.class"/>
+        <include name="**/res/**/*.*"/>
+      </fileset>
+    </jar>
+  </target>
+
   <!-- create the JAR file containing all classes -->
   <property name="jarfile" value="${ant.project.name}.jar"/>
-  <target name="jar" depends="build">
+  <target name="jar" depends="javadoc,revision">
     <echo message="${ant.project.name}: jar"/>
     <jar jarfile="${dirdist}/${jarfile}"
        manifest="${filemanifest}">
@@ -274,7 +287,7 @@ Created    : 30.06.2016, Hartwig Thomas
 	<!-- create and run all tests -->
   <property name="classsiardapitestsuite" value="ch.admin.bar.siard2.api._SiardApiTestSuite"/>
   <property name="filesiardapitests" value="siardapi-tests"/>
-	<target name="test" depends="jar">
+	<target name="test" depends="jar-test">
     <echo message="${ant.project.name}: tests"/>
 		<!-- build the tests -->
     <javac debug="true" debuglevel="${debuglevel}"
@@ -345,7 +358,7 @@ Created    : 30.06.2016, Hartwig Thomas
   </target>
   
   <!-- create the ZIP file with binaries for Windows and LINUX -->
-  <target name="zip" depends="test,javadoc">
+  <target name="release" depends="jar">
     <echo message="${ant.project.name}: zip"/>
     <zip zipfile="${dirdist}/${ant.project.name}-${version}.${revision}.zip">
       <zipfileset dir="${dirdist}" prefix="${ant.project.name}/${dirlib}">

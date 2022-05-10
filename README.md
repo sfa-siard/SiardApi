@@ -24,7 +24,7 @@ ant test
 Create a release
 
 ```bash
-ant deploy
+ant release
 ```
 
 this target also:
