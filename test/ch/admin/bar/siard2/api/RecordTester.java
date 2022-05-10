@@ -926,31 +926,31 @@ public class RecordTester
     catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
   } /* testVerifySimple */
 
-//  @Test
-//  public void testCreateComplex()
-//  {
-//    try
-//    {
-//      URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
-//      uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
-//      uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
-//      File fileLobsFolder = new File(uriLobsFolder);
-//      FU.deleteFiles(fileLobsFolder);
-//
-//      RecordRetainer rr = _tabComplexNew.createRecords();
-//      Record record = rr.create();
-//      for (int iCell = 0; iCell < record.getCells(); iCell++)
-//      {
-//        Cell cell = record.getCell(iCell);
-//        populateComplexCell(cell,iCell,0);
-//      }
-//      rr.put(record);
-//      rr.close();
-//      assertEquals("Invalid number of rows!",1,_tabComplexNew.getMetaTable().getRows());
-//      
-//    }
-//    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-//  } /* testCreateComplex */
+  @Test
+  public void testCreateComplex()
+  {
+    try
+    {
+      URI uriLobsFolder = _fileSIARD_21_NEW.toURI();
+      uriLobsFolder = URI.create(uriLobsFolder.toString()+"/"); // treat ZIP file as a folder ...
+      uriLobsFolder = uriLobsFolder.resolve(_uriLOBS_FOLDER);
+      File fileLobsFolder = new File(uriLobsFolder);
+      FU.deleteFiles(fileLobsFolder);
+
+      RecordRetainer rr = _tabComplexNew.createRecords();
+      Record record = rr.create();
+      for (int iCell = 0; iCell < record.getCells(); iCell++)
+      {
+        Cell cell = record.getCell(iCell);
+        populateComplexCell(cell,iCell,0);
+      }
+      rr.put(record);
+      rr.close();
+      assertEquals("Invalid number of rows!",1,_tabComplexNew.getMetaTable().getRows());
+
+    }
+    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
+  } /* testCreateComplex */
   
   @Test
   public void testVerifyComplex()

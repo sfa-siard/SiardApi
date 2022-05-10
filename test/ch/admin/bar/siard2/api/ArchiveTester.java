@@ -24,7 +24,7 @@ public class ArchiveTester
   private static final File _fileTABLE_XSD = new File("tmp/table.xsd");
 
   private static final int _iBUFSIZ = 8192;
-  private static final String _sDBNAME = "SIARD 2.1 Test Database";
+  private static final String _sDBNAME = "SIARD 2.2 Test Database";
   private static final String _sTEST_USER_NAME = "TESTUSER";
   private static final String _sTEST_SCHEMA_NAME = "TESTSCHEMA";
   private static final String _sTEST_TABLE_NAME = "TESTTABLE";
@@ -159,11 +159,9 @@ public class ArchiveTester
       archive.open(_fileSIARD_21);
       assertSame("Can modify primary data after open!",false,archive.canModifyPrimaryData());
       MetaData md = archive.getMetaData();
-      assertEquals("Open failed!","2.1",md.getVersion());
-      assertEquals("Open failed!","SIARD 2.1 Test Database",md.getDbName());
+      assertEquals("Open failed!","2.2",md.getVersion());
       archive.close();
     }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
   
@@ -361,7 +359,7 @@ public class ArchiveTester
       assertFalse("New archive without primary data is valid!",archive.isValid());
       MetaData md = archive.getMetaData();
       md.setLobFolder(null);
-      assertEquals("DbName not set correctly!","SIARD 2.1 Test Database",md.getDbName());
+      assertEquals("DbName not set correctly!","SIARD 2.2 Test Database",md.getDbName());
       assertEquals("DataOwner not set correctly!","Enter AG, Rüti ZH, Switzerland",md.getDataOwner());
       assertEquals("DataOriginTimespan not set correctly!","Second half of 2016",md.getDataOriginTimespan());
       assertEquals("Wrong number of schemas!",1,archive.getSchemas());

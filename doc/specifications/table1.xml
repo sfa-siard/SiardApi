@@ -2,7 +2,7 @@
 <table xmlns="http://www.bar.admin.ch/xmlns/siard/2/table.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.bar.admin.ch/xmlns/siard/2/table.xsd table1.xsd"
-	version="2.1">
+	version="2.2">
 	<row>
 		<c1>1234567890</c1>
 		<c2>987654321</c2>

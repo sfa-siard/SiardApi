@@ -20,10 +20,10 @@ public class ArchiveImpl
   public static String getHeaderFolder() { return _sHEADER_FOLDER; }
   private static final String _sCONTENT_FOLDER = "content/";
   public static String getContentFolder() { return _sCONTENT_FOLDER; }
-  private static final String _sSIARDVERSION_FOLDER = "siardversion/";
-  private static final String _sSIARDVERSION_FOLDER_2_0 = "version/";
+  private static final String  _sSIARDVERSION_FOLDER = "siardversion/";
   public static String getSiardVersionFolder() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER+Archive.sMETA_DATA_VERSION+"/"; }
-  public static String getSiardVersionFolder20() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER_2_0+Archive.sMETA_DATA_VERSION_2_0+"/"; }
+  public static String getSiardVersionFolder21() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER+Archive.sMETA_DATA_VERSION_2_1+"/"; }
+  public static String getSiardVersionFolder20() { return _sHEADER_FOLDER+_sSIARDVERSION_FOLDER+Archive.sMETA_DATA_VERSION_2_0+"/"; }
   private static final String _sMETADATA_XML = "metadata.xml";
   public static String getMetaDataXml() { return _sHEADER_FOLDER+_sMETADATA_XML; }
   private static final String _sMETADATA_XSD = "metadata.xsd";
@@ -329,9 +329,9 @@ public class ArchiveImpl
     FileEntry feMetaData = getZipFile().getFileEntry(getMetaDataXml());
     if (feMetaData != null)
     {
-      SiardArchive sa = null;
-      // format version 2.1
-      if (existsFolderEntry(getSiardVersionFolder()))
+      SiardArchive sa;
+      // format versions 2.1, 2.2
+      if (existsFolderEntry(getSiardVersionFolder21()) || existsFolderEntry(getSiardVersionFolder()))
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
         sa = MetaDataXml.readXml(isMetaData);

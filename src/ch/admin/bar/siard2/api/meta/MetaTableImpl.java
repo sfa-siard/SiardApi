@@ -47,6 +47,7 @@ public class MetaTableImpl
   @Override public Table getTable() { return _table; }
   
   /*------------------------------------------------------------------*/
+  /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override public boolean isValid() 
   {

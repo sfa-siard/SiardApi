@@ -5,7 +5,7 @@
   targetNamespace="http://www.bar.admin.ch/xmlns/siard/2/table.xsd" 
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
-  version="2.1">
+  version="2.2">
 
   <!-- root element is the table element --> 
   <xs:element name="table">
@@ -105,16 +105,13 @@
   <xs:simpleType name="versionType">
     <xs:annotation>
       <xs:documentation>
-        versionType is constrained to "2.1"
+        versionType is constrained to "2.2"
         for conformity with this XML schema
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:whiteSpace value="collapse"/>
-      <xs:enumeration value="2.1"/>
-      <!--  to be extended later with
-      <xs.enumeration value="2.2"/>
-      etc. -->
+      <xs:enumeration value="2.2"/>
     </xs:restriction>
   </xs:simpleType>
   
