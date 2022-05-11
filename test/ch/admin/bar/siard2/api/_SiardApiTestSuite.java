@@ -1,6 +1,6 @@
 package ch.admin.bar.siard2.api;
 
-import ch.admin.bar.siard2.api.primary.MetaDataXmlTester;
+import ch.admin.bar.siard2.api.primary.MetaDataXmlTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
         MetaAttributeTester.class,
         MetaColumnTester.class,
         MetaDataTester.class,
-        MetaDataXmlTester.class,
+        MetaDataXmlTest.class,
         MetaFieldTester.class,
         MetaParameterTester.class,
         MetaRoutineTester.class,
