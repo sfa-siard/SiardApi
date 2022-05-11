@@ -40,6 +40,19 @@ public class MetaDataXmlTester {
         assertEquals(sa.getDbname(), "SIARD 2.2 MetaData");
     }
 
+
+    @Test
+    public void shouldReadSiard21XmlMetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
+
+        // then
+        assertEquals(sa.getDbname(), "SIARD 2.1 MetaData");
+    }
+
     @Test
     public void shouldNotReadSiard22XmlMetaData_ForSiard10_MetaData() throws FileNotFoundException {
         // given
@@ -49,8 +62,33 @@ public class MetaDataXmlTester {
         SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
 
         // then
-        assertNull("should not have loaded a siard archive instance for metadata v 1.1", sa);
+        assertNull("should not have loaded a siard archive instance for metadata v 1.0", sa);
     }
+
+    @Test
+    public void shouldNotReadSiard21XmlMetaData_ForSiard10_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 1.0", sa);
+    }
+
+    @Test
+    public void shouldNotReadSiard21XmlMetaData_ForSiard22_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 2.2", sa);
+    }
+
 
     @Test
     public void shouldNotReadSiard22XmlMetatData_ForSiard21_MetaData() throws FileNotFoundException {
@@ -89,4 +127,5 @@ public class MetaDataXmlTester {
         // then
         assertNull("should not have loaded a siard archive instance for metadata v 2.2", sa);
     }
+
 }

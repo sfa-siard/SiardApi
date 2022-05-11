@@ -30,7 +30,7 @@ public class MetaDataXml
   /** logger */
   private static IndentLogger _il = IndentLogger.getIndentLogger(MetaDataXml.class.getName());
   public static final String sSIARD10_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old10/metadata.xsd";
-  public static final String sSIARD20_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old20/metadata.xsd";
+  public static final String sSIARD21_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old21/metadata.xsd";
   private static ObjectFactory _of = new ObjectFactory();
 
   private static String convertType(String sType)
@@ -571,7 +571,19 @@ public class MetaDataXml
     }
     return sa;
   } /* readXml */
-  
+
+  public static SiardArchive readSiard21Xml(FileInputStream fileInputStream) {
+    SiardArchive sa = null;
+    try {
+      URL urlXsd = Archive.class.getResource(sSIARD21_XSD_RESOURCE);
+      sa = Io.readJaxbObject(SiardArchive.class, fileInputStream, urlXsd);
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
+    }
+    return sa;
+  }
+
   /*------------------------------------------------------------------*/
   /** read an "old" meta data XML file using SIARD Format version 1.0 and 
    * convert it to the current format.
@@ -619,5 +631,6 @@ public class MetaDataXml
     else
       Io.writeJaxbObject(sa, osXml,null,null,true);
   } /* writeXml */
-  
+
+
 } /* class MetaDataXml */
