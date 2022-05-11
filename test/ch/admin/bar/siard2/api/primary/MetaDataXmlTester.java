@@ -1,69 +1,92 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import javax.xml.bind.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import ch.enterag.utils.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.SiardArchive;
+import org.junit.Test;
 
-public class MetaDataXmlTester
-{
-  @Test
-  public void testLoadXml()
-  {
-    try
-    {
-      FileInputStream fis = new FileInputStream("testfiles/metadata2011-20.xml");
-      SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
-      fis.close();
-      System.out.println(sa.getDbname());
-    }
-    catch (FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch (Exception e) { fail(EU.getExceptionMessage(e)); }
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
-    try
-    {
-      FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
-      fis.close();
-      System.out.println(sa.getDbname());
-      fail("Old XML cannot be parsed using new XSD!");
-    }
-    catch (FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch (Exception e) { System.err.println(EU.getExceptionMessage(e)); }
-  }
-  
-  @Test
-  public void testLoadXmlOld10()
-  {
-    try
-    {
-      FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
-      fis.close();
-      if (sa == null)
-        fail(" XML version 1.0 cannot be parsed using XSD version 1.0!");
-    }
-    catch (FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-    try
-    {
-      FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
-      fis.close();
-      System.out.println(sa.getDbname());
-      
-      FileOutputStream fos = new FileOutputStream("testfiles/metadata2011-21.xml");
-      MetaDataXml.writeXml(sa,fos,true);
-      fos.close();
-    }
-    catch (FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
-    catch (IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch (JAXBException je) { fail(EU.getExceptionMessage(je)); }
-  }
+public class MetaDataXmlTester {
+    private static final String TESTFILES_METADATA_DIR = "testfiles/metadata/";
+    private static final String METADATA_2_2_XML = "metadata-2.2.xml";
+    private static final String METADATA_1_0_XML = "metadata-1.0.xml";
+    private static final String METADATA_2_1_XML = "metadata-2.1.xml";
 
+    @Test
+    public void shoudReadSiard10XmlMetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+
+
+        // then
+        assertEquals(sa.getDbname(), "SIARD 1.0 MetaData");
+    }
+
+    @Test
+    public void shouldReadSiard22XmlMetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
+
+        // then
+        assertEquals(sa.getDbname(), "SIARD 2.2 MetaData");
+    }
+
+    @Test
+    public void shouldNotReadSiard22XmlMetaData_ForSiard10_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 1.1", sa);
+    }
+
+    @Test
+    public void shouldNotReadSiard22XmlMetatData_ForSiard21_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 2.1", sa);
+    }
+
+    @Test
+    public void shouldNotReadSiard10XmlMetaData_ForSiard21_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 2.1", sa);
+    }
+
+    @Test
+    public void shouldNotReadSiard10XmlMetaData_ForSiard22_MetaData() throws FileNotFoundException {
+        // given
+        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+
+        // when
+        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+
+
+        // then
+        assertNull("should not have loaded a siard archive instance for metadata v 2.2", sa);
+    }
 }
