@@ -565,8 +565,10 @@ public class MetaDataXml
     {
       URL urlXsd = Archive.class.getResource(Archive.sSIARD2_META_DATA_XSD_RESOURCE);
       sa = Io.readJaxbObject(SiardArchive.class, isXml, urlXsd);
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
     }
-    catch (JAXBException je) { _il.exception(je); System.err.println(EU.getExceptionMessage(je)); }
     return sa;
   } /* readXml */
   
@@ -587,8 +589,10 @@ public class MetaDataXml
         Io.readJaxbObject(ch.admin.bar.siard2.api.generated.old10.SiardArchive.class, isXml, urlXsd);
       if (saOld10 != null)
         sa = convertArchive(saOld10);
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
     }
-    catch (JAXBException je) { _il.exception(je); System.err.println(EU.getExceptionMessage(je)); }
     return sa;
   } /* readXmlOld10 */
 
