@@ -346,7 +346,7 @@ public class ArchiveImpl
       else
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
-        sa = MetaDataXml.readXmlOld10(isMetaData);
+        sa = MetaDataXml.readSiard10Xml(isMetaData);
         isMetaData.close();
         _sPreviousMetaDataVersion = Archive.sMETA_DATA_VERSION_1_0;
       }

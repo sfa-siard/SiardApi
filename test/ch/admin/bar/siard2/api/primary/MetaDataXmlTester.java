@@ -42,7 +42,7 @@ public class MetaDataXmlTester
     try
     {
       FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readXmlOld10(fis);
+      SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
       fis.close();
       if (sa == null)
         fail(" XML version 1.0 cannot be parsed using XSD version 1.0!");
@@ -53,7 +53,7 @@ public class MetaDataXmlTester
     try
     {
       FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readXmlOld10(fis);
+      SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
       fis.close();
       System.out.println(sa.getDbname());
       

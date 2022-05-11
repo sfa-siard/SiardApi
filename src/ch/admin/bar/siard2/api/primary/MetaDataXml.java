@@ -577,13 +577,13 @@ public class MetaDataXml
    * @return meta data in current format or null, if it did not conform
    *         to SIARD Format 1.0.
    */
-  public static SiardArchive readXmlOld10(InputStream isXml)
+  public static SiardArchive readSiard10Xml(InputStream isXml)
   {
     SiardArchive sa = null;
     try
     {
       URL urlXsd = Archive.class.getResource(sSIARD10_XSD_RESOURCE);
-      ch.admin.bar.siard2.api.generated.old10.SiardArchive saOld10 = 
+      ch.admin.bar.siard2.api.generated.old10.SiardArchive saOld10 =
         Io.readJaxbObject(ch.admin.bar.siard2.api.generated.old10.SiardArchive.class, isXml, urlXsd);
       if (saOld10 != null)
         sa = convertArchive(saOld10);
