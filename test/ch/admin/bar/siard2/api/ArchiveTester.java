@@ -324,7 +324,7 @@ public class ArchiveTester
       archive.close();
       // read and check exported data
       FileInputStream fis = new FileInputStream(_fileMETADATA_XML);
-      SiardArchive sa = MetaDataXml.readXml(fis);
+      SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
       fis.close();
       assertEquals("Dbname not exported correctly!",_sDBNAME,sa.getDbname());
       assertEquals("Data owner not exported correctly!",_sDATA_OWNER,sa.getDataOwner());

@@ -558,7 +558,7 @@ public class MetaDataXml
    * @return meta data.
    * @throws JAXBException if a validation error occurred.
    */
-  public static SiardArchive readXml(InputStream isXml)
+  public static SiardArchive readSiard22Xml(InputStream isXml)
   {
     SiardArchive sa = null;
     try

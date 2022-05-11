@@ -15,7 +15,7 @@ public class MetaDataXmlTester
     try
     {
       FileInputStream fis = new FileInputStream("testfiles/metadata2011-20.xml");
-      SiardArchive sa = MetaDataXml.readXml(fis);
+      SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
       fis.close();
       System.out.println(sa.getDbname());
     }
@@ -26,7 +26,7 @@ public class MetaDataXmlTester
     try
     {
       FileInputStream fis = new FileInputStream("testfiles/metadata2011-10.xml");
-      SiardArchive sa = MetaDataXml.readXml(fis);
+      SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
       fis.close();
       System.out.println(sa.getDbname());
       fail("Old XML cannot be parsed using new XSD!");

@@ -286,7 +286,7 @@ public class ArchiveImpl
   public void importMetaDataTemplate(InputStream isXml)
     throws IOException
   {
-    SiardArchive saTemplate = MetaDataXml.readXml(isXml);
+    SiardArchive saTemplate = MetaDataXml.readSiard22Xml(isXml);
     if (saTemplate != null)
     {
       if (getZipFile() == null) /* import before open or create goes to temporary SIARD file */
@@ -334,7 +334,7 @@ public class ArchiveImpl
       if (existsFolderEntry(getSiardVersionFolder21()) || existsFolderEntry(getSiardVersionFolder()))
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
-        sa = MetaDataXml.readXml(isMetaData);
+        sa = MetaDataXml.readSiard22Xml(isMetaData);
         isMetaData.close();
       }
       // format version 2.0 (abrogated)

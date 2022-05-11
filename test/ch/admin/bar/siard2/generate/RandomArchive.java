@@ -74,7 +74,7 @@ public class RandomArchive
     try
     {
       FileInputStream fis = new FileInputStream(fileInput);
-      _sa = MetaDataXml.readXml(fis);
+      _sa = MetaDataXml.readSiard22Xml(fis);
       fis.close();
       if (_sa != null)
         iReturn = iRETURN_OK;
