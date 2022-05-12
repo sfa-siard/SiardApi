@@ -18,20 +18,23 @@ public class MetaDataXmlTest {
     @Test
     public void shoudReadSiard10XmlMetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+        FileInputStream fis = getFileInputStream(METADATA_1_0_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
-
 
         // then
         assertEquals(sa.getDbname(), "SIARD 1.0 MetaData");
     }
 
+    private FileInputStream getFileInputStream(String metadata10Xml) throws FileNotFoundException {
+        return new FileInputStream(TESTFILES_METADATA_DIR + metadata10Xml);
+    }
+
     @Test
     public void shouldReadSiard22XmlMetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_2_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
@@ -44,7 +47,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldReadSiard21XmlMetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_1_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
@@ -56,7 +59,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard22XmlMetaData_ForSiard10_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+        FileInputStream fis = getFileInputStream(METADATA_1_0_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
@@ -68,7 +71,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard21XmlMetaData_ForSiard10_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_1_0_XML);
+        FileInputStream fis = getFileInputStream(METADATA_1_0_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
@@ -80,7 +83,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard21XmlMetaData_ForSiard22_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_2_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard21Xml(fis);
@@ -93,7 +96,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard22XmlMetatData_ForSiard21_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_1_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard22Xml(fis);
@@ -105,7 +108,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard10XmlMetaData_ForSiard21_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_1_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_1_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
@@ -118,7 +121,7 @@ public class MetaDataXmlTest {
     @Test
     public void shouldNotReadSiard10XmlMetaData_ForSiard22_MetaData() throws FileNotFoundException {
         // given
-        FileInputStream fis = new FileInputStream(TESTFILES_METADATA_DIR + METADATA_2_2_XML);
+        FileInputStream fis = getFileInputStream(METADATA_2_2_XML);
 
         // when
         SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
@@ -127,5 +130,4 @@ public class MetaDataXmlTest {
         // then
         assertNull("should not have loaded a siard archive instance for metadata v 2.2", sa);
     }
-
 }
