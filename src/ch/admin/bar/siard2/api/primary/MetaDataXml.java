@@ -591,7 +591,7 @@ public class MetaDataXml
    * @return meta data in current format or null, if it did not conform
    *         to SIARD Format 1.0.
    */
-  public static SiardArchive readSiard10Xml(InputStream isXml)
+  public static SiardArchive readAndConvertSiard10Xml(InputStream isXml)
   {
     SiardArchive sa = null;
     try

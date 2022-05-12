@@ -81,7 +81,7 @@ public class RandomArchive
       else
       {
         fis = new FileInputStream(fileInput);
-        _sa = MetaDataXml.readSiard10Xml(fis);
+        _sa = MetaDataXml.readAndConvertSiard10Xml(fis);
         fis.close();
         if (_sa != null)
           iReturn = iRETURN_OK;

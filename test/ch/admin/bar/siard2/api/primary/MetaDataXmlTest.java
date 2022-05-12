@@ -21,7 +21,7 @@ public class MetaDataXmlTest {
         FileInputStream fis = getFileInputStream(METADATA_1_0_XML);
 
         // when
-        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+        SiardArchive sa = MetaDataXml.readAndConvertSiard10Xml(fis);
 
         // then
         assertEquals(sa.getDbname(), "SIARD 1.0 MetaData");
@@ -111,7 +111,7 @@ public class MetaDataXmlTest {
         FileInputStream fis = getFileInputStream(METADATA_2_1_XML);
 
         // when
-        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+        SiardArchive sa = MetaDataXml.readAndConvertSiard10Xml(fis);
 
 
         // then
@@ -124,7 +124,7 @@ public class MetaDataXmlTest {
         FileInputStream fis = getFileInputStream(METADATA_2_2_XML);
 
         // when
-        SiardArchive sa = MetaDataXml.readSiard10Xml(fis);
+        SiardArchive sa = MetaDataXml.readAndConvertSiard10Xml(fis);
 
 
         // then
