@@ -9,6 +9,15 @@ public class ConvertableSiard21Archive extends ch.admin.bar.siard2.api.generated
     }
 
     public <T> T transform(Siard21Transformer transformer) {
-        return transformer.transform();
+        return transformer.transform(this.dbname,
+                                     this.description,
+                                     this.archiver,
+                                     this.archiverContact,
+                                     this.dataOwner,
+                                     this.dataOriginTimespan,
+                                     this.lobFolder,
+                                     this.producerApplication,
+                                     this.archivalDate,
+                                     this.connection);
     }
 }
