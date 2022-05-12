@@ -25,11 +25,9 @@ public class MetaDataXmlTest {
 
         // then
         assertEquals(sa.getDbname(), "SIARD 1.0 MetaData");
+        assertIsSiard22Archive(sa);
     }
 
-    private FileInputStream getFileInputStream(String metadata10Xml) throws FileNotFoundException {
-        return new FileInputStream(TESTFILES_METADATA_DIR + metadata10Xml);
-    }
 
     @Test
     public void shouldReadSiard22XmlMetaData() throws FileNotFoundException {
@@ -41,6 +39,7 @@ public class MetaDataXmlTest {
 
         // then
         assertEquals(sa.getDbname(), "SIARD 2.2 MetaData");
+        assertIsSiard22Archive(sa);
     }
 
 
@@ -54,6 +53,7 @@ public class MetaDataXmlTest {
 
         // then
         assertEquals(sa.getDbname(), "SIARD 2.1 MetaData");
+        assertIsSiard22Archive(sa);
     }
 
     @Test
@@ -130,4 +130,13 @@ public class MetaDataXmlTest {
         // then
         assertNull("should not have loaded a siard archive instance for metadata v 2.2", sa);
     }
+
+    private void assertIsSiard22Archive(SiardArchive sa) {
+        assertEquals(sa.getClass().getName(), "ch.admin.bar.siard2.api.generated.SiardArchive");
+    }
+
+    private FileInputStream getFileInputStream(String metadata10Xml) throws FileNotFoundException {
+        return new FileInputStream(TESTFILES_METADATA_DIR + metadata10Xml);
+    }
+
 }
