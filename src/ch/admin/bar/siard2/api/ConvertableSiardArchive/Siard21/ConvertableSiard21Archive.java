@@ -20,6 +20,7 @@ public class ConvertableSiard21Archive extends ch.admin.bar.siard2.api.generated
                                      this.archivalDate,
                                      this.connection,
                                      this.messageDigest,
-                                     this.clientMachine);
+                                     this.clientMachine,
+                                     this.databaseProduct);
     }
 }

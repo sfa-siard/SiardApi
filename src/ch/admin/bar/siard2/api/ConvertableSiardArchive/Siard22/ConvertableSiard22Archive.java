@@ -11,7 +11,8 @@ class ConvertableSiard22Archive extends SiardArchive {
     ConvertableSiard22Archive(String dbName, String description, String archiver, String archiverContact,
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
                               XMLGregorianCalendar archivalDate, String connection,
-                              List<MessageDigestType> messageDigest, String clientMachine) {
+                              List<MessageDigestType> messageDigest, String clientMachine,
+                              String databaseProduct) {
         super();
         this.dbname = dbName;
         this.description = description;
@@ -25,6 +26,7 @@ class ConvertableSiard22Archive extends SiardArchive {
         this.connection = connection;
         this.messageDigest = messageDigest;
         this.clientMachine = clientMachine;
+        this.databaseProduct = databaseProduct;
     }
 }
 

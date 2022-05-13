@@ -13,7 +13,8 @@ class ToSiardArchive22Transformer implements Siard21Transformer<ConvertableSiard
                                                String archiverContact, String dataOwner, String dataOriginTimespan,
                                                String lobFolder, String producerApplication,
                                                XMLGregorianCalendar archivalDate, String connection,
-                                               List<MessageDigestType> messageDigest, String clientMachine) {
+                                               List<MessageDigestType> messageDigest, String clientMachine,
+                                               String databaseProduct) {
 
         return new ConvertableSiard22Archive(dbName,
                                              description,
@@ -26,7 +27,8 @@ class ToSiardArchive22Transformer implements Siard21Transformer<ConvertableSiard
                                              archivalDate,
                                              connection,
                                              ConvertableSiard22MessageDigestType.from(messageDigest),
-                                             clientMachine);
+                                             clientMachine,
+                                             databaseProduct);
     }
 
 }

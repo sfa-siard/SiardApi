@@ -44,6 +44,7 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
                      result.getMessageDigest().get(0).getDigestType());
         assertEquals(CLIENT_MACHINE, result.getClientMachine());
+        assertEquals(DATABASE_PRODUCT, result.getDatabaseProduct());
 
     }
 
@@ -63,6 +64,7 @@ public class ConvertableSiard21ArchiveTest {
         messageDigestType.setDigestType(DigestTypeType.SHA_256);
         archive.getMessageDigest().add(messageDigestType);
         archive.setClientMachine(CLIENT_MACHINE);
+        archive.setDatabaseProduct(DATABASE_PRODUCT);
 
         archive.setConnection(CONNECTION);
 
@@ -82,4 +84,5 @@ public class ConvertableSiard21ArchiveTest {
     private static final String CONNECTION = "Connection";
     private static final String MESSAGE_DIGEST = "Message Digest";
     private static final String CLIENT_MACHINE = "Client Machine";
+    private static final String DATABASE_PRODUCT = "Database Product";
 }
