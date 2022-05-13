@@ -9,5 +9,5 @@ public interface Siard21Transformer<T> {
     T transform(String dbName, String description, String archiver, String archiverContact, String dataOwner,
                 String dataOriginTimespan, String lobFolder, String producerApplication,
                 XMLGregorianCalendar archivalDate, List<MessageDigestType> messageDigest, String clientMachine,
-                String databaseProduct, String connection);
+                String databaseProduct, String connection, String databaseUser);
 }

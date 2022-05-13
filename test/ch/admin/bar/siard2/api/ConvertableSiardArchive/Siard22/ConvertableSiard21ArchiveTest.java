@@ -45,6 +45,7 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(CLIENT_MACHINE, result.getClientMachine());
         assertEquals(DATABASE_PRODUCT, result.getDatabaseProduct());
         assertEquals(CONNECTION, result.getConnection());
+        assertEquals(DATABASE_USER, result.getDatabaseUser());
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
@@ -65,7 +66,7 @@ public class ConvertableSiard21ArchiveTest {
         archive.setClientMachine(CLIENT_MACHINE);
         archive.setDatabaseProduct(DATABASE_PRODUCT);
         archive.setConnection(CONNECTION);
-
+        archive.setDatabaseUser(DATABASE_USER);
         return archive;
     }
 
@@ -83,4 +84,5 @@ public class ConvertableSiard21ArchiveTest {
     private static final String MESSAGE_DIGEST = "Message Digest";
     private static final String CLIENT_MACHINE = "Client Machine";
     private static final String DATABASE_PRODUCT = "Database Product";
+    private static final String DATABASE_USER = "Database User";
 }
