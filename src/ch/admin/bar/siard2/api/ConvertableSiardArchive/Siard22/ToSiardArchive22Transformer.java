@@ -2,6 +2,7 @@ package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.Siard21Transformer;
 import ch.admin.bar.siard2.api.generated.old21.MessageDigestType;
+import ch.admin.bar.siard2.api.generated.old21.SchemasType;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
@@ -14,7 +15,7 @@ class ToSiardArchive22Transformer implements Siard21Transformer<ConvertableSiard
                                                String lobFolder, String producerApplication,
                                                XMLGregorianCalendar archivalDate, List<MessageDigestType> messageDigest,
                                                String clientMachine, String databaseProduct, String connection,
-                                               String databaseUser) {
+                                               String databaseUser, SchemasType schemas) {
 
         return new ConvertableSiard22Archive(dbName,
                                              description,
@@ -29,7 +30,8 @@ class ToSiardArchive22Transformer implements Siard21Transformer<ConvertableSiard
                                              clientMachine,
                                              databaseProduct,
                                              connection,
-                                             databaseUser);
+                                             databaseUser,
+                                             schemas);
     }
 
 }

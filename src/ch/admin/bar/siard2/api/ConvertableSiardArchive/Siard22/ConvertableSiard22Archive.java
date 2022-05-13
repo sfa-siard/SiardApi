@@ -2,6 +2,7 @@ package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.generated.MessageDigestType;
 import ch.admin.bar.siard2.api.generated.SiardArchive;
+import ch.admin.bar.siard2.api.generated.old21.SchemasType;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
@@ -12,7 +13,8 @@ class ConvertableSiard22Archive extends SiardArchive {
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
                               XMLGregorianCalendar archivalDate,
                               List<MessageDigestType> messageDigest, String clientMachine,
-                              String databaseProduct, String connection, String databaseUser) {
+                              String databaseProduct, String connection, String databaseUser,
+                              SchemasType schemas) {
         super();
         this.dbname = dbName;
         this.description = description;
@@ -28,6 +30,7 @@ class ConvertableSiard22Archive extends SiardArchive {
         this.databaseProduct = databaseProduct;
         this.connection = connection;
         this.databaseUser = databaseUser;
+        this.schemas = new ch.admin.bar.siard2.api.generated.SchemasType();
     }
 }
 

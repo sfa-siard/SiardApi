@@ -22,6 +22,7 @@ public class ConvertableSiard21Archive extends ch.admin.bar.siard2.api.generated
                                      this.clientMachine,
                                      this.databaseProduct,
                                      this.connection,
-                                     this.databaseUser);
+                                     this.databaseUser,
+                                     this.schemas);
     }
 }
