@@ -39,13 +39,12 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(LOB_FOLDER, result.getLobFolder());
         assertEquals(PRODUCER_APPLICATION, result.getProducerApplication());
         assertEquals(ARCHIVAL_DATE, result.getArchivalDate());
-        assertEquals(CONNECTION, result.getConnection());
         assertEquals(MESSAGE_DIGEST, result.getMessageDigest().get(0).getDigest());
         assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
                      result.getMessageDigest().get(0).getDigestType());
         assertEquals(CLIENT_MACHINE, result.getClientMachine());
         assertEquals(DATABASE_PRODUCT, result.getDatabaseProduct());
-
+        assertEquals(CONNECTION, result.getConnection());
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
@@ -65,7 +64,6 @@ public class ConvertableSiard21ArchiveTest {
         archive.getMessageDigest().add(messageDigestType);
         archive.setClientMachine(CLIENT_MACHINE);
         archive.setDatabaseProduct(DATABASE_PRODUCT);
-
         archive.setConnection(CONNECTION);
 
         return archive;

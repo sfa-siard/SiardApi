@@ -8,6 +8,6 @@ import java.util.List;
 public interface Siard21Transformer<T> {
     T transform(String dbName, String description, String archiver, String archiverContact, String dataOwner,
                 String dataOriginTimespan, String lobFolder, String producerApplication,
-                XMLGregorianCalendar archivalDate, String connection,
-                List<MessageDigestType> messageDigest, String clientMachine, String databaseProduct);
+                XMLGregorianCalendar archivalDate, List<MessageDigestType> messageDigest, String clientMachine,
+                String databaseProduct, String connection);
 }

@@ -10,9 +10,9 @@ import java.util.List;
 class ConvertableSiard22Archive extends SiardArchive {
     ConvertableSiard22Archive(String dbName, String description, String archiver, String archiverContact,
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
-                              XMLGregorianCalendar archivalDate, String connection,
+                              XMLGregorianCalendar archivalDate,
                               List<MessageDigestType> messageDigest, String clientMachine,
-                              String databaseProduct) {
+                              String databaseProduct, String connection) {
         super();
         this.dbname = dbName;
         this.description = description;
@@ -23,10 +23,10 @@ class ConvertableSiard22Archive extends SiardArchive {
         this.lobFolder = lobFolder;
         this.producerApplication = producerApplication;
         this.archivalDate = archivalDate;
-        this.connection = connection;
         this.messageDigest = messageDigest;
         this.clientMachine = clientMachine;
         this.databaseProduct = databaseProduct;
+        this.connection = connection;
     }
 }
 
