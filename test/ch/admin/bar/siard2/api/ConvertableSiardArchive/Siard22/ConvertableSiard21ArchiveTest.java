@@ -8,6 +8,7 @@ import ch.admin.bar.siard2.api.generated.old21.MessageDigestType;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 public class ConvertableSiard21ArchiveTest {
 
 
-    public static final String CONNECTION = "Connection";
+
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -44,6 +45,7 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(MESSAGE_DIGEST, result.getMessageDigest().get(0).getDigest());
         assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
                      result.getMessageDigest().get(0).getDigestType());
+        assertEquals(CLIENT_MACHINE, result.getClientMachine());
 
     }
 
@@ -62,6 +64,7 @@ public class ConvertableSiard21ArchiveTest {
         messageDigestType.setDigest(MESSAGE_DIGEST);
         messageDigestType.setDigestType(DigestTypeType.SHA_256);
         archive.getMessageDigest().add(messageDigestType);
+        archive.setClientMachine(CLIENT_MACHINE);
 
         archive.setConnection(CONNECTION);
 
@@ -77,7 +80,9 @@ public class ConvertableSiard21ArchiveTest {
     public static final String LOB_FOLDER = "/lob/folder";
     public static final String PRODUCER_APPLICATION = "Producer Application";
     public static final XMLGregorianCalendarImpl ARCHIVAL_DATE = new XMLGregorianCalendarImpl(new GregorianCalendar(2020,
-                                                                                                                    2,
+                                                                                                                    Calendar.MARCH,
                                                                                                                     16));
+    public static final String CONNECTION = "Connection";
     public static final String MESSAGE_DIGEST = "Message Digest";
+    public static final String CLIENT_MACHINE = "Client Machine";
 }
