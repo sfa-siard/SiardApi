@@ -17,8 +17,6 @@ import static org.junit.Assert.assertNotNull;
 public class ConvertableSiard21ArchiveTest {
 
 
-
-
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
 
@@ -76,13 +74,12 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ARCHIVER = "Archiver";
     private static final String ARCHIVER_CONTACT = "Archiver Contact";
     private static final String DATA_OWNER = "Data Owner";
-    public static final String DATA_ORIGIN_TIMESPAN = "First half of 2020";
-    public static final String LOB_FOLDER = "/lob/folder";
-    public static final String PRODUCER_APPLICATION = "Producer Application";
-    public static final XMLGregorianCalendarImpl ARCHIVAL_DATE = new XMLGregorianCalendarImpl(new GregorianCalendar(2020,
-                                                                                                                    Calendar.MARCH,
-                                                                                                                    16));
-    public static final String CONNECTION = "Connection";
-    public static final String MESSAGE_DIGEST = "Message Digest";
-    public static final String CLIENT_MACHINE = "Client Machine";
+    private static final String DATA_ORIGIN_TIMESPAN = "First half of 2020";
+    private static final String LOB_FOLDER = "/lob/folder";
+    private static final String PRODUCER_APPLICATION = "Producer Application";
+    private static final GregorianCalendar MARCH_16_2020 = new GregorianCalendar(2020, Calendar.MARCH, 16);
+    private static final XMLGregorianCalendarImpl ARCHIVAL_DATE = new XMLGregorianCalendarImpl(MARCH_16_2020);
+    private static final String CONNECTION = "Connection";
+    private static final String MESSAGE_DIGEST = "Message Digest";
+    private static final String CLIENT_MACHINE = "Client Machine";
 }
