@@ -8,7 +8,7 @@ public class ConvertableSiard21Archive extends ch.admin.bar.siard2.api.generated
         super();
     }
 
-    public <T> T transform(Siard21Transformer transformer) {
+    public <T> T transform(Siard21Transformer<T> transformer) {
         return transformer.transform(this.dbname,
                                      this.description,
                                      this.archiver,
@@ -18,6 +18,7 @@ public class ConvertableSiard21Archive extends ch.admin.bar.siard2.api.generated
                                      this.lobFolder,
                                      this.producerApplication,
                                      this.archivalDate,
-                                     this.connection);
+                                     this.connection,
+                                     this.messageDigest);
     }
 }

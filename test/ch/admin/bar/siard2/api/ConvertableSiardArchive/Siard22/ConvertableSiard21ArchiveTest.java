@@ -41,9 +41,9 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(PRODUCER_APPLICATION, result.getProducerApplication());
         assertEquals(ARCHIVAL_DATE, result.getArchivalDate());
         assertEquals(CONNECTION, result.getConnection());
-       /* assertEquals(MESSAGE_DIGEST, result.getMessageDigest().get(0).getDigest());
+        assertEquals(MESSAGE_DIGEST, result.getMessageDigest().get(0).getDigest());
         assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
-                     result.getMessageDigest().get(0).getDigestType());*/
+                     result.getMessageDigest().get(0).getDigestType());
 
     }
 
