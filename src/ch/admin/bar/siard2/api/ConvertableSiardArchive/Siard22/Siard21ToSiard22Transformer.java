@@ -15,37 +15,21 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public SiardArchive visit(ConvertableSiard21Archive siard21Archive) {
-        List<MessageDigestType> messageDigests = siard21Archive.getMessageDigest()
-                                                               .stream()
-                                                               .map(messageDigest -> new ConvertableSiard21MessageDigestType(
-                                                                       messageDigest).accept(this))
-                                                               .collect(Collectors.toList());
-
-        ConvertableSiard22Archive result = new ConvertableSiard22Archive(siard21Archive.getDbname(),
-                                                                         siard21Archive.getDescription(),
-                                                                         siard21Archive.getArchiver(),
-                                                                         siard21Archive.getArchiverContact(),
-                                                                         siard21Archive.getDataOwner(),
-                                                                         siard21Archive.getDataOriginTimespan(),
-                                                                         siard21Archive.getLobFolder(),
-                                                                         siard21Archive.getProducerApplication(),
-                                                                         siard21Archive.getArchivalDate(),
-                                                                         siard21Archive.getClientMachine(),
-                                                                         siard21Archive.getDatabaseProduct(),
-                                                                         siard21Archive.getConnection(),
-                                                                         siard21Archive.getDatabaseUser());
-        result.getMessageDigest().addAll(messageDigests);
-
-        SchemasType schemaContainer = new SchemasType();
-        Collection<SchemaType> schemas = siard21Archive.getSchemas()
-                                                                 .getSchema()
-                                                                 .stream()
-                                                                 .map(schema -> new ConvertableSiard21SchemaType(schema).accept(
-                                                                         this)).collect(Collectors.toList());
-        schemaContainer.getSchema().addAll(schemas);
-        result.setSchemas(schemaContainer);
-
-        return result;
+        return new ConvertableSiard22Archive(siard21Archive.getDbname(),
+                                             siard21Archive.getDescription(),
+                                             siard21Archive.getArchiver(),
+                                             siard21Archive.getArchiverContact(),
+                                             siard21Archive.getDataOwner(),
+                                             siard21Archive.getDataOriginTimespan(),
+                                             siard21Archive.getLobFolder(),
+                                             siard21Archive.getProducerApplication(),
+                                             siard21Archive.getArchivalDate(),
+                                             siard21Archive.getClientMachine(),
+                                             siard21Archive.getDatabaseProduct(),
+                                             siard21Archive.getConnection(),
+                                             siard21Archive.getDatabaseUser(),
+                                             getMessageDigests(siard21Archive),
+                                             getSchema(siard21Archive));
     }
 
 
@@ -68,4 +52,26 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                 convertableSiard21Schema.getDescription(),
                                                 convertableSiard21Schema.getFolder());
     }
+
+    private SchemasType getSchema(ConvertableSiard21Archive siard21Archive) {
+        SchemasType schemaContainer = new SchemasType();
+        Collection<SchemaType> schemas = siard21Archive.getSchemas()
+                                                       .getSchema()
+                                                       .stream()
+                                                       .map(schema -> new ConvertableSiard21SchemaType(schema).accept(
+                                                               this))
+                                                       .collect(Collectors.toList());
+        schemaContainer.getSchema().addAll(schemas);
+        return schemaContainer;
+    }
+
+    private List<MessageDigestType> getMessageDigests(ConvertableSiard21Archive siard21Archive) {
+        List<MessageDigestType> messageDigests = siard21Archive.getMessageDigest()
+                                                               .stream()
+                                                               .map(messageDigest -> new ConvertableSiard21MessageDigestType(
+                                                                       messageDigest).accept(this))
+                                                               .collect(Collectors.toList());
+        return messageDigests;
+    }
+
 }
