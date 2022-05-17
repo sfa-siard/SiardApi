@@ -9,7 +9,5 @@ public interface Siard21Transformer {
 
     MessageDigestType visit(ConvertableSiard21MessageDigestType messageDigest);
 
-    void visit(ConvertableSiard21SchemasType convertableSiard21SchemasType);
-
     ConvertableSiard22SchemaType visit(ConvertableSiard21SchemaType convertableSiard21SchemaType);
 }

@@ -40,13 +40,6 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     }
 
     @Override
-    public void visit(ConvertableSiard21SchemasType convertableSiard21Schemas) {
-        convertableSiard21Schemas.getSchema().forEach(schema -> {
-            new ConvertableSiard21SchemaType(schema).accept(this);
-        });
-    }
-
-    @Override
     public ConvertableSiard22SchemaType visit(ConvertableSiard21SchemaType convertableSiard21Schema) {
         return new ConvertableSiard22SchemaType(convertableSiard21Schema.getName(),
                                                 convertableSiard21Schema.getDescription(),
