@@ -23,7 +23,8 @@ public class ConvertableSiard21ArchiveTest {
         ConvertableSiard21Archive convertableSiard21Archive = createExampleArchiveWithAllFieldsSet();
 
         // when
-        SiardArchive result = convertableSiard21Archive.accept(visitor);
+        convertableSiard21Archive.accept(visitor);
+        SiardArchive result = visitor.get();
 
         // then
         assertSiardArchiveWithAllFieldsSet(result);

@@ -4,49 +4,44 @@ import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard2
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21MessageDigestType;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.Siard21Transformer;
 import ch.admin.bar.siard2.api.generated.SiardArchive;
-import ch.admin.bar.siard2.api.generated.old21.MessageDigestType;
-import ch.admin.bar.siard2.api.generated.old21.SchemasType;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.List;
-import java.util.stream.Collectors;
 
 // understands transformation from SIARD 2.1 to the current Siard Archive
 public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
+    private ConvertableSiard22Archive siard22Archive;
 
     @Override
-    public ConvertableSiard22Archive visit(ConvertableSiard21Archive siard21Archive) {
+    public void visit(ConvertableSiard21Archive siard21Archive) {
+        this.siard22Archive = new ConvertableSiard22Archive(siard21Archive.getDbname(),
+                                                            siard21Archive.getDescription(),
+                                                            siard21Archive.getArchiver(),
+                                                            siard21Archive.getArchiverContact(),
+                                                            siard21Archive.getDataOwner(),
+                                                            siard21Archive.getDataOriginTimespan(),
+                                                            siard21Archive.getLobFolder(),
+                                                            siard21Archive.getProducerApplication(),
+                                                            siard21Archive.getArchivalDate(),
+                                                            siard21Archive.getClientMachine(),
+                                                            siard21Archive.getDatabaseProduct(),
+                                                            siard21Archive.getConnection(),
+                                                            siard21Archive.getDatabaseUser(),
+                                                            siard21Archive.getSchemas());
 
-        List<ch.admin.bar.siard2.api.generated.MessageDigestType> newMessageDigests = siard21Archive.getMessageDigest()
-                                                                                                    .stream()
-                                                                                                    .map(ConvertableSiard21MessageDigestType::new)
-                                                                                                    .map(messageDigest -> messageDigest.accept(
-                                                                                                            this))
-                                                                                                    .collect(Collectors.toList());
-
-        return new ConvertableSiard22Archive(siard21Archive.getDbname(),
-                                             siard21Archive.getDescription(),
-                                             siard21Archive.getArchiver(),
-                                             siard21Archive.getArchiverContact(),
-                                             siard21Archive.getDataOwner(),
-                                             siard21Archive.getDataOriginTimespan(),
-                                             siard21Archive.getLobFolder(),
-                                             siard21Archive.getProducerApplication(),
-                                             siard21Archive.getArchivalDate(),
-                                             newMessageDigests,
-                                             siard21Archive.getClientMachine(),
-                                             siard21Archive.getDatabaseProduct(),
-                                             siard21Archive.getConnection(),
-                                             siard21Archive.getDatabaseUser(),
-                                             siard21Archive.getSchemas());
+        siard21Archive.getMessageDigest()
+                      .forEach(messageDigest -> new ConvertableSiard21MessageDigestType(messageDigest).accept(this));
     }
 
 
     @Override
-    public ConvertableSiard22MessageDigestType visit(ConvertableSiard21MessageDigestType messageDigest) {
-        return new ConvertableSiard22MessageDigestType(messageDigest.getDigest(),
-                                                       messageDigest.getDigestType().value());
+    public void visit(ConvertableSiard21MessageDigestType messageDigest) {
+        this.siard22Archive.getMessageDigest()
+                           .add(new ConvertableSiard22MessageDigestType(messageDigest.getDigest(),
+                                                                        messageDigest.getDigestType().value()));
+    }
+
+    @Override
+    public SiardArchive get() {
+        return this.siard22Archive;
     }
 
 }

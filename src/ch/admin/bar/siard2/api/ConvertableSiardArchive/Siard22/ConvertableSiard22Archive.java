@@ -12,7 +12,7 @@ public class ConvertableSiard22Archive extends SiardArchive {
     ConvertableSiard22Archive(String dbName, String description, String archiver, String archiverContact,
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
                               XMLGregorianCalendar archivalDate,
-                              List<MessageDigestType> messageDigest, String clientMachine,
+                              String clientMachine,
                               String databaseProduct, String connection, String databaseUser,
                               SchemasType schemas) {
         super();
@@ -25,12 +25,15 @@ public class ConvertableSiard22Archive extends SiardArchive {
         this.lobFolder = lobFolder;
         this.producerApplication = producerApplication;
         this.archivalDate = archivalDate;
-        this.messageDigest = messageDigest;
         this.clientMachine = clientMachine;
         this.databaseProduct = databaseProduct;
         this.connection = connection;
         this.databaseUser = databaseUser;
         this.schemas = new ch.admin.bar.siard2.api.generated.SchemasType();
+    }
+
+    public void add(MessageDigestType messageDigest) {
+        this.getMessageDigest().add(messageDigest);
     }
 }
 
