@@ -9,5 +9,7 @@ public interface Siard21Transformer {
 
     void visit(ConvertableSiard21SchemasType convertableSiard21SchemasType);
 
+    void visit(ConvertableSiard21SchemaType convertableSiard21SchemaType);
+
     SiardArchive get();
 }

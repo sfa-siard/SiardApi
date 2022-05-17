@@ -16,6 +16,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
 
+
+
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
         // given
@@ -50,16 +52,25 @@ public class ConvertableSiard21ArchiveTest {
 
     }
 
-    private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
-        assertNotNull(schemas);
-        assertEquals(schemas.getSchema().size(), 1);
-    }
-
     private void assertMessageDigests(SiardArchive result) {
         ch.admin.bar.siard2.api.generated.MessageDigestType actualMessageDigest = result.getMessageDigest().get(0);
         assertEquals(MESSAGE_DIGEST, actualMessageDigest.getDigest());
         assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
                      actualMessageDigest.getDigestType());
+    }
+
+    private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
+        assertNotNull(schemas);
+        assertEquals(schemas.getSchema().size(), 1);
+        ch.admin.bar.siard2.api.generated.SchemaType schema = schemas.getSchema().get(0);
+        assertNotNull(schema);
+        assertSchema(schema);
+    }
+
+    private void assertSchema(ch.admin.bar.siard2.api.generated.SchemaType schema) {
+        assertEquals(schema.getName(), SCHEMA_NAME);
+        assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
+        assertEquals(schema.getFolder(), SCHEMA_FOLDER);
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
@@ -92,9 +103,9 @@ public class ConvertableSiard21ArchiveTest {
     private SchemasType createSchemas() {
         SchemasType schemas = new SchemasType();
         SchemaType schema = new SchemaType();
-        schema.setName("Schame Type Name");
-        schema.setDescription("Schema Type Description");
-        schema.setFolder("Schema Type Folder");
+        schema.setName(SCHEMA_NAME);
+        schema.setDescription(SCHEMA_DESCRIPTION);
+        schema.setFolder(SCHEMA_FOLDER);
         schema.setTypes(createTypes());
         schema.setRoutines(createRoutines());
         schema.setTables(createTables());
@@ -247,4 +258,7 @@ public class ConvertableSiard21ArchiveTest {
     private static final String CLIENT_MACHINE = "Client Machine";
     private static final String DATABASE_PRODUCT = "Database Product";
     private static final String DATABASE_USER = "Database User";
+    private static final String SCHEMA_NAME = "Schema Name";
+    private static final String SCHEMA_DESCRIPTION = "Schema Description";
+    private static final String SCHEMA_FOLDER = "Schema Folder";
 }

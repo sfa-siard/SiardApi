@@ -1,9 +1,6 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21MessageDigestType;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21SchemasType;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.Siard21Transformer;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.*;
 import ch.admin.bar.siard2.api.generated.SiardArchive;
 
 // understands transformation from SIARD 2.1 to the current Siard Archive
@@ -30,7 +27,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
         siard21Archive.getMessageDigest()
                       .forEach(messageDigest -> new ConvertableSiard21MessageDigestType(messageDigest).accept(this));
 
-        siard21Archive.getSchemas().getSchema().forEach(schemaType -> new ConvertableSiard21SchemasType().accept(this));
+        siard21Archive.getSchemas().getSchema().forEach(schemaType -> new ConvertableSiard21SchemasType(schemaType).accept(this));
     }
 
 
@@ -42,8 +39,15 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     }
 
     @Override
-    public void visit(ConvertableSiard21SchemasType convertableSiard21SchemasType) {
-        this.siard22Archive.add(new ConvertableSiard22SchemaType());
+    public void visit(ConvertableSiard21SchemasType convertableSiard21Schemas) {
+        convertableSiard21Schemas.getSchema().forEach(schema -> {
+            new ConvertableSiard21SchemaType(schema).accept(this);
+        });
+    }
+
+    @Override
+    public void visit(ConvertableSiard21SchemaType convertableSiard21Schema) {
+        this.siard22Archive.add(new ConvertableSiard22SchemaType(convertableSiard21Schema.getName(), convertableSiard21Schema.getDescription(), convertableSiard21Schema.getFolder()));
     }
 
 
