@@ -14,8 +14,7 @@ import javax.xml.bind.*;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22Archive;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ToSiard22MessageDigestTransformer;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ToSiardArchive22Transformer;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
 import ch.enterag.utils.EU;
 import ch.enterag.utils.jaxb.*;
 import ch.enterag.utils.logging.*;
@@ -578,11 +577,13 @@ public class MetaDataXml
 
   public static SiardArchive readSiard21Xml(FileInputStream fileInputStream) {
     ch.admin.bar.siard2.api.generated.old21.SiardArchive sa = null;
-    ConvertableSiard22Archive siardArchive = null;
+    SiardArchive siardArchive = null;
     try {
       URL urlXsd = Archive.class.getResource(sSIARD21_XSD_RESOURCE);
       sa = Io.readJaxbObject( ch.admin.bar.siard2.api.generated.old21.SiardArchive.class, fileInputStream, urlXsd);
-      siardArchive = ((ConvertableSiard21Archive) sa).transform(new ToSiardArchive22Transformer());
+      Siard21ToSiard22Transformer visitor = new Siard21ToSiard22Transformer();
+      ((ConvertableSiard21Archive) sa).accept(visitor);
+
     } catch (JAXBException je) {
       _il.exception(je);
       System.err.println(EU.getExceptionMessage(je));

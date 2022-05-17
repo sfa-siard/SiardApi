@@ -19,11 +19,11 @@ public class ConvertableSiard21ArchiveTest {
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
         // given
-        ToSiardArchive22Transformer transformer = new ToSiardArchive22Transformer();
+        Siard21ToSiard22Transformer visitor = new Siard21ToSiard22Transformer();
         ConvertableSiard21Archive convertableSiard21Archive = createExampleArchiveWithAllFieldsSet();
 
         // when
-        SiardArchive result = convertableSiard21Archive.transform(transformer);
+        SiardArchive result = convertableSiard21Archive.accept(visitor);
 
         // then
         assertSiardArchiveWithAllFieldsSet(result);
