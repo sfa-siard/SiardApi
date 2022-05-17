@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class MetaDataXmlTest {
     private static final String TESTFILES_METADATA_DIR = "testfiles/metadata/";
@@ -132,7 +131,8 @@ public class MetaDataXmlTest {
     }
 
     private void assertIsSiard22Archive(SiardArchive sa) {
-        assertEquals(sa.getClass().getName(), "ch.admin.bar.siard2.api.generated.SiardArchive");
+        // assertEquals(sa.getClass().getName(), "ch.admin.bar.siard2.api.generated.SiardArchive");
+        assertTrue(sa instanceof SiardArchive);
     }
 
     private FileInputStream getFileInputStream(String metadata10Xml) throws FileNotFoundException {

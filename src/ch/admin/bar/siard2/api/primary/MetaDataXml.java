@@ -580,9 +580,9 @@ public class MetaDataXml
     SiardArchive siardArchive = null;
     try {
       URL urlXsd = Archive.class.getResource(sSIARD21_XSD_RESOURCE);
-      sa = Io.readJaxbObject( ch.admin.bar.siard2.api.generated.old21.SiardArchive.class, fileInputStream, urlXsd);
+      sa = Io.readJaxbObject(ConvertableSiard21Archive.class, fileInputStream, urlXsd);
       Siard21ToSiard22Transformer visitor = new Siard21ToSiard22Transformer();
-      ((ConvertableSiard21Archive) sa).accept(visitor);
+      siardArchive = ((ConvertableSiard21Archive) sa).accept(visitor);
 
     } catch (JAXBException je) {
       _il.exception(je);
