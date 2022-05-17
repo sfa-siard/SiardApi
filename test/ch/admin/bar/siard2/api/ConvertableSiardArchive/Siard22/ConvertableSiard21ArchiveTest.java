@@ -11,10 +11,10 @@ import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
-
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {

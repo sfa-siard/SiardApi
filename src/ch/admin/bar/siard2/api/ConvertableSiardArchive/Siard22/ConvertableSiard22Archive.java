@@ -8,7 +8,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
 
 // understands a Siard Archive v 2.2
-class ConvertableSiard22Archive extends SiardArchive {
+public class ConvertableSiard22Archive extends SiardArchive {
     ConvertableSiard22Archive(String dbName, String description, String archiver, String archiverContact,
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
                               XMLGregorianCalendar archivalDate,
