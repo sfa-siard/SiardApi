@@ -52,6 +52,7 @@ public class ConvertableSiard21ArchiveTest {
 
     private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
         assertNotNull(schemas);
+        assertEquals(schemas.getSchema().size(), 1);
     }
 
     private void assertMessageDigests(SiardArchive result) {

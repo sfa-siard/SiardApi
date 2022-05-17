@@ -2,6 +2,7 @@ package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21MessageDigestType;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21SchemasType;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.Siard21Transformer;
 import ch.admin.bar.siard2.api.generated.SiardArchive;
 
@@ -24,11 +25,12 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                             siard21Archive.getClientMachine(),
                                                             siard21Archive.getDatabaseProduct(),
                                                             siard21Archive.getConnection(),
-                                                            siard21Archive.getDatabaseUser(),
-                                                            siard21Archive.getSchemas());
+                                                            siard21Archive.getDatabaseUser());
 
         siard21Archive.getMessageDigest()
                       .forEach(messageDigest -> new ConvertableSiard21MessageDigestType(messageDigest).accept(this));
+
+        siard21Archive.getSchemas().getSchema().forEach(schemaType -> new ConvertableSiard21SchemasType().accept(this));
     }
 
 
@@ -40,8 +42,13 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     }
 
     @Override
+    public void visit(ConvertableSiard21SchemasType convertableSiard21SchemasType) {
+        this.siard22Archive.add(new ConvertableSiard22SchemaType());
+    }
+
+
+    @Override
     public SiardArchive get() {
         return this.siard22Archive;
     }
-
 }
