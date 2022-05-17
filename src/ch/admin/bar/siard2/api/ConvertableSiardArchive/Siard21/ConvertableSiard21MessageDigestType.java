@@ -12,7 +12,7 @@ public class ConvertableSiard21MessageDigestType extends ch.admin.bar.siard2.api
         this.digestType = messageDigest.getDigestType();
     }
 
-    public void accept(Siard21Transformer visitor) {
-        visitor.visit(this);
+    public ch.admin.bar.siard2.api.generated.MessageDigestType accept(Siard21Transformer visitor) {
+        return visitor.visit(this);
     }
 }

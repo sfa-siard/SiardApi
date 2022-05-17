@@ -1,5 +1,6 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21;
 
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22SchemaType;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
 import ch.admin.bar.siard2.api.generated.old21.SchemaType;
 
@@ -13,7 +14,7 @@ public class ConvertableSiard21SchemaType extends SchemaType {
         this.folder = schema.getFolder();
     }
 
-    public void accept(Siard21ToSiard22Transformer visitor) {
-        visitor.visit(this);
+    public ConvertableSiard22SchemaType accept(Siard21ToSiard22Transformer visitor) {
+        return visitor.visit(this);
     }
 }
