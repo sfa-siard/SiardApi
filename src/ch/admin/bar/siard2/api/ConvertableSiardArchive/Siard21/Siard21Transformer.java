@@ -29,4 +29,10 @@ public interface Siard21Transformer {
     ConvertableSiard22ForeignKeyTypes visit(ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes);
 
     ConvertableSiard22ReferenceType visit(ConvertableSiard21ReferenceType convertableSiard21ReferenceType);
+
+    ConvertableSiard22ViewType visit(ConvertableSiard21ViewType convertableSiard21ViewType);
+
+    ConvertableSiard22ColumnType visit(ConvertableSiard21ColumnType convertableSiard21ColumnType);
+
+    ConvertableSiard22FieldType visit(ConvertableSiard21FieldType convertableSiard21FieldType);
 }

@@ -17,6 +17,31 @@ import static org.junit.Assert.*;
 
 public class ConvertableSiard21ArchiveTest {
 
+    public static final String VIEW_NAME = "View Name";
+    public static final String VIEW_DESCRIPTION = "View Description";
+    public static final BigInteger VIEW_ROWS = BigInteger.valueOf(512);
+    public static final String VIEW_QUERY = "View Query";
+    public static final String VIEW_QUERY_ORIGINAL = "View Query Original";
+    public static final String COLUMN_NAME = "Column Name";
+    public static final String COLUMN_DESCRIPTION = "Column Description";
+    public static final String COLUMN_DEFAULT_VALUE = "Column Default Value";
+    public static final String COLUMN_LOG_FOLDER = "Column Log Folder";
+    public static final String COLUMN_MIME_TYPE = "Column Mime Type";
+    public static final String COLUMN_TYPE = "Column Type";
+    public static final String COLUMN_TYPE_NAME = "Column Type Name";
+    public static final String COLUMN_TYPE_SCHEMA = "Column Type Schema";
+    public static final String COLUMN_TYPE_ORIGINAL = "Column Type Original";
+    public static final BigInteger COLUMN_TYPE_CARDINALITY = BigInteger.valueOf(9);
+    public static final boolean COLUMN_IS_NULLABLE = true;
+    public static final String FIELD_NAME = "Field Name";
+    public static final String FIELD_DESCRIPTION = "Field Description";
+    public static final String FIELD_LOB_FOLDER = "Field Lob Folder";
+    public static final String FIELD_MIME_TYPE = "Field Mime Type";
+    public static final String SUB_FIELD_NAME = "Sub Field Name";
+    public static final String SUB_FIELD_DESCRIPTION = "Sub Field Description";
+    public static final String SUB_FIELD_MIME_TYPE = "Sub Field Mime Type";
+    public static final String SUB_FIELD_LOB_FOLDER = "Sub Field Lob Folder";
+
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
         // given
@@ -97,6 +122,7 @@ public class ConvertableSiard21ArchiveTest {
         assertTypes(schema.getTypes());
         assertRoutines(schema.getRoutines());
         assertTables(schema.getTables());
+        assertViews(schema.getViews());
     }
 
     private SchemasType createSchemas() {
@@ -113,48 +139,119 @@ public class ConvertableSiard21ArchiveTest {
         return schemas;
     }
 
+    private void assertViews(ch.admin.bar.siard2.api.generated.ViewsType views) {
+        assertNotNull(views);
+        assertEquals(1, views.getView().size());
+        ch.admin.bar.siard2.api.generated.ViewType view = views.getView().get(0);
+
+        assertEquals(VIEW_NAME, view.getName());
+        assertEquals(VIEW_DESCRIPTION, view.getDescription());
+        assertEquals(VIEW_ROWS, view.getRows());
+        assertEquals(VIEW_QUERY, view.getQuery());
+        assertEquals(VIEW_QUERY_ORIGINAL, view.getQueryOriginal());
+
+        assertColumns(view.getColumns());
+    }
+
     private ViewsType createViews() {
         ViewsType views = new ViewsType();
         ViewType view = new ViewType();
-        view.setName("View Name");
-        view.setDescription("View Description");
-        view.setRows(BigInteger.valueOf(512));
-        view.setQuery("View Query");
-        view.setQueryOriginal("View Query Original");
-        ColumnsType columns = new ColumnsType();
-        ColumnType column = new ColumnType();
-        column.setName("Column Name");
-        column.setDescription("Column Description");
-        column.setDefaultValue("Column Default Value");
-        column.setLobFolder("Column Log Folder");
-        column.setMimeType("Column Mime Type");
-        column.setType("Column Type");
-        column.setTypeName("Column Type Name");
-        column.setTypeSchema("Column Type Schema");
-        column.setTypeOriginal("Column Type Original");
-        column.setCardinality(BigInteger.valueOf(9));
-        column.setNullable(TYPE_IS_FINAL);
-        FieldsType fields = new FieldsType();
-        FieldType field = new FieldType();
-        field.setName("Field Name");
-        field.setDescription("Field Description");
-        field.setLobFolder("Field Lob Folder");
-        field.setMimeType("Field Mime Type");
-        FieldsType subFields = new FieldsType();
-        FieldType subField = new FieldType();
-        subField.setName("Sub Field Name");
-        subField.setDescription("Sub Field Description");
-        subField.setMimeType("Sub Field Mime Type");
-        subField.setLobFolder("Sub Field Lob Folder");
-        subField.setFields(null); // stop nesting of fields at this point - the schema allows further nesting, but two levels should be ok for this test
-        subFields.getField().add(subField);
-        field.setFields(subFields);
-        fields.getField().add(field);
-        column.setFields(fields);
-        columns.getColumn().add(column);
-        view.setColumns(columns);
+        view.setName(VIEW_NAME);
+        view.setDescription(VIEW_DESCRIPTION);
+        view.setRows(VIEW_ROWS);
+        view.setQuery(VIEW_QUERY);
+        view.setQueryOriginal(VIEW_QUERY_ORIGINAL);
+
+        view.setColumns(createColumns());
         views.getView().add(view);
         return views;
+    }
+
+    private void assertColumns(ch.admin.bar.siard2.api.generated.ColumnsType columns) {
+        assertNotNull(columns);
+        assertEquals(1, columns.getColumn().size());
+        ch.admin.bar.siard2.api.generated.ColumnType column = columns.getColumn().get(0);
+        assertEquals(COLUMN_NAME, column.getName());
+        assertEquals(COLUMN_DESCRIPTION, column.getDescription());
+        assertEquals(COLUMN_DEFAULT_VALUE, column.getDefaultValue());
+        assertEquals(COLUMN_LOG_FOLDER, column.getLobFolder());
+        assertEquals(COLUMN_MIME_TYPE, column.getMimeType());
+        assertEquals(COLUMN_TYPE, column.getType());
+        assertEquals(COLUMN_TYPE_NAME, column.getTypeName());
+        assertEquals(COLUMN_TYPE_ORIGINAL, column.getTypeOriginal());
+        assertEquals(COLUMN_TYPE_SCHEMA, column.getTypeSchema());
+        assertEquals(COLUMN_TYPE_CARDINALITY, column.getCardinality());
+        assertEquals(COLUMN_IS_NULLABLE, column.isNullable());
+        assertFields(column.getFields());
+    }
+
+
+    private ColumnsType createColumns() {
+        ColumnsType columns = new ColumnsType();
+        ColumnType column = new ColumnType();
+        column.setName(COLUMN_NAME);
+        column.setDescription(COLUMN_DESCRIPTION);
+        column.setDefaultValue(COLUMN_DEFAULT_VALUE);
+        column.setLobFolder(COLUMN_LOG_FOLDER);
+        column.setMimeType(COLUMN_MIME_TYPE);
+        column.setType(COLUMN_TYPE);
+        column.setTypeName(COLUMN_TYPE_NAME);
+        column.setTypeSchema(COLUMN_TYPE_SCHEMA);
+        column.setTypeOriginal(COLUMN_TYPE_ORIGINAL);
+        column.setCardinality(COLUMN_TYPE_CARDINALITY);
+        column.setNullable(COLUMN_IS_NULLABLE);
+        column.setFields(createFields());
+        columns.getColumn().add(column);
+        return columns;
+    }
+
+    private void assertFields(ch.admin.bar.siard2.api.generated.FieldsType fields) {
+        assertNotNull(fields);
+        assertEquals(1, fields.getField().size());
+        ch.admin.bar.siard2.api.generated.FieldType field = fields.getField().get(0);
+        assertEquals(FIELD_NAME, field.getName());
+        assertEquals(FIELD_DESCRIPTION, field.getDescription());
+        assertEquals(FIELD_LOB_FOLDER, field.getLobFolder());
+        assertEquals(FIELD_MIME_TYPE, field.getMimeType());
+
+        assertSubFields(field.getFields());
+    }
+
+
+    private FieldsType createFields() {
+        FieldsType fields = new FieldsType();
+        FieldType field = new FieldType();
+        field.setName(FIELD_NAME);
+        field.setDescription(FIELD_DESCRIPTION);
+        field.setLobFolder(FIELD_LOB_FOLDER);
+        field.setMimeType(FIELD_MIME_TYPE);
+        field.setFields(createSubFields());
+        fields.getField().add(field);
+        return fields;
+    }
+
+    private void assertSubFields(ch.admin.bar.siard2.api.generated.FieldsType fields) {
+        assertNotNull(fields);
+        assertEquals(1, fields.getField().size());
+        ch.admin.bar.siard2.api.generated.FieldType field = fields.getField().get(0);
+        assertEquals(SUB_FIELD_NAME, field.getName());
+        assertEquals(SUB_FIELD_DESCRIPTION, field.getDescription());
+        assertEquals(SUB_FIELD_LOB_FOLDER, field.getLobFolder());
+        assertEquals(SUB_FIELD_MIME_TYPE, field.getMimeType());
+
+        assertNull(field.getFields());
+    }
+
+    private FieldsType createSubFields() {
+        FieldsType subFields = new FieldsType();
+        FieldType subField = new FieldType();
+        subField.setName(SUB_FIELD_NAME);
+        subField.setDescription(SUB_FIELD_DESCRIPTION);
+        subField.setMimeType(SUB_FIELD_MIME_TYPE);
+        subField.setLobFolder(SUB_FIELD_LOB_FOLDER);
+        subField.setFields(null); // stop nesting of fields at this point - the schema allows further nesting, but two levels should be ok for this test
+        subFields.getField().add(subField);
+        return subFields;
     }
 
     private void assertTables(ch.admin.bar.siard2.api.generated.TablesType tables) {
@@ -200,7 +297,6 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(FOREIGN_KEY_REFERENCED_TABLE, foreignKey.getReferencedTable());
         assertReferences(foreignKey.getReference());
     }
-
 
     private ForeignKeysType createForeignKeysType() {
         ForeignKeysType foreignKeys = new ForeignKeysType();
@@ -411,7 +507,7 @@ public class ConvertableSiard21ArchiveTest {
     private static final String TYPE_NAME = "Type Name";
     private static final String TYPE_BASE = "Type Base";
     private static final String TYPE_UNDER_TYPE = "Type under Type";
-    private static final boolean TYPE_IS_FINAL = true;
+    private static final boolean TYPE_IS_FINAL = COLUMN_IS_NULLABLE;
 
     private static final String ATTRIBUTE_NAME = "Attribute Name";
     private static final String ATTRIBUTE_DESCRIPTION = "Attribute Description";
@@ -420,7 +516,7 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ATTRIBUTE_TYPE_NAME = "Attribute Type Name";
     private static final String ATTRIBUTE_DEFAULT_VALUE = "Attribute Default Value";
     private static final String ATTRIBUTE_TYPE_ORIGINAL = "Attribute Type Original";
-    private static final boolean ATTRIBUTE_IS_NULLABLE = true;
+    private static final boolean ATTRIBUTE_IS_NULLABLE = COLUMN_IS_NULLABLE;
     private static final BigInteger ATTRIBUTE_CARDINALITY = BigInteger.TEN;
 
     private static final String ROUTINE_DESCRIPTION = "Routine Description";
