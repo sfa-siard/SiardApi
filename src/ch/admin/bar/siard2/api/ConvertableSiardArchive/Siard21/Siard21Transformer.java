@@ -22,4 +22,7 @@ public interface Siard21Transformer {
     ConvertableSiard22TableType visit(ConvertableSiard21Table convertableSiard21Table);
 
     ConvertableSiard22UniqueKeyType visit(ConvertableSiard21UniqueKeyType convertableSiard21UniqueKeyType);
+
+    ConvertableSiard22CheckConstraintType visit(
+            ConvertableSiard21CheckConstraintType convertableSiard21CheckConstraintType);
 }

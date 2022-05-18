@@ -4,14 +4,12 @@ import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard2
 import ch.admin.bar.siard2.api.generated.SiardArchive;
 import ch.admin.bar.siard2.api.generated.old21.*;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
@@ -23,6 +21,9 @@ public class ConvertableSiard21ArchiveTest {
     public static final String CANDIDATE_KEY_DESCRIPTION = "Candidate Key Description";
     public static final String CANDIDATE_KEY_COLUMN_1 = "Candidate Key Column 1";
     public static final String CANDIDATE_KEY_COLUMN_2 = "Candidate Key Column 2";
+    public static final String CHECK_CONSTRAINT_NAME = "Check Constraint Name";
+    public static final String CHECK_CONSTRAINT_DESCRIPTION = "Check Constraint Description";
+    public static final String CHECK_CONSTRAINT_CONDITION = "Check Constraint Condition";
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -59,8 +60,7 @@ public class ConvertableSiard21ArchiveTest {
     private void assertMessageDigests(SiardArchive result) {
         ch.admin.bar.siard2.api.generated.MessageDigestType actualMessageDigest = result.getMessageDigest().get(0);
         assertEquals(MESSAGE_DIGEST, actualMessageDigest.getDigest());
-        assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256,
-                     actualMessageDigest.getDigestType());
+        assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256, actualMessageDigest.getDigestType());
     }
 
     private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
@@ -175,9 +175,8 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(TABLE_ROWS, table.getRows());
 
         assertCandidateKeys(table.getCandidateKeys());
+        assertCheckConstraints(table.getCheckConstraints());
     }
-
-
 
     private TablesType createTables() {
         TablesType tables = new TablesType();
@@ -188,14 +187,7 @@ public class ConvertableSiard21ArchiveTest {
         table.setRows(TABLE_ROWS);
 
         table.setCandidateKeys(createCandidateKeys());
-        CheckConstraintsType checkConstraintsType = new CheckConstraintsType();
-
-        CheckConstraintType checkConstraint = new CheckConstraintType();
-        checkConstraint.setCondition("Check Constraint Condition");
-        checkConstraint.setDescription("Check Constraint Description");
-        checkConstraint.setName("Check Constraint Name");
-        checkConstraintsType.getCheckConstraint().add(checkConstraint);
-        table.setCheckConstraints(checkConstraintsType);
+        table.setCheckConstraints(createCheckConstraintsType());
 
         ForeignKeysType foreignKeys = new ForeignKeysType();
         ForeignKeyType foreignKey = new ForeignKeyType();
@@ -211,6 +203,29 @@ public class ConvertableSiard21ArchiveTest {
 
         tables.getTable().add(table);
         return tables;
+    }
+
+
+    private void assertCheckConstraints(ch.admin.bar.siard2.api.generated.CheckConstraintsType checkConstraints) {
+        assertNotNull(checkConstraints);
+        assertEquals(1, checkConstraints.getCheckConstraint().size());
+        ch.admin.bar.siard2.api.generated.CheckConstraintType checkConstraint = checkConstraints.getCheckConstraint()
+                                                                                                .get(0);
+
+        assertEquals(CHECK_CONSTRAINT_NAME, checkConstraint.getName());
+        assertEquals(CHECK_CONSTRAINT_DESCRIPTION, checkConstraint.getDescription());
+        assertEquals(CHECK_CONSTRAINT_CONDITION, checkConstraint.getCondition());
+    }
+
+
+    private CheckConstraintsType createCheckConstraintsType() {
+        CheckConstraintsType checkConstraintsType = new CheckConstraintsType();
+        CheckConstraintType checkConstraint = new CheckConstraintType();
+        checkConstraint.setName(CHECK_CONSTRAINT_NAME);
+        checkConstraint.setDescription(CHECK_CONSTRAINT_DESCRIPTION);
+        checkConstraint.setCondition(CHECK_CONSTRAINT_CONDITION);
+        checkConstraintsType.getCheckConstraint().add(checkConstraint);
+        return checkConstraintsType;
     }
 
     private void assertCandidateKeys(ch.admin.bar.siard2.api.generated.CandidateKeysType candidateKeys) {

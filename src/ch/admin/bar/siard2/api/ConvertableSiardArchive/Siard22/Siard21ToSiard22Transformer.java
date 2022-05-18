@@ -114,14 +114,24 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                convertableSiard21Table.getDescription(),
                                                convertableSiard21Table.getFolder(),
                                                convertableSiard21Table.getRows(),
-                                               getCandidateKeys(convertableSiard21Table));
+                                               getCandidateKeys(convertableSiard21Table),
+                                               getCheckConstraints(convertableSiard21Table));
     }
+
 
     @Override
     public ConvertableSiard22UniqueKeyType visit(ConvertableSiard21UniqueKeyType convertableSiard21UniqueKeyType) {
         return new ConvertableSiard22UniqueKeyType(convertableSiard21UniqueKeyType.getName(),
                                                    convertableSiard21UniqueKeyType.getDescription(),
                                                    convertableSiard21UniqueKeyType.getColumn());
+    }
+
+    @Override
+    public ConvertableSiard22CheckConstraintType visit(
+            ConvertableSiard21CheckConstraintType convertableSiard21CheckConstraintType) {
+        return new ConvertableSiard22CheckConstraintType(convertableSiard21CheckConstraintType.getName(),
+                                                         convertableSiard21CheckConstraintType.getDescription(),
+                                                         convertableSiard21CheckConstraintType.getCondition());
     }
 
 
@@ -188,9 +198,22 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     private Collection<ConvertableSiard22UniqueKeyType> getCandidateKeys(
             ConvertableSiard21Table convertableSiard21Table) {
         if (convertableSiard21Table.getCandidateKeys() == null) return EMPTY_LIST;
-        return convertableSiard21Table.getCandidateKeys().getCandidateKey().stream()
+        return convertableSiard21Table.getCandidateKeys()
+                                      .getCandidateKey()
+                                      .stream()
                                       .map(ConvertableSiard21UniqueKeyType::new)
                                       .map(uniqueKey -> uniqueKey.accept(this))
+                                      .collect(Collectors.toList());
+    }
+
+    private Collection<ConvertableSiard22CheckConstraintType> getCheckConstraints(
+            ConvertableSiard21Table convertableSiard21Table) {
+        if (convertableSiard21Table.getCheckConstraints() == null) return EMPTY_LIST;
+        return convertableSiard21Table.getCheckConstraints()
+                                      .getCheckConstraint()
+                                      .stream()
+                                      .map(ConvertableSiard21CheckConstraintType::new)
+                                      .map(c -> c.accept(this))
                                       .collect(Collectors.toList());
     }
 
