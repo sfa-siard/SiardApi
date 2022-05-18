@@ -4,17 +4,25 @@ import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard2
 import ch.admin.bar.siard2.api.generated.SiardArchive;
 import ch.admin.bar.siard2.api.generated.old21.*;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.*;
 
 public class ConvertableSiard21ArchiveTest {
 
+
+    public static final String CANDIDATE_KEY_NAME = "Candidate Key Name";
+    public static final String CANDIDATE_KEY_DESCRIPTION = "Candidate Key Description";
+    public static final String CANDIDATE_KEY_COLUMN_1 = "Candidate Key Column 1";
+    public static final String CANDIDATE_KEY_COLUMN_2 = "Candidate Key Column 2";
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -165,7 +173,11 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(TABLE_DESCRIPTION, table.getDescription());
         assertEquals(TABLE_FOLDER, table.getFolder());
         assertEquals(TABLE_ROWS, table.getRows());
+
+        assertCandidateKeys(table.getCandidateKeys());
     }
+
+
 
     private TablesType createTables() {
         TablesType tables = new TablesType();
@@ -175,12 +187,7 @@ public class ConvertableSiard21ArchiveTest {
         table.setFolder(TABLE_FOLDER);
         table.setRows(TABLE_ROWS);
 
-        CandidateKeysType candidateKeysType = new CandidateKeysType();
-        UniqueKeyType candidateKey = new UniqueKeyType();
-        candidateKey.setName("Candidate Key Name");
-        candidateKey.setDescription("Candidate Key Description");
-        candidateKeysType.getCandidateKey().add(candidateKey);
-        table.setCandidateKeys(candidateKeysType);
+        table.setCandidateKeys(createCandidateKeys());
         CheckConstraintsType checkConstraintsType = new CheckConstraintsType();
 
         CheckConstraintType checkConstraint = new CheckConstraintType();
@@ -205,6 +212,27 @@ public class ConvertableSiard21ArchiveTest {
         tables.getTable().add(table);
         return tables;
     }
+
+    private void assertCandidateKeys(ch.admin.bar.siard2.api.generated.CandidateKeysType candidateKeys) {
+        assertNotNull(candidateKeys);
+        assertEquals(1, candidateKeys.getCandidateKey().size());
+        ch.admin.bar.siard2.api.generated.UniqueKeyType candidateKey = candidateKeys.getCandidateKey().get(0);
+        assertEquals(CANDIDATE_KEY_NAME, candidateKey.getName());
+        assertEquals(CANDIDATE_KEY_DESCRIPTION, candidateKey.getDescription());
+        assertThat(candidateKey.getColumn(), hasItems(CANDIDATE_KEY_COLUMN_1, CANDIDATE_KEY_COLUMN_2));
+    }
+
+
+    private CandidateKeysType createCandidateKeys() {
+        CandidateKeysType candidateKeysType = new CandidateKeysType();
+        UniqueKeyType candidateKey = new UniqueKeyType();
+        candidateKey.setName(CANDIDATE_KEY_NAME);
+        candidateKey.setDescription(CANDIDATE_KEY_DESCRIPTION);
+        candidateKey.getColumn().addAll(Arrays.asList(CANDIDATE_KEY_COLUMN_1, CANDIDATE_KEY_COLUMN_2));
+        candidateKeysType.getCandidateKey().add(candidateKey);
+        return candidateKeysType;
+    }
+
 
     private void assertRoutines(ch.admin.bar.siard2.api.generated.RoutinesType routines) {
         assertNotNull(routines);

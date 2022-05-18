@@ -20,4 +20,6 @@ public interface Siard21Transformer {
     ConvertablSiard22Parameter visit(ConvertableSiard21Parameter convertableSiard21Parameter);
 
     ConvertableSiard22TableType visit(ConvertableSiard21Table convertableSiard21Table);
+
+    ConvertableSiard22UniqueKeyType visit(ConvertableSiard21UniqueKeyType convertableSiard21UniqueKeyType);
 }
