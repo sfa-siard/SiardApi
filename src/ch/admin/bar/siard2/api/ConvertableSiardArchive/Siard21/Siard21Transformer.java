@@ -25,4 +25,8 @@ public interface Siard21Transformer {
 
     ConvertableSiard22CheckConstraintType visit(
             ConvertableSiard21CheckConstraintType convertableSiard21CheckConstraintType);
+
+    ConvertableSiard22ForeignKeyTypes visit(ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes);
+
+    ConvertableSiard22ReferenceType visit(ConvertableSiard21ReferenceType convertableSiard21ReferenceType);
 }

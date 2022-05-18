@@ -10,20 +10,12 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
 
 public class ConvertableSiard21ArchiveTest {
-
-
-    public static final String CANDIDATE_KEY_NAME = "Candidate Key Name";
-    public static final String CANDIDATE_KEY_DESCRIPTION = "Candidate Key Description";
-    public static final String CANDIDATE_KEY_COLUMN_1 = "Candidate Key Column 1";
-    public static final String CANDIDATE_KEY_COLUMN_2 = "Candidate Key Column 2";
-    public static final String CHECK_CONSTRAINT_NAME = "Check Constraint Name";
-    public static final String CHECK_CONSTRAINT_DESCRIPTION = "Check Constraint Description";
-    public static final String CHECK_CONSTRAINT_CONDITION = "Check Constraint Condition";
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -176,6 +168,7 @@ public class ConvertableSiard21ArchiveTest {
 
         assertCandidateKeys(table.getCandidateKeys());
         assertCheckConstraints(table.getCheckConstraints());
+        assertForeignKeys(table.getForeignKeys());
     }
 
     private TablesType createTables() {
@@ -188,23 +181,56 @@ public class ConvertableSiard21ArchiveTest {
 
         table.setCandidateKeys(createCandidateKeys());
         table.setCheckConstraints(createCheckConstraintsType());
-
-        ForeignKeysType foreignKeys = new ForeignKeysType();
-        ForeignKeyType foreignKey = new ForeignKeyType();
-        foreignKey.setName("Foreign Key Name");
-        foreignKey.setDescription("Foreign Key Description");
-        foreignKey.setMatchType(MatchTypeType.FULL);
-        foreignKey.setDeleteAction(ReferentialActionType.NO_ACTION);
-        foreignKey.setUpdateAction(ReferentialActionType.CASCADE);
-        foreignKey.setReferencedTable("Foreign Key Referenced Table");
-        foreignKey.setReferencedSchema("Foreign Key Referenced Schema");
-        foreignKeys.getForeignKey().add(foreignKey);
-        table.setForeignKeys(foreignKeys);
-
+        table.setForeignKeys(createForeignKeysType());
         tables.getTable().add(table);
         return tables;
     }
 
+    private void assertForeignKeys(ch.admin.bar.siard2.api.generated.ForeignKeysType foreignKeys) {
+        assertNotNull(foreignKeys);
+        assertEquals(1, foreignKeys.getForeignKey().size());
+        ch.admin.bar.siard2.api.generated.ForeignKeyType foreignKey = foreignKeys.getForeignKey().get(0);
+
+        assertEquals(FOREIGN_KEY_NAME, foreignKey.getName());
+        assertEquals(FOREIGN_KEY_DESCRIPTION, foreignKey.getDescription());
+        assertEquals(ch.admin.bar.siard2.api.generated.MatchTypeType.FULL, foreignKey.getMatchType());
+        assertEquals(ch.admin.bar.siard2.api.generated.ReferentialActionType.NO_ACTION, foreignKey.getDeleteAction());
+        assertEquals(ch.admin.bar.siard2.api.generated.ReferentialActionType.CASCADE, foreignKey.getUpdateAction());
+        assertEquals(FOREIGN_KEY_REFERENCED_SCHEMA, foreignKey.getReferencedSchema());
+        assertEquals(FOREIGN_KEY_REFERENCED_TABLE, foreignKey.getReferencedTable());
+        assertReferences(foreignKey.getReference());
+    }
+
+
+    private ForeignKeysType createForeignKeysType() {
+        ForeignKeysType foreignKeys = new ForeignKeysType();
+        ForeignKeyType foreignKey = new ForeignKeyType();
+        foreignKey.setName(FOREIGN_KEY_NAME);
+        foreignKey.setDescription(FOREIGN_KEY_DESCRIPTION);
+        foreignKey.setMatchType(FOREIGN_KEY_MATCH_TYPE);
+        foreignKey.setDeleteAction(FOREIGN_KEY_DELETE_ACTION);
+        foreignKey.setUpdateAction(FOREIGN_KEY_UPDATE_ACTION);
+        foreignKey.setReferencedTable(FOREIGN_KEY_REFERENCED_TABLE);
+        foreignKey.setReferencedSchema(FOREIGN_KEY_REFERENCED_SCHEMA);
+        foreignKey.getReference().add(createReference());
+        foreignKeys.getForeignKey().add(foreignKey);
+        return foreignKeys;
+    }
+
+    private void assertReferences(List<ch.admin.bar.siard2.api.generated.ReferenceType> references) {
+        assertNotNull(references);
+        assertEquals(1, references.size());
+        ch.admin.bar.siard2.api.generated.ReferenceType reference = references.get(0);
+        assertEquals(REFERENCED, reference.getReferenced());
+        assertEquals(REFERENCE_COLUMN, reference.getColumn());
+    }
+
+    private ReferenceType createReference() {
+        ReferenceType referenceType = new ReferenceType();
+        referenceType.setReferenced(REFERENCED);
+        referenceType.setColumn(REFERENCE_COLUMN);
+        return referenceType;
+    }
 
     private void assertCheckConstraints(ch.admin.bar.siard2.api.generated.CheckConstraintsType checkConstraints) {
         assertNotNull(checkConstraints);
@@ -418,5 +444,22 @@ public class ConvertableSiard21ArchiveTest {
     private static final String TABLE_FOLDER = "Table Folder";
     private static final BigInteger TABLE_ROWS = BigInteger.valueOf(1024);
 
+    private static final String CANDIDATE_KEY_NAME = "Candidate Key Name";
+    private static final String CANDIDATE_KEY_DESCRIPTION = "Candidate Key Description";
+    private static final String CANDIDATE_KEY_COLUMN_1 = "Candidate Key Column 1";
+    private static final String CANDIDATE_KEY_COLUMN_2 = "Candidate Key Column 2";
+    private static final String CHECK_CONSTRAINT_NAME = "Check Constraint Name";
+    private static final String CHECK_CONSTRAINT_DESCRIPTION = "Check Constraint Description";
+    private static final String CHECK_CONSTRAINT_CONDITION = "Check Constraint Condition";
 
+    private static final String FOREIGN_KEY_NAME = "Foreign Key Name";
+    private static final String FOREIGN_KEY_DESCRIPTION = "Foreign Key Description";
+    private static final MatchTypeType FOREIGN_KEY_MATCH_TYPE = MatchTypeType.FULL;
+    private static final ReferentialActionType FOREIGN_KEY_DELETE_ACTION = ReferentialActionType.NO_ACTION;
+    private static final ReferentialActionType FOREIGN_KEY_UPDATE_ACTION = ReferentialActionType.CASCADE;
+    private static final String FOREIGN_KEY_REFERENCED_TABLE = "Foreign Key Referenced Table";
+    private static final String FOREIGN_KEY_REFERENCED_SCHEMA = "Foreign Key Referenced Schema";
+
+    private static final String REFERENCED = "Referenced";
+    private static final String REFERENCE_COLUMN = "Reference Column";
 }

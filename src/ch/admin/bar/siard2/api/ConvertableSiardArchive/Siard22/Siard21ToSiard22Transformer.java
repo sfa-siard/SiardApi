@@ -1,10 +1,7 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.*;
-import ch.admin.bar.siard2.api.generated.MessageDigestType;
-import ch.admin.bar.siard2.api.generated.SchemaType;
-import ch.admin.bar.siard2.api.generated.SchemasType;
-import ch.admin.bar.siard2.api.generated.SiardArchive;
+import ch.admin.bar.siard2.api.generated.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -115,7 +112,8 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                convertableSiard21Table.getFolder(),
                                                convertableSiard21Table.getRows(),
                                                getCandidateKeys(convertableSiard21Table),
-                                               getCheckConstraints(convertableSiard21Table));
+                                               getCheckConstraints(convertableSiard21Table),
+                                               getForeignKeys(convertableSiard21Table));
     }
 
 
@@ -132,6 +130,34 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
         return new ConvertableSiard22CheckConstraintType(convertableSiard21CheckConstraintType.getName(),
                                                          convertableSiard21CheckConstraintType.getDescription(),
                                                          convertableSiard21CheckConstraintType.getCondition());
+    }
+
+    @Override
+    public ConvertableSiard22ForeignKeyTypes visit(
+            ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes) {
+
+        return new ConvertableSiard22ForeignKeyTypes(convertableSiard21ForeignKeyTypes.getName(),
+                                                     convertableSiard21ForeignKeyTypes.getDescription(),
+                                                     convertableSiard21ForeignKeyTypes.getMatchType().value(),
+                                                     convertableSiard21ForeignKeyTypes.getDeleteAction().value(),
+                                                     convertableSiard21ForeignKeyTypes.getUpdateAction().value(),
+                                                     convertableSiard21ForeignKeyTypes.getReferencedSchema(),
+                                                     convertableSiard21ForeignKeyTypes.getReferencedTable(),
+                                                     getReferences(convertableSiard21ForeignKeyTypes));
+    }
+
+    @Override
+    public ConvertableSiard22ReferenceType visit(ConvertableSiard21ReferenceType convertableSiard21ReferenceType) {
+        return new ConvertableSiard22ReferenceType(convertableSiard21ReferenceType.getReferenced(),
+                                                   convertableSiard21ReferenceType.getColumn());
+    }
+
+    private List<ReferenceType> getReferences(ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes) {
+        return convertableSiard21ForeignKeyTypes.getReference()
+                                                .stream()
+                                                .map(ConvertableSiard21ReferenceType::new)
+                                                .map(reference -> reference.accept(this))
+                                                .collect(Collectors.toList());
     }
 
 
@@ -216,5 +242,16 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                       .map(c -> c.accept(this))
                                       .collect(Collectors.toList());
     }
+
+    private List<ConvertableSiard22ForeignKeyTypes> getForeignKeys(ConvertableSiard21Table convertableSiard21Table) {
+        if (convertableSiard21Table.getForeignKeys() == null) return EMPTY_LIST;
+        return convertableSiard21Table.getForeignKeys()
+                                      .getForeignKey()
+                                      .stream()
+                                      .map(ConvertableSiard21ForeignKeyTypes::new)
+                                      .map(foreignKey -> foreignKey.accept(this))
+                                      .collect(Collectors.toList());
+    }
+
 
 }
