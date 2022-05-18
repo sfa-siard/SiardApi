@@ -1,6 +1,7 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22AttributeType;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22RoutineType;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22SchemaType;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22TypeType;
 import ch.admin.bar.siard2.api.generated.MessageDigestType;
@@ -16,4 +17,6 @@ public interface Siard21Transformer {
     ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType);
 
     ConvertableSiard22AttributeType visit(ConvertableSiard21AttributeType convertableSiard21AttributeType);
+
+    ConvertableSiard22RoutineType visit(ConvertableSiard21Routine convertableSiard21Routine);
 }

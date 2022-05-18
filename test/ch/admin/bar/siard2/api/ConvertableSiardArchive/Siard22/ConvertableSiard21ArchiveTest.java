@@ -15,6 +15,9 @@ import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
 
+    public static final String ROUTINE_SPECIFIC_NAME = "Routine Specific Name";
+    public static final String ROUTINE_SOURCE = "Routine Source";
+
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
         // given
@@ -62,14 +65,6 @@ public class ConvertableSiard21ArchiveTest {
         assertSchema(schema);
     }
 
-    private void assertSchema(ch.admin.bar.siard2.api.generated.SchemaType schema) {
-        assertEquals(schema.getName(), SCHEMA_NAME);
-        assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
-        assertEquals(schema.getFolder(), SCHEMA_FOLDER);
-        ch.admin.bar.siard2.api.generated.TypesType types = schema.getTypes();
-        assertTypes(types);
-    }
-
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
         ConvertableSiard21Archive archive = new ConvertableSiard21Archive();
         archive.setDbname(DB_NAME);
@@ -95,6 +90,16 @@ public class ConvertableSiard21ArchiveTest {
         messageDigests.setDigest(MESSAGE_DIGEST);
         messageDigests.setDigestType(DigestTypeType.SHA_256);
         return messageDigests;
+    }
+
+    private void assertSchema(ch.admin.bar.siard2.api.generated.SchemaType schema) {
+        assertEquals(schema.getName(), SCHEMA_NAME);
+        assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
+        assertEquals(schema.getFolder(), SCHEMA_FOLDER);
+        ch.admin.bar.siard2.api.generated.TypesType types = schema.getTypes();
+        assertTypes(types);
+        ch.admin.bar.siard2.api.generated.RoutinesType routines = schema.getRoutines();
+        assertRoutines(routines);
     }
 
     private SchemasType createSchemas() {
@@ -189,15 +194,37 @@ public class ConvertableSiard21ArchiveTest {
         return tables;
     }
 
+    private void assertRoutines(ch.admin.bar.siard2.api.generated.RoutinesType routines) {
+        assertNotNull(routines);
+        assertEquals(1, routines.getRoutine().size());
+        ch.admin.bar.siard2.api.generated.RoutineType routine = routines.getRoutine().get(0);
+        assertEquals(ROUTINE_NAME, routine.getName());
+        assertEquals(ROUTINE_DESCRIPTION, routine.getDescription());
+        assertEquals(ROUTINE_RETURN_TYPE, routine.getReturnType());
+        assertEquals(ROUTINE_BODY, routine.getBody());
+        assertEquals(ROUTINE_CHARACTERISTICS, routine.getCharacteristic());
+        assertEquals(ROUTINE_SPECIFIC_NAME, routine.getSpecificName());
+        assertEquals(ROUTINE_SOURCE, routine.getSource());
+
+        // TODO: assertParameters(routine.getParameters())
+    }
+
     private RoutinesType createRoutines() {
         RoutinesType routines = new RoutinesType();
-
         RoutineType routine = new RoutineType();
-        routine.setDescription("Routine Type Description");
-        routine.setName("Routine Type Name");
-        routine.setReturnType("Routine Type Return Type");
-        routine.setBody("Routine Type Body");
-        routine.setCharacteristic("Routine Type Characteristig");
+        routine.setName(ROUTINE_NAME);
+        routine.setDescription(ROUTINE_DESCRIPTION);
+        routine.setReturnType(ROUTINE_RETURN_TYPE);
+        routine.setBody(ROUTINE_BODY);
+        routine.setCharacteristic(ROUTINE_CHARACTERISTICS);
+        routine.setSpecificName(ROUTINE_SPECIFIC_NAME);
+        routine.setSource(ROUTINE_SOURCE);
+        routine.setParameters(createParameters());
+        routines.getRoutine().add(routine);
+        return routines;
+    }
+
+    private ParametersType createParameters() {
         ParametersType parameters = new ParametersType();
         ParameterType parameter = new ParameterType();
         parameter.setType("Parameter Type Type");
@@ -209,9 +236,7 @@ public class ConvertableSiard21ArchiveTest {
         parameter.setMode("Parameter Type Mode");
         parameter.setName("Parameter Type Name");
         parameters.getParameter().add(parameter);
-        routine.setParameters(parameters);
-        routines.getRoutine().add(routine);
-        return routines;
+        return parameters;
     }
 
     private void assertTypes(ch.admin.bar.siard2.api.generated.TypesType types) {
@@ -305,5 +330,12 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ATTRIBUTE_TYPE_ORIGINAL = "Attribute Type Original";
     private static final boolean ATTRIBUTE_IS_NULLABLE = true;
     private static final BigInteger ATTRIBUTE_CARDINALITY = BigInteger.TEN;
+
+    private static final String ROUTINE_DESCRIPTION = "Routine Description";
+    private static final String ROUTINE_NAME = "Routine Name";
+    private static final String ROUTINE_RETURN_TYPE = "Routine Return Type";
+    private static final String ROUTINE_BODY = "Routine Body";
+    private static final String ROUTINE_CHARACTERISTICS = "Routine Characteristics";
+
 
 }

@@ -3,12 +3,15 @@ package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.*;
 import ch.admin.bar.siard2.api.generated.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 // understands transformation from SIARD 2.1 to the current Siard Archive
 public class Siard21ToSiard22Transformer implements Siard21Transformer {
+
+    private static final ArrayList EMPTY_LIST = new ArrayList();
 
     @Override
     public SiardArchive visit(ConvertableSiard21Archive siard21Archive) {
@@ -37,21 +40,14 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public ConvertableSiard22SchemaType visit(ConvertableSiard21SchemaType convertableSiard21Schema) {
+
         return new ConvertableSiard22SchemaType(convertableSiard21Schema.getName(),
                                                 convertableSiard21Schema.getDescription(),
                                                 convertableSiard21Schema.getFolder(),
-                                                getTypes(convertableSiard21Schema));
+                                                getTypes(convertableSiard21Schema),
+                                                getRoutines(convertableSiard21Schema));
     }
 
-    private List<ConvertableSiard22TypeType> getTypes(ConvertableSiard21SchemaType convertableSiard21Schema) {
-        List<ConvertableSiard22TypeType> types = convertableSiard21Schema.getTypes()
-                                                                         .getType()
-                                                                         .stream()
-                                                                         .map(type -> new ConvertableSiard21TypeType(
-                                                                                 type).accept(this))
-                                                                         .collect(Collectors.toList());
-        return types;
-    }
 
     @Override
     public ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType) {
@@ -83,6 +79,17 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                    convertableSiard21AttributeType.getTypeOriginal());
     }
 
+    @Override
+    public ConvertableSiard22RoutineType visit(ConvertableSiard21Routine convertableSiard21Routine) {
+        return new ConvertableSiard22RoutineType(convertableSiard21Routine.getName(),
+                                                 convertableSiard21Routine.getDescription(),
+                                                 convertableSiard21Routine.getBody(),
+                                                 convertableSiard21Routine.getCharacteristic(),
+                                                 convertableSiard21Routine.getReturnType(),
+                                                 convertableSiard21Routine.getSpecificName(),
+                                                 convertableSiard21Routine.getSource());
+    }
+
     private SchemasType getSchema(ConvertableSiard21Archive siard21Archive) {
         SchemasType schemaContainer = new SchemasType();
         Collection<SchemaType> schemas = siard21Archive.getSchemas()
@@ -96,12 +103,30 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     }
 
     private List<MessageDigestType> getMessageDigests(ConvertableSiard21Archive siard21Archive) {
-        List<MessageDigestType> messageDigests = siard21Archive.getMessageDigest()
-                                                               .stream()
-                                                               .map(messageDigest -> new ConvertableSiard21MessageDigestType(
-                                                                       messageDigest).accept(this))
-                                                               .collect(Collectors.toList());
-        return messageDigests;
+        return siard21Archive.getMessageDigest()
+                             .stream()
+                             .map(messageDigest -> new ConvertableSiard21MessageDigestType(messageDigest).accept(this))
+                             .collect(Collectors.toList());
     }
+
+    private List<ConvertableSiard22TypeType> getTypes(ConvertableSiard21SchemaType convertableSiard21Schema) {
+        if (convertableSiard21Schema.getTypes() == null) return EMPTY_LIST;
+        return convertableSiard21Schema.getTypes()
+                                       .getType()
+                                       .stream()
+                                       .map(type -> new ConvertableSiard21TypeType(type).accept(this))
+                                       .collect(Collectors.toList());
+    }
+
+    private Collection<ConvertableSiard22RoutineType> getRoutines(
+            ConvertableSiard21SchemaType convertableSiard21Schema) {
+        if (convertableSiard21Schema.getRoutines() == null) return EMPTY_LIST;
+        return convertableSiard21Schema.getRoutines()
+                                       .getRoutine()
+                                       .stream()
+                                       .map(routine -> new ConvertableSiard21Routine(routine).accept(this))
+                                       .collect(Collectors.toList());
+    }
+
 
 }
