@@ -6,13 +6,13 @@ import ch.admin.bar.siard2.api.generated.old21.TypeType;
 
 public class ConvertableSiard21TypeType extends TypeType {
 
-
     public ConvertableSiard21TypeType(TypeType type) {
         this.name = type.getName();
         this.description = type.getDescription();
         this.base = type.getBase();
         this.underType = type.getUnderType();
         this._final = type.isFinal();
+        this.attributes = type.getAttributes();
     }
 
     public ConvertableSiard22TypeType accept(Siard21ToSiard22Transformer visitor) {

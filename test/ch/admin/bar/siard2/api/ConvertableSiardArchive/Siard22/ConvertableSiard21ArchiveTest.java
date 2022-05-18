@@ -1,6 +1,5 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
-
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
 import ch.admin.bar.siard2.api.generated.SiardArchive;
 import ch.admin.bar.siard2.api.generated.old21.*;
@@ -15,12 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
-
-    public static final String TYPE_DESCRIPTION = "Type Description";
-    public static final String TYPE_NAME = "Type Name";
-    public static final String TYPE_BASE = "Type Base";
-    public static final String TYPE_UNDER_TYPE = "Type under Type";
-    public static final boolean TYPE_IS_FINAL = true;
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -52,7 +45,6 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(CONNECTION, result.getConnection());
         assertEquals(DATABASE_USER, result.getDatabaseUser());
         assertSchemas(result.getSchemas());
-
     }
 
     private void assertMessageDigests(SiardArchive result) {
@@ -227,14 +219,14 @@ public class ConvertableSiard21ArchiveTest {
         assertNotNull(types.getType());
         assertEquals(1, types.getType().size());
         ch.admin.bar.siard2.api.generated.TypeType type = types.getType().get(0);
-
         assertEquals(TYPE_NAME, type.getName());
         assertEquals(TYPE_DESCRIPTION, type.getDescription());
         assertEquals(TYPE_BASE, type.getBase());
         assertEquals(TYPE_UNDER_TYPE, type.getUnderType());
         assertEquals(TYPE_IS_FINAL, type.isFinal());
+        assertAttributes(type.getAttributes());
     }
-    
+
     private TypesType createTypes() {
         TypesType types = new TypesType();
         TypeType type = new TypeType();
@@ -243,22 +235,40 @@ public class ConvertableSiard21ArchiveTest {
         type.setBase(TYPE_BASE);
         type.setUnderType(TYPE_UNDER_TYPE);
         type.setFinal(TYPE_IS_FINAL);
-
-        AttributesType attributes = new AttributesType();
-        AttributeType attribute = new AttributeType();
-        attribute.setDescription("Attribute Type Description");
-        attribute.setType("Attribute Type Type");
-        attribute.setName("Attribute Type Name");
-        attribute.setTypeSchema("Attribute Type Schema");
-        attribute.setTypeName("Attribute Type Type Name");
-        attribute.setCardinality(BigInteger.TEN);
-        attribute.setDefaultValue("Attribute Type Default Value");
-        attribute.setNullable(TYPE_IS_FINAL);
-        attribute.setTypeOriginal("Attribute Type Original");
-        attributes.getAttribute().add(attribute);
-        type.setAttributes(attributes);
+        type.setAttributes(createAttributes());
         types.getType().add(type);
         return types;
+    }
+
+    private void assertAttributes(ch.admin.bar.siard2.api.generated.AttributesType attributes) {
+        assertNotNull(attributes);
+        assertEquals(1, attributes.getAttribute().size());
+        ch.admin.bar.siard2.api.generated.AttributeType attribute = attributes.getAttribute().get(0);
+        assertEquals(ATTRIBUTE_NAME, attribute.getName());
+        assertEquals(ATTRIBUTE_DESCRIPTION, attribute.getDescription());
+        assertEquals(ATTRIBUTE_TYPE, attribute.getType());
+        assertEquals(ATTRIBUTE_TYPE_SCHEMA, attribute.getTypeSchema());
+        assertEquals(ATTRIBUTE_TYPE_NAME, attribute.getTypeName());
+        assertEquals(ATTRIBUTE_CARDINALITY, attribute.getCardinality());
+        assertEquals(ATTRIBUTE_DEFAULT_VALUE, attribute.getDefaultValue());
+        assertEquals(ATTRIBUTE_IS_NULLABLE, attribute.isNullable());
+        assertEquals(ATTRIBUTE_TYPE_ORIGINAL, attribute.getTypeOriginal());
+    }
+
+    private AttributesType createAttributes() {
+        AttributesType attributes = new AttributesType();
+        AttributeType attribute = new AttributeType();
+        attribute.setName(ATTRIBUTE_NAME);
+        attribute.setDescription(ATTRIBUTE_DESCRIPTION);
+        attribute.setType(ATTRIBUTE_TYPE);
+        attribute.setTypeSchema(ATTRIBUTE_TYPE_SCHEMA);
+        attribute.setTypeName(ATTRIBUTE_TYPE_NAME);
+        attribute.setCardinality(ATTRIBUTE_CARDINALITY);
+        attribute.setDefaultValue(ATTRIBUTE_DEFAULT_VALUE);
+        attribute.setNullable(ATTRIBUTE_IS_NULLABLE);
+        attribute.setTypeOriginal(ATTRIBUTE_TYPE_ORIGINAL);
+        attributes.getAttribute().add(attribute);
+        return attributes;
     }
 
     private static final String DB_NAME = "Convertable SIARD Archive in Format 2.1";
@@ -279,4 +289,21 @@ public class ConvertableSiard21ArchiveTest {
     private static final String SCHEMA_NAME = "Schema Name";
     private static final String SCHEMA_DESCRIPTION = "Schema Description";
     private static final String SCHEMA_FOLDER = "Schema Folder";
+
+    private static final String TYPE_DESCRIPTION = "Type Description";
+    private static final String TYPE_NAME = "Type Name";
+    private static final String TYPE_BASE = "Type Base";
+    private static final String TYPE_UNDER_TYPE = "Type under Type";
+    private static final boolean TYPE_IS_FINAL = true;
+
+    private static final String ATTRIBUTE_NAME = "Attribute Name";
+    private static final String ATTRIBUTE_DESCRIPTION = "Attribute Description";
+    private static final String ATTRIBUTE_TYPE = "Attribute Type";
+    private static final String ATTRIBUTE_TYPE_SCHEMA = "Attribute Type Schema";
+    private static final String ATTRIBUTE_TYPE_NAME = "Attribute Type Name";
+    private static final String ATTRIBUTE_DEFAULT_VALUE = "Attribute Default Value";
+    private static final String ATTRIBUTE_TYPE_ORIGINAL = "Attribute Type Original";
+    private static final boolean ATTRIBUTE_IS_NULLABLE = true;
+    private static final BigInteger ATTRIBUTE_CARDINALITY = BigInteger.TEN;
+
 }
