@@ -15,8 +15,6 @@ import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
 
-    public static final String ROUTINE_SPECIFIC_NAME = "Routine Specific Name";
-    public static final String ROUTINE_SOURCE = "Routine Source";
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -205,8 +203,7 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(ROUTINE_CHARACTERISTICS, routine.getCharacteristic());
         assertEquals(ROUTINE_SPECIFIC_NAME, routine.getSpecificName());
         assertEquals(ROUTINE_SOURCE, routine.getSource());
-
-        // TODO: assertParameters(routine.getParameters())
+        assertParameters(routine.getParameters());
     }
 
     private RoutinesType createRoutines() {
@@ -224,17 +221,29 @@ public class ConvertableSiard21ArchiveTest {
         return routines;
     }
 
+    private void assertParameters(ch.admin.bar.siard2.api.generated.ParametersType parameters) {
+        assertNotNull(parameters);
+        assertEquals(1, parameters.getParameter().size());
+        ch.admin.bar.siard2.api.generated.ParameterType parameter = parameters.getParameter().get(0);
+        assertEquals(PARAMETER_NAME, parameter.getName());
+        assertEquals(PARAMETER_DESCRIPTION, parameter.getDescription());
+        assertEquals(PARAMETER_CARDINALITY, parameter.getCardinality());
+        assertEquals(PARAMETER_MODE, parameter.getMode());
+        assertEquals(PARAMETER_TYPE, parameter.getType());
+        assertEquals(PARAMETER_ORIGINAL, parameter.getTypeOriginal());
+        assertEquals(PARAMETER_SCHEMA, parameter.getTypeSchema());
+    }
+
     private ParametersType createParameters() {
         ParametersType parameters = new ParametersType();
         ParameterType parameter = new ParameterType();
-        parameter.setType("Parameter Type Type");
-        parameter.setTypeName("Parameter Type Name");
-        parameter.setDescription("Parameter Type Description");
-        parameter.setTypeOriginal("Parameter Type Original");
-        parameter.setTypeSchema("Parameter Type Schema");
-        parameter.setCardinality(BigInteger.ONE);
-        parameter.setMode("Parameter Type Mode");
-        parameter.setName("Parameter Type Name");
+        parameter.setName(PARAMETER_NAME);
+        parameter.setDescription(PARAMETER_DESCRIPTION);
+        parameter.setCardinality(PARAMETER_CARDINALITY);
+        parameter.setMode(PARAMETER_MODE);
+        parameter.setType(PARAMETER_TYPE);
+        parameter.setTypeOriginal(PARAMETER_ORIGINAL);
+        parameter.setTypeSchema(PARAMETER_SCHEMA);
         parameters.getParameter().add(parameter);
         return parameters;
     }
@@ -336,6 +345,14 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ROUTINE_RETURN_TYPE = "Routine Return Type";
     private static final String ROUTINE_BODY = "Routine Body";
     private static final String ROUTINE_CHARACTERISTICS = "Routine Characteristics";
+    private static final String ROUTINE_SPECIFIC_NAME = "Routine Specific Name";
+    private static final String ROUTINE_SOURCE = "Routine Source";
 
-
+    private static final String PARAMETER_NAME = "Parameter Name";
+    private static final String PARAMETER_DESCRIPTION = "Parameter Description";
+    private static final BigInteger PARAMETER_CARDINALITY = BigInteger.ONE;
+    private static final String PARAMETER_MODE = "Parameter Mode";
+    private static final String PARAMETER_TYPE = "Parameter Type";
+    private static final String PARAMETER_ORIGINAL = "Parameter Original";
+    private static final String PARAMETER_SCHEMA = "Parameter Schema";
 }

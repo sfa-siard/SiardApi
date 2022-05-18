@@ -1,7 +1,10 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.MessageDigestType;
+import ch.admin.bar.siard2.api.generated.SchemaType;
+import ch.admin.bar.siard2.api.generated.SchemasType;
+import ch.admin.bar.siard2.api.generated.SiardArchive;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +14,7 @@ import java.util.stream.Collectors;
 // understands transformation from SIARD 2.1 to the current Siard Archive
 public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
-    private static final ArrayList EMPTY_LIST = new ArrayList();
+    private static final List EMPTY_LIST = new ArrayList<>();
 
     @Override
     public SiardArchive visit(ConvertableSiard21Archive siard21Archive) {
@@ -87,7 +90,21 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                  convertableSiard21Routine.getCharacteristic(),
                                                  convertableSiard21Routine.getReturnType(),
                                                  convertableSiard21Routine.getSpecificName(),
-                                                 convertableSiard21Routine.getSource());
+                                                 convertableSiard21Routine.getSource(),
+                                                 getParameters(convertableSiard21Routine));
+    }
+
+
+    @Override
+    public ConvertablSiard22Parameter visit(ConvertableSiard21Parameter convertableSiard21Parameter) {
+        return new ConvertablSiard22Parameter(convertableSiard21Parameter.getName(),
+                                              convertableSiard21Parameter.getDescription(),
+                                              convertableSiard21Parameter.getCardinality(),
+                                              convertableSiard21Parameter.getMode(),
+                                              convertableSiard21Parameter.getType(),
+                                              convertableSiard21Parameter.getTypeName(),
+                                              convertableSiard21Parameter.getTypeSchema(),
+                                              convertableSiard21Parameter.getTypeOriginal());
     }
 
     private SchemasType getSchema(ConvertableSiard21Archive siard21Archive) {
@@ -126,6 +143,16 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                        .stream()
                                        .map(routine -> new ConvertableSiard21Routine(routine).accept(this))
                                        .collect(Collectors.toList());
+    }
+
+    private List<ConvertablSiard22Parameter> getParameters(ConvertableSiard21Routine convertableSiard21Routine) {
+        if(convertableSiard21Routine.getParameters() == null) return EMPTY_LIST;
+        return convertableSiard21Routine.getParameters()
+                                        .getParameter()
+                                        .stream()
+                                        .map(ConvertableSiard21Parameter::new)
+                                        .map(parameter -> parameter.accept(this))
+                                        .collect(Collectors.toList());
     }
 
 
