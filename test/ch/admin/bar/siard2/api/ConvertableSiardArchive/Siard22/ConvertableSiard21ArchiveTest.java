@@ -94,10 +94,9 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(schema.getName(), SCHEMA_NAME);
         assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
         assertEquals(schema.getFolder(), SCHEMA_FOLDER);
-        ch.admin.bar.siard2.api.generated.TypesType types = schema.getTypes();
-        assertTypes(types);
-        ch.admin.bar.siard2.api.generated.RoutinesType routines = schema.getRoutines();
-        assertRoutines(routines);
+        assertTypes(schema.getTypes());
+        assertRoutines(schema.getRoutines());
+        assertTables(schema.getTables());
     }
 
     private SchemasType createSchemas() {
@@ -108,8 +107,8 @@ public class ConvertableSiard21ArchiveTest {
         schema.setFolder(SCHEMA_FOLDER);
         schema.setTypes(createTypes());
         schema.setRoutines(createRoutines());
-        schema.setTables(createTables());
         schema.setViews(createViews());
+        schema.setTables(createTables());
         schemas.getSchema().add(schema);
         return schemas;
     }
@@ -158,9 +157,24 @@ public class ConvertableSiard21ArchiveTest {
         return views;
     }
 
+    private void assertTables(ch.admin.bar.siard2.api.generated.TablesType tables) {
+        assertNotNull(tables);
+        assertEquals(1, tables.getTable().size());
+        ch.admin.bar.siard2.api.generated.TableType table = tables.getTable().get(0);
+        assertEquals(TABLE_NAME, table.getName());
+        assertEquals(TABLE_DESCRIPTION, table.getDescription());
+        assertEquals(TABLE_FOLDER, table.getFolder());
+        assertEquals(TABLE_ROWS, table.getRows());
+    }
+
     private TablesType createTables() {
         TablesType tables = new TablesType();
         TableType table = new TableType();
+        table.setName(TABLE_NAME);
+        table.setDescription(TABLE_DESCRIPTION);
+        table.setFolder(TABLE_FOLDER);
+        table.setRows(TABLE_ROWS);
+
         CandidateKeysType candidateKeysType = new CandidateKeysType();
         UniqueKeyType candidateKey = new UniqueKeyType();
         candidateKey.setName("Candidate Key Name");
@@ -355,4 +369,11 @@ public class ConvertableSiard21ArchiveTest {
     private static final String PARAMETER_TYPE = "Parameter Type";
     private static final String PARAMETER_ORIGINAL = "Parameter Original";
     private static final String PARAMETER_SCHEMA = "Parameter Schema";
+
+    private static final String TABLE_NAME = "Table Name";
+    private static final String TABLE_DESCRIPTION = "Table Description";
+    private static final String TABLE_FOLDER = "Table Folder";
+    private static final BigInteger TABLE_ROWS = BigInteger.valueOf(1024);
+
+
 }
