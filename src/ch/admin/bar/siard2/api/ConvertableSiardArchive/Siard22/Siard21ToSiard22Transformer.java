@@ -32,7 +32,6 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                              getSchema(siard21Archive));
     }
 
-
     @Override
     public MessageDigestType visit(ConvertableSiard21MessageDigestType messageDigest) {
         return new ConvertableSiard22MessageDigestType(messageDigest.getDigest(),
@@ -41,9 +40,21 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public ConvertableSiard22SchemaType visit(ConvertableSiard21SchemaType convertableSiard21Schema) {
+        List<ConvertableSiard22TypeType> types = convertableSiard21Schema.getTypes()
+                                                                           .getType()
+                                                                           .stream()
+                                                                           .map(type -> new ConvertableSiard21TypeType(
+                                                                                   type).accept(this))
+                                                                           .collect(
+                                                                                   Collectors.toList());
         return new ConvertableSiard22SchemaType(convertableSiard21Schema.getName(),
                                                 convertableSiard21Schema.getDescription(),
-                                                convertableSiard21Schema.getFolder());
+                                                convertableSiard21Schema.getFolder(), types);
+    }
+
+    @Override
+    public ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType) {
+        return new ConvertableSiard22TypeType(convertableSiard21TypeType.getName(), convertableSiard21TypeType.getDescription(), convertableSiard21TypeType.getBase(), convertableSiard21TypeType.getUnderType(), convertableSiard21TypeType.isFinal());
     }
 
     private SchemasType getSchema(ConvertableSiard21Archive siard21Archive) {

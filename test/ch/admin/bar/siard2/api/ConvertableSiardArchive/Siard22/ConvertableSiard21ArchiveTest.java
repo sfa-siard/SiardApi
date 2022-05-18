@@ -16,7 +16,11 @@ import static org.junit.Assert.assertNotNull;
 
 public class ConvertableSiard21ArchiveTest {
 
-
+    public static final String TYPE_DESCRIPTION = "Type Description";
+    public static final String TYPE_NAME = "Type Name";
+    public static final String TYPE_BASE = "Type Base";
+    public static final String TYPE_UNDER_TYPE = "Type under Type";
+    public static final boolean TYPE_IS_FINAL = true;
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -70,6 +74,8 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(schema.getName(), SCHEMA_NAME);
         assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
         assertEquals(schema.getFolder(), SCHEMA_FOLDER);
+        ch.admin.bar.siard2.api.generated.TypesType types = schema.getTypes();
+        assertTypes(types);
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
@@ -133,7 +139,7 @@ public class ConvertableSiard21ArchiveTest {
         column.setTypeSchema("Column Type Schema");
         column.setTypeOriginal("Column Type Original");
         column.setCardinality(BigInteger.valueOf(9));
-        column.setNullable(true);
+        column.setNullable(TYPE_IS_FINAL);
         FieldsType fields = new FieldsType();
         FieldType field = new FieldType();
         field.setName("Field Name");
@@ -216,14 +222,27 @@ public class ConvertableSiard21ArchiveTest {
         return routines;
     }
 
+    private void assertTypes(ch.admin.bar.siard2.api.generated.TypesType types) {
+        assertNotNull(types);
+        assertNotNull(types.getType());
+        assertEquals(1, types.getType().size());
+        ch.admin.bar.siard2.api.generated.TypeType type = types.getType().get(0);
+
+        assertEquals(TYPE_NAME, type.getName());
+        assertEquals(TYPE_DESCRIPTION, type.getDescription());
+        assertEquals(TYPE_BASE, type.getBase());
+        assertEquals(TYPE_UNDER_TYPE, type.getUnderType());
+        assertEquals(TYPE_IS_FINAL, type.isFinal());
+    }
+    
     private TypesType createTypes() {
         TypesType types = new TypesType();
         TypeType type = new TypeType();
-        type.setDescription("Type Type Description");
-        type.setBase("Type Type Base");
-        type.setName("Type Type Name");
-        type.setUnderType("Type Type Under Type");
-        type.setFinal(true);
+        type.setName(TYPE_NAME);
+        type.setDescription(TYPE_DESCRIPTION);
+        type.setBase(TYPE_BASE);
+        type.setUnderType(TYPE_UNDER_TYPE);
+        type.setFinal(TYPE_IS_FINAL);
 
         AttributesType attributes = new AttributesType();
         AttributeType attribute = new AttributeType();
@@ -234,7 +253,7 @@ public class ConvertableSiard21ArchiveTest {
         attribute.setTypeName("Attribute Type Type Name");
         attribute.setCardinality(BigInteger.TEN);
         attribute.setDefaultValue("Attribute Type Default Value");
-        attribute.setNullable(true);
+        attribute.setNullable(TYPE_IS_FINAL);
         attribute.setTypeOriginal("Attribute Type Original");
         attributes.getAttribute().add(attribute);
         type.setAttributes(attributes);

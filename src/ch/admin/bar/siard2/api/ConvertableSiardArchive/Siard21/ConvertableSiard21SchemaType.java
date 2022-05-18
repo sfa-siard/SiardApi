@@ -12,6 +12,7 @@ public class ConvertableSiard21SchemaType extends SchemaType {
         this.name = schema.getName();
         this.description = schema.getDescription();
         this.folder = schema.getFolder();
+        this.types = schema.getTypes();
     }
 
     public ConvertableSiard22SchemaType accept(Siard21ToSiard22Transformer visitor) {
