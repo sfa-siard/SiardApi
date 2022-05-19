@@ -575,7 +575,7 @@ public class MetaDataXml
     return sa;
   } /* readXml */
 
-  public static SiardArchive readSiard21Xml(FileInputStream fileInputStream) {
+  public static SiardArchive readSiard21Xml(InputStream fileInputStream) {
     ch.admin.bar.siard2.api.generated.old21.SiardArchive sa = null;
     SiardArchive siardArchive = null;
     try {
