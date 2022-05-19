@@ -12,7 +12,9 @@ public class ArchiveTester
 {
   private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
   private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
-  private static final File _fileSIARD_21 = new File("testfiles/sql2008.siard");
+
+  private static final File FILE_SIARD_21 = new File("testfiles/sql2008_2_1.siard");
+  private static final File FILE_SIARD_22 = new File("testfiles/sql2008.siard");
   @SuppressWarnings("unused")
   private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
@@ -148,21 +150,30 @@ public class ArchiveTester
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
-  public void testOpenNew()
-  {
-    System.out.println("testOpenNew");
-    Archive archive = ArchiveImpl.newInstance();
-    try
-    {
-      archive.open(_fileSIARD_21);
-      assertSame("Can modify primary data after open!",false,archive.canModifyPrimaryData());
-      MetaData md = archive.getMetaData();
-      assertEquals("Open failed!","2.2",md.getVersion());
+  public void shouldOpenArchiveInFormatSiard21() throws IOException {
+      // given
+      Archive archive = ArchiveImpl.newInstance();
+
+      // when
+      archive.open(FILE_SIARD_21);
+
+      // then
+      assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
+      MetaData metaData = archive.getMetaData();
+      assertEquals( "2.1", metaData.getVersion());
       archive.close();
-    }
-    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+  }
+
+  @Test
+  public void shouldOpenArchiveInFormatSiard22() throws IOException {
+    Archive archive = ArchiveImpl.newInstance();
+    archive.open(FILE_SIARD_22);
+    assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
+    MetaData md = archive.getMetaData();
+    assertEquals("2.2", md.getVersion());
+    archive.close();
   }
   
   /***

@@ -6,14 +6,13 @@ import org.junit.Test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class MetaDataXmlTest {
     private static final String TESTFILES_METADATA_DIR = "testfiles/metadata/";
-    private static final String METADATA_2_2_XML = "metadata-2.2.xml";
-    private static final String METADATA_1_0_XML = "metadata-1.0.xml";
-    private static final String METADATA_2_1_XML = "metadata-2.1.xml";
+    private static final String METADATA_1_0_XML = "1.0/metadata-1.0.xml";
+    private static final String METADATA_2_1_XML = "2.1/metadata-2.1.xml";
+    private static final String METADATA_2_2_XML = "2.2/metadata-2.2.xml";
 
     @Test
     public void shoudReadSiard10XmlMetaData() throws FileNotFoundException {
@@ -132,7 +131,8 @@ public class MetaDataXmlTest {
     }
 
     private void assertIsSiard22Archive(SiardArchive sa) {
-        assertEquals(sa.getClass().getName(), "ch.admin.bar.siard2.api.generated.SiardArchive");
+        // assertEquals(sa.getClass().getName(), "ch.admin.bar.siard2.api.generated.SiardArchive");
+        assertTrue(sa instanceof SiardArchive);
     }
 
     private FileInputStream getFileInputStream(String metadata10Xml) throws FileNotFoundException {

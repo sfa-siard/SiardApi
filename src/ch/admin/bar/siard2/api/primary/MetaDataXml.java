@@ -12,6 +12,9 @@ import java.io.*;
 import java.net.*;
 import javax.xml.bind.*;
 
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22Archive;
+import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
 import ch.enterag.utils.EU;
 import ch.enterag.utils.jaxb.*;
 import ch.enterag.utils.logging.*;
@@ -572,16 +575,20 @@ public class MetaDataXml
     return sa;
   } /* readXml */
 
-  public static SiardArchive readSiard21Xml(FileInputStream fileInputStream) {
-    SiardArchive sa = null;
+  public static SiardArchive readSiard21Xml(InputStream fileInputStream) {
+    ch.admin.bar.siard2.api.generated.old21.SiardArchive sa = null;
+    SiardArchive siardArchive = null;
     try {
       URL urlXsd = Archive.class.getResource(sSIARD21_XSD_RESOURCE);
-      sa = Io.readJaxbObject(SiardArchive.class, fileInputStream, urlXsd);
+      sa = Io.readJaxbObject(ConvertableSiard21Archive.class, fileInputStream, urlXsd);
+      Siard21ToSiard22Transformer visitor = new Siard21ToSiard22Transformer();
+      siardArchive = ((ConvertableSiard21Archive) sa).accept(visitor);
+
     } catch (JAXBException je) {
       _il.exception(je);
       System.err.println(EU.getExceptionMessage(je));
     }
-    return sa;
+    return siardArchive;
   }
 
   /*------------------------------------------------------------------*/

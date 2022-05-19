@@ -330,12 +330,17 @@ public class ArchiveImpl
     if (feMetaData != null)
     {
       SiardArchive sa;
-      // format versions 2.1, 2.2
-      if (existsFolderEntry(getSiardVersionFolder21()) || existsFolderEntry(getSiardVersionFolder()))
+      // format versions 2.2
+      if (existsFolderEntry(getSiardVersionFolder()))
       {
         InputStream isMetaData = openFileEntry(getMetaDataXml());
         sa = MetaDataXml.readSiard22Xml(isMetaData);
         isMetaData.close();
+      } else if (existsFolderEntry(getSiardVersionFolder21())) {
+        InputStream isMetaData = openFileEntry(getMetaDataXml());
+        sa = MetaDataXml.readSiard21Xml(isMetaData);
+        isMetaData.close();
+        _sPreviousMetaDataVersion = Archive.sMETA_DATA_VERSION_2_1;
       }
       // format version 2.0 (abrogated)
       else if (existsFolderEntry(getSiardVersionFolder20()))
