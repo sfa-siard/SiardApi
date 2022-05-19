@@ -53,20 +53,14 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType) {
-        Collection<ConvertableSiard22AttributeType> attributes = convertableSiard21TypeType.getAttributes()
-                                                                                           .getAttribute()
-                                                                                           .stream()
-                                                                                           .map(attribute -> new ConvertableSiard21AttributeType(
-                                                                                                   attribute).accept(
-                                                                                                   this))
-                                                                                           .collect(Collectors.toList());
         return new ConvertableSiard22TypeType(convertableSiard21TypeType.getName(),
                                               convertableSiard21TypeType.getDescription(),
                                               convertableSiard21TypeType.getBase(),
                                               convertableSiard21TypeType.getUnderType(),
                                               convertableSiard21TypeType.isFinal(),
-                                              attributes);
+                                              getAttributes(convertableSiard21TypeType.getAttributes()));
     }
+
 
     @Override
     public ConvertableSiard22AttributeType visit(ConvertableSiard21AttributeType convertableSiard21AttributeType) {
@@ -113,6 +107,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                convertableSiard21Table.getDescription(),
                                                convertableSiard21Table.getFolder(),
                                                convertableSiard21Table.getRows(),
+                                               getColumns(convertableSiard21Table.getColumns()),
                                                getCandidateKeys(convertableSiard21Table),
                                                getCheckConstraints(convertableSiard21Table),
                                                getForeignKeys(convertableSiard21Table));
@@ -161,7 +156,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                               convertableSiard21ViewType.getRows(),
                                               convertableSiard21ViewType.getQuery(),
                                               convertableSiard21ViewType.getQueryOriginal(),
-                                              getColumns(convertableSiard21ViewType));
+                                              getColumns(convertableSiard21ViewType.getColumns()));
     }
 
     @Override
@@ -225,6 +220,16 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                        .stream()
                                        .map(type -> new ConvertableSiard21TypeType(type).accept(this))
                                        .collect(Collectors.toList());
+    }
+
+    private Collection<ConvertableSiard22AttributeType> getAttributes(
+            ch.admin.bar.siard2.api.generated.old21.AttributesType attributes) {
+        if (attributes == null) return EMPTY_LIST;
+        return attributes.getAttribute()
+                         .stream()
+                         .map(ConvertableSiard21AttributeType::new)
+                         .map(attribute -> attribute.accept(this))
+                         .collect(Collectors.toList());
     }
 
     private Collection<ConvertableSiard22RoutineType> getRoutines(
@@ -301,17 +306,14 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                        .collect(Collectors.toList());
     }
 
-    private List<ColumnType> getColumns(ConvertableSiard21ViewType convertableSiard21ViewType) {
-        if (convertableSiard21ViewType.getColumns() == null) return EMPTY_LIST;
-        return convertableSiard21ViewType.getColumns()
-                                         .getColumn()
-                                         .stream()
-                                         .map(ConvertableSiard21ColumnType::new)
-                                         .map(column -> column.accept(this))
-                                         .collect(Collectors.toList());
-
+    private List<ColumnType> getColumns(ch.admin.bar.siard2.api.generated.old21.ColumnsType columns) {
+        if (columns == null) return EMPTY_LIST;
+        return columns.getColumn()
+                      .stream()
+                      .map(ConvertableSiard21ColumnType::new)
+                      .map(column -> column.accept(this))
+                      .collect(Collectors.toList());
     }
-
     private List<FieldType> getFields(ch.admin.bar.siard2.api.generated.old21.FieldsType fields) {
         if (fields == null) return EMPTY_LIST;
         return fields.getField()
