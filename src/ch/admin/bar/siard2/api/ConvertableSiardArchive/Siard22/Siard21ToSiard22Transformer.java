@@ -1,5 +1,6 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
+import ch.admin.bar.siard2.api.Archive;
 import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.*;
 import ch.admin.bar.siard2.api.generated.*;
 
@@ -15,7 +16,8 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public SiardArchive visit(ConvertableSiard21Archive siard21Archive) {
-        return new ConvertableSiard22Archive(siard21Archive.getDbname(),
+        return new ConvertableSiard22Archive(Archive.sMETA_DATA_VERSION,
+                                             siard21Archive.getDbname(),
                                              siard21Archive.getDescription(),
                                              siard21Archive.getArchiver(),
                                              siard21Archive.getArchiverContact(),

@@ -32,6 +32,7 @@ public class ConvertableSiard21ArchiveTest {
 
     private void assertSiardArchiveWithAllFieldsSet(SiardArchive result) {
         assertNotNull(result);
+        assertEquals("2.2", result.getVersion());
         assertEquals(DB_NAME, result.getDbname());
         assertEquals(DESCRIPTION, result.getDescription());
         assertEquals(ARCHIVER, result.getArchiver());

@@ -9,7 +9,8 @@ import java.util.List;
 
 // understands a Siard Archive v 2.2
 public class ConvertableSiard22Archive extends SiardArchive {
-    ConvertableSiard22Archive(String dbName, String description, String archiver, String archiverContact,
+    ConvertableSiard22Archive(String version, String dbName, String description, String archiver,
+                              String archiverContact,
                               String dataOwner, String dataOriginTimespan, String lobFolder, String producerApplication,
                               XMLGregorianCalendar archivalDate,
                               String clientMachine,
@@ -17,6 +18,7 @@ public class ConvertableSiard22Archive extends SiardArchive {
                               List<MessageDigestType> messageDigests,
                               SchemasType schemas) {
         super();
+        this.version = version;
         this.dbname = dbName;
         this.description = description;
         this.archiver = archiver;
