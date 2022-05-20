@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 import static org.junit.Assert.*;
 
-import javafx.scene.shape.Arc;
 import org.junit.*;
 import ch.enterag.utils.*;
 import ch.admin.bar.siard2.api.generated.*;
