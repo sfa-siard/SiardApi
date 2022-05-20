@@ -817,24 +817,27 @@ public class MetaDataImpl
   public boolean isValid()
   {
     boolean bValid = true;
-    /* a valid archive must have version 2.0 */
-    if (bValid && 
-      (!Archive.sMETA_DATA_VERSION.equals(XU.fromXml(_sa.getVersion()))))
+    /* a valid archive must have version 2.1 or 2.2 */
+    String metadataVersion = XU.fromXml(_sa.getVersion());
+    if (bValid &&
+      (!Archive.sMETA_DATA_VERSION.equals(metadataVersion)) && !Archive.sMETA_DATA_VERSION_2_1.equals(metadataVersion)) {
+
       bValid = false;
+    }
     /* a valid archive must have a non-empty dbname */
-    if (bValid && 
-      (!SU.isNotEmpty(_sa.getDbname()))) 
+    if (bValid &&
+      (!SU.isNotEmpty(_sa.getDbname())))
       bValid = false;
     /* a valid archive must have a non-empty data owner */
-    if (bValid && 
-      (!SU.isNotEmpty(_sa.getDataOwner()))) 
+    if (bValid &&
+      (!SU.isNotEmpty(_sa.getDataOwner())))
       bValid = false;
     /* a valid archive must have a non-empty data origin time span */
-    if (bValid && 
-      (!SU.isNotEmpty(_sa.getDataOriginTimespan()))) 
+    if (bValid &&
+      (!SU.isNotEmpty(_sa.getDataOriginTimespan())))
       bValid = false;
     /* a valid archive must have a non-empty archival date */
-    if (bValid && 
+    if (bValid &&
       (_sa.getArchivalDate() == null))
       bValid = false;
     /* a valid archive must have at least one user */
