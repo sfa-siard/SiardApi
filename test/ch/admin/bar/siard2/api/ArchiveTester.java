@@ -3,6 +3,8 @@ package ch.admin.bar.siard2.api;
 import java.io.*;
 import java.util.*;
 import static org.junit.Assert.*;
+
+import javafx.scene.shape.Arc;
 import org.junit.*;
 import ch.enterag.utils.*;
 import ch.admin.bar.siard2.api.generated.*;
@@ -11,7 +13,7 @@ import ch.admin.bar.siard2.api.primary.*;
 public class ArchiveTester
 {
   private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
-  private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
+  private static final File FILE_SIARD_10 = new File("tmp/sql1999.siard");
 
   private static final File FILE_SIARD_21 = new File("testfiles/sql2008_2_1.siard");
   private static final File FILE_SIARD_22 = new File("testfiles/sql2008.siard");
@@ -38,74 +40,7 @@ public class ArchiveTester
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
 
-  private void setMandatoryMetaData(Archive archive)
-  {
-    try
-    {
-      MetaData md = archive.getMetaData();
-      /* mandatory meta data are needed for successful closing */ 
-      md.setDbName(_sDBNAME);
-      md.setDataOwner(_sDATA_OWNER);
-      md.setDataOriginTimespan(_sDATA_ORIGIN_TIMESPAN);
-      /* at least one schema is mandatory */
-      if (md.getMetaSchema(_sTEST_SCHEMA_NAME) == null)
-        archive.createSchema(_sTEST_SCHEMA_NAME);
-      if (md.getMetaUser(_sTEST_USER_NAME) == null)
-        md.createMetaUser(_sTEST_USER_NAME);
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
-  }
-  
-  private boolean areFilesEqual(File file1, File file2)
-    throws IOException
-  {
-    boolean bEqual = false;
-    if (file1.isFile() && file2.isFile())
-    {
-      if (file1.exists() == file2.exists())
-      {
-        bEqual = true;
-        if (file1.exists() && file2.exists())
-        {
-          byte[] buf1 = new byte[_iBUFSIZ];
-          byte[] buf2 = new byte[_iBUFSIZ];
-          FileInputStream fis1 = null;
-          FileInputStream fis2 = null;
-          try
-          {
-            fis1 = new FileInputStream(file1);
-            fis2 = new FileInputStream(file2);
-            int iRead1 = fis1.read(buf1);
-            int iRead2 = fis2.read(buf2);
-            while (bEqual && (iRead1 != -1) && (iRead2 != -1))
-            {
-              if (iRead1 == iRead2)
-              {
-                if (iRead1 < buf1.length)
-                  buf1 = Arrays.copyOf(buf1,iRead1);
-                if (iRead2 < buf2.length)
-                  buf2 = Arrays.copyOf(buf2,iRead2);
-                bEqual = Arrays.equals(buf1,buf2);
-              }
-              else
-                bEqual = false; 
-              iRead1 = fis1.read(buf1);
-              iRead2 = fis2.read(buf2);
-            }
-          }
-          catch(IOException ie) { throw ie; }
-          finally
-          {
-            if (fis1 != null)
-              fis1.close();
-            if (fis2 != null)
-              fis2.close();
-          }
-        }
-      }
-    }
-    return bEqual;
-  } /* areFilesEqual */
+
   
   @Before
   public void setUp()
@@ -114,7 +49,7 @@ public class ArchiveTester
     /* make sure, test file does not get clobbered by tests */
     try 
     { 
-      FU.copy(_fileSIARD_10_SOURCE, _fileSIARD_10);
+      FU.copy(_fileSIARD_10_SOURCE, FILE_SIARD_10);
       if (_fileSIARD_21_NEW.exists())
         _fileSIARD_21_NEW.delete();
       if (_fileMETADATA_XSD.exists())
@@ -136,20 +71,19 @@ public class ArchiveTester
   }
 
   @Test
-  public void testOpenOld()
-  {
-    System.out.println("testOpenOld");
+  public void shouldOpenArchiveInFormat10() throws IOException {
+    // given
     Archive archive = ArchiveImpl.newInstance();
-    try
-    {
-      archive.open(_fileSIARD_10);
-      assertSame("Can modify primary data after open!",false,archive.canModifyPrimaryData());
-      MetaData md = archive.getMetaData();
-      assertEquals("Open failed!",Archive.sMETA_DATA_VERSION_1_0,md.getVersion());
-      assertEquals("Open failed!","SQL:1999 Standard Types",md.getDbName());
-      archive.close();
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+
+    // when
+    archive.open(FILE_SIARD_10);
+
+    // then
+    assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
+    MetaData md = archive.getMetaData();
+    assertEquals(Archive.sMETA_DATA_VERSION_1_0, md.getVersion());
+    assertEquals("SQL:1999 Standard Types", md.getDbName());
+    archive.close();
   }
 
   @Test
@@ -163,38 +97,53 @@ public class ArchiveTester
       // then
       assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
       MetaData metaData = archive.getMetaData();
-      assertEquals( "2.1", metaData.getVersion());
+      assertEquals(Archive.sMETA_DATA_VERSION_2_1, metaData.getVersion());
       archive.close();
   }
 
   @Test
   public void shouldOpenArchiveInFormatSiard22() throws IOException {
+    // given
     Archive archive = ArchiveImpl.newInstance();
+
+    // when
     archive.open(FILE_SIARD_22);
+
+    // then
     assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
     MetaData md = archive.getMetaData();
-    assertEquals("2.2", md.getVersion());
+    assertEquals(Archive.sMETA_DATA_VERSION, md.getVersion());
     archive.close();
   }
   
   @Test
   public void shouldOpenComplexArchiveInFormatSiard22() throws IOException {
+    // given
     Archive archive = ArchiveImpl.newInstance();
+
+    // when
     archive.open(FILE_SIARD_COMPLEX_22);
+
+    // then
     assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
     MetaData md = archive.getMetaData();
-    assertEquals("2.2", md.getVersion());
+    assertEquals(Archive.sMETA_DATA_VERSION, md.getVersion());
     assertEquals("(...)", md.getDbName());
     archive.close();
   }
 
   @Test
   public void shouldOpenComplexArchiveInFormatSiard21() throws IOException {
+    // given
     Archive archive = ArchiveImpl.newInstance();
+
+    // when
     archive.open(FILE_SIARD_COMPLEX_21);
+
+    // then
     assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
     MetaData md = archive.getMetaData();
-    assertEquals("2.1", md.getVersion());
+    assertEquals(Archive.sMETA_DATA_VERSION_2_1, md.getVersion());
     assertEquals("(...)", md.getDbName());
     archive.close();
   }
@@ -238,10 +187,10 @@ public class ArchiveTester
     Archive archive = ArchiveImpl.newInstance();
     try
     {
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       File file = archive.getFile();
       archive.close();
-      assertEquals("Wrong file!",_fileSIARD_10.getAbsolutePath(),file.getAbsolutePath());
+      assertEquals("Wrong file!", FILE_SIARD_10.getAbsolutePath(), file.getAbsolutePath());
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
@@ -294,7 +243,7 @@ public class ArchiveTester
     Archive archive = ArchiveImpl.newInstance();
     try
     {
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       FileOutputStream fos = new FileOutputStream(_fileMETADATA_XSD);
       archive.exportMetaDataSchema(fos);
       fos.close();
@@ -312,7 +261,7 @@ public class ArchiveTester
     Archive archive = ArchiveImpl.newInstance();
     try
     {
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       FileOutputStream fos = new FileOutputStream(_fileTABLE_XSD);
       archive.exportGenericTableSchema(fos);
       fos.close();
@@ -406,7 +355,7 @@ public class ArchiveTester
       archive.close();
       
       archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       assertFalse("Old archive is empty!",archive.isEmpty());
       archive.close();
     }
@@ -437,7 +386,7 @@ public class ArchiveTester
     try
     {
       Archive archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       assertTrue("Old archive is not valid!",archive.isValid());
       archive.close();
     }
@@ -496,7 +445,7 @@ public class ArchiveTester
       archive.close();
 
       archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       assertFalse("Old archive is unchanged!",archive.isPrimaryDataUnchanged());
       archive.close();
     }
@@ -520,7 +469,7 @@ public class ArchiveTester
       archive.close();
 
       archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       assertEquals("Old archive has wrong number of schemas!",1,archive.getSchemas());
       archive.close();
     }
@@ -535,7 +484,7 @@ public class ArchiveTester
     try
     {
       Archive archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       for (int iSchema = 0; iSchema < archive.getSchemas(); iSchema++)
       {
         Schema schema = archive.getSchema(iSchema);
@@ -555,7 +504,7 @@ public class ArchiveTester
     {
       String sName = "SIARDSCHEMA";
       Archive archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       Schema schema = archive.getSchema(sName);
       assertEquals("Schema not retrieved correctly!",sName,schema.getMetaSchema().getName());
       archive.close();
@@ -572,7 +521,7 @@ public class ArchiveTester
     {
       String sName = "TESTSCHEMA";
       Archive archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
+      archive.open(FILE_SIARD_10);
       try
       {
         archive.createSchema(sName);
@@ -596,5 +545,73 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
+  private void setMandatoryMetaData(Archive archive)
+  {
+    try
+    {
+      MetaData md = archive.getMetaData();
+      /* mandatory meta data are needed for successful closing */
+      md.setDbName(_sDBNAME);
+      md.setDataOwner(_sDATA_OWNER);
+      md.setDataOriginTimespan(_sDATA_ORIGIN_TIMESPAN);
+      /* at least one schema is mandatory */
+      if (md.getMetaSchema(_sTEST_SCHEMA_NAME) == null)
+        archive.createSchema(_sTEST_SCHEMA_NAME);
+      if (md.getMetaUser(_sTEST_USER_NAME) == null)
+        md.createMetaUser(_sTEST_USER_NAME);
+    }
+    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
+  }
+
+  private boolean areFilesEqual(File file1, File file2)
+          throws IOException
+  {
+    boolean bEqual = false;
+    if (file1.isFile() && file2.isFile())
+    {
+      if (file1.exists() == file2.exists())
+      {
+        bEqual = true;
+        if (file1.exists() && file2.exists())
+        {
+          byte[] buf1 = new byte[_iBUFSIZ];
+          byte[] buf2 = new byte[_iBUFSIZ];
+          FileInputStream fis1 = null;
+          FileInputStream fis2 = null;
+          try
+          {
+            fis1 = new FileInputStream(file1);
+            fis2 = new FileInputStream(file2);
+            int iRead1 = fis1.read(buf1);
+            int iRead2 = fis2.read(buf2);
+            while (bEqual && (iRead1 != -1) && (iRead2 != -1))
+            {
+              if (iRead1 == iRead2)
+              {
+                if (iRead1 < buf1.length)
+                  buf1 = Arrays.copyOf(buf1,iRead1);
+                if (iRead2 < buf2.length)
+                  buf2 = Arrays.copyOf(buf2,iRead2);
+                bEqual = Arrays.equals(buf1,buf2);
+              }
+              else
+                bEqual = false;
+              iRead1 = fis1.read(buf1);
+              iRead2 = fis2.read(buf2);
+            }
+          }
+          catch(IOException ie) { throw ie; }
+          finally
+          {
+            if (fis1 != null)
+              fis1.close();
+            if (fis2 != null)
+              fis2.close();
+          }
+        }
+      }
+    }
+    return bEqual;
+  } /* areFilesEqual */
 }
