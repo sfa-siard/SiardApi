@@ -12,9 +12,8 @@ import java.io.*;
 import java.net.*;
 import javax.xml.bind.*;
 
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard21.ConvertableSiard21Archive;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.ConvertableSiard22Archive;
-import ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
+import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.ConvertableSiard21Archive;
+import ch.admin.bar.siard2.api.convertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
 import ch.enterag.utils.EU;
 import ch.enterag.utils.jaxb.*;
 import ch.enterag.utils.logging.*;
