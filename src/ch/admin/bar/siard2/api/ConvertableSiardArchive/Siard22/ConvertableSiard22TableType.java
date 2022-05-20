@@ -12,6 +12,7 @@ public class ConvertableSiard22TableType extends TableType {
                                        Collection<ConvertableSiard22UniqueKeyType> candidateKeys,
                                        Collection<ConvertableSiard22CheckConstraintType> checkConstraints,
                                        List<ConvertableSiard22ForeignKeyTypes> foreignKeys) {
+        super();
         this.name = name;
         this.description = description;
         this.folder = folder;

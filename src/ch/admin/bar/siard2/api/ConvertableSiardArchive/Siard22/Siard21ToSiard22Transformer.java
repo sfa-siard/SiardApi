@@ -38,13 +38,11 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public MessageDigestType visit(ConvertableSiard21MessageDigestType messageDigest) {
-        return new ConvertableSiard22MessageDigestType(messageDigest.getDigest(),
-                                                       messageDigest.getDigestType().value());
+        return new ConvertableSiard22MessageDigestType(messageDigest.getDigest(), convertDigestType(messageDigest));
     }
 
     @Override
     public ConvertableSiard22SchemaType visit(ConvertableSiard21SchemaType convertableSiard21Schema) {
-
         return new ConvertableSiard22SchemaType(convertableSiard21Schema.getName(),
                                                 convertableSiard21Schema.getDescription(),
                                                 convertableSiard21Schema.getFolder(),
@@ -54,20 +52,16 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                 getViews(convertableSiard21Schema));
     }
 
-
     @Override
     public ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType) {
-        ch.admin.bar.siard2.api.generated.old21.CategoryType categorySiard21 = convertableSiard21TypeType.getCategory();
-        CategoryType category = categorySiard21 != null ? CategoryType.fromValue(categorySiard21.value()) : null;
         return new ConvertableSiard22TypeType(convertableSiard21TypeType.getName(),
                                               convertableSiard21TypeType.getDescription(),
                                               convertableSiard21TypeType.getBase(),
                                               convertableSiard21TypeType.getUnderType(),
                                               convertableSiard21TypeType.isFinal(),
-                                              category,
+                                              convertCategoryType(convertableSiard21TypeType),
                                               getAttributes(convertableSiard21TypeType.getAttributes()));
     }
-
 
     @Override
     public ConvertableSiard22AttributeType visit(ConvertableSiard21AttributeType convertableSiard21AttributeType) {
@@ -109,7 +103,6 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public ConvertableSiard22TableType visit(ConvertableSiard21Table convertableSiard21Table) {
-
         return new ConvertableSiard22TableType(convertableSiard21Table.getName(),
                                                convertableSiard21Table.getDescription(),
                                                convertableSiard21Table.getFolder(),
@@ -140,20 +133,11 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     public ConvertableSiard22ForeignKeyTypes visit(
             ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes) {
 
-
-        MatchTypeType matchType = Optional.ofNullable(convertableSiard21ForeignKeyTypes.getMatchType())
-                                               .map(ch.admin.bar.siard2.api.generated.old21.MatchTypeType::value)
-                                               .map(MatchTypeType::valueOf).orElse(null);
-
-        String deleteAction = convertableSiard21ForeignKeyTypes.getDeleteAction() == null ? "" : convertableSiard21ForeignKeyTypes.getDeleteAction()
-                                                                                                                                  .value();
-        String updateAction = convertableSiard21ForeignKeyTypes.getUpdateAction() == null ? "" : convertableSiard21ForeignKeyTypes.getUpdateAction()
-                                                                                                                                  .value();
         return new ConvertableSiard22ForeignKeyTypes(convertableSiard21ForeignKeyTypes.getName(),
                                                      convertableSiard21ForeignKeyTypes.getDescription(),
-                                                     matchType,
-                                                     deleteAction,
-                                                     updateAction,
+                                                     convertMatchType(convertableSiard21ForeignKeyTypes),
+                                                     getReferentialActionType(convertableSiard21ForeignKeyTypes.getDeleteAction()),
+                                                     getReferentialActionType(convertableSiard21ForeignKeyTypes.getUpdateAction()),
                                                      convertableSiard21ForeignKeyTypes.getReferencedSchema(),
                                                      convertableSiard21ForeignKeyTypes.getReferencedTable(),
                                                      getReferences(convertableSiard21ForeignKeyTypes));
@@ -216,6 +200,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     }
 
 
+    // TODO: other converter methods return a list of things, not the container
     private SchemasType getSchema(ConvertableSiard21Archive siard21Archive) {
         SchemasType schemaContainer = new SchemasType();
         Collection<SchemaType> schemas = siard21Archive.getSchemas()
@@ -357,6 +342,26 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                      .map(ConvertableSiard21FieldType::new)
                      .map(field -> field.accept(this))
                      .collect(Collectors.toList());
+    }
+
+    private ReferentialActionType getReferentialActionType(
+            ch.admin.bar.siard2.api.generated.old21.ReferentialActionType referentialActionType) {
+        if (referentialActionType == null) return null;
+        return ReferentialActionType.fromValue(referentialActionType.value());
+    }
+    private DigestTypeType convertDigestType(ConvertableSiard21MessageDigestType messageDigest) {
+        ch.admin.bar.siard2.api.generated.old21.DigestTypeType oldDigestType = messageDigest.getDigestType();
+        return oldDigestType != null ? DigestTypeType.fromValue(oldDigestType.value()) : null;
+    }
+
+    private CategoryType convertCategoryType(ConvertableSiard21TypeType convertableSiard21TypeType) {
+        ch.admin.bar.siard2.api.generated.old21.CategoryType categorySiard21 = convertableSiard21TypeType.getCategory();
+        return categorySiard21 != null ? CategoryType.fromValue(categorySiard21.value()) : null;
+    }
+
+    private MatchTypeType convertMatchType(ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes) {
+        ch.admin.bar.siard2.api.generated.old21.MatchTypeType matchType = convertableSiard21ForeignKeyTypes.getMatchType();
+        return matchType != null ? MatchTypeType.fromValue(matchType.value()) : null;
     }
 
 }

@@ -10,6 +10,7 @@ public class ConvertableSiard22RoutineType extends RoutineType {
     public ConvertableSiard22RoutineType(String name, String description, String body, String characteristic,
                                          String returnType, String specificName, String source,
                                          List<ConvertablSiard22Parameter> parameters) {
+        super();
         this.name = name;
         this.description = description;
         this.body = body;
