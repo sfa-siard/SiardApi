@@ -14,8 +14,8 @@ public class ConvertableSiard22Archive extends SiardArchive {
                               String clientMachine,
                               String databaseProduct, String connection, String databaseUser,
                               List<MessageDigestType> messageDigests,
-                              SchemasType schemas,
-                              List<UserType> users ) {
+                              List<SchemaType> schemas,
+                              List<UserType> users) {
         super();
         this.version = version;
         this.dbname = dbName;
@@ -32,7 +32,8 @@ public class ConvertableSiard22Archive extends SiardArchive {
         this.connection = connection;
         this.databaseUser = databaseUser;
         this.messageDigest = messageDigests;
-        this.schemas = schemas;
+        this.schemas = new SchemasType();
+        this.schemas.getSchema().addAll(schemas);
         this.users = new UsersType();
         this.users.getUser().addAll(users);
     }
