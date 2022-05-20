@@ -7,6 +7,7 @@ import ch.admin.bar.siard2.api.generated.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 // understands transformation from SIARD 2.1 to the current Siard Archive
@@ -56,11 +57,14 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     @Override
     public ConvertableSiard22TypeType visit(ConvertableSiard21TypeType convertableSiard21TypeType) {
+        ch.admin.bar.siard2.api.generated.old21.CategoryType categorySiard21 = convertableSiard21TypeType.getCategory();
+        CategoryType category = categorySiard21 != null ? CategoryType.fromValue(categorySiard21.value()) : null;
         return new ConvertableSiard22TypeType(convertableSiard21TypeType.getName(),
                                               convertableSiard21TypeType.getDescription(),
                                               convertableSiard21TypeType.getBase(),
                                               convertableSiard21TypeType.getUnderType(),
                                               convertableSiard21TypeType.isFinal(),
+                                              category,
                                               getAttributes(convertableSiard21TypeType.getAttributes()));
     }
 
@@ -136,11 +140,20 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     public ConvertableSiard22ForeignKeyTypes visit(
             ConvertableSiard21ForeignKeyTypes convertableSiard21ForeignKeyTypes) {
 
+
+        MatchTypeType matchType = Optional.ofNullable(convertableSiard21ForeignKeyTypes.getMatchType())
+                                               .map(ch.admin.bar.siard2.api.generated.old21.MatchTypeType::value)
+                                               .map(MatchTypeType::valueOf).orElse(null);
+
+        String deleteAction = convertableSiard21ForeignKeyTypes.getDeleteAction() == null ? "" : convertableSiard21ForeignKeyTypes.getDeleteAction()
+                                                                                                                                  .value();
+        String updateAction = convertableSiard21ForeignKeyTypes.getUpdateAction() == null ? "" : convertableSiard21ForeignKeyTypes.getUpdateAction()
+                                                                                                                                  .value();
         return new ConvertableSiard22ForeignKeyTypes(convertableSiard21ForeignKeyTypes.getName(),
                                                      convertableSiard21ForeignKeyTypes.getDescription(),
-                                                     convertableSiard21ForeignKeyTypes.getMatchType().value(),
-                                                     convertableSiard21ForeignKeyTypes.getDeleteAction().value(),
-                                                     convertableSiard21ForeignKeyTypes.getUpdateAction().value(),
+                                                     matchType,
+                                                     deleteAction,
+                                                     updateAction,
                                                      convertableSiard21ForeignKeyTypes.getReferencedSchema(),
                                                      convertableSiard21ForeignKeyTypes.getReferencedTable(),
                                                      getReferences(convertableSiard21ForeignKeyTypes));

@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
 
 public class ConvertableSiard21ArchiveTest {
 
+    public static final CategoryType TYPE_CATEGORY = CategoryType.DISTINCT;
+
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
         // given
@@ -470,6 +472,7 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(TYPE_BASE, type.getBase());
         assertEquals(TYPE_UNDER_TYPE, type.getUnderType());
         assertEquals(TYPE_IS_FINAL, type.isFinal());
+        assertEquals(ch.admin.bar.siard2.api.generated.CategoryType.DISTINCT, type.getCategory());
         assertAttributes(type.getAttributes());
     }
 
@@ -481,6 +484,7 @@ public class ConvertableSiard21ArchiveTest {
         type.setBase(TYPE_BASE);
         type.setUnderType(TYPE_UNDER_TYPE);
         type.setFinal(TYPE_IS_FINAL);
+        type.setCategory(TYPE_CATEGORY);
         type.setAttributes(createAttributes());
         types.getType().add(type);
         return types;

@@ -8,14 +8,14 @@ import ch.admin.bar.siard2.api.generated.ReferenceType;
 import java.util.List;
 
 public class ConvertableSiard22ForeignKeyTypes extends ForeignKeyType {
-    public ConvertableSiard22ForeignKeyTypes(String name, String description, String matchType,
+    public ConvertableSiard22ForeignKeyTypes(String name, String description, MatchTypeType matchType,
                                              String deleteAction, String updateAction,
                                              String referencedSchema, String referencedTable,
                                              List<ReferenceType> references) {
         super();
         this.name = name;
         this.description = description;
-        this.matchType = MatchTypeType.fromValue(matchType);
+        this.matchType = matchType;
         this.deleteAction = ReferentialActionType.fromValue(deleteAction);
         this.updateAction = ReferentialActionType.fromValue(updateAction);
         this.referencedSchema = referencedSchema;
