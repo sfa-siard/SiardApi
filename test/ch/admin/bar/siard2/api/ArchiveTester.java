@@ -15,8 +15,9 @@ public class ArchiveTester
 
   private static final File FILE_SIARD_21 = new File("testfiles/sql2008_2_1.siard");
   private static final File FILE_SIARD_22 = new File("testfiles/sql2008.siard");
-  @SuppressWarnings("unused")
-  private static final File _fileSIARD_21_COMPLEX = new File("testfiles/sfdboe.siard");
+
+  private static final File FILE_SIARD_COMPLEX_21 = new File("testfiles/sfdboe_2_1.siard");
+  private static final File FILE_SIARD_COMPLEX_22 = new File("testfiles/sfdboe.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
   private static final File _fileMETADATA_XML = new File("tmp/metadata.xml");
   private static final File _fileIMPORT_METADATA_XML = new File("testfiles/import.xml");
@@ -36,7 +37,7 @@ public class ArchiveTester
   private static final String _sTEST_TYPE2_NAME = "VARCHAR(256)";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
-  
+
   private void setMandatoryMetaData(Archive archive)
   {
     try
@@ -176,25 +177,27 @@ public class ArchiveTester
     archive.close();
   }
   
-  /***
   @Test
-  public void testOpenComplex()
-  {
-    System.out.println("testOpenComplex");
+  public void shouldOpenComplexArchiveInFormatSiard22() throws IOException {
     Archive archive = ArchiveImpl.newInstance();
-    try
-    {
-      archive.open(_fileSIARD_20_COMPLEX);
-      assertSame("Can modify primary data after open!",false,archive.canModifyPrimaryData());
-      MetaData md = archive.getMetaData();
-      assertEquals("Open failed!","2.0",md.getVersion());
-      assertEquals("Open failed!","(...)",md.getDbName());
-      archive.close();
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+    archive.open(FILE_SIARD_COMPLEX_22);
+    assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
+    MetaData md = archive.getMetaData();
+    assertEquals("2.2", md.getVersion());
+    assertEquals("(...)", md.getDbName());
+    archive.close();
   }
-  ***/
+
+  @Test
+  public void shouldOpenComplexArchiveInFormatSiard21() throws IOException {
+    Archive archive = ArchiveImpl.newInstance();
+    archive.open(FILE_SIARD_COMPLEX_21);
+    assertSame("Can modify primary data after open!", false, archive.canModifyPrimaryData());
+    MetaData md = archive.getMetaData();
+    assertEquals("2.1", md.getVersion());
+    assertEquals("(...)", md.getDbName());
+    archive.close();
+  }
 
   @Test
   public void testCreate()
