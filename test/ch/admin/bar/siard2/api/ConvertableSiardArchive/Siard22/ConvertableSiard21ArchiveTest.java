@@ -47,21 +47,8 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(DATABASE_PRODUCT, result.getDatabaseProduct());
         assertEquals(CONNECTION, result.getConnection());
         assertEquals(DATABASE_USER, result.getDatabaseUser());
+        assertUsers(result.getUsers());
         assertSchemas(result.getSchemas());
-    }
-
-    private void assertMessageDigests(SiardArchive result) {
-        ch.admin.bar.siard2.api.generated.MessageDigestType actualMessageDigest = result.getMessageDigest().get(0);
-        assertEquals(MESSAGE_DIGEST, actualMessageDigest.getDigest());
-        assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256, actualMessageDigest.getDigestType());
-    }
-
-    private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
-        assertNotNull(schemas);
-        assertEquals(schemas.getSchema().size(), 1);
-        ch.admin.bar.siard2.api.generated.SchemaType schema = schemas.getSchema().get(0);
-        assertNotNull(schema);
-        assertSchema(schema);
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
@@ -81,7 +68,32 @@ public class ConvertableSiard21ArchiveTest {
         archive.setConnection(CONNECTION);
         archive.setDatabaseUser(DATABASE_USER);
         archive.setSchemas(createSchemas());
+        archive.setUsers(createUsers());
         return archive;
+    }
+
+
+    private void assertUsers(ch.admin.bar.siard2.api.generated.UsersType users) {
+        assertNotNull(users);
+        assertEquals(1, users.getUser().size());
+        ch.admin.bar.siard2.api.generated.UserType user = users.getUser().get(0);
+        assertEquals(USER_NAME, user.getName());
+        assertEquals(USER_DESCRIPTION, user.getDescription());
+    }
+
+    private UsersType createUsers() {
+        UsersType usersType = new UsersType();
+        UserType user = new UserType();
+        user.setName(USER_NAME);
+        user.setDescription(USER_DESCRIPTION);
+        usersType.getUser().add(user);
+        return usersType;
+    }
+
+    private void assertMessageDigests(SiardArchive result) {
+        ch.admin.bar.siard2.api.generated.MessageDigestType actualMessageDigest = result.getMessageDigest().get(0);
+        assertEquals(MESSAGE_DIGEST, actualMessageDigest.getDigest());
+        assertEquals(ch.admin.bar.siard2.api.generated.DigestTypeType.SHA_256, actualMessageDigest.getDigestType());
     }
 
     private MessageDigestType createMessageDigests() {
@@ -91,7 +103,11 @@ public class ConvertableSiard21ArchiveTest {
         return messageDigests;
     }
 
-    private void assertSchema(ch.admin.bar.siard2.api.generated.SchemaType schema) {
+    private void assertSchemas(ch.admin.bar.siard2.api.generated.SchemasType schemas) {
+        assertNotNull(schemas);
+        assertEquals(schemas.getSchema().size(), 1);
+        ch.admin.bar.siard2.api.generated.SchemaType schema = schemas.getSchema().get(0);
+        assertNotNull(schema);
         assertEquals(schema.getName(), SCHEMA_NAME);
         assertEquals(schema.getDescription(), SCHEMA_DESCRIPTION);
         assertEquals(schema.getFolder(), SCHEMA_FOLDER);
@@ -519,13 +535,11 @@ public class ConvertableSiard21ArchiveTest {
     private static final String SCHEMA_NAME = "Schema Name";
     private static final String SCHEMA_DESCRIPTION = "Schema Description";
     private static final String SCHEMA_FOLDER = "Schema Folder";
-
     private static final String TYPE_DESCRIPTION = "Type Description";
     private static final String TYPE_NAME = "Type Name";
     private static final String TYPE_BASE = "Type Base";
     private static final String TYPE_UNDER_TYPE = "Type under Type";
     private static final boolean TYPE_IS_FINAL = false;
-
     private static final String ATTRIBUTE_NAME = "Attribute Name";
     private static final String ATTRIBUTE_DESCRIPTION = "Attribute Description";
     private static final String ATTRIBUTE_TYPE = "Attribute Type";
@@ -535,7 +549,6 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ATTRIBUTE_TYPE_ORIGINAL = "Attribute Type Original";
     private static final boolean ATTRIBUTE_IS_NULLABLE = true;
     private static final BigInteger ATTRIBUTE_CARDINALITY = BigInteger.TEN;
-
     private static final String ROUTINE_DESCRIPTION = "Routine Description";
     private static final String ROUTINE_NAME = "Routine Name";
     private static final String ROUTINE_RETURN_TYPE = "Routine Return Type";
@@ -543,7 +556,6 @@ public class ConvertableSiard21ArchiveTest {
     private static final String ROUTINE_CHARACTERISTICS = "Routine Characteristics";
     private static final String ROUTINE_SPECIFIC_NAME = "Routine Specific Name";
     private static final String ROUTINE_SOURCE = "Routine Source";
-
     private static final String PARAMETER_NAME = "Parameter Name";
     private static final String PARAMETER_DESCRIPTION = "Parameter Description";
     private static final BigInteger PARAMETER_CARDINALITY = BigInteger.ONE;
@@ -551,12 +563,10 @@ public class ConvertableSiard21ArchiveTest {
     private static final String PARAMETER_TYPE = "Parameter Type";
     private static final String PARAMETER_ORIGINAL = "Parameter Original";
     private static final String PARAMETER_SCHEMA = "Parameter Schema";
-
     private static final String TABLE_NAME = "Table Name";
     private static final String TABLE_DESCRIPTION = "Table Description";
     private static final String TABLE_FOLDER = "Table Folder";
     private static final BigInteger TABLE_ROWS = BigInteger.valueOf(1024);
-
     private static final String CANDIDATE_KEY_NAME = "Candidate Key Name";
     private static final String CANDIDATE_KEY_DESCRIPTION = "Candidate Key Description";
     private static final String CANDIDATE_KEY_COLUMN_1 = "Candidate Key Column 1";
@@ -564,7 +574,6 @@ public class ConvertableSiard21ArchiveTest {
     private static final String CHECK_CONSTRAINT_NAME = "Check Constraint Name";
     private static final String CHECK_CONSTRAINT_DESCRIPTION = "Check Constraint Description";
     private static final String CHECK_CONSTRAINT_CONDITION = "Check Constraint Condition";
-
     private static final String FOREIGN_KEY_NAME = "Foreign Key Name";
     private static final String FOREIGN_KEY_DESCRIPTION = "Foreign Key Description";
     private static final MatchTypeType FOREIGN_KEY_MATCH_TYPE = MatchTypeType.FULL;
@@ -572,11 +581,8 @@ public class ConvertableSiard21ArchiveTest {
     private static final ReferentialActionType FOREIGN_KEY_UPDATE_ACTION = ReferentialActionType.CASCADE;
     private static final String FOREIGN_KEY_REFERENCED_TABLE = "Foreign Key Referenced Table";
     private static final String FOREIGN_KEY_REFERENCED_SCHEMA = "Foreign Key Referenced Schema";
-
     private static final String REFERENCED = "Referenced";
     private static final String REFERENCE_COLUMN = "Reference Column";
-
-
     private static final String VIEW_NAME = "View Name";
     private static final String VIEW_DESCRIPTION = "View Description";
     private static final BigInteger VIEW_ROWS = BigInteger.valueOf(512);
@@ -612,4 +618,7 @@ public class ConvertableSiard21ArchiveTest {
     private static final String TABLE_COLUMN_TYPE_ORIGINAL = "Table Column Type Original";
     private static final BigInteger TABLE_COLUMN_TYPE_CARDINALITY = BigInteger.valueOf(5);
     private static final Boolean TABLE_COLUMN_IS_NULLABLE = false;
+    private static final String USER_NAME = "User Name";
+    private static final String USER_DESCRIPTION = "User Description";
+
 }

@@ -1,8 +1,6 @@
 package ch.admin.bar.siard2.api.ConvertableSiardArchive.Siard22;
 
-import ch.admin.bar.siard2.api.generated.MessageDigestType;
-import ch.admin.bar.siard2.api.generated.SchemasType;
-import ch.admin.bar.siard2.api.generated.SiardArchive;
+import ch.admin.bar.siard2.api.generated.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
@@ -16,7 +14,8 @@ public class ConvertableSiard22Archive extends SiardArchive {
                               String clientMachine,
                               String databaseProduct, String connection, String databaseUser,
                               List<MessageDigestType> messageDigests,
-                              SchemasType schemas) {
+                              SchemasType schemas,
+                              List<UserType> users ) {
         super();
         this.version = version;
         this.dbname = dbName;
@@ -34,6 +33,8 @@ public class ConvertableSiard22Archive extends SiardArchive {
         this.databaseUser = databaseUser;
         this.messageDigest = messageDigests;
         this.schemas = schemas;
+        this.users = new UsersType();
+        this.users.getUser().addAll(users);
     }
 }
 

@@ -35,4 +35,6 @@ public interface Siard21Transformer {
     ConvertableSiard22ColumnType visit(ConvertableSiard21ColumnType convertableSiard21ColumnType);
 
     ConvertableSiard22FieldType visit(ConvertableSiard21FieldType convertableSiard21FieldType);
+
+    ConvertableSiard22UserType visit(ConvertableSiard21UserType convertableSiard21UserType);
 }
