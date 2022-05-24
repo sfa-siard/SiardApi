@@ -15,7 +15,9 @@ public class ConvertableSiard22Archive extends SiardArchive {
                               String databaseProduct, String connection, String databaseUser,
                               List<MessageDigestType> messageDigests,
                               List<SchemaType> schemas,
-                              List<UserType> users) {
+                              List<UserType> users,
+                              List<RoleType> roles,
+                              List<PrivilegeType> priviliges) {
         super();
         this.version = version;
         this.dbname = dbName;
@@ -32,10 +34,26 @@ public class ConvertableSiard22Archive extends SiardArchive {
         this.connection = connection;
         this.databaseUser = databaseUser;
         this.messageDigest = messageDigests;
-        this.schemas = new SchemasType();
-        this.schemas.getSchema().addAll(schemas);
-        this.users = new UsersType();
-        this.users.getUser().addAll(users);
+
+        if (schemas.size() > 0) {
+            this.schemas = new SchemasType();
+            this.schemas.getSchema().addAll(schemas);
+        }
+
+        if (users.size() > 0) {
+            this.users = new UsersType();
+            this.users.getUser().addAll(users);
+        }
+
+        if (roles.size() > 0) {
+            this.roles = new RolesType();
+            this.roles.getRole().addAll(roles);
+        }
+
+        if (priviliges.size() > 0) {
+            this.privileges = new PrivilegesType();
+            this.privileges.getPrivilege().addAll(priviliges);
+        }
     }
 }
 

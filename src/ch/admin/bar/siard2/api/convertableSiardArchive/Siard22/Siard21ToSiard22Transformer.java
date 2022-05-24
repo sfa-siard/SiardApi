@@ -1,18 +1,18 @@
 package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.Archive;
+import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.ConvertableSiard21TriggerType;
 import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.*;
 import ch.admin.bar.siard2.api.generated.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 // understands transformation from SIARD 2.1 to the current SIARD Archive
 public class Siard21ToSiard22Transformer implements Siard21Transformer {
-
-    private static final List EMPTY_LIST = new ArrayList<>();
 
     @Override
     public SiardArchive visit(ConvertableSiard21Archive siard21Archive) {
@@ -42,7 +42,15 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                              convertElements(siard21Archive.getUsers(),
                                                              ch.admin.bar.siard2.api.generated.old21.UsersType::getUser,
                                                              ConvertableSiard21UserType::new,
-                                                             u -> u.accept(this)));
+                                                             u -> u.accept(this)),
+                                             convertElements(siard21Archive.getRoles(),
+                                                             ch.admin.bar.siard2.api.generated.old21.RolesType::getRole,
+                                                             ConvertableSiard21RoleType::new,
+                                                             r -> r.accept(this)),
+                                             convertElements(siard21Archive.getPrivileges(),
+                                                             ch.admin.bar.siard2.api.generated.old21.PrivilegesType::getPrivilege,
+                                                             ConvertableSiard21PriviligeType::new,
+                                                             p -> p.accept(this)));
     }
 
     @Override
@@ -83,7 +91,9 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                               siard21Type.getDescription(),
                                               siard21Type.getBase(),
                                               siard21Type.getUnderType(),
+                                              siard21Type.getUnderSchema(),
                                               siard21Type.isFinal(),
+                                              siard21Type.isInstantiable(),
                                               safeConvert(siard21Type.getCategory(),
                                                           c -> c.value(),
                                                           CategoryType::fromValue),
@@ -140,6 +150,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                siard21Table.getDescription(),
                                                siard21Table.getFolder(),
                                                siard21Table.getRows(),
+                                               convertPrimaryKey(siard21Table.getPrimaryKey()),
                                                convertElements(siard21Table.getColumns(),
                                                                ch.admin.bar.siard2.api.generated.old21.ColumnsType::getColumn,
                                                                ConvertableSiard21ColumnType::new,
@@ -155,7 +166,11 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
                                                convertElements(siard21Table.getForeignKeys(),
                                                                ch.admin.bar.siard2.api.generated.old21.ForeignKeysType::getForeignKey,
                                                                ConvertableSiard21ForeignKeyTypes::new,
-                                                               f -> f.accept(this)));
+                                                               f -> f.accept(this)),
+                                               convertElements(siard21Table.getTriggers(),
+                                                               ch.admin.bar.siard2.api.generated.old21.TriggersType::getTrigger,
+                                                               ConvertableSiard21TriggerType::new,
+                                                               t -> t.accept(this)));
     }
 
 
@@ -250,42 +265,78 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
         return new ConvertableSiard22UserType(siard21User.getName(), siard21User.getDescription());
     }
 
+    @Override
+    public ConvertableSiard22RoleType visit(ConvertableSiard21RoleType role) {
+        return new ConvertableSiard22RoleType(role.getName(), role.getDescription(), role.getAdmin());
+    }
+
+    @Override
+    public ConvertableSiard22PriviligeType visit(ConvertableSiard21PriviligeType privilige) {
+        return new ConvertableSiard22PriviligeType(privilige.getType(),
+                                                   privilige.getDescription(),
+                                                   privilige.getGrantee(),
+                                                   privilige.getGrantor(),
+                                                   privilige.getObject(),
+                                                   safeConvert(privilige.getOption(),
+                                                               ch.admin.bar.siard2.api.generated.old21.PrivOptionType::value,
+                                                               PrivOptionType::fromValue));
+    }
+
+    @Override
+    public ConvertableSiard22TriggerType visit(ConvertableSiard21TriggerType trigger) {
+        return new ConvertableSiard22TriggerType(trigger.getName(),
+                                                 trigger.getDescription(),
+                                                 trigger.getAliasList(),
+                                                 trigger.getTriggeredAction(),
+                                                 trigger.getTriggerEvent(),
+                                                 safeConvert(trigger.getActionTime(),
+                                                             t -> t.value(),
+                                                             ActionTimeType::fromValue));
+    }
+
     /**
      * This helper method converts all element in the container that can be get by the getElements function to an intermediate
      * convertable - that means visitable - siard type and then calls the accept method on this element to transform it into
      * a type know to SIARD 2.2
-     *
+     * <p>
      * This particular design is the result of some constraints due to the fact that the classes in use are autogenerated and
      * there is no easy and well maintained way to make the generated code implement specific interfaces.
      *
-     * @param container - the container that contains the list - might be null
+     * @param container   - the container that contains the list - might be null
      * @param getElements - how to get the list from the container
-     * @param make - how to make a visitable item from each element of the list
-     * @param accept - how to call the accept method on every visitable item
+     * @param make        - how to make a visitable item from each element of the list
+     * @param accept      - how to call the accept method on every visitable item
+     * @param <I>         the type of the container that holds the list
+     * @param <T>         the type of the elements in the containers list
+     * @param <V>         the type of the visitable element that implement the accept method
+     * @param <R>         the return type
      * @return List of converted elements
-     * @param <I> the type of the container that holds the list
-     * @param <T> the type of the elements in the containers list
-     * @param <V> the type of the visitable element that implement the accept method
-     * @param <R> the return type
      */
     private <I, T, V, R> List<R> convertElements(I container, Function<I, List<T>> getElements, Function<T, V> make,
                                                  Function<V, R> accept) {
-        if (container == null) return EMPTY_LIST;
+        if (container == null) return Collections.emptyList();
         return getElements.apply(container).stream().map(make).map(accept).collect(Collectors.toList());
     }
 
     /**
      * Converts an thing from to another enum value
      * This only workds for enums with identical values - but that are from different types - because they are generated code...
-     * @param thing the thing that should be converted - usually an enum
+     *
+     * @param thing   the thing that should be converted - usually an enum
      * @param toValue how to get the value from the given thing
-     * @param from how to convert from the string to the other thing that will be returned
+     * @param from    how to convert from the string to the other thing that will be returned
+     * @param <I>     the type of the original
+     * @param <R>     the type of the target enum that will be returned
      * @return
-     * @param <I> the type of the original
-     * @param <R> the type of the target enum that will be returned
      */
     private <I, R> R safeConvert(I thing, Function<I, String> toValue, Function<String, R> from) {
         if (thing == null) return null;
         return from.apply(toValue.apply(thing));
+    }
+
+    private ConvertableSiard22UniqueKeyType convertPrimaryKey(
+            ch.admin.bar.siard2.api.generated.old21.UniqueKeyType primaryKey) {
+        if (primaryKey == null) return null;
+        return new ConvertableSiard21UniqueKeyType(primaryKey).accept(this);
     }
 }

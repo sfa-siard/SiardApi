@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 
 public class ConvertableSiard21ArchiveTest {
 
-    public static final CategoryType TYPE_CATEGORY = CategoryType.DISTINCT;
+
 
     @Test
     public void shouldConvertSiardArchive21ToSiardArchive22() {
@@ -30,6 +30,43 @@ public class ConvertableSiard21ArchiveTest {
 
         // then
         assertSiardArchiveWithAllFieldsSet(result);
+    }
+
+    @Test
+    public void shouldConvertMinimalSiardArchive21ToSiardArchive22() {
+        // given
+        ConvertableSiard21Archive convertableSiard21Archive = createMinimalArchive();
+
+        // when
+        SiardArchive result = convertableSiard21Archive.accept(new Siard21ToSiard22Transformer());
+
+        // then
+        assertNull(result.getSchemas());
+        assertNull(result.getPrivileges());
+        assertNull(result.getRoles());
+        assertNull(result.getUsers());
+    }
+
+
+
+    private ConvertableSiard21Archive createMinimalArchive() {
+        ConvertableSiard21Archive archive = new ConvertableSiard21Archive();
+        archive.setDbname(DB_NAME);
+        archive.setDescription(DESCRIPTION);
+        archive.setArchiver(ARCHIVER);
+        archive.setArchiverContact(ARCHIVER_CONTACT);
+        archive.setDataOwner(DATA_OWNER);
+        archive.setDataOriginTimespan(DATA_ORIGIN_TIMESPAN);
+        archive.setLobFolder(LOB_FOLDER);
+        archive.setProducerApplication(PRODUCER_APPLICATION);
+        archive.setArchivalDate(ARCHIVAL_DATE);
+        archive.getMessageDigest().add(createMessageDigests());
+        archive.setClientMachine(CLIENT_MACHINE);
+        archive.setDatabaseProduct(DATABASE_PRODUCT);
+        archive.setConnection(CONNECTION);
+        archive.setDatabaseUser(DATABASE_USER);
+        return archive;
+
     }
 
     private void assertSiardArchiveWithAllFieldsSet(SiardArchive result) {
@@ -51,27 +88,41 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(DATABASE_USER, result.getDatabaseUser());
         assertUsers(result.getUsers());
         assertSchemas(result.getSchemas());
+        assertRoles(result.getRoles());
+        assertPriviliges(result.getPrivileges());
     }
 
     private ConvertableSiard21Archive createExampleArchiveWithAllFieldsSet() {
-        ConvertableSiard21Archive archive = new ConvertableSiard21Archive();
-        archive.setDbname(DB_NAME);
-        archive.setDescription(DESCRIPTION);
-        archive.setArchiver(ARCHIVER);
-        archive.setArchiverContact(ARCHIVER_CONTACT);
-        archive.setDataOwner(DATA_OWNER);
-        archive.setDataOriginTimespan(DATA_ORIGIN_TIMESPAN);
-        archive.setLobFolder(LOB_FOLDER);
-        archive.setProducerApplication(PRODUCER_APPLICATION);
-        archive.setArchivalDate(ARCHIVAL_DATE);
-        archive.getMessageDigest().add(createMessageDigests());
-        archive.setClientMachine(CLIENT_MACHINE);
-        archive.setDatabaseProduct(DATABASE_PRODUCT);
-        archive.setConnection(CONNECTION);
-        archive.setDatabaseUser(DATABASE_USER);
+        ConvertableSiard21Archive archive = createMinimalArchive();
         archive.setSchemas(createSchemas());
         archive.setUsers(createUsers());
+        archive.setRoles(createRoles());
+        archive.setPrivileges(createPriviliges());
         return archive;
+    }
+
+    private void assertPriviliges(ch.admin.bar.siard2.api.generated.PrivilegesType privileges) {
+        assertNotNull(privileges);
+        ch.admin.bar.siard2.api.generated.PrivilegeType privilige = privileges.getPrivilege().get(0);
+        assertEquals(PRIVILIGE_TYPE, privilige.getType());
+        assertEquals(PRIVILIGE_DESCRIPTION, privilige.getDescription());
+        assertEquals(PRIVILIGE_GRANTEE, privilige.getGrantee());
+        assertEquals(PRIVILIGE_GRANTOR, privilige.getGrantor());
+        assertEquals(PRIVILIGE_OBJECT, privilige.getObject());
+        assertEquals(ch.admin.bar.siard2.api.generated.PrivOptionType.ADMIN, privilige.getOption());
+    }
+    private PrivilegesType createPriviliges() {
+        PrivilegesType privilegesType = new PrivilegesType();
+        PrivilegeType privilige = new PrivilegeType();
+        privilige.setType(PRIVILIGE_TYPE);
+        privilige.setDescription(PRIVILIGE_DESCRIPTION);
+        privilige.setGrantee(PRIVILIGE_GRANTEE);
+        privilige.setGrantor(PRIVILIGE_GRANTOR);
+        privilige.setObject(PRIVILIGE_OBJECT);
+        privilige.setOption(PRIVILIGE_OPTION);
+
+        privilegesType.getPrivilege().add(privilige);
+        return privilegesType;
     }
 
 
@@ -91,6 +142,25 @@ public class ConvertableSiard21ArchiveTest {
         usersType.getUser().add(user);
         return usersType;
     }
+
+    private RolesType createRoles() {
+        RolesType roles = new RolesType();
+        RoleType role = new RoleType();
+        role.setName(ROLE_NAME);
+        role.setDescription(ROLE_DESCRIPTION);
+        role.setAdmin(ROLE_ADMIN);
+        roles.getRole().add(role);
+        return roles;
+    }
+
+    private void assertRoles(ch.admin.bar.siard2.api.generated.RolesType roles) {
+        assertNotNull(roles);
+        ch.admin.bar.siard2.api.generated.RoleType role = roles.getRole().get(0);
+        assertEquals(ROLE_NAME, role.getName());
+        assertEquals(ROLE_DESCRIPTION, role.getDescription());
+        assertEquals(ROLE_ADMIN, role.getAdmin());
+    }
+
 
     private void assertMessageDigests(SiardArchive result) {
         ch.admin.bar.siard2.api.generated.MessageDigestType actualMessageDigest = result.getMessageDigest().get(0);
@@ -260,7 +330,10 @@ public class ConvertableSiard21ArchiveTest {
         assertCandidateKeys(table.getCandidateKeys());
         assertCheckConstraints(table.getCheckConstraints());
         assertForeignKeys(table.getForeignKeys());
+        assertTriggers(table.getTriggers());
     }
+
+
 
     private void assertTableColumns(ch.admin.bar.siard2.api.generated.ColumnsType columns) {
         assertNotNull(columns);
@@ -307,16 +380,42 @@ public class ConvertableSiard21ArchiveTest {
         table.setDescription(TABLE_DESCRIPTION);
         table.setFolder(TABLE_FOLDER);
         table.setRows(TABLE_ROWS);
+        UniqueKeyType primaryKey = new UniqueKeyType();
+        table.setPrimaryKey(primaryKey);
 
         table.setColumns(createTableColumns());
         table.setCandidateKeys(createCandidateKeys());
         table.setCheckConstraints(createCheckConstraintsType());
         table.setForeignKeys(createForeignKeysType());
+        table.setTriggers(createTriggers());
         tables.getTable().add(table);
         return tables;
     }
 
+    private void assertTriggers(ch.admin.bar.siard2.api.generated.TriggersType triggers) {
+        assertNotNull(triggers);
+        ch.admin.bar.siard2.api.generated.TriggerType trigger = triggers.getTrigger().get(0);
 
+        assertEquals(TRIGGER_NAME,trigger.getName());
+        assertEquals(TRIGGER_DESCRIPTION,trigger.getDescription());
+        assertEquals(TRIGGER_ALIAS_LIST,trigger.getAliasList());
+        assertEquals(TRIGGER_TRIGGERED_ACTION,trigger.getTriggeredAction());
+        assertEquals(TRIGGER_TRIGGER_EVENT,trigger.getTriggerEvent());
+        assertEquals(ch.admin.bar.siard2.api.generated.ActionTimeType.INSTEAD_OF, trigger.getActionTime());
+    }
+
+    private TriggersType createTriggers() {
+        TriggersType triggers = new TriggersType();
+        TriggerType trigger = new TriggerType();
+        trigger.setName(TRIGGER_NAME);
+        trigger.setDescription(TRIGGER_DESCRIPTION);
+        trigger.setAliasList(TRIGGER_ALIAS_LIST);
+        trigger.setTriggeredAction(TRIGGER_TRIGGERED_ACTION);
+        trigger.setTriggerEvent(TRIGGER_TRIGGER_EVENT);
+        trigger.setActionTime(TRIGGER_ACTION_TIME);
+        triggers.getTrigger().add(trigger);
+        return triggers;
+    }
 
     private void assertForeignKeys(ch.admin.bar.siard2.api.generated.ForeignKeysType foreignKeys) {
         assertNotNull(foreignKeys);
@@ -471,7 +570,9 @@ public class ConvertableSiard21ArchiveTest {
         assertEquals(TYPE_DESCRIPTION, type.getDescription());
         assertEquals(TYPE_BASE, type.getBase());
         assertEquals(TYPE_UNDER_TYPE, type.getUnderType());
+        assertEquals(TYPE_UNDER_SCHEMA, type.getUnderSchema());
         assertEquals(TYPE_IS_FINAL, type.isFinal());
+        assertEquals(TYPE_INSTANTIABLE, type.isInstantiable());
         assertEquals(ch.admin.bar.siard2.api.generated.CategoryType.DISTINCT, type.getCategory());
         assertAttributes(type.getAttributes());
     }
@@ -482,8 +583,10 @@ public class ConvertableSiard21ArchiveTest {
         type.setName(TYPE_NAME);
         type.setDescription(TYPE_DESCRIPTION);
         type.setBase(TYPE_BASE);
+        type.setUnderSchema(TYPE_UNDER_SCHEMA);
         type.setUnderType(TYPE_UNDER_TYPE);
         type.setFinal(TYPE_IS_FINAL);
+        type.setInstantiable(TYPE_INSTANTIABLE);
         type.setCategory(TYPE_CATEGORY);
         type.setAttributes(createAttributes());
         types.getType().add(type);
@@ -544,6 +647,12 @@ public class ConvertableSiard21ArchiveTest {
     private static final String TYPE_BASE = "Type Base";
     private static final String TYPE_UNDER_TYPE = "Type under Type";
     private static final boolean TYPE_IS_FINAL = false;
+
+    public static final CategoryType TYPE_CATEGORY = CategoryType.DISTINCT;
+
+    public static final String TYPE_UNDER_SCHEMA = "Type Under Schema";
+    public static final boolean TYPE_INSTANTIABLE = true;
+
     private static final String ATTRIBUTE_NAME = "Attribute Name";
     private static final String ATTRIBUTE_DESCRIPTION = "Attribute Description";
     private static final String ATTRIBUTE_TYPE = "Attribute Type";
@@ -624,5 +733,23 @@ public class ConvertableSiard21ArchiveTest {
     private static final Boolean TABLE_COLUMN_IS_NULLABLE = false;
     private static final String USER_NAME = "User Name";
     private static final String USER_DESCRIPTION = "User Description";
+
+    public static final String ROLE_NAME = "Role Name";
+    public static final String ROLE_DESCRIPTION = "Role Description";
+    public static final String ROLE_ADMIN = "Role Admin";
+
+    public static final String PRIVILIGE_TYPE = "Privilige Type";
+    public static final String PRIVILIGE_DESCRIPTION = "Privilige Description";
+    public static final String PRIVILIGE_GRANTEE = "Privilige Grantee";
+    public static final String PRIVILIGE_GRANTOR = "Privilige Grantor";
+    public static final String PRIVILIGE_OBJECT = "Privilige Object";
+    public static final PrivOptionType PRIVILIGE_OPTION = PrivOptionType.ADMIN;
+    public static final String TRIGGER_NAME = "Trigger Name";
+    public static final String TRIGGER_DESCRIPTION = "Trigger Description";
+    public static final String TRIGGER_ALIAS_LIST = "Trigger Alias List";
+    public static final String TRIGGER_TRIGGERED_ACTION = "Trigger Triggered Action";
+    public static final String TRIGGER_TRIGGER_EVENT = "Trigger Trigger Event";
+    public static final ActionTimeType TRIGGER_ACTION_TIME = ActionTimeType.INSTEAD_OF;
+
 
 }

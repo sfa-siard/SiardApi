@@ -7,6 +7,7 @@ import ch.admin.bar.siard2.api.generated.old21.UniqueKeyType;
 public class ConvertableSiard21UniqueKeyType extends UniqueKeyType {
 
     public ConvertableSiard21UniqueKeyType(UniqueKeyType uniqueKeyType) {
+        super();
         this.name = uniqueKeyType.getName();
         this.description = uniqueKeyType.getDescription();
         this.column = uniqueKeyType.getColumn();

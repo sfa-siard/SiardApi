@@ -37,4 +37,10 @@ public interface Siard21Transformer {
     ConvertableSiard22FieldType visit(ConvertableSiard21FieldType convertableSiard21FieldType);
 
     ConvertableSiard22UserType visit(ConvertableSiard21UserType convertableSiard21UserType);
+
+    ConvertableSiard22RoleType visit(ConvertableSiard21RoleType convertableSiard21RoleType);
+
+    ConvertableSiard22PriviligeType visit(ConvertableSiard21PriviligeType convertableSiard21PriviligesType);
+
+    ConvertableSiard22TriggerType visit(ConvertableSiard21TriggerType convertableSiard21TriggerType);
 }

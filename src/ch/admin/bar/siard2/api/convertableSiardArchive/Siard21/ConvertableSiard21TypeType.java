@@ -11,7 +11,9 @@ public class ConvertableSiard21TypeType extends TypeType {
         this.description = type.getDescription();
         this.base = type.getBase();
         this.underType = type.getUnderType();
+        this.underSchema = type.getUnderSchema();
         this._final = type.isFinal();
+        this.instantiable = type.isInstantiable();
         this.category = type.getCategory();
         this.attributes = type.getAttributes();
     }

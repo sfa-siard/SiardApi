@@ -11,6 +11,7 @@ public class ConvertableSiard21Table extends TableType {
         this.description = table.getDescription();
         this.folder = table.getFolder();
         this.rows = table.getRows();
+        this.primaryKey = table.getPrimaryKey();
         this.candidateKeys = table.getCandidateKeys();
         this.checkConstraints = table.getCheckConstraints();
         this.columns = table.getColumns();

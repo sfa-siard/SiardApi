@@ -7,6 +7,7 @@ import java.math.BigInteger;
 public class ConvertablSiard22Parameter extends ParameterType {
     public ConvertablSiard22Parameter(String name, String description, BigInteger cardinality, String mode, String type,
                                       String typeName, String typeSchema, String typeOriginal) {
+        super();
         this.name = name;
         this.description = description;
         this.cardinality = cardinality;
