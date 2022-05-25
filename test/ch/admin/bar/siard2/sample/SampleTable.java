@@ -178,6 +178,8 @@ public class SampleTable extends SampleColumn
   private static final String sTYPE24_NAME = "INTERVAL DAY TO MINUTE";
   public static final String sCOLUMN25_NAME = "CINTERVALSECOND";
   private static final String sTYPE25_NAME = "INTERVAL SECOND(2,5)";
+  public static final String sCOLUMN26_NAME = "COLUMN_DATALINK";
+  private static final String sTYPE26_NAME = "DATALINK";
 
   private int createSimpleMetaTable(MetaTable mt)
   {
@@ -261,6 +263,9 @@ public class SampleTable extends SampleColumn
   
       MetaColumn mc25 = mt.createMetaColumn(sCOLUMN25_NAME);
       mc25.setType(sTYPE25_NAME);
+
+      MetaColumn mc26 = mt.createMetaColumn(sCOLUMN26_NAME);
+      mc26.setType(sTYPE26_NAME);
       
       MetaUniqueKey muk = mt.createMetaCandidateKey(sCK_SIMPLE);
       muk.addColumn(sCOLUMN1_NAME);

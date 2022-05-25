@@ -268,6 +268,8 @@ public class SampleSchema extends SampleColumn
   private static final String sUDTC_ATTRIBUTE1_NAME = "ID";
   private static final String sUDTC_ATTRIBUTE1_TYPE = "INTEGER";
   private static final String sUDTC_ATTRIBUTE2_NAME = "NESTEDROW";
+  private static final String sUDTS_ATTRIBUTE4_NAME = "FILE";
+  private static final String sUDTS_ATTRIBUTE4_TYPE = "DATALINK";
   
   private int createTypes()
   {
@@ -287,6 +289,8 @@ public class SampleSchema extends SampleColumn
       mr2.setType(sUDTS_ATTRIBUTE2_TYPE);
       MetaAttribute mr3 = mtRow.createMetaAttribute(sUDTS_ATTRIBUTE3_NAME);
       mr3.setType(sUDTS_ATTRIBUTE3_TYPE);
+      MetaAttribute mr4 = mtRow.createMetaAttribute(sUDTS_ATTRIBUTE4_NAME);
+      mr4.setType(sUDTS_ATTRIBUTE4_TYPE);
       
       MetaType mtUdt = ms.createMetaType(sTYPE_UDT_COMPLEX);
       mtUdt.setCategory(CategoryType.UDT.value());
