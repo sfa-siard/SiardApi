@@ -16,6 +16,7 @@ import javax.xml.bind.*;
 import javax.xml.namespace.*;
 import javax.xml.transform.stream.*;
 
+import ch.admin.bar.siard2.api.generated.SiardArchive;
 import ch.enterag.utils.*;
 import ch.enterag.utils.reflect.*;
 
@@ -130,11 +131,14 @@ public abstract class Io
     String sNoNamespaceSchemaLocation, String sSchemaLocation, boolean bFormat, URL urlXsd)
     throws JAXBException
   {
-    JAXBContext ctx = JAXBContext.newInstance(jo.getClass());
-    if (urlXsd == null)
-      ctx = JAXBContext.newInstance(jo.getClass());
-    else
-      ctx = ValidatingJAXBContext.newInstance(urlXsd,jo.getClass());
+    Class<?> aClass = SiardArchive.class; // this is a hacky workaraound!
+    JAXBContext ctx;
+    if (urlXsd == null) {
+      ctx = JAXBContext.newInstance(aClass);
+    }
+    else {
+      ctx = ValidatingJAXBContext.newInstance(urlXsd, aClass);
+    }
     Marshaller m = ctx.createMarshaller();
     if (sNoNamespaceSchemaLocation != null)
       m.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, sNoNamespaceSchemaLocation);
@@ -144,7 +148,7 @@ public abstract class Io
     if (qname != null)
     {
       @SuppressWarnings("unchecked")
-      JAXBElement<T> jbe = new JAXBElement<T>(qname, (Class<T>)jo.getClass(), jo);
+      JAXBElement<T> jbe = new JAXBElement<T>(qname, (Class<T>) aClass, jo);
       m.marshal(jbe, os);
     }
     else
