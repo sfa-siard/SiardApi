@@ -129,7 +129,7 @@ public abstract class ValueImpl
   /** return the internal LOB folder relative to this table's LOB folder,
    * or null, if it should be stored externally.
    * @return internal LOB folder relative to this table's LOB folder.
-   * @throws IOException if an I/O error occurred. 
+   * @throws IOException if an I/O error occurred.
    */
   protected abstract String getInternalLobFolder()
     throws IOException;
@@ -1073,7 +1073,8 @@ public abstract class ValueImpl
           (iPreType == Types.NCHAR) ||
           (iPreType == Types.NVARCHAR) ||
           (iPreType == Types.NCLOB) ||
-          (iPreType == Types.SQLXML))
+          (iPreType == Types.SQLXML) ||
+          (iPreType == Types.DATALINK))
       {
         InputStream isLob = null;
         if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE))
@@ -1142,7 +1143,8 @@ public abstract class ValueImpl
         (iPreType == Types.NCHAR) ||
         (iPreType == Types.NVARCHAR) ||
         (iPreType == Types.NCLOB) ||
-        (iPreType == Types.SQLXML))
+        (iPreType == Types.SQLXML) ||
+        (iPreType == Types.DATALINK))
     {
       OutputStream osClob = null;
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();

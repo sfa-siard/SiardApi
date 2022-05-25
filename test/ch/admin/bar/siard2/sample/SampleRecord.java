@@ -17,6 +17,10 @@ public class SampleRecord
   private static final DU _du = DU.getInstance("en", "dd.MM.yyyy");
   private Record _record = null;
   private int _iRecord = -1;
+
+  public static String getCircleJpgUrl() {
+    return "file://localhost" + new File("testfiles/circle.jpg").getAbsolutePath();
+  }
   
   public static void printValue(String sLabel, String sValue)
   {
@@ -39,6 +43,7 @@ public class SampleRecord
       case Types.VARCHAR:
       case Types.NCHAR:
       case Types.NVARCHAR:
+      case Types.DATALINK:
         sValue = value.getString(); 
         break;
       case Types.CLOB:
@@ -291,10 +296,10 @@ public class SampleRecord
         case SampleTable.sCOLUMN10_NAME: // BLOB
           switch(_iRecord)
           {
-            case 0: cell.setBytes(TestUtils.getBytes(1000)); break; 
-            case 1: cell.setInputStream(new TestInputStream(1000000)); break; 
-            case 2: cell.setBytes(TestUtils.getBytes(100)); break; 
-            case 3: cell.setInputStream(new TestInputStream(100000)); break; 
+            case 0: cell.setBytes(TestUtils.getBytes(1000)); break;
+            case 1: cell.setInputStream(new TestInputStream(1000000)); break;
+            case 2: cell.setBytes(TestUtils.getBytes(100)); break;
+            case 3: cell.setInputStream(new TestInputStream(100000)); break;
           }
           break;
         case SampleTable.sCOLUMN11_NAME: // NUMERIC(10,2)
@@ -397,6 +402,9 @@ public class SampleRecord
           }
           cell.setDuration(duration25);
           break;
+        case SampleTable.sCOLUMN26_NAME: // DATALINK
+          cell.setString(getCircleJpgUrl());
+          break;
       }
       iReturn = iResult;
     }
@@ -472,6 +480,12 @@ public class SampleRecord
                   else
                     field.setInputStream(new TestInputStream(20000000));
                   break;
+                case 3: // _sUDTS_ATTRIBUTE4_NAME DATALINK
+                  if (_iRecord == 0) {
+                    field.setString(getCircleJpgUrl());
+                  }
+                  // else NULL
+                  break;
               }
             }
             break;
@@ -509,6 +523,12 @@ public class SampleRecord
                           field.setBytes(TestUtils.getBytes(4567));
                         else
                           field.setInputStream(new TestInputStream(100000));
+                        break;
+                      case 3: // _sTEST_ROW_FIELD4_NAME DATALINK
+                        if (_iRecord == 0) {
+                          field.setString(getCircleJpgUrl());
+                        }
+                        // else NULL
                         break;
                     }
                   }
