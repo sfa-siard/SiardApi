@@ -17,7 +17,7 @@ public class ConvertableSiard22Archive extends SiardArchive {
                               List<SchemaType> schemas,
                               List<UserType> users,
                               List<RoleType> roles,
-                              List<PrivilegeType> priviliges) {
+                              List<PrivilegeType> privileges) {
         super();
         this.version = version;
         this.dbname = dbName;
@@ -50,9 +50,9 @@ public class ConvertableSiard22Archive extends SiardArchive {
             this.roles.getRole().addAll(roles);
         }
 
-        if (priviliges.size() > 0) {
+        if (privileges.size() > 0) {
             this.privileges = new PrivilegesType();
-            this.privileges.getPrivilege().addAll(priviliges);
+            this.privileges.getPrivilege().addAll(privileges);
         }
     }
 }
