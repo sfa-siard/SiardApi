@@ -8,7 +8,7 @@ Platform   : JAVA, ANT
 Copyright  : 2016, Enter AG, Rüti ZH, Switzerland
 Created    : 30.06.2016, Hartwig Thomas
 ==================================================================== -->
-<project basedir="." default="build" name="siardapi" xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project basedir="." default="build" name="siardapi">
   <!-- build properties contain local settings. They must reside in
 	   the same folder as this build.xml. Use build.properties.template
 	   as a guide for creating the local copy.
@@ -81,7 +81,7 @@ Created    : 30.06.2016, Hartwig Thomas
   </target>
   
   <!-- create build folders -->
-  <target name="init" depends="clean">
+  <target name="init">
     <echo message="${ant.project.name}: init"/>
     <mkdir dir="${dirbuildclasses}"/>
     <mkdir dir="${dirbuildtests}"/>
@@ -148,13 +148,13 @@ Created    : 30.06.2016, Hartwig Thomas
     </condition>
     <echo message="branch: ${branch}"/>
     <echo message="branch.master: ${branch.master}"/>
-    <echo message="build.properties.configured: ${build.properties.configured}"/>
   </target>
 
   <property name="filemdxsd" value="metadata.xsd"/>
   <property name="filetablexsd" value="table.xsd"/>
   <property name="filemd10xsd" value="old10/metadata.xsd"/>
-  
+  <property name="filemd21xsd" value="old21/metadata.xsd"/>
+
   <!-- increment revision and update manifest -->
   <property name="filerevisionproperties" value="${dirtmp}/revision.properties"/> 
   <target name="revision" depends="check">
@@ -184,9 +184,11 @@ Created    : 30.06.2016, Hartwig Thomas
   <property name="packagemd" value="ch.admin.bar.siard2.api.generated"/>
   <property name="filemd10generate" value="${dirtmp}/md10-generate.txt"/>
   <property name="packagemd10" value="ch.admin.bar.siard2.api.generated.old10"/>
+  <property name="filemd21generate" value="${dirtmp}/md21-generate.txt"/>
+  <property name="packagemd21" value="ch.admin.bar.siard2.api.generated.old21"/>
   <property name="filetablegenerate" value="${dirtmp}/table-generate.txt"/>
   <property name="packagetable" value="ch.admin.bar.siard2.api.generated.table"/>
-  <target name="generate" depends="revision">
+  <target name="generate" depends="copy-dependencies">
     <delete>
       <fileset dir="${dirgenerated}">
         <include name="**/*.java"/>
@@ -217,6 +219,19 @@ Created    : 30.06.2016, Hartwig Thomas
       <arg value="-p"/>
       <arg value="${packagemd10}"/>
       <arg value="${dirres}/${filemd10xsd}"/>
+    </exec>
+    <echo message="${ant.project.name}: generate md21"/>
+    <exec executable="${xjc}"
+          output="${filemd21generate}"
+          failonerror="true">
+      <arg value="-encoding"/>
+      <arg value="UTF-8"/>
+      <arg value="-npa"/>
+      <arg value="-d"/>
+      <arg value="${dirsrc}"/>
+      <arg value="-p"/>
+      <arg value="${packagemd21}"/>
+      <arg value="${dirres}/${filemd21xsd}"/>
     </exec>
     <echo message="${ant.project.name}: generate table"/>
     <exec executable="${xjc}" 
@@ -273,7 +288,7 @@ Created    : 30.06.2016, Hartwig Thomas
 
   <!-- create the JAR file containing all classes -->
   <property name="jarfile" value="${ant.project.name}.jar"/>
-  <target name="jar" depends="javadoc,revision">
+  <target name="jar" depends="javadoc,revision,test">
     <echo message="${ant.project.name}: jar"/>
     <jar jarfile="${dirdist}/${jarfile}"
        manifest="${filemanifest}">
@@ -365,7 +380,6 @@ Created    : 30.06.2016, Hartwig Thomas
         <include name="${jarfile}"/>
       </zipfileset>
       <zipfileset dir="${dirlib}" prefix="${ant.project.name}/${dirlib}">
-        <exclude name="${jarjaxbxjc}"/>
       	<exclude name="${jarhamcrest}"/>
       	<exclude name="${jarjunit4}"/>
       </zipfileset>
@@ -397,5 +411,23 @@ Created    : 30.06.2016, Hartwig Thomas
     <delete dir="${dirdeploy}/${ant.project.name}"/>
     <unzip dest="${dirdeploy}" src="${dirdist}/${ant.project.name}-${version}.${revision}.zip" />
   </target>
-  
+
+  <!-- copy dependencies from local file system -->
+  <property name="fileadd" value="${dirtmp}/add.txt"/>
+  <property name="filemdxsd" value="metadata.xsd"/>
+  <property name="filetablexsd" value="table.xsd"/>
+  <property name="filemd10xsd" value="old10/metadata.xsd"/>
+  <property name="filemd21xsd" value="old21/metadata.xsd"/>
+  <target name="copy-dependencies" depends="check">
+    <echo message="Copy jar files from dependency projects on local file system"/>
+    <copy file="../EnterUtilities/dist/enterutils.jar" todir="${dirlib}" failonerror="false"/>
+    <copy file="../SqlParser/dist/sqlparser.jar" todir="${dirlib}" failonerror="false"/>
+    <copy file="../Zip64File/dist/zip64.jar" todir="${dirlib}" failonerror="false"/>
+    <!-- the metadata in specifications is the master! -->
+    <copy file="${dirspecifications}/${filemdxsd}" tofile="${dirres}/${filemdxsd}"/>
+    <copy file="${dirspecifications}/${filetablexsd}" tofile="${dirres}/${filetablexsd}"/>
+    <copy file="${dirspecifications}/${filemd10xsd}" tofile="${dirres}/${filemd10xsd}"/>
+    <copy file="${dirspecifications}/${filemd21xsd}" tofile="${dirres}/${filemd21xsd}"/>
+  </target>
+
 </project>

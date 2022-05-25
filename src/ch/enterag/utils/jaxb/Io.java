@@ -16,7 +16,7 @@ import javax.xml.bind.*;
 import javax.xml.namespace.*;
 import javax.xml.transform.stream.*;
 
-import ch.enterag.utils.*;
+import ch.admin.bar.siard2.api.generated.SiardArchive;
 import ch.enterag.utils.reflect.*;
 
 /*====================================================================*/
@@ -31,27 +31,7 @@ public abstract class Io
      * See: https://github.com/javaee/jaxb-v2/issues/1197 */
     System.setProperty("com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize","true");
   }
-  
-  /*--------------------------------------------------------------------*/
-  /** read and unmarshal a JAXB object from an XML file.
-   * @param classType JAXB class generated from XSD.
-   * @param isXml input stream with XML conforming to JAXB class.
-   * @return JAXB object.
-   * @throws JAXBException if unmarshalling failed.
-   */
-  public static <T> T readJaxbObject(Class<T> classType, InputStream isXml)
-    throws JAXBException
-  {
-    /* restore the error count to 10 again, because we do not want to miss any errors! */
-    Glue.setPrivate(com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext.class,"errorsCounter",Integer.valueOf(10));
-    T jo = null;
-    StreamSource ss = new StreamSource(isXml);
-    JAXBContext ctx = JAXBContext.newInstance(classType);
-    Unmarshaller u = ctx.createUnmarshaller();
-    jo = (T)u.unmarshal(ss,classType).getValue();
-    return jo;
-  } /* readJaxbObject */
-  
+
   /*--------------------------------------------------------------------*/
   /** read and unmarshal a JAXB object from an XML file, validating it
    * with an XSD.
@@ -73,26 +53,8 @@ public abstract class Io
     jo = (T)u.unmarshal(ss,classType).getValue();
     return jo;
   } /* readJaxbObject */
-  
-  /*--------------------------------------------------------------------*/
-  /** read and unmarshal a JAXB object from an XML file
-   * @param classType JAXB class generated from XSD.
-   * @param fileXml file with XML conforming to XSD.
-   * @return JAXB object.
-   * @throws FileNotFoundException if fileXml could not be found.
-   * @throws JAXBException if unmarshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> T readJaxbObject(Class<T> classType, File fileXml)
-    throws FileNotFoundException, JAXBException, IOException
-  {
-    T jo = null;
-    FileInputStream fis = new FileInputStream(fileXml);
-    jo = readJaxbObject(classType, fis);
-    fis.close();
-    return jo;
-  } /* readJaxbObject */
-  
+
+
   /*--------------------------------------------------------------------*/
   /** read and unmarshal a JAXB object from an XML file, validating it
    * with an XSD.
@@ -126,15 +88,18 @@ public abstract class Io
    * @param urlXsd URL where XSD can be found.
    * @throws JAXBException if marshalling failed.
    */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, QName qname, 
+  public static void writeJaxbObject(SiardArchive jo, OutputStream os, QName qname, 
     String sNoNamespaceSchemaLocation, String sSchemaLocation, boolean bFormat, URL urlXsd)
     throws JAXBException
   {
-    JAXBContext ctx = JAXBContext.newInstance(jo.getClass());
-    if (urlXsd == null)
-      ctx = JAXBContext.newInstance(jo.getClass());
-    else
-      ctx = ValidatingJAXBContext.newInstance(urlXsd,jo.getClass());
+    Class<?> aClass = SiardArchive.class; // always write SiardArchives!
+    JAXBContext ctx;
+    if (urlXsd == null) {
+      ctx = JAXBContext.newInstance(aClass);
+    }
+    else {
+      ctx = ValidatingJAXBContext.newInstance(urlXsd, aClass);
+    }
     Marshaller m = ctx.createMarshaller();
     if (sNoNamespaceSchemaLocation != null)
       m.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, sNoNamespaceSchemaLocation);
@@ -144,7 +109,7 @@ public abstract class Io
     if (qname != null)
     {
       @SuppressWarnings("unchecked")
-      JAXBElement<T> jbe = new JAXBElement<T>(qname, (Class<T>)jo.getClass(), jo);
+      JAXBElement jbe = new JAXBElement(qname, aClass, jo);
       m.marshal(jbe, os);
     }
     else
@@ -160,68 +125,13 @@ public abstract class Io
    * @param bFormat true, if output should be formated. 
    * @throws JAXBException if marshalling failed.
    */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, QName qname, String sNoNamespaceSchemaLocation, boolean bFormat)
+  public static void writeJaxbObject(SiardArchive jo, OutputStream os, QName qname, String sNoNamespaceSchemaLocation, boolean bFormat)
     throws JAXBException
   {
     writeJaxbObject(jo, os, qname, sNoNamespaceSchemaLocation,null,bFormat,null);
   } /* writeJaxbObject */
 
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @param sNoNamespaceSchemaLocation if not null, xsi:noNamespaceSchemaLocation 
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, QName qname, String sNoNamespaceSchemaLocation)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, qname, sNoNamespaceSchemaLocation, false);
-  } /* writeJaxbObject */
 
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param sNoNamespaceSchemaLocation if not null, xsi:noNamespaceSchemaLocation 
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, String sNoNamespaceSchemaLocation)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, null, sNoNamespaceSchemaLocation);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @throws JAXBException if marshalling failed.
-   * @throws FileNotFoundException if fileXml could not be located.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, (String)null);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream, validating it 
-   * with an XSD.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @param sSchemaLocation if not null, xsi:schemaLocation
-   * @param urlXsd URL where XSD can be found.
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, QName qname, String sSchemaLocation, URL urlXsd)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, qname, null, sSchemaLocation, false, urlXsd);
-  } /* writeJaxbObject */
 
   /*--------------------------------------------------------------------*/
   /** marshal and write a JAXB object to an output stream, validating it 
@@ -233,168 +143,9 @@ public abstract class Io
    * @param urlXsd URL where XSD can be found.
    * @throws JAXBException if marshalling failed.
    */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, String sSchemaLocation, boolean bFormat, URL urlXsd)
+  public static  void writeJaxbObject(SiardArchive jo, OutputStream os, String sSchemaLocation, boolean bFormat, URL urlXsd)
     throws JAXBException
   {
     writeJaxbObject(jo, os, null, null, sSchemaLocation, bFormat, urlXsd);
   } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream, validating it 
-   * with an XSD.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param sSchemaLocation if not null, xsi:schemaLocation
-   * @param urlXsd URL where XSD can be found.
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, String sSchemaLocation, URL urlXsd)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, sSchemaLocation, false, urlXsd);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream, validating it 
-   * with an XSD.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param bFormat true, if output should be formated.
-   * @param urlXsd URL where XSD can be found.
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, boolean bFormat, URL urlXsd)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, null, bFormat, urlXsd);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an output stream, validating it 
-   * with an XSD.
-   * @param jo JAXB object.
-   * @param os output stream.
-   * @param urlXsd URL where XSD can be found.
-   * @throws JAXBException if marshalling failed.
-   */
-  public static <T> void writeJaxbObject(T jo, OutputStream os, URL urlXsd)
-    throws JAXBException
-  {
-    writeJaxbObject(jo, os, false, urlXsd);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an XML file.
-   * @param jo JAXB object.
-   * @param fileXml output file.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @throws JAXBException if marshalling failed.
-   * @throws FileNotFoundException if fileXml could not be located.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> void writeJaxbObject(T jo, File fileXml, QName qname)
-    throws FileNotFoundException, JAXBException, IOException
-  {
-    FileOutputStream fos = new FileOutputStream(fileXml);
-    writeJaxbObject(jo, fos, qname, null);
-    fos.close();
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to an XML file.
-   * @param jo JAXB object.
-   * @param fileXml output file.
-   * @throws JAXBException if marshalling failed.
-   * @throws FileNotFoundException if fileXml could not be located.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> void writeJaxbObject(T jo, File fileXml)
-    throws FileNotFoundException, JAXBException, IOException
-  {
-    writeJaxbObject(jo,fileXml,null);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a formatted string.
-   * @param jo JAXB object.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @param sSchemaLocation if not null, xsi:schemaLocation
-   * @param urlXsd XML schema URL to be used for checking validity.
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo, QName qname, String sSchemaLocation, URL urlXsd)
-    throws JAXBException, IOException
-  {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    writeJaxbObject(jo, baos, qname, null, sSchemaLocation, true, urlXsd);
-    baos.close();
-    return baos.toString(SU.sUTF8_CHARSET_NAME);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a formatted string.
-   * @param jo JAXB object.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @param sNoNamespaceSchemaLocation if not null, xsi:noNamespaceSchemaLocation
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo, QName qname, String sNoNamespaceSchemaLocation)
-    throws JAXBException, IOException
-  {
-    return writeJaxbObject(jo, qname, sNoNamespaceSchemaLocation, null);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a formatted string.
-   * @param jo JAXB object.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @param urlXsd XML schema URL to be used for checking validity.
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo, QName qname, URL urlXsd)
-    throws JAXBException, IOException
-  {
-    return writeJaxbObject(jo, qname, null, urlXsd);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a formatted string.
-   * @param jo JAXB object.
-   * @param qname QName of the object to be streamed (needed if not root object).
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo, QName qname)
-    throws JAXBException, IOException
-  {
-    return writeJaxbObject(jo, qname, (URL)null);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a string.
-   * @param jo JAXB object.
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo, URL urlXsd)
-    throws JAXBException, IOException
-  {
-    return writeJaxbObject(jo, (QName)null, urlXsd);
-  } /* writeJaxbObject */
-
-  /*--------------------------------------------------------------------*/
-  /** marshal and write a JAXB object to a string.
-   * @param jo JAXB object.
-   * @throws JAXBException if marshalling failed.
-   * @throws IOException if an I/O error occurred.
-   */
-  public static <T> String writeJaxbObject(T jo)
-    throws JAXBException, IOException
-  {
-    return writeJaxbObject(jo, (QName)null);
-  } /* writeJaxbObject */
-
 } /* Io */

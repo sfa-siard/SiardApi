@@ -74,14 +74,14 @@ public class RandomArchive
     try
     {
       FileInputStream fis = new FileInputStream(fileInput);
-      _sa = MetaDataXml.readXml(fis);
+      _sa = MetaDataXml.readSiard22Xml(fis);
       fis.close();
       if (_sa != null)
         iReturn = iRETURN_OK;
       else
       {
         fis = new FileInputStream(fileInput);
-        _sa = MetaDataXml.readXmlOld10(fis);
+        _sa = MetaDataXml.readAndConvertSiard10Xml(fis);
         fis.close();
         if (_sa != null)
           iReturn = iRETURN_OK;

@@ -12,6 +12,8 @@ import java.io.*;
 import java.net.*;
 import javax.xml.bind.*;
 
+import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.ConvertableSiard21Archive;
+import ch.admin.bar.siard2.api.convertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
 import ch.enterag.utils.EU;
 import ch.enterag.utils.jaxb.*;
 import ch.enterag.utils.logging.*;
@@ -30,7 +32,7 @@ public class MetaDataXml
   /** logger */
   private static IndentLogger _il = IndentLogger.getIndentLogger(MetaDataXml.class.getName());
   public static final String sSIARD10_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old10/metadata.xsd";
-  public static final String sSIARD20_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old20/metadata.xsd";
+  public static final String sSIARD21_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/old21/metadata.xsd";
   private static ObjectFactory _of = new ObjectFactory();
 
   private static String convertType(String sType)
@@ -558,18 +560,35 @@ public class MetaDataXml
    * @return meta data.
    * @throws JAXBException if a validation error occurred.
    */
-  public static SiardArchive readXml(InputStream isXml)
+  public static SiardArchive readSiard22Xml(InputStream isXml)
   {
     SiardArchive sa = null;
     try
     {
       URL urlXsd = Archive.class.getResource(Archive.sSIARD2_META_DATA_XSD_RESOURCE);
       sa = Io.readJaxbObject(SiardArchive.class, isXml, urlXsd);
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
     }
-    catch (JAXBException je) { _il.exception(je); System.err.println(EU.getExceptionMessage(je)); }
     return sa;
   } /* readXml */
-  
+
+  public static SiardArchive readSiard21Xml(InputStream fileInputStream) {
+    ch.admin.bar.siard2.api.generated.old21.SiardArchive sa = null;
+    SiardArchive siardArchive = null;
+    try {
+      URL urlXsd = Archive.class.getResource(sSIARD21_XSD_RESOURCE);
+      sa = Io.readJaxbObject(ConvertableSiard21Archive.class, fileInputStream, urlXsd);
+      siardArchive = ((ConvertableSiard21Archive) sa).accept(new Siard21ToSiard22Transformer());
+
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
+    }
+    return siardArchive;
+  }
+
   /*------------------------------------------------------------------*/
   /** read an "old" meta data XML file using SIARD Format version 1.0 and 
    * convert it to the current format.
@@ -577,18 +596,20 @@ public class MetaDataXml
    * @return meta data in current format or null, if it did not conform
    *         to SIARD Format 1.0.
    */
-  public static SiardArchive readXmlOld10(InputStream isXml)
+  public static SiardArchive readAndConvertSiard10Xml(InputStream isXml)
   {
     SiardArchive sa = null;
     try
     {
       URL urlXsd = Archive.class.getResource(sSIARD10_XSD_RESOURCE);
-      ch.admin.bar.siard2.api.generated.old10.SiardArchive saOld10 = 
+      ch.admin.bar.siard2.api.generated.old10.SiardArchive saOld10 =
         Io.readJaxbObject(ch.admin.bar.siard2.api.generated.old10.SiardArchive.class, isXml, urlXsd);
       if (saOld10 != null)
         sa = convertArchive(saOld10);
+    } catch (JAXBException je) {
+      _il.exception(je);
+      System.err.println(EU.getExceptionMessage(je));
     }
-    catch (JAXBException je) { _il.exception(je); System.err.println(EU.getExceptionMessage(je)); }
     return sa;
   } /* readXmlOld10 */
 
@@ -615,5 +636,6 @@ public class MetaDataXml
     else
       Io.writeJaxbObject(sa, osXml,null,null,true);
   } /* writeXml */
-  
+
+
 } /* class MetaDataXml */

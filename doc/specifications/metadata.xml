@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <siardArchive xmlns="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
 	xsi:schemaLocation="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd metadata.xsd">
 	<dbname>Sample Database</dbname>
 	<description>SIARD File generated using the SIARD API</description>

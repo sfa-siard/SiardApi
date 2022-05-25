@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
-Created-By: Hartwig Thomas, Enter AG, Rüti ZH, Switzerland
+Created-By: Puzzle ITC GmbH, Switzerland
 Specification-Title: SIARD API
-Specification-Version: 2.1
+Specification-Version: 2.2
 Specification-Vendor: Swiss Federal Archives, Berne, Switzerland
 Implementation-Title: SIARD API
-Implementation-Version: 2.2.122
+Implementation-Version: 2.2.5
 Implementation-Vendor: Swiss Federal Archives, Berne, Switzerland
-Built-Date: 25. Sep 2020
+Built-Date: 10. May 2022
 Class-Path: zip64.jar
   activation-1.1.1.jar
   jaxb-api.jar

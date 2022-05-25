@@ -16,6 +16,7 @@ src/ch/admin/bar/siard2/api/generated/**
 /test/ch/admin/bar/siard2/api/bugs/**
 
 /build/
+/out/
 
 # intellij project files
 .idea/

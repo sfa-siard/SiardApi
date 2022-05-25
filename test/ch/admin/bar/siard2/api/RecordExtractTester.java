@@ -12,7 +12,7 @@ public class RecordExtractTester
 {
   private static final File _fileSAKILA = new File("testfiles/sfdbsakila.siard");
   private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
-  private static final String _sDBNAME = "SIARD 2.1 Test Database";
+  private static final String _sDBNAME = "SIARD 2.2 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
   private static final String _sTEST_USER_NAME = "TESTUSER";
@@ -23,9 +23,9 @@ public class RecordExtractTester
   private static final String _sTEST_COLUMN2_NAME = "CVARCHAR";
   private static final String _sTEST_TYPE2_NAME = "VARCHAR(256)";
   Table _tabNew = null;
-  
+
   private void setMandatoryMetaData(Schema schema)
-    throws IOException
+          throws IOException
   {
     MetaData md = schema.getParentArchive().getMetaData();
     if (md != null)
@@ -42,23 +42,23 @@ public class RecordExtractTester
   }
 
   private Table createTable(Schema schema)
-    throws IOException
+          throws IOException
   {
     Table tab = schema.createTable(_sTEST_TABLE_NAME);
     assertSame("Table create failed!",schema,tab.getParentSchema());
-    
+
     MetaColumn mc1 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN1_NAME);
     mc1.setType(_sTEST_TYPE1_NAME);
     mc1.setNullable(false);
-    
+
     MetaColumn mc2 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN2_NAME);
     mc2.setType(_sTEST_TYPE2_NAME);
-    
+
     return tab;
   } /* createTable */
-  
+
   private void populateCell(Cell cell, int iCell, long lRecord)
-    throws IOException
+          throws IOException
   {
     if (iCell == 0)
       cell.setLong(lRecord);
@@ -66,7 +66,7 @@ public class RecordExtractTester
       cell.setString(TestUtils.getString((int)(256*Math.random())));
   }
   private void fillTable(long lRecords)
-    throws IOException
+          throws IOException
   {
     RecordRetainer rr = _tabNew.createRecords();
     for (long lRecord = 0; lRecord < lRecords; lRecord++)
@@ -81,15 +81,15 @@ public class RecordExtractTester
     }
     rr.close();
   } /* fillTable */
-  
+
   @Before
   public void setUp()
   {
     try{ Files.deleteIfExists(_fileSIARD_21_NEW.toPath()); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
-    @Test
+
+  @Test
   public void testSmall()
   {
     try
@@ -101,7 +101,7 @@ public class RecordExtractTester
       fillTable(8);
       setMandatoryMetaData(schema);
       archive.close();
-      
+
       archive = ArchiveImpl.newInstance();
       archive.open(_fileSIARD_21_NEW);
       schema = archive.getSchema(_sTEST_SCHEMA_NAME);
@@ -112,15 +112,15 @@ public class RecordExtractTester
       for (int iRecordSet = 0; iRecordSet < rs.getRecordExtracts(); iRecordSet++)
       {
         Record record = rs.getRecordExtract(iRecordSet).getRecord();
-        System.out.println(sIndent + String.valueOf(record.getCell(0).getLong())+", "+record.getCell(1).getString());
+//        System.out.println(sIndent + String.valueOf(record.getCell(0).getLong())+", "+record.getCell(1).getString());
       }
       archive.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   private void printRecordSet(String sIndent, RecordExtract rs)
-    throws IOException
+          throws IOException
   {
     String sLabel = rs.getLabel();
     Record record = rs.getRecord();
@@ -143,7 +143,7 @@ public class RecordExtractTester
   }
 
   private void testMetaDataOnly(int n)
-      throws IOException
+          throws IOException
   {
     Archive archive = ArchiveImpl.newInstance();
     archive.create(_fileSIARD_21_NEW);
@@ -153,7 +153,7 @@ public class RecordExtractTester
     setMandatoryMetaData(schema);
     archive.close();
     System.out.println(_fileSIARD_21_NEW.getAbsolutePath());
-    
+
     archive = ArchiveImpl.newInstance();
     archive.open(_fileSIARD_21_NEW);
     schema = archive.getSchema(_sTEST_SCHEMA_NAME);
@@ -163,9 +163,9 @@ public class RecordExtractTester
     catch(IOException ie) {}
     archive.close();
   }
-  
+
   private void test(int n)
-      throws IOException
+          throws IOException
   {
     Archive archive = ArchiveImpl.newInstance();
     archive.create(_fileSIARD_21_NEW);
@@ -175,7 +175,7 @@ public class RecordExtractTester
     setMandatoryMetaData(schema);
     archive.close();
     System.out.println(_fileSIARD_21_NEW.getAbsolutePath());
-    
+
     archive = ArchiveImpl.newInstance();
     archive.open(_fileSIARD_21_NEW);
     schema = archive.getSchema(_sTEST_SCHEMA_NAME);
@@ -184,9 +184,9 @@ public class RecordExtractTester
     printRecordSet("",rs);
     archive.close();
   }
-  
+
   private void testSort(int n)
-      throws IOException
+          throws IOException
   {
     Archive archive = ArchiveImpl.newInstance();
     archive.create(_fileSIARD_21_NEW);
@@ -196,7 +196,7 @@ public class RecordExtractTester
     setMandatoryMetaData(schema);
     archive.close();
     System.out.println(_fileSIARD_21_NEW.getAbsolutePath());
-    
+
     archive = ArchiveImpl.newInstance();
     archive.open(_fileSIARD_21_NEW);
     schema = archive.getSchema(_sTEST_SCHEMA_NAME);
@@ -213,7 +213,7 @@ public class RecordExtractTester
 
   @Test
   public void testSortSakila()
-      throws IOException
+          throws IOException
   {
     Archive archive = ArchiveImpl.newInstance();
     archive.open(_fileSAKILA);
@@ -226,30 +226,30 @@ public class RecordExtractTester
     System.out.println();
     System.out.println("Sorted");
     printRecordSet("",rs);
-    archive.close();
+//    archive.close();
   }
-  
+
   @Test
   public void testSort1()
   {
     try { testSort(1); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
   public void testSort8()
   {
     try { testSort(8); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
   public void testSort64()
   {
     try { testSort(64); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
   public void test1()
   {
@@ -270,22 +270,22 @@ public class RecordExtractTester
     try { test(64); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
   public void test512()
   {
     try { test(512); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
+
   @Test
   public void test4096()
   {
     try { test(4096); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
-  
-  
+
+
   @Test
   public void testMetaDataOnly8()
   {
@@ -293,5 +293,5 @@ public class RecordExtractTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
 
-  
+
 }

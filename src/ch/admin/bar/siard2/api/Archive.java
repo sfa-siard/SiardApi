@@ -29,8 +29,9 @@ public interface Archive
   public static final String sMETA_DATA_VERSION_1_0 = "1.0";
   /** the abrogated version of the meta data XSD (unsupported) */
   public static final String sMETA_DATA_VERSION_2_0 = "2.0";
+  public static final String sMETA_DATA_VERSION_2_1 = "2.1";
   /** the current version of the meta data XSD */
-  public static final String sMETA_DATA_VERSION = "2.1";
+  public static final String sMETA_DATA_VERSION = "2.2";
   /** default maximum string size for inlining LOBs */
   public static final int iDEFAULT_MAX_INLINE_SIZE = 4000;
   
