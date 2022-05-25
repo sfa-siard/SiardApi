@@ -115,6 +115,9 @@ public class ArchiveImpl
       throw new IOException("Folder names must end with \"/\"!");
   } /* createFolderEntry */
 
+  private void removeFolderEntry(String folder) throws IOException {
+    getZipFile().delete(folder);
+  }
   /*------------------------------------------------------------------*/
   /** open an existing file entry.
    * @param sEntryName name of file entry.
@@ -459,13 +462,13 @@ public class ArchiveImpl
     {
       /* version folder */
       MetaData md = getMetaData();
-      if (!md.getVersion().equals(Archive.sMETA_DATA_VERSION))
+      String version = md.getVersion();
+      if (version.equals(Archive.sMETA_DATA_VERSION_1_0) || version.equals(sMETA_DATA_VERSION_2_0))
       {
         getZipFile().delete(getMetaDataXsl());
         getZipFile().delete(getMetaDataXsd());
         /* create version stamp */
-        String sVersionFolder = _sHEADER_FOLDER+sPRONOM_ID+"/"+Archive.sMETA_DATA_VERSION+"/";
-        createFolderEntry(sVersionFolder);
+        createFolderEntry(_sHEADER_FOLDER+sPRONOM_ID+"/"+Archive.sMETA_DATA_VERSION+"/");
         /* copy metadata.xsd to header */
         OutputStream eos = createFileEntry(getMetaDataXsd());
         exportMetaDataSchema(eos);
@@ -474,10 +477,20 @@ public class ArchiveImpl
         exportGenericTableSchema(eos);
         _sPreviousMetaDataVersion = Archive.sMETA_DATA_VERSION;
       }
-      /* default version */
+
+      if(version.equals(Archive.sMETA_DATA_VERSION_2_1)) {
+        getZipFile().delete(getMetaDataXsl());
+        getZipFile().delete(getMetaDataXsd());
+        // add new version folder
+        removeFolderEntry(_sHEADER_FOLDER + sPRONOM_ID + "/" + Archive.sMETA_DATA_VERSION_2_1 + "/");
+        createFolderEntry(_sHEADER_FOLDER + sPRONOM_ID + "/" + Archive.sMETA_DATA_VERSION + "/");
+      }
+
+      /* default version + for all versions... */
       FileEntry feMetadata = getZipFile().getFileEntry(getMetaDataXml());
-      if (feMetadata != null)
+      if (feMetadata != null) {
         getZipFile().delete(getMetaDataXml());
+      }
       OutputStream eos = createFileEntry(getMetaDataXml());
       exportMetaData(eos,true);
       _bMetaDataModified = false;
