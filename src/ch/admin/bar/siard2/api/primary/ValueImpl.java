@@ -347,7 +347,8 @@ public abstract class ValueImpl
       sExtension = _sEXTENSION_XML;
     else if ((iPreType == Types.BINARY) ||
              (iPreType == Types.VARBINARY) ||
-             (iPreType == Types.BLOB))
+             (iPreType == Types.BLOB) ||
+             (iPreType == Types.DATALINK))
     {
       sExtension = _sEXTENSION_BIN;
       String sMimeType = getMimeType();
@@ -450,7 +451,6 @@ public abstract class ValueImpl
    * @param uriTemporaryLobFolder URI of temporary folder for LOBs.
    * @param iIndex index of value in parent cell or field 
    *   (is needed, because element can be null).
-   * @param cell parent cell if this is the value of a cell.
    * @param elValue DOM element representing the value or null for NULL
    *   value.
    * @param mv meta data (column meta data for cell value, field meta data
@@ -1116,7 +1116,8 @@ public abstract class ValueImpl
           (iPreType == Types.NCHAR) ||
           (iPreType == Types.NVARCHAR) ||
           (iPreType == Types.NCLOB) ||
-          (iPreType == Types.SQLXML))
+          (iPreType == Types.SQLXML) ||
+          (iPreType == Types.DATALINK))
       {
         String sLength = getValueElement().getAttribute(ArchiveImpl._sATTR_LENGTH);
         if ((sLength != null) && (sLength.length() > 0))
@@ -1146,7 +1147,7 @@ public abstract class ValueImpl
         (iPreType == Types.SQLXML) ||
         (iPreType == Types.DATALINK))
     {
-      OutputStream osClob = null;
+      OutputStream osClob;
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();
       /* try to read iMaxInLineSize+1 characters */
       char[] cbufPrefix = new char[iMaxInlineSize+1];
@@ -1158,7 +1159,7 @@ public abstract class ValueImpl
         iOffset = iOffset + iRead;
       String sLobFile = getLobFilename();
       URI uriExternalLobFolder = getAbsoluteLobFolder();
-      File fileLob = null;
+      File fileLob;
       if (uriExternalLobFolder == null)
       {
         sLobFile = getInternalLobFolder() + sLobFile;
@@ -1223,7 +1224,8 @@ public abstract class ValueImpl
       int iPreType = getPreType();
       if ((iPreType == Types.BINARY) || 
           (iPreType == Types.VARBINARY) ||
-          (iPreType == Types.BLOB))
+          (iPreType == Types.BLOB) ||
+          (iPreType == Types.DATALINK))
       {
         if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE))
         {
@@ -1283,9 +1285,10 @@ public abstract class ValueImpl
     int iPreType = getPreType();
     if ((iPreType == Types.BINARY) || 
         (iPreType == Types.VARBINARY) ||
-        (iPreType == Types.BLOB))
+        (iPreType == Types.BLOB) ||
+        (iPreType == Types.DATALINK))
     {
-      OutputStream osBlob = null;
+      OutputStream osBlob;
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();
       /* try to read 1 + iMaxInLineSize bytes */
       byte[] bufPrefix = new byte[1+iMaxInlineSize];
@@ -1297,7 +1300,7 @@ public abstract class ValueImpl
         iOffset = iOffset + iRead;
       String sLobFile = getLobFilename();
       URI uriExternalLobFolder = getAbsoluteLobFolder();
-      File fileLob = null;
+      File fileLob;
       if (uriExternalLobFolder == null)
       {
         sLobFile = getInternalLobFolder() + sLobFile;
@@ -1433,6 +1436,7 @@ public abstract class ValueImpl
             o = getBytes();
             break;
           case Types.BLOB:
+          case Types.DATALINK:
             o = getInputStream();
             break;
           case Types.DECIMAL:
