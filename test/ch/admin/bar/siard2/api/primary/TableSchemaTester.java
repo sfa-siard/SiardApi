@@ -20,9 +20,9 @@ import ch.admin.bar.siard2.api.generated.*;
 
 public class TableSchemaTester
 {
-  private static final File _fileSIARD_10_SOURCE = new File("testfiles\\sql2003.siard");
-  private static final File _fileSIARD_10 = new File("logs\\sql2003.siard");
-  private static final File _fileSIARD_21 = new File("logs\\sql2008.siard");
+  private static final File _fileSIARD_SOURCE = new File("testfiles/sample_source.siard");
+  private static final File _fileSIARD_TARGET = new File("testfiles/sample_target.siard");
+  private static final File _fileSIARD_ARCHIVE = new File("testfiles/sample_archive.siard");
   private static final File _fileLOBS_FOLDER = new File("D:\\Temp\\lobs");
   private static final String _sDBNAME = "SIARD 2.1 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
@@ -80,6 +80,8 @@ public class TableSchemaTester
   private static final String _sTEST_TYPE24_NAME = "INTERVAL DAY TO MINUTE";
   private static final String _sTEST_COLUMN25_NAME = "CINTERVALSECOND";
   private static final String _sTEST_TYPE25_NAME = "INTERVAL SECOND(2,5)";
+  private static final String _sTEST_COLUMN26_NAME = "COLUMN_DATALINK";
+  private static final String _sTEST_TYPE26_NAME = "DATALINK";
   
   private static final String _sTEST_DISTINCT_TYPE = "TDISTINCT";
   private static final String _sTEST_DISTINCT_COLUMN = "CDISTINCT";
@@ -88,6 +90,7 @@ public class TableSchemaTester
   private static final String _sTEST_ROW_ATTRIBUTE1_NAME = "TABLEID";
   private static final String _sTEST_ROW_ATTRIBUTE2_NAME = "TRANSCRIPTION";
   private static final String _sTEST_ROW_ATTRIBUTE3_NAME = "SOUND";
+  private static final String _sTEST_ROW_ATTRIBUTE4_NAME = "FILE";
   private static final String _sTEST_ARRAY_COLUMN = "CARRAY";
   private static final String _sTEST_UDT_TYPE = "TUDT";
   private static final String _sTEST_UDT_COLUMN = "CUDT";
@@ -140,13 +143,15 @@ public class TableSchemaTester
     mtDistinct.setBase("INTEGER");
     
     MetaType mtRow =  ms.createMetaType(_sTEST_ROW_TYPE);
-    mtRow.setCategory("row");
+    mtRow.setCategory("udt");
     MetaAttribute mr1 = mtRow.createMetaAttribute(_sTEST_ROW_ATTRIBUTE1_NAME);
     mr1.setType("INTEGER");
     MetaAttribute mr2 = mtRow.createMetaAttribute(_sTEST_ROW_ATTRIBUTE2_NAME);
     mr2.setType("CLOB");
     MetaAttribute mr3 = mtRow.createMetaAttribute(_sTEST_ROW_ATTRIBUTE3_NAME);
     mr3.setType("BLOB");
+    MetaAttribute mr4 = mtRow.createMetaAttribute(_sTEST_ROW_ATTRIBUTE4_NAME);
+    mr4.setType("DATALINK");
     
     MetaType mtUdt = ms.createMetaType(_sTEST_UDT_TYPE);
     mtUdt.setCategory("udt");
@@ -238,6 +243,9 @@ public class TableSchemaTester
 
     MetaColumn mc25 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN25_NAME);
     mc25.setType(_sTEST_TYPE25_NAME);
+
+    MetaColumn mc26 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN26_NAME);
+    mc26.setType(_sTEST_TYPE26_NAME);
     
     return tab;
   } /* createSimpleTable */
@@ -274,26 +282,26 @@ public class TableSchemaTester
     assertSame("Table open failed!",schema,tab.getParentSchema());
     return tab;
   }
-  
+
   @Before
   public void setUp()
   {
-    try 
-    { 
-      Files.copy(_fileSIARD_10_SOURCE.toPath(), _fileSIARD_10.toPath(),StandardCopyOption.REPLACE_EXISTING);
-      Files.deleteIfExists(_fileSIARD_21.toPath());
+    try
+    {
+      Files.copy(_fileSIARD_SOURCE.toPath(), _fileSIARD_TARGET.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      Files.deleteIfExists(_fileSIARD_ARCHIVE.toPath());
       deleteFolder(_fileLOBS_FOLDER);
       Archive archive = ArchiveImpl.newInstance();
-      archive.create(_fileSIARD_21);
+      archive.create(_fileSIARD_ARCHIVE);
       Schema schema = archive.createSchema(_sTEST_SCHEMA_NAME);
       createTypes(schema.getMetaSchema());
       _tabSimple = createSimpleTable(schema);
       _tabComplex = createComplexTable(schema);
 
-      archive = ArchiveImpl.newInstance();
-      archive.open(_fileSIARD_10);
-      schema = archive.getSchema(0);
-      _tabOld = openOldTable(schema);
+//      archive = ArchiveImpl.newInstance();
+//      archive.open(_fileSIARD_ARCHIVE);
+//      schema = archive.getSchema(0);
+//      _tabOld = openOldTable(schema);
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
@@ -306,7 +314,8 @@ public class TableSchemaTester
       setMandatoryMetaData(_tabSimple.getParentSchema());
       setMandatoryMetaData(_tabComplex.getParentSchema());
       _tabSimple.getParentSchema().getParentArchive().close();
-      _tabOld.getParentSchema().getParentArchive().close();
+
+//      _tabOld.getParentSchema().getParentArchive().close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
@@ -336,6 +345,7 @@ public class TableSchemaTester
       {
         case Types.CHAR: sXmlType = "xs:string"; break;
         case Types.VARCHAR: sXmlType = "xs:string"; break;
+        case Types.DATALINK: sXmlType = "xs:string"; break;
         case Types.CLOB: sXmlType = "clobType"; break;
         case Types.NCHAR: sXmlType = "xs:string"; break;
         case Types.NVARCHAR: sXmlType = "xs:string"; break;
@@ -449,16 +459,16 @@ public class TableSchemaTester
   {
     try
     {
-      File fileTable = new File("logs/table_simple.xsd");
-      OutputStream osXsd = new FileOutputStream(fileTable); 
-      writeTableXsd(_tabSimple,osXsd);
+
+      File fileTable = new File("testfiles/table_simple.xsd");
+      OutputStream osXsd = new FileOutputStream(fileTable);
+      writeTableXsd(_tabSimple, osXsd);
       osXsd.close();
-      /*
-      File fileMetaData = new File("logs/metadata.xml");
+
+      File fileMetaData = new File("testfiles/metadata.xml");
       OutputStream osXml = new FileOutputStream(fileMetaData);
-      _tabSimple.getSchema().getArchive().exportMetaData(osXml);
+      _tabSimple.getParentSchema().getParentArchive().exportMetaData(osXml);
       osXml.close();
-      */
     }
     catch(FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
@@ -467,11 +477,11 @@ public class TableSchemaTester
   @Test
   public void testComplex()
   {
-    File file = new File("logs/table_complex.xsd");
+    File file = new File("testfiles/table_complex.xsd");
     try
     {
       OutputStream osXsd = new FileOutputStream(file); 
-      writeTableXsd(_tabComplex,osXsd);
+      writeTableXsd(_tabComplex, osXsd);
       osXsd.close();
     }
     catch(FileNotFoundException fnfe) { fail(EU.getExceptionMessage(fnfe)); }
