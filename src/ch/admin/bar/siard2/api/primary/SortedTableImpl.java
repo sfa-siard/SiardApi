@@ -228,6 +228,7 @@ public class SortedTableImpl
               iCompare = compareBytes(valueLeft.getBytes(),valueRight.getBytes());
               break;
             case Types.BLOB:
+            case Types.DATALINK:
               iCompare = compareInputStreams(valueLeft.getInputStream(),valueRight.getInputStream());
               break;
             case Types.BOOLEAN:

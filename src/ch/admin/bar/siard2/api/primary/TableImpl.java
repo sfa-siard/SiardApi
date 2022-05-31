@@ -151,6 +151,7 @@ public class TableImpl
       {
         case Types.CHAR: sXmlType = bShort?"xs:string":"clobType"; break;
         case Types.VARCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
+        case Types.DATALINK: sXmlType = "xs:string"; break;
         case Types.CLOB: sXmlType = "clobType"; break;
         case Types.NCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
         case Types.NVARCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
@@ -420,14 +421,13 @@ public class TableImpl
   /** write the value as HTML to the table cell.
    * @param wr writer.
    * @param value value to be written.
-   * @param folderLob root folder for internal LOBs in this table.
    * @param sFilename file name for LOB.
    * @throws IOException if an I/O error occurred.
    */
   private void writeLinkToLob(Writer wr, Value value, File folderLobs, String sFilename)
     throws IOException
   {
-    URI uriAbsoluteFolder = value.getMetaValue().getAbsoluteLobFolder(); 
+    URI uriAbsoluteFolder = value.getMetaValue().getAbsoluteLobFolder();
     if (uriAbsoluteFolder != null)
     {
       URI uriExternal = uriAbsoluteFolder.resolve(sFilename);
@@ -436,7 +436,6 @@ public class TableImpl
     }
     else if (folderLobs != null)
     {
-      
       sFilename = "/"+folderLobs.getAbsolutePath().replace('\\', '/')+"/"+sFilename;
       File fileLob = new File(sFilename);
       fileLob.getParentFile().mkdirs();
@@ -444,7 +443,8 @@ public class TableImpl
       int iType = value.getMetaValue().getPreType();
       if ((iType == Types.BINARY) ||
         (iType == Types.VARBINARY) ||
-        (iType == Types.BLOB))
+        (iType == Types.BLOB) ||
+        (iType == Types.DATALINK))
       {
         InputStream is = value.getInputStream();
         if (is != null)
@@ -558,6 +558,7 @@ public class TableImpl
             case Types.CLOB:
             case Types.NCLOB:
             case Types.SQLXML:
+            case Types.DATALINK:
               sText = value.getString();
               break;
             case Types.BINARY:
