@@ -11,6 +11,7 @@ package ch.admin.bar.siard2.api.primary;
 import java.io.*;
 import java.math.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.sql.*;
 import java.sql.Date;
 import java.text.*;
@@ -1060,12 +1061,9 @@ public abstract class ValueImpl
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
-  public Reader getReader()
-    throws IOException
-  {
-    Reader rdrClob = null;
-    if (!isNull())
-    {
+  public Reader getReader() throws IOException {
+    Reader reader = null;
+    if (!isNull()) {
       int iPreType = getPreType();
       if ((iPreType == Types.CHAR) ||
           (iPreType == Types.VARCHAR) ||
@@ -1074,31 +1072,18 @@ public abstract class ValueImpl
           (iPreType == Types.NVARCHAR) ||
           (iPreType == Types.NCLOB) ||
           (iPreType == Types.SQLXML) ||
-          (iPreType == Types.DATALINK))
-      {
-        InputStream isLob = null;
-        if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE))
-        {
-          String sLobFile = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
-          /* file is either internal or external */
-          URI uriExternalLobFolder = getAbsoluteLobFolder();
-          if (uriExternalLobFolder == null)
-            isLob = getArchiveImpl().openFileEntry(sLobFile);
-          else
-          {
-            URI uriExternal = uriExternalLobFolder.resolve(sLobFile);
-            isLob = new FileInputStream(FU.fromUri(uriExternal));
-          }
-        }
-        rdrClob = new ValidatingReader(getValueElement(),isLob);
-      }
-      else if (iPreType != Types.NULL)
-        throw new IllegalArgumentException("Cell of type "+SqlTypes.getTypeName(iPreType)+" cannot be read from input stream!");
+          (iPreType == Types.DATALINK)) {
+
+        InputStream inputStream = getInputStreamFromLobFile();
+        reader = new ValidatingReader(getValueElement(), inputStream);
+
+      } else if (iPreType != Types.NULL)
+        throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be read from input stream!");
       else
         throw new IllegalArgumentException("Value of cell of complex type cannot be read from input stream!");
     }
-    return rdrClob;
-  } /* getReader */
+    return reader;
+  }
   
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
@@ -1134,9 +1119,8 @@ public abstract class ValueImpl
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
-  public void setReader(Reader rdrClob)
-    throws IOException
-  {
+  public void setReader(Reader reader)
+          throws IOException {
     int iPreType = getPreType();
     if ((iPreType == Types.CHAR) ||
         (iPreType == Types.VARCHAR) ||
@@ -1145,56 +1129,39 @@ public abstract class ValueImpl
         (iPreType == Types.NVARCHAR) ||
         (iPreType == Types.NCLOB) ||
         (iPreType == Types.SQLXML) ||
-        (iPreType == Types.DATALINK))
-    {
-      OutputStream osClob;
+        (iPreType == Types.DATALINK)) {
+
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();
       /* try to read iMaxInLineSize+1 characters */
-      char[] cbufPrefix = new char[iMaxInlineSize+1];
+      char[] bufferPrefix = new char[iMaxInlineSize + 1];
       int iOffset = 0;
       int iRead = -1;
-      for (iRead = rdrClob.read(cbufPrefix); 
-           (iOffset < cbufPrefix.length) && (iRead != -1); 
-           iRead = rdrClob.read(cbufPrefix,iOffset,cbufPrefix.length-iOffset))
+      for (iRead = reader.read(bufferPrefix);
+           (iOffset < bufferPrefix.length) && (iRead != -1);
+           iRead = reader.read(bufferPrefix, iOffset, bufferPrefix.length - iOffset)) {
         iOffset = iOffset + iRead;
-      String sLobFile = getLobFilename();
-      URI uriExternalLobFolder = getAbsoluteLobFolder();
-      File fileLob;
-      if (uriExternalLobFolder == null)
-      {
-        sLobFile = getInternalLobFolder() + sLobFile;
-        URI uriTemporaryLobFolder = getTemporaryLobFolder();
-        fileLob = FU.fromUri(uriTemporaryLobFolder.resolve(sLobFile));
-        sLobFile = getTableImpl().getTableFolder() + sLobFile;
       }
-      else
-      {
-        int iMaxLobsPerFolder = getArchiveImpl().getMaxLobsPerFolder();
-        if ((iMaxLobsPerFolder > 0) && (getTableImpl().getMetaTable().getRows() > iMaxLobsPerFolder))
-        {
-          long lSequence = getRecord() / getArchiveImpl().getMaxLobsPerFolder();
-          sLobFile = _sSEQUENCE_PREFIX+String.valueOf(lSequence) + File.separator + sLobFile;
-        }
-        URI uriExternal = uriExternalLobFolder.resolve(sLobFile);
-        fileLob = FU.fromUri(uriExternal);
+
+      String lobFilename = getLobFilename();
+      URI externalLobFolder = getAbsoluteLobFolder();
+
+      javafx.util.Pair<File, String> lobFileAndName = getLobFileAndName(lobFilename, externalLobFolder);
+      File lobFile = lobFileAndName.getKey();
+      lobFilename = lobFileAndName.getValue();
+
+      OutputStream outputStream = new FileOutputStream(lobFile);
+      getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, lobFilename);
+      Writer writer = new ValidatingWriter(getValueElement(), outputStream);
+      writer.write(bufferPrefix, 0, iOffset);
+      if (iRead != -1) {
+        char[] bufferTransfer = new char[ArchiveImpl._iBUFFER_SIZE];
+        for (iRead = reader.read(bufferTransfer); iRead != -1; iRead = reader.read(bufferTransfer))
+          writer.write(bufferTransfer, 0, iRead);
       }
-      if (!fileLob.getParentFile().exists())
-        fileLob.getParentFile().mkdirs();
-      osClob = new FileOutputStream(fileLob);
-      getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, sLobFile);
-      Writer wrClob = new ValidatingWriter(getValueElement(), osClob);
-      wrClob.write(cbufPrefix,0,iOffset);
-      if (iRead != -1)
-      {
-        char[] cbufTransfer = new char[ArchiveImpl._iBUFFER_SIZE];
-        for (iRead = rdrClob.read(cbufTransfer); iRead != -1; iRead = rdrClob.read(cbufTransfer))
-          wrClob.write(cbufTransfer,0,iRead);
-      }
-      wrClob.close(); // sets LENGTH and DIGEST
-      rdrClob.close();
-    }
-    else if (iPreType != Types.NULL)
-      throw new IllegalArgumentException("Cell of type "+SqlTypes.getTypeName(iPreType)+" cannot be set using a reader!");
+      writer.close(); // sets LENGTH and DIGEST
+      reader.close();
+    } else if (iPreType != Types.NULL)
+      throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be set using a reader!");
     else
       throw new IllegalArgumentException("Value of cell of complex type cannot be set using a reader!");
   } /* setReader */
@@ -1215,40 +1182,40 @@ public abstract class ValueImpl
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
-  public InputStream getInputStream()
-    throws IOException
-  {
-    InputStream isLob = null;
-    if (!isNull())
-    {
+  public InputStream getInputStream() throws IOException {
+    InputStream inputStream = null;
+    if (!isNull()) {
       int iPreType = getPreType();
-      if ((iPreType == Types.BINARY) || 
+      if ((iPreType == Types.BINARY) ||
           (iPreType == Types.VARBINARY) ||
           (iPreType == Types.BLOB) ||
-          (iPreType == Types.DATALINK))
-      {
-        if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE))
-        {
-          String sLobFile = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
-          /* file is either internal or external */
-          URI uriExternalLobFolder = getAbsoluteLobFolder();
-          if (uriExternalLobFolder == null)
-            isLob = getArchiveImpl().openFileEntry(sLobFile);
-          else
-          {
-            URI uriExternal = uriExternalLobFolder.resolve(sLobFile);
-            isLob = new FileInputStream(FU.fromUri(uriExternal));
-          }
-        }
-        isLob = new ValidatingInputStream(getValueElement(),isLob);
-      }
-      else if (iPreType != Types.NULL)
-        throw new IllegalArgumentException("Cell of type "+SqlTypes.getTypeName(iPreType)+" cannot be read from input stream!");
+          (iPreType == Types.DATALINK)) {
+
+        inputStream = getInputStreamFromLobFile();
+        inputStream = new ValidatingInputStream(getValueElement(), inputStream);
+
+      } else if (iPreType != Types.NULL)
+        throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be read from input stream!");
       else
         throw new IllegalArgumentException("Value of cell of complex type cannot be read from input stream!");
     }
-    return isLob;
-  } /* getInputStream */
+    return inputStream;
+  }
+
+  private InputStream getInputStreamFromLobFile() throws IOException {
+    InputStream inputStream = null;
+    if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE)) {
+      String lobFileName = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
+      URI externalLobFolderUri = getAbsoluteLobFolder();
+      if (externalLobFolderUri == null)
+        inputStream = getArchiveImpl().openFileEntry(lobFileName);
+      else {
+        URI uriExternal = externalLobFolderUri.resolve(lobFileName);
+        inputStream = new FileInputStream(FU.fromUri(uriExternal));
+      }
+    }
+    return inputStream;
+  }
   
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
@@ -1279,66 +1246,74 @@ public abstract class ValueImpl
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
-  public void setInputStream(InputStream isBlob)
-    throws IOException
-  {
+  public void setInputStream(InputStream inputStream) throws IOException {
     int iPreType = getPreType();
-    if ((iPreType == Types.BINARY) || 
+    if ((iPreType == Types.BINARY) ||
         (iPreType == Types.VARBINARY) ||
         (iPreType == Types.BLOB) ||
-        (iPreType == Types.DATALINK))
-    {
-      OutputStream osBlob;
+        (iPreType == Types.DATALINK)) {
+
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();
       /* try to read 1 + iMaxInLineSize bytes */
-      byte[] bufPrefix = new byte[1+iMaxInlineSize];
+      byte[] bufferPrefix = new byte[1 + iMaxInlineSize];
       int iOffset = 0;
       int iRead = -1;
-      for(iRead = isBlob.read(bufPrefix); 
-          (iOffset < bufPrefix.length) && (iRead != -1); 
-          iRead = isBlob.read(bufPrefix,iOffset,bufPrefix.length-iOffset))
+      for (iRead = inputStream.read(bufferPrefix);
+           (iOffset < bufferPrefix.length) && (iRead != -1);
+           iRead = inputStream.read(bufferPrefix, iOffset, bufferPrefix.length - iOffset)) {
         iOffset = iOffset + iRead;
-      String sLobFile = getLobFilename();
-      URI uriExternalLobFolder = getAbsoluteLobFolder();
-      File fileLob;
-      if (uriExternalLobFolder == null)
-      {
-        sLobFile = getInternalLobFolder() + sLobFile;
-        URI uriTemporaryLobFolder = getTemporaryLobFolder();
-        fileLob = FU.fromUri(uriTemporaryLobFolder.resolve(sLobFile));
-        sLobFile = getTableImpl().getTableFolder() + sLobFile;
       }
-      else
-      {
-        int iMaxLobsPerFolder = getArchiveImpl().getMaxLobsPerFolder();
-        if ((iMaxLobsPerFolder > 0) && (getTableImpl().getMetaTable().getRows() > iMaxLobsPerFolder))
-        {
-          long lSequence = getRecord() / getArchiveImpl().getMaxLobsPerFolder();
-          sLobFile = _sSEQUENCE_PREFIX+String.valueOf(lSequence) + File.separator + sLobFile;
-        }
-        URI uriExternal = uriExternalLobFolder.resolve(sLobFile);
-        fileLob = FU.fromUri(uriExternal);
+
+      String lobFilename = getLobFilename();
+      URI externalLobFolder = getAbsoluteLobFolder();
+
+      javafx.util.Pair<File, String> lobFileAndName = getLobFileAndName(lobFilename, externalLobFolder);
+      File lobFile = lobFileAndName.getKey();
+      lobFilename = lobFileAndName.getValue();
+
+      OutputStream outputStream = Files.newOutputStream(lobFile.toPath());
+      getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, lobFilename);
+      outputStream = new ValidatingOutputStream(getValueElement(), outputStream);
+      outputStream.write(bufferPrefix, 0, iOffset);
+
+      if (iRead != -1) {
+        byte[] bufferTransfer = new byte[ArchiveImpl._iBUFFER_SIZE];
+        for (iRead = inputStream.read(bufferTransfer); iRead != -1; iRead = inputStream.read(bufferTransfer))
+          outputStream.write(bufferTransfer, 0, iRead);
       }
-      if (!fileLob.getParentFile().exists())
-        fileLob.getParentFile().mkdirs();
-      osBlob = new FileOutputStream(fileLob);
-      getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, sLobFile);
-      osBlob = new ValidatingOutputStream(getValueElement(), osBlob);
-      osBlob.write(bufPrefix,0,iOffset);
-      if (iRead != -1)
-      {
-        byte[] bufTransfer = new byte[ArchiveImpl._iBUFFER_SIZE];
-        for (iRead = isBlob.read(bufTransfer); iRead != -1; iRead = isBlob.read(bufTransfer))
-          osBlob.write(bufTransfer,0,iRead);
-      }
-      osBlob.close();
-      isBlob.close();
+
+      outputStream.close();
+      inputStream.close();
+
+    } else if (iPreType != Types.NULL) {
+      throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be set using an input stream!");
     }
-    else if (iPreType != Types.NULL)
-      throw new IllegalArgumentException("Cell of type "+SqlTypes.getTypeName(iPreType)+" cannot be set using an input stream!");
-    else
+    else {
       throw new IllegalArgumentException("Value of cell of complex type cannot be set using an input stream!");
-  } /* setInputStream */
+    }
+  }
+
+  private javafx.util.Pair<File, String> getLobFileAndName(String lobFilename, URI externalLobFolderUri) throws IOException {
+    File lobFile;
+    if (externalLobFolderUri == null) {
+      lobFilename = getInternalLobFolder() + lobFilename;
+      URI uriTemporaryLobFolder = getTemporaryLobFolder();
+      lobFile = FU.fromUri(uriTemporaryLobFolder.resolve(lobFilename));
+      lobFilename = getTableImpl().getTableFolder() + lobFilename;
+    } else {
+      int iMaxLobsPerFolder = getArchiveImpl().getMaxLobsPerFolder();
+      if ((iMaxLobsPerFolder > 0) && (getTableImpl().getMetaTable().getRows() > iMaxLobsPerFolder)) {
+        long lSequence = getRecord() / getArchiveImpl().getMaxLobsPerFolder();
+        lobFilename = _sSEQUENCE_PREFIX + lSequence + File.separator + lobFilename;
+      }
+      URI uriExternal = externalLobFolderUri.resolve(lobFilename);
+      lobFile = FU.fromUri(uriExternal);
+    }
+    if (!lobFile.getParentFile().exists()) {
+      lobFile.getParentFile().mkdirs();
+    }
+    return new javafx.util.Pair<>(lobFile, lobFilename);
+  }
   
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
