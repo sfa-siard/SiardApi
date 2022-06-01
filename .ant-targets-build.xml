@@ -1,0 +1,13 @@
+build
+check
+clean
+copy-dependencies
+deploy
+generate
+init
+jar
+jar-test
+javadoc
+release
+revision
+test

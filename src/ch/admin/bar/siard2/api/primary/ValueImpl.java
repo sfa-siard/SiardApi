@@ -11,7 +11,6 @@ package ch.admin.bar.siard2.api.primary;
 import java.io.*;
 import java.math.*;
 import java.net.*;
-import java.nio.file.Files;
 import java.sql.*;
 import java.sql.Date;
 import java.text.*;
@@ -1119,8 +1118,7 @@ public abstract class ValueImpl
   /*------------------------------------------------------------------*/
   /** {@inheritDoc} */
   @Override
-  public void setReader(Reader reader)
-          throws IOException {
+  public void setReader(Reader reader) throws IOException {
     int iPreType = getPreType();
     if ((iPreType == Types.CHAR) ||
         (iPreType == Types.VARCHAR) ||

@@ -151,7 +151,7 @@ public class TableImpl
       {
         case Types.CHAR: sXmlType = bShort?"xs:string":"clobType"; break;
         case Types.VARCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
-        case Types.DATALINK: sXmlType = "xs:string"; break;
+        case Types.DATALINK: sXmlType = "blobType"; break;
         case Types.CLOB: sXmlType = "clobType"; break;
         case Types.NCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
         case Types.NVARCHAR: sXmlType = bShort?"xs:string":"clobType"; break;
@@ -436,6 +436,7 @@ public class TableImpl
     }
     else if (folderLobs != null)
     {
+      
       sFilename = "/"+folderLobs.getAbsolutePath().replace('\\', '/')+"/"+sFilename;
       File fileLob = new File(sFilename);
       fileLob.getParentFile().mkdirs();
@@ -558,7 +559,6 @@ public class TableImpl
             case Types.CLOB:
             case Types.NCLOB:
             case Types.SQLXML:
-            case Types.DATALINK:
               sText = value.getString();
               break;
             case Types.BINARY:

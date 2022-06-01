@@ -13,20 +13,10 @@ import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.primary.*;
 
+// These test are not working - and they are not part of the ch.admin.bar.siard2.api._SiardApiTestSuite that is run when the ant test target is run!
+// TODO: check what these tests should actually do. Then make these test work or delete them!
 public class IoTester
 {
-  protected static void printErrorMessage(Error e)
-  {
-    System.err.println("  "+EU.getErrorMessage(e));
-    System.err.flush();
-  } /* printErrorMessage */
-
-  protected static void printExceptionMessage(Exception e)
-  {
-    System.err.println("  "+EU.getExceptionMessage(e));
-    System.err.flush();
-  } /* printExceptionMessage */
-
   @Test
   public void testRead2008()
   {
@@ -70,7 +60,7 @@ public class IoTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(JAXBException je) { fail(EU.getExceptionMessage(je)); }
   }
-  
+
   @Test
   public void testWriteMinimum()
   {
@@ -115,7 +105,7 @@ public class IoTester
     {
       URL urlXsd = Archive.class.getResource("/ch/admin/bar/siard2/api/res/metadata.xsd");
       OutputStream osXml = new FileOutputStream("logs/minimum.xml");
-      Io.writeJaxbObject(sa, osXml, urlXsd);
+      Io.writeJaxbObject(sa, osXml, null, true, urlXsd);
       osXml.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
@@ -168,7 +158,7 @@ public class IoTester
     {
       URL urlXsd = Archive.class.getResource("/ch/admin/bar/siard2/api/res/empty.xsd");
       OutputStream osXml = new FileOutputStream("logs/empty.xml");
-      Io.writeJaxbObject(sa, osXml, urlXsd);
+      Io.writeJaxbObject(sa, osXml, null, true, urlXsd);
       osXml.close();
     }
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
