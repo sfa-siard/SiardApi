@@ -1144,9 +1144,9 @@ public abstract class ValueImpl
       String lobFilename = getLobFilename();
       URI externalLobFolder = getAbsoluteLobFolder();
 
-      javafx.util.Pair<File, String> lobFileAndName = getLobFileAndName(lobFilename, externalLobFolder);
-      File lobFile = lobFileAndName.getKey();
-      lobFilename = lobFileAndName.getValue();
+      AbstractMap.SimpleEntry<File, String> lobFileAndLobFilename = getLobFileAndUpdateLobFilename(lobFilename, externalLobFolder);
+      File lobFile = lobFileAndLobFilename.getKey();
+      lobFilename = lobFileAndLobFilename.getValue();
 
       OutputStream outputStream = new FileOutputStream(lobFile);
       getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, lobFilename);
@@ -1266,9 +1266,9 @@ public abstract class ValueImpl
       String lobFilename = getLobFilename();
       URI externalLobFolder = getAbsoluteLobFolder();
 
-      javafx.util.Pair<File, String> lobFileAndName = getLobFileAndName(lobFilename, externalLobFolder);
-      File lobFile = lobFileAndName.getKey();
-      lobFilename = lobFileAndName.getValue();
+      AbstractMap.SimpleEntry<File, String> lobFileAndLobFilename = getLobFileAndUpdateLobFilename(lobFilename, externalLobFolder);
+      File lobFile = lobFileAndLobFilename.getKey();
+      lobFilename = lobFileAndLobFilename.getValue();
 
       OutputStream outputStream = Files.newOutputStream(lobFile.toPath());
       getValueElement().setAttribute(ArchiveImpl._sATTR_FILE, lobFilename);
@@ -1292,7 +1292,7 @@ public abstract class ValueImpl
     }
   }
 
-  private javafx.util.Pair<File, String> getLobFileAndName(String lobFilename, URI externalLobFolderUri) throws IOException {
+  private AbstractMap.SimpleEntry<File, String> getLobFileAndUpdateLobFilename(String lobFilename, URI externalLobFolderUri) throws IOException {
     File lobFile;
     if (externalLobFolderUri == null) {
       lobFilename = getInternalLobFolder() + lobFilename;
@@ -1311,7 +1311,7 @@ public abstract class ValueImpl
     if (!lobFile.getParentFile().exists()) {
       lobFile.getParentFile().mkdirs();
     }
-    return new javafx.util.Pair<>(lobFile, lobFilename);
+    return new AbstractMap.SimpleEntry<>(lobFile, lobFilename);
   }
   
   /*------------------------------------------------------------------*/
