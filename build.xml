@@ -420,14 +420,14 @@ Created    : 30.06.2016, Hartwig Thomas
   <property name="filemd21xsd" value="old21/metadata.xsd"/>
   <target name="copy-dependencies" depends="check">
     <echo message="Copy jar files from dependency projects on local file system"/>
-    <copy file="../EnterUtilities/dist/enterutils.jar" todir="${dirlib}" failonerror="false"/>
-    <copy file="../SqlParser/dist/sqlparser.jar" todir="${dirlib}" failonerror="false"/>
-    <copy file="../Zip64File/dist/zip64.jar" todir="${dirlib}" failonerror="false"/>
+    <copy file="../EnterUtilities/dist/enterutils.jar" todir="${dirlib}" failonerror="false" overwrite="true"/>
+    <copy file="../SqlParser/dist/sqlparser.jar" todir="${dirlib}" failonerror="false" overwrite="true"/>
+    <copy file="../Zip64File/dist/zip64.jar" todir="${dirlib}" failonerror="false" overwrite="true"/>
     <!-- the metadata in specifications is the master! -->
-    <copy file="${dirspecifications}/${filemdxsd}" tofile="${dirres}/${filemdxsd}"/>
-    <copy file="${dirspecifications}/${filetablexsd}" tofile="${dirres}/${filetablexsd}"/>
-    <copy file="${dirspecifications}/${filemd10xsd}" tofile="${dirres}/${filemd10xsd}"/>
-    <copy file="${dirspecifications}/${filemd21xsd}" tofile="${dirres}/${filemd21xsd}"/>
+    <copy file="${dirspecifications}/${filemdxsd}" tofile="${dirres}/${filemdxsd}" overwrite="true"/>
+    <copy file="${dirspecifications}/${filetablexsd}" tofile="${dirres}/${filetablexsd}" overwrite="true"/>
+    <copy file="${dirspecifications}/${filemd10xsd}" tofile="${dirres}/${filemd10xsd}" overwrite="true"/>
+    <copy file="${dirspecifications}/${filemd21xsd}" tofile="${dirres}/${filemd21xsd}" overwrite="true"/>
   </target>
 
 </project>
