@@ -8,13 +8,13 @@ Description: This XML schema definition defines the structure
 ========================================================================
 Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland 
 ==================================================================== -->
-<xs:schema id="metadata" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
-  targetNamespace="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
-  attributeFormDefault="unqualified"
-  elementFormDefault="qualified"
-  version="2.1">
+<xs:schema id="metadata"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
+           targetNamespace="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           version="2.1">
 
   <!-- root element of an XML file conforming to this XML schema -->
   <xs:element name="siardArchive">
@@ -108,7 +108,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="type" type="typeType" minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type type -->
   <xs:complexType name="typeType">
     <xs:annotation>
@@ -145,7 +145,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="attribute" type="attributeType" minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type attribute -->
   <xs:complexType name="attributeType">
     <xs:annotation>
@@ -159,12 +159,12 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
           <!-- SQL:2008 data type of the column -->
           <xs:element name="type" type="predefinedTypeType" />
         </xs:sequence>
-	      <xs:sequence>
-	        <!-- SQL:2008 schema of advanced or structured data type of the attribute -->
-	        <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
-	        <!-- SQL:2008 name of advanced or structured data type of the attribute -->
-	        <xs:element name="typeName" type="xs:string" />
-	      </xs:sequence>
+        <xs:sequence>
+          <!-- SQL:2008 schema of advanced or structured data type of the attribute -->
+          <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
+          <!-- SQL:2008 name of advanced or structured data type of the attribute -->
+          <xs:element name="typeName" type="xs:string" />
+        </xs:sequence>
       </xs:choice>
       <!-- original data type of the column -->
       <xs:element name="typeOriginal" type="xs:string" minOccurs="0"/>
@@ -178,7 +178,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="description" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type tables -->
   <xs:complexType name="tablesType">
     <xs:annotation>
@@ -267,22 +267,22 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
     <xs:sequence>
       <!-- database name of the column -->
       <xs:element name="name" type="xs:string" />
-      <!--  folder for LOBs relative to lobFolder of nearest containing 
+      <!--  folder for LOBs relative to lobFolder of nearest containing
             element for internally or externally stored LOBs -->
       <xs:element name="lobFolder" type="xs:anyURI"  minOccurs="0"/>
       <xs:choice> <!-- either predefined or structured -->
         <xs:sequence>
           <!-- SQL:2008 predefined data type of the column -->
           <xs:element name="type" type="predefinedTypeType" />
-		      <!--  mimeType makes sense only for LOBs and is only informatory -->
-		      <xs:element name="mimeType" type="xs:string" minOccurs="0"/>
+          <!--  mimeType makes sense only for LOBs and is only informatory -->
+          <xs:element name="mimeType" type="xs:string" minOccurs="0"/>
         </xs:sequence>
-	      <xs:sequence>
-	        <!-- SQL:2008 schema of UDT name of the column -->
-	        <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
-	        <!-- SQL:2008 name of UDT of the column -->
-	        <xs:element name="typeName" type="xs:string" />
-	      </xs:sequence>
+        <xs:sequence>
+          <!-- SQL:2008 schema of UDT name of the column -->
+          <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
+          <!-- SQL:2008 name of UDT of the column -->
+          <xs:element name="typeName" type="xs:string" />
+        </xs:sequence>
       </xs:choice>
       <!-- original data type of the column -->
       <xs:element name="typeOriginal" type="xs:string" minOccurs="0"/>
@@ -294,13 +294,13 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="defaultValue" type="xs:string" minOccurs="0"/>
       <!--  SQL_1999 cardinality for ARRAY type -->
       <xs:element name="cardinality" type="xs:integer" minOccurs="0"/>
-      <!-- unique, references, check column constraints 
+      <!-- unique, references, check column constraints
            are stored as table constraints -->
       <!-- description of the column's meaning and content -->
       <xs:element name="description" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type fields -->
   <xs:complexType name="fieldsType">
     <xs:annotation>
@@ -319,7 +319,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
     <xs:sequence>
       <!-- attribute name or array element position (1-based) -->
       <xs:element name="name" type="xs:string"/>
-      <!--  folder for LOBs relative to lobFolder of nearest containing 
+      <!--  folder for LOBs relative to lobFolder of nearest containing
             element for internally or externally stored LOBs -->
       <xs:element name="lobFolder" type="xs:anyURI"  minOccurs="0"/>
       <!-- SQL:2008 sub field list of the field -->
@@ -330,7 +330,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="description" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type foreignKeys -->
   <xs:complexType name="foreignKeysType">
     <xs:annotation>
@@ -354,7 +354,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <!-- referenced table -->
       <xs:element name="referencedTable" type="xs:string"/>
       <!--  references -->
-      <xs:element name="reference" type="referenceType" minOccurs="1" maxOccurs="unbounded"/> 
+      <xs:element name="reference" type="referenceType" minOccurs="1" maxOccurs="unbounded"/>
       <!-- match type (FULL, PARTIAL, SIMPLE) -->
       <xs:element name="matchType" type="matchTypeType" minOccurs="0"/>
       <!-- ON DELETE action e.g. ON DELETE CASCADE -->
@@ -397,8 +397,8 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
     <xs:sequence>
       <!-- database name of the unique key -->
       <xs:element name="name" type="xs:string"/>
-       <!-- description of the unique key's meaning and content -->
-       <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <!-- description of the unique key's meaning and content -->
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
       <!-- columns belonging to the unique key -->
       <xs:element name="column" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
@@ -438,7 +438,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="trigger" type="triggerType" minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type trigger -->
   <xs:complexType name="triggerType">
     <xs:annotation>
@@ -459,7 +459,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="description" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type routines -->
   <xs:complexType name="routinesType">
     <xs:annotation>
@@ -494,7 +494,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="parameters" type="parametersType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type parameters -->
   <xs:complexType name="parametersType">
     <xs:annotation>
@@ -504,7 +504,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:element name="parameter" type="parameterType" minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type parameter -->
   <xs:complexType name="parameterType">
     <xs:annotation>
@@ -520,22 +520,22 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
           <!-- SQL:2008 data type of the column -->
           <xs:element name="type" type="predefinedTypeType" />
         </xs:sequence>
-	      <xs:sequence>
-	        <!-- SQL:2008 schema of UDT name of the column -->
-	        <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
-	        <!-- SQL:2008 name of UDT of the column -->
-	        <xs:element name="typeName" type="xs:string" />
-	      </xs:sequence>
+        <xs:sequence>
+          <!-- SQL:2008 schema of UDT name of the column -->
+          <xs:element name="typeSchema" type="xs:string" minOccurs="0" />
+          <!-- SQL:2008 name of UDT of the column -->
+          <xs:element name="typeName" type="xs:string" />
+        </xs:sequence>
       </xs:choice>
-       <!-- original data type of the column -->
-       <xs:element name="typeOriginal" type="xs:string" minOccurs="0"/>
+      <!-- original data type of the column -->
+      <xs:element name="typeOriginal" type="xs:string" minOccurs="0"/>
       <!--  SQL_1999 cardinality for ARRAY type -->
       <xs:element name="cardinality" type="xs:integer" minOccurs="0"/>
       <!-- description of the parameter's meaning and content -->
       <xs:element name="description" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <!-- complex type users -->
   <xs:complexType name="usersType">
     <xs:annotation>
@@ -624,7 +624,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
     </xs:sequence>
   </xs:complexType>
 
-  <!-- simple type fpr predefined SQL:2008 types -->  
+  <!-- simple type fpr predefined SQL:2008 types -->
   <xs:simpleType name="predefinedTypeType">
     <xs:annotation>
       <xs:documentation>predefinedTypeType is constrained to valid SQL:2008 data type values</xs:documentation>
@@ -638,15 +638,15 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:pattern value="FLOAT(\s*\(\s*[1-9]\d*\s*\))?"/>
       <!-- character strings -->
       <xs:pattern value="(CHARACTER|CHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(CHARACTER\s+VARYING|CHAR\s+VARYING|VARCHAR)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(CHARACTER\s+VARYING|CHAR\s+VARYING|VARCHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(CHARACTER\s+LARGE\s+OBJECT|CLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <xs:pattern value="(NATIONAL\s+CHARACTER|NATIONAL\s+CHAR|NCHAR)(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(NATIONAL\s+CHARACTER\s+VARYING|NATIONAL\s+CHAR\s+VARYING|NCHAR VARYING)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(NATIONAL\s+CHARACTER\s+VARYING|NATIONAL\s+CHAR\s+VARYING|NCHAR VARYING)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(NATIONAL\s+CHARACTER\s+LARGE\s+OBJECT|NCHAR\s+LARGE\s+OBJECT|NCLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <xs:pattern value="XML"/>
       <!-- BINARY strings from SQL:2008 -->
       <xs:pattern value="BINARY(\s*\(\s*[1-9]\d*\s*\))?"/>
-      <xs:pattern value="(BINARY\s+VARYING|VARBINARY)(\s*\(\s*[1-9]\d*\s*\))"/>
+      <xs:pattern value="(BINARY\s+VARYING|VARBINARY)(\s*\(\s*[1-9]\d*\s*\))?"/>
       <xs:pattern value="(BINARY\s+LARGE\s+OBJECT|BLOB)(\s*\(\s*[1-9]\d*(\s*(K|M|G))?\s*\))?"/>
       <!-- datetimes -->
       <xs:pattern value="DATE"/>
@@ -657,7 +657,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:pattern value="BOOLEAN"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <!--  type for message digest type -->
   <xs:simpleType name="digestTypeType">
     <xs:restriction base="xs:string">
@@ -681,7 +681,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       etc. -->
     </xs:restriction>
   </xs:simpleType>
-  
+
 
   <!-- simple type for privilege option -->
   <xs:simpleType name="privOptionType">
@@ -695,7 +695,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
     </xs:restriction>
   </xs:simpleType>
 
-  <!-- simple type for mandatory string 
+  <!-- simple type for mandatory string
        which must contain at least 1 character -->
   <xs:simpleType name="mandatoryString">
     <xs:annotation>
@@ -706,7 +706,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:minLength value="1" />
     </xs:restriction>
   </xs:simpleType>
-  
+
   <!-- simple type of a filesystem (file or folder) name -->
   <xs:simpleType name="fsName">
     <xs:annotation>
@@ -717,7 +717,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:minLength value="1" />
     </xs:restriction>
   </xs:simpleType>
-  
+
   <!-- simple type for action time of a trigger -->
   <xs:simpleType name="actionTimeType">
     <xs:annotation>
@@ -729,7 +729,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:enumeration value="AFTER" />
     </xs:restriction>
   </xs:simpleType>
-  
+
   <!-- simple type for match type of a foreign key -->
   <xs:simpleType name="matchTypeType">
     <xs:annotation>
@@ -767,5 +767,5 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland
       <xs:enumeration value="udt"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
 </xs:schema>
