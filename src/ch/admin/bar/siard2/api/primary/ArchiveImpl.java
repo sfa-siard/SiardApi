@@ -40,6 +40,7 @@ public class ArchiveImpl
   static final String _sATTR_LENGTH = "length";
   static final String _sATTR_DIGEST_TYPE = "digestType";
   static final String _sATTR_MESSAGE_DIGEST = "digest";
+  static final String _sATTR_DLURLPATHONLY = "dlurlpathonly";
   public StopWatch _swValid = StopWatch.getInstance();
   private boolean _bValid = false; // cached value
 

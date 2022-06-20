@@ -27,19 +27,19 @@ public interface Value
    * @return get ancestor cell with which this Field instance is ultimately 
    * associated. 
    */
-  public Cell getAncestorCell();
+   Cell getAncestorCell();
 
   /*------------------------------------------------------------------*/
   /** return value (cell or field) meta data associated with this value.
    * @return value (cell or field) meta data associated with this value.
    */
-  public MetaValue getMetaValue();
+   MetaValue getMetaValue();
   
   /*------------------------------------------------------------------*/
   /** return true, if field value is null
    * @return true, if field value is null.
    */
-  public boolean isNull();
+   boolean isNull();
   
   /* xs:string */
   /*------------------------------------------------------------------*/
@@ -47,14 +47,14 @@ public interface Value
    * @return string value.
    * @throws IOException if an I/O error occurred.
    */
-  public String getString()
+   String getString()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set string value of cell.
    * @param s string value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setString(String s)
+   void setString(String s)
     throws IOException;
   
   /* xs:hexBinary */
@@ -63,14 +63,14 @@ public interface Value
    * @return byte array value.
    * @throws IOException if an I/O error occurred.
    */
-  public byte[] getBytes()
+   byte[] getBytes()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set byte array value of cell.
    * @param buf byte array value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setBytes(byte[] buf)
+   void setBytes(byte[] buf)
     throws IOException;
   
   /* xs:boolean */
@@ -79,14 +79,14 @@ public interface Value
    * @return boolean value.
    * @throws IOException if an I/O error occurred.
    */
-  public Boolean getBoolean()
+   Boolean getBoolean()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set boolean value of cell.
    * @param b boolean value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setBoolean(boolean b)
+   void setBoolean(boolean b)
     throws IOException;
   
   /* xs:int */
@@ -96,14 +96,14 @@ public interface Value
    * @return short value.
    * @throws IOException if an I/O error occurred.
    */
-  public Short getShort()
+   Short getShort()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set short value of cell for cells of type SMALLINT.
    * @param sh short value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setShort(short sh)
+   void setShort(short sh)
     throws IOException;
 
   /*------------------------------------------------------------------*/
@@ -112,14 +112,14 @@ public interface Value
    * @return integer value.
    * @throws IOException if an I/O error occurred.
    */
-  public Integer getInt()
+   Integer getInt()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set integer value of cell for cells of type INTEGER.
    * @param i integer value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setInt(int i)
+   void setInt(int i)
     throws IOException;
 
   /* xs:integer */
@@ -129,14 +129,14 @@ public interface Value
    * @return long value.
    * @throws IOException if an I/O error occurred.
    */
-  public Long getLong()
+   Long getLong()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set long value of cell for cells of type BIGINT.
    * @param l long value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setLong(long l)
+   void setLong(long l)
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -144,14 +144,14 @@ public interface Value
    * @return big integer value.
    * @throws IOException if an I/O error occurred.
    */
-  public BigInteger getBigInteger()
+   BigInteger getBigInteger()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set big integer value of cell.
    * @param bi big integer value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setBigInteger(BigInteger bi)
+   void setBigInteger(BigInteger bi)
     throws IOException;
   
   /* xs:decimal */
@@ -160,14 +160,14 @@ public interface Value
    * @return big decimal value.
    * @throws IOException if an I/O error occurred.
    */
-  public BigDecimal getBigDecimal()
+   BigDecimal getBigDecimal()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set big decimal value of cell.
    * @param bd big decimal value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setBigDecimal(BigDecimal bd)
+   void setBigDecimal(BigDecimal bd)
     throws IOException;
   
   /* xs:float */
@@ -176,14 +176,14 @@ public interface Value
    * @return float value.
    * @throws IOException if an I/O error occurred.
    */
-  public Float getFloat()
+   Float getFloat()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set float value of cell for cells of type REAL.
    * @param f float value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setFloat(float f)
+   void setFloat(float f)
     throws IOException;
   
   /* xs:double */
@@ -192,14 +192,14 @@ public interface Value
    * @return double value.
    * @throws IOException if an I/O error occurred.
    */
-  public Double getDouble()
+   Double getDouble()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set double value of cell.
    * @param d double value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setDouble(double d)
+   void setDouble(double d)
     throws IOException;
   
   /* xs:date (dateType) */
@@ -208,14 +208,14 @@ public interface Value
    * @return date value.
    * @throws IOException if an I/O error occurred.
    */
-  public Date getDate()
+   Date getDate()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set date value of cell.
    * @param date date value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setDate(Date date)
+   void setDate(Date date)
     throws IOException;
   
   /* xs:time (timeType) */
@@ -224,14 +224,14 @@ public interface Value
    * @return time value.
    * @throws IOException if an I/O error occurred.
    */
-  public Time getTime()
+   Time getTime()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set time value of cell.
    * @param time time value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setTime(Time time)
+   void setTime(Time time)
     throws IOException;
   
   /* xs:dateTime (dateTimeType) */
@@ -240,14 +240,14 @@ public interface Value
    * @return timestamp value.
    * @throws IOException if an I/O error occurred.
    */
-  public Timestamp getTimestamp()
+   Timestamp getTimestamp()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set timestamp value of cell.
    * @param ts timestamp value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setTimestamp(Timestamp ts)
+   void setTimestamp(Timestamp ts)
     throws IOException;
   
   /* xs:duration */
@@ -256,14 +256,14 @@ public interface Value
    * @return duration value.
    * @throws IOException if an I/O error occurred.
    */
-  public Duration getDuration()
+   Duration getDuration()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** set duration value of cell.
    * @param duration duration value of cell.
    * @throws IOException if an I/O error occurred.
    */
-  public void setDuration(Duration duration)
+   void setDuration(Duration duration)
     throws IOException;
   
   /* clobType */
@@ -272,7 +272,7 @@ public interface Value
    * @return cell reader (must be closed by caller if it is not null!).
    * @throws IOException if an I/O error occurred.
    */
-  public Reader getReader()
+   Reader getReader()
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -280,7 +280,7 @@ public interface Value
    * @return length (in characters) of character value or -1 otherwise.
    * @throws IOException if an I/O error occurred.
    */
-  public long getCharLength()
+   long getCharLength()
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -288,7 +288,7 @@ public interface Value
    * @param rdrClob cell reader (is closed at end).
    * @throws IOException if an I/O error occurred.
    */
-  public void setReader(Reader rdrClob)
+   void setReader(Reader rdrClob)
     throws IOException;
 
   /*------------------------------------------------------------------*/
@@ -296,7 +296,7 @@ public interface Value
    * @return file name stored in attribute of cell, or null.
    * @throws IOException if an I/O error occurred.
    */
-  public String getFilename()
+   String getFilename()
     throws IOException;
   
   /* blobType */
@@ -305,7 +305,7 @@ public interface Value
    * @return cell input stream (must be closed if it is not null!).
    * @throws IOException if an I/O error occurred.
    */
-  public InputStream getInputStream()
+   InputStream getInputStream()
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -313,7 +313,7 @@ public interface Value
    * @return byte length of binary value or -1 otherwise.
    * @throws IOException if an I/O error occurred.
    */
-  public long getByteLength()
+   long getByteLength()
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -321,8 +321,10 @@ public interface Value
    * @param isBlob cell input stream (is closed at end).
    * @throws IOException if an I/O error occurred.
    */
-  public void setInputStream(InputStream isBlob)
+  void setInputStream(InputStream isBlob)
     throws IOException;
+
+  void setInputStream(InputStream isBlob, String filePath) throws IOException;
   
   /*  predefined type */
   /*------------------------------------------------------------------*/
@@ -333,7 +335,7 @@ public interface Value
    * @return object of type appropriate for the data type, or null.
    * @throws IOException if an I/O error occurred.
    */
-  public Object getObject()
+   Object getObject()
     throws IOException;
   
   /* array */
@@ -342,7 +344,7 @@ public interface Value
    * @return number of elements.
    * @throws IOException if an I/O error occurred.
    */
-  public int getElements()
+   int getElements()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** get ARRAY field with the given index.
@@ -350,7 +352,7 @@ public interface Value
    * @return ARRAY field.
    * @throws IOException if an I/O error occurred.
    */
-  public Field getElement(int iElement)
+   Field getElement(int iElement)
     throws IOException;
   
   /* udt */
@@ -359,7 +361,7 @@ public interface Value
    * @return number of attributes.
    * @throws IOException if an I/O error occurred.
    */
-  public int getAttributes()
+   int getAttributes()
     throws IOException;
   /*------------------------------------------------------------------*/
   /** get UDT attribute field with the given index.
@@ -367,7 +369,7 @@ public interface Value
    * @return UDT field.
    * @throws IOException if an I/O error occurred.
    */
-  public Field getAttribute(int iAttribute)
+   Field getAttribute(int iAttribute)
     throws IOException;
   
   /*------------------------------------------------------------------*/
@@ -378,7 +380,7 @@ public interface Value
    * @return "flattened" list of values.
    * @throws IOException if an I/O error occurred.
    */
-  public List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
+   List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
     throws IOException;
   
 } /* interface Value */

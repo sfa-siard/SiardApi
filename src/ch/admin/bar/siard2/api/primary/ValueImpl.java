@@ -1228,7 +1228,8 @@ public abstract class ValueImpl
       int iPreType = getPreType();
       if ((iPreType == Types.BINARY) || 
           (iPreType == Types.VARBINARY) ||
-          (iPreType == Types.BLOB))
+          (iPreType == Types.BLOB) ||
+          (iPreType == Types.DATALINK))
       {
         String sLength = getValueElement().getAttribute(ArchiveImpl._sATTR_LENGTH);
         if ((sLength != null) && (sLength.length() > 0))
@@ -1312,6 +1313,14 @@ public abstract class ValueImpl
       lobFile.getParentFile().mkdirs();
     }
     return new AbstractMap.SimpleEntry<>(lobFile, lobFilename);
+  }
+
+  @Override
+  public void setInputStream(InputStream inputStream, String filePath) throws IOException {
+    if (getPreType() == Types.DATALINK) {
+      setInputStream(inputStream);
+      getValueElement().setAttribute(ArchiveImpl._sATTR_DLURLPATHONLY, filePath);
+    }
   }
   
   /*------------------------------------------------------------------*/

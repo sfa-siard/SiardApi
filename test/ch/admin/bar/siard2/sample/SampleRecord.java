@@ -405,7 +405,7 @@ public class SampleRecord
           cell.setDuration(duration25);
           break;
         case SampleTable.sCOLUMN26_NAME: // DATALINK
-          cell.setBytes(IOUtils.readAllBytes(new URL(getCircleJpgUrl()).openStream()));
+          cell.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
           break;
       }
       iReturn = iResult;
@@ -484,7 +484,7 @@ public class SampleRecord
                   break;
                 case 3: // _sUDTS_ATTRIBUTE4_NAME DATALINK
                   if (_iRecord == 0) {
-                    field.setBytes(IOUtils.readAllBytes(new URL(getCircleJpgUrl()).openStream()));
+                    field.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
                   }
                   // else NULL
                   break;
@@ -528,7 +528,7 @@ public class SampleRecord
                         break;
                       case 3: // _sTEST_ROW_FIELD4_NAME DATALINK
                         if (_iRecord == 0) {
-                          field.setBytes(IOUtils.readAllBytes(new URL(getCircleJpgUrl()).openStream()));
+                          field.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
                         }
                         // else NULL
                         break;

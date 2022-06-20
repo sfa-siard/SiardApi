@@ -559,6 +559,7 @@ public class TableImpl
             case Types.CLOB:
             case Types.NCLOB:
             case Types.SQLXML:
+            case Types.DATALINK:
               sText = value.getString();
               break;
             case Types.BINARY:
