@@ -1319,7 +1319,9 @@ public abstract class ValueImpl
   public void setInputStream(InputStream inputStream, String filePath) throws IOException {
     if (getPreType() == Types.DATALINK) {
       setInputStream(inputStream);
-      getValueElement().setAttribute(ArchiveImpl._sATTR_DLURLPATHONLY, filePath);
+      if (getAbsoluteLobFolder() != null) {
+        getValueElement().setAttribute(ArchiveImpl._sATTR_DLURLPATHONLY, filePath);
+      }
     }
   }
   
