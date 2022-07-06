@@ -1184,17 +1184,16 @@ public abstract class ValueImpl
   public InputStream getInputStream() throws IOException {
     InputStream inputStream = null;
     if (!isNull()) {
-      int iPreType = getPreType();
-      if ((iPreType == Types.BINARY) ||
-          (iPreType == Types.VARBINARY) ||
-          (iPreType == Types.BLOB) ||
-          (iPreType == Types.DATALINK)) {
+      if ((getPreType() == Types.BINARY) ||
+          (getPreType() == Types.VARBINARY) ||
+          (getPreType() == Types.BLOB) ||
+          (getPreType() == Types.DATALINK)) {
 
         inputStream = getInputStreamFromLobFile();
         inputStream = new ValidatingInputStream(getValueElement(), inputStream);
 
-      } else if (iPreType != Types.NULL)
-        throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be read from input stream!");
+      } else if (getPreType() != Types.NULL)
+        throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(getPreType()) + " cannot be read from input stream!");
       else
         throw new IllegalArgumentException("Value of cell of complex type cannot be read from input stream!");
     }
@@ -1203,8 +1202,13 @@ public abstract class ValueImpl
 
   private InputStream getInputStreamFromLobFile() throws IOException {
     InputStream inputStream = null;
-    if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE)) {
-      String lobFileName = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
+    String lobFileName;
+    if (getValueElement().hasAttribute(ArchiveImpl._sATTR_DLURLPATHONLY)) {
+      lobFileName = getValueElement().getAttribute(ArchiveImpl._sATTR_DLURLPATHONLY);
+      URL dlURL = new URL(lobFileName);
+      inputStream = dlURL.openStream();
+    } else if (getValueElement().hasAttribute(ArchiveImpl._sATTR_FILE)) {
+      lobFileName = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
       URI externalLobFolderUri = getAbsoluteLobFolder();
       if (externalLobFolderUri == null)
         inputStream = getArchiveImpl().openFileEntry(lobFileName);

@@ -4,9 +4,9 @@ Specification-Title: SIARD API
 Specification-Version: 2.2
 Specification-Vendor: Swiss Federal Archives, Berne, Switzerland
 Implementation-Title: SIARD API
-Implementation-Version: 2.2.10
+Implementation-Version: 2.2.14
 Implementation-Vendor: Swiss Federal Archives, Berne, Switzerland
-Built-Date: 27. Jun 2022
+Built-Date: 06. Jul 2022
 Class-Path: zip64.jar
   activation-1.1.1.jar
   jaxb-api.jar
