@@ -1251,11 +1251,10 @@ public abstract class ValueImpl
   /** {@inheritDoc} */
   @Override
   public void setInputStream(InputStream inputStream) throws IOException {
-    int iPreType = getPreType();
-    if ((iPreType == Types.BINARY) ||
-        (iPreType == Types.VARBINARY) ||
-        (iPreType == Types.BLOB) ||
-        (iPreType == Types.DATALINK)) {
+    if ((getPreType() == Types.BINARY) ||
+        (getPreType() == Types.VARBINARY) ||
+        (getPreType() == Types.BLOB) ||
+        (getPreType() == Types.DATALINK)) {
 
       int iMaxInlineSize = getArchiveImpl().getMaxInlineSize();
       /* try to read 1 + iMaxInLineSize bytes */
@@ -1289,8 +1288,8 @@ public abstract class ValueImpl
       outputStream.close();
       inputStream.close();
 
-    } else if (iPreType != Types.NULL) {
-      throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be set using an input stream!");
+    } else if (getPreType() != Types.NULL) {
+      throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(getPreType()) + " cannot be set using an input stream!");
     }
     else {
       throw new IllegalArgumentException("Value of cell of complex type cannot be set using an input stream!");
