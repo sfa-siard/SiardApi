@@ -34,7 +34,7 @@ import ch.admin.bar.siard2.api.generated.*;
 public abstract class ValueImpl
   implements Value
 {
-  private static final String _sSEQUENCE_PREFIX = "seq";  
+  private static final String _sSEQUENCE_PREFIX = "seq";
   private static final String _sRECORD_PREFIX = "record";
   private static final String _sEXTENSION_TEXT = "txt";
   private static final String _sEXTENSION_XML = "xml";
@@ -1323,7 +1323,7 @@ public abstract class ValueImpl
   public void setInputStream(InputStream inputStream, String filePath) throws IOException {
     if (getPreType() == Types.DATALINK) {
       setInputStream(inputStream);
-      if (getAbsoluteLobFolder() != null) {
+      if (getValueElement().hasAttribute(ArchiveImpl._sATTR_DLURLPATHONLY)) {
         getValueElement().setAttribute(ArchiveImpl._sATTR_DLURLPATHONLY, filePath);
       }
     }
