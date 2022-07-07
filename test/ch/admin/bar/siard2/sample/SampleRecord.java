@@ -2,6 +2,7 @@ package ch.admin.bar.siard2.sample;
 
 import java.io.*;
 import java.math.*;
+import java.net.URL;
 import java.sql.*;
 import java.util.Arrays;
 import javax.xml.datatype.*;
@@ -9,6 +10,7 @@ import ch.enterag.utils.*;
 import ch.enterag.utils.test.*;
 import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.*;
+import sun.misc.IOUtils;
 
 public class SampleRecord
 {
@@ -403,7 +405,7 @@ public class SampleRecord
           cell.setDuration(duration25);
           break;
         case SampleTable.sCOLUMN26_NAME: // DATALINK
-          cell.setString(getCircleJpgUrl());
+          cell.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
           break;
       }
       iReturn = iResult;
@@ -482,7 +484,7 @@ public class SampleRecord
                   break;
                 case 3: // _sUDTS_ATTRIBUTE4_NAME DATALINK
                   if (_iRecord == 0) {
-                    field.setString(getCircleJpgUrl());
+                    field.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
                   }
                   // else NULL
                   break;
@@ -526,7 +528,7 @@ public class SampleRecord
                         break;
                       case 3: // _sTEST_ROW_FIELD4_NAME DATALINK
                         if (_iRecord == 0) {
-                          field.setString(getCircleJpgUrl());
+                          field.setInputStream(new URL(getCircleJpgUrl()).openStream(), getCircleJpgUrl());
                         }
                         // else NULL
                         break;

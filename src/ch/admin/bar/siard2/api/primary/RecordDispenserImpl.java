@@ -263,15 +263,10 @@ public class RecordDispenserImpl
         record = readRecord(_xsr);
         _lRecord++;
       }
-      /***
-      else
-        throw new IOException("Unexpected tag "+_xsr.getLocalName()+" encountered");
-      ***/
     }
     catch(XMLStreamException xse){ throw new IOException("Record "+String.valueOf(_lRecord)+" cannot be read!",xse); }
-    // catch(JAXBException je){ throw new IOException("Record "+String.valueOf(_lRecord)+" cannot be unmarshalled!",je); }
     return record;
-  } /* get */
+  }
   
   /*------------------------------------------------------------------*/
   /** skip the given number of repeated elements with given tag.
