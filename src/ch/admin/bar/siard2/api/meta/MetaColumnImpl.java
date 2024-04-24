@@ -553,9 +553,9 @@ public class MetaColumnImpl
 
   /** {@inheritDoc} */
   @Override
-  public void setMimeType(String sMimeType) throws IOException {
-    if (getArchiveImpl().isMetaDataDifferent(getMimeType(), sMimeType))
-      _ct.setMimeType(XU.toXml(sMimeType));
+  public void setMimeType(String mimeType) throws IOException {
+    if (getArchiveImpl().isMetaDataDifferent(getMimeType(), mimeType))
+      _ct.setMimeType(XU.toXml(mimeType));
   }
 
   /** {@inheritDoc} */
