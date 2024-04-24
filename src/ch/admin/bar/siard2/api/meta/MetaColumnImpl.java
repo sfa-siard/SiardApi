@@ -550,22 +550,14 @@ public class MetaColumnImpl
   /** {@inheritDoc} */
   @Override public String getDefaultValue() { return XU.fromXml(_ct.getDefaultValue()); }
   
-  /* property MimeType */
-  /*------------------------------------------------------------------*/
+
   /** {@inheritDoc} */
   @Override
-  public void setMimeType(String sMimeType)
-    throws IOException
-  {
-    if (getArchiveImpl().canModifyPrimaryData())
-    {
-      if (getArchiveImpl().isMetaDataDifferent(getMimeType(),sMimeType))
-        _ct.setMimeType(XU.toXml(sMimeType));
-    }
-    else
-      throw new IOException("MIME type cannot be set!");
-  } /* setMimeType */
-  /*------------------------------------------------------------------*/
+  public void setMimeType(String sMimeType) throws IOException {
+    if (getArchiveImpl().isMetaDataDifferent(getMimeType(), sMimeType))
+      _ct.setMimeType(XU.toXml(sMimeType));
+  }
+
   /** {@inheritDoc} */
   @Override public String getMimeType() { return XU.fromXml(_ct.getMimeType()); }
   
