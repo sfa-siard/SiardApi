@@ -20,9 +20,9 @@ import java.io.*;
 public interface Archive
 {
   /** SIARD 2.x XSD location in class path */
-  public static final String sSIARD2_META_DATA_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/metadata.xsd";
+  public static final String sSIARD2_META_DATA_XSD_RESOURCE = "/res/metadata.xsd";
   public static final String sSIARD2_META_DATA_NAMESPACE = "http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd";
-  public static final String sSIARD2_GENERIC_TABLE_XSD_RESOURCE = "/ch/admin/bar/siard2/api/res/table.xsd";
+  public static final String sSIARD2_GENERIC_TABLE_XSD_RESOURCE = "/res/table.xsd";
   public static final String sSIARD2_TABLE_NAMESPACE = "http://www.bar.admin.ch/xmlns/siard/2/table.xsd";
   public static final String sSIARD_DEFAULT_EXTENSION = "siard";
   /** the oldest version of the meta data XSD still supported for reading */

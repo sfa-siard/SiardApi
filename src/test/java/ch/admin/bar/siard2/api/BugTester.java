@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.admin.bar.siard2.api.primary.ArchiveImpl;
 import ch.enterag.utils.EU;
 
+@Ignore("file is not available in repository")
 public class BugTester
 {
   private static final File _fileBUG49 = new File("..\\Bugs\\479\\dvd_rental.siard");

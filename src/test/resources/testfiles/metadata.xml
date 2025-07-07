@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <siardArchive xmlns="http://www.bar.admin.ch/xmlns/siard/2/metadata.xsd" version="2.2">
-    <archivalDate>2022-05-30Z</archivalDate>
+    <archivalDate>2025-07-07Z</archivalDate>
     <schemas>
         <schema>
             <name>TESTSCHEMA</name>

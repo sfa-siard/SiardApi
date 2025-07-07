@@ -28,17 +28,12 @@ repositories {
 
 // Define directories similar to Ant properties
 val dirSrc = "src/main/java"
-val dirRes = "$dirSrc/ch/admin/bar/siard2/api/res"
+val dirRes = "src/main/resources/res"
 val dirGenerated = "$dirSrc/ch/admin/bar/siard2/api/generated"
-val dirTest = "src/test/java"
 val dirLib = "lib"
-val dirDoc = "doc"
-val dirEtc = "etc"
-val dirTestFiles = "testfiles"
 val dirTmp = "tmp"
-val dirDist = "dist"
-val dirJavadoc = "$dirDoc/javadoc"
-val dirSpecifications = "$dirDoc/specifications"
+
+val xjcConfiguration = configurations.create("xjc")
 
 // Define dependencies similar to Ant classpath definitions
 dependencies {
@@ -68,6 +63,10 @@ dependencies {
 
     // ANTLR dependency
     implementation(files("$dirLib/antlr-runtime-4.5.2.jar"))
+
+    // 4.x uses jakarta.* packages.  For a javax‑based project stick to 2.3.*.
+    xjcConfiguration("org.glassfish.jaxb:jaxb-xjc:2.3.2")
+    xjcConfiguration("org.glassfish.jaxb:jaxb-runtime:2.3.2")  // needed by the compiler itself
 }
 
 // Create necessary directories
@@ -82,81 +81,38 @@ tasks.register("createDirs") {
         mkdir("$dirGenerated/table")
         mkdir(dirTmp)
         mkdir("$dirTmp/lobs")
-        mkdir(dirDist)
-        mkdir(dirJavadoc)
     }
 }
 
 // Task to generate JAXB classes from XSD files
-tasks.register<Exec>("generateJaxb") {
-    group = "build"
+tasks.register<JavaExec>("generateJaxb") {
+    group       = "build"
     description = "Generate JAXB classes from XSD files"
 
-    // This assumes xjc is in the PATH, you may need to adjust this
-    val xjc = "xjc"
+    classpath   = xjcConfiguration
+    mainClass.set("com.sun.tools.xjc.XJCFacade")
 
-    doFirst {
-        // Delete previously generated files
-        delete(fileTree(dirGenerated) {
-            include("**/*.java")
-        })
-    }
-
-    // Generate metadata classes
-    commandLine(
-        xjc,
-        "-encoding", "UTF-8",
-        "-npa",
-        "-d", dirSrc,
+    // first schema
+    args("-encoding", "UTF-8", "-npa", "-d", dirSrc,
         "-p", "ch.admin.bar.siard2.api.generated",
-        "$dirRes/metadata.xsd"
-    )
+        "$dirRes/metadata.xsd")
 
-    // Generate old10 metadata classes
+    // run three more times for the other packages
     doLast {
-        exec {
-            commandLine(
-                xjc,
-                "-encoding", "UTF-8",
-                "-npa",
-                "-d", dirSrc,
-                "-p", "ch.admin.bar.siard2.api.generated.old10",
-                "$dirRes/old10/metadata.xsd"
+        fun runXjc(pkg: String, xsd: String) = exec {
+            commandLine = listOf(
+                "java", "-cp", xjcConfiguration.asPath,
+                "com.sun.tools.xjc.XJCFacade",
+                "-encoding", "UTF-8", "-npa", "-d", dirSrc,
+                "-p", pkg, xsd
             )
         }
-
-        // Generate old21 metadata classes
-        exec {
-            commandLine(
-                xjc,
-                "-encoding", "UTF-8",
-                "-npa",
-                "-d", dirSrc,
-                "-p", "ch.admin.bar.siard2.api.generated.old21",
-                "$dirRes/old21/metadata.xsd"
-            )
-        }
-
-        // Generate table classes
-        exec {
-            commandLine(
-                xjc,
-                "-encoding", "UTF-8",
-                "-npa",
-                "-d", dirSrc,
-                "-p", "ch.admin.bar.siard2.api.generated.table",
-                "$dirRes/table.xsd"
-            )
-        }
+        runXjc("ch.admin.bar.siard2.api.generated.old10", "$dirRes/old10/metadata.xsd")
+        runXjc("ch.admin.bar.siard2.api.generated.old21", "$dirRes/old21/metadata.xsd")
+        runXjc("ch.admin.bar.siard2.api.generated.table",  "$dirRes/table.xsd")
     }
 }
 
-// Copy resources to build directory
-//tasks.processResources {
-//    from(dirRes) {
-//        include("**/*.*")
-//    }
-//}
 
 // Configure Java compilation
 tasks.compileJava {
@@ -164,72 +120,15 @@ tasks.compileJava {
     options.encoding = "UTF-8"
 }
 
-// Configure Javadoc generation
-tasks.javadoc {
-    title = "SIARD API"
-    source = sourceSets.main.get().allJava
-    classpath = sourceSets.main.get().compileClasspath
-    options {
-        encoding = "UTF-8"
-        (this as StandardJavadocDocletOptions).apply {
-            addStringOption("Xdoclint:none", "-quiet")
-            tags = listOf(
-                "label:a:Label:",
-                "responsibility:a:Responsibility:",
-                "precondition:a:Precondition:",
-                "postcondition:a:Postcondition:"
-            )
-        }
+// Configure resources processing
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn("generateJaxb")
+    // Ensure resources are copied to the output directory
+    from("src/main/resources") {
+        include("**/*.*")
     }
 }
-
-// Create release ZIP file
-//tasks.register<Zip>("release") {
-//    group = "distribution"
-//    description = "Create a ZIP file with binaries for distribution"
-//    dependsOn("jar", "javadoc")
-//
-//    archiveFileName.set("${project.name}-${project.version}.zip")
-//    destinationDirectory.set(file(dirDist))
-//
-//    // Include the main JAR file
-//    from("${buildDir}/libs") {
-//        include("*.jar")
-//        into("${project.name}/$dirLib")
-//    }
-//
-//    // Include library JARs except test libraries
-//    from(dirLib) {
-//        exclude("hamcrest-core-1.3.jar")
-//        exclude("junit-4.12.jar")
-//        into("${project.name}/$dirLib")
-//    }
-//
-//    // Include documentation
-//    from(dirDoc) {
-//        exclude("developer/**/*.*")
-//        into("${project.name}/$dirDoc")
-//    }
-//
-//    // Include etc files except debug properties
-//    from(dirEtc) {
-//        exclude("debug.properties")
-//        into("${project.name}/$dirEtc")
-//    }
-//
-//    // Include test files
-//    from(dirTestFiles) {
-//        include("sql2003.siard")
-//        include("sample.siard")
-//        into("${project.name}/$dirTestFiles")
-//    }
-//
-//    // Include text files
-//    from(".") {
-//        include("*.txt")
-//        into("${project.name}")
-//    }
-//}
 
 // Update the manifest with version and build date
 tasks.jar {
@@ -242,13 +141,9 @@ tasks.jar {
     }
 }
 
-// Default tasks
-defaultTasks("build")
 
 // Clean task
 tasks.clean {
     delete(dirTmp)
-    delete(dirDist)
-    delete(dirJavadoc)
     delete(dirGenerated)
 }

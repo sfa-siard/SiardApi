@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import static org.junit.Assert.*;
 
 public class MetaDataXmlTest {
-    private static final String TESTFILES_METADATA_DIR = "testfiles/metadata/";
+    private static final String TESTFILES_METADATA_DIR = "src/test/resources/testfiles/metadata/";
     private static final String METADATA_1_0_XML = "1.0/metadata-1.0.xml";
     private static final String METADATA_2_1_XML = "2.1/metadata-2.1.xml";
     private static final String METADATA_2_2_XML = "2.2/metadata-2.2.xml";

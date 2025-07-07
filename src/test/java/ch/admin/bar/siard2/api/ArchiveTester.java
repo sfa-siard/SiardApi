@@ -11,21 +11,21 @@ import ch.admin.bar.siard2.api.primary.*;
 
 public class ArchiveTester
 {
-  private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
-  private static final File FILE_SIARD_10 = new File("tmp/sql1999.siard");
+  private static final File _fileSIARD_10_SOURCE = new File("src/test/resources/testfiles/sql1999.siard");
+  private static final File FILE_SIARD_10 = new File("src/test/resources/tmp/sql1999.siard");
 
-  private static final File FILE_SIARD_21 = new File("testfiles/sql2008_2_1.siard");
-  private static final File FILE_SIARD_22 = new File("testfiles/sql2008.siard");
+  private static final File FILE_SIARD_21 = new File("src/test/resources/testfiles/sql2008_2_1.siard");
+  private static final File FILE_SIARD_22 = new File("src/test/resources/testfiles/sql2008.siard");
 
-  private static final File FILE_SIARD_COMPLEX_21 = new File("testfiles/sfdboe_2_1.siard");
-  private static final File FILE_SIARD_COMPLEX_22 = new File("testfiles/sfdboe.siard");
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
-  private static final File _fileMETADATA_XML = new File("tmp/metadata.xml");
-  private static final File _fileIMPORT_METADATA_XML = new File("testfiles/import.xml");
-  private static final File _fileMETADATA_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/metadata.xsd");
-  private static final File _fileMETADATA_XSD = new File("tmp/metadata.xsd");
-  private static final File _fileTABLE_XSD_ORIGIN = new File("src/ch/admin/bar/siard2/api/res/table.xsd");
-  private static final File _fileTABLE_XSD = new File("tmp/table.xsd");
+  private static final File FILE_SIARD_COMPLEX_21 = new File("src/test/resources/testfiles/sfdboe_2_1.siard");
+  private static final File FILE_SIARD_COMPLEX_22 = new File("src/test/resources/testfiles/sfdboe.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
+  private static final File _fileMETADATA_XML = new File("src/test/resources/tmp/metadata.xml");
+  private static final File _fileIMPORT_METADATA_XML = new File("src/test/resources/testfiles/import.xml");
+  private static final File _fileMETADATA_XSD_ORIGIN = new File("src/main/resources/res/metadata.xsd");
+  private static final File _fileMETADATA_XSD = new File("src/test/resources/tmp/metadata.xsd");
+  private static final File _fileTABLE_XSD_ORIGIN = new File("src/main/resources/res/table.xsd");
+  private static final File _fileTABLE_XSD = new File("src/test/resources/tmp/table.xsd");
 
   private static final int _iBUFSIZ = 8192;
   private static final String _sDBNAME = "SIARD 2.2 Test Database";
@@ -40,14 +40,11 @@ public class ArchiveTester
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
 
 
-  
+
   @Before
-  public void setUp()
-  {
+  public void setUp() throws IOException {
     System.out.println("setUp");
     /* make sure, test file does not get clobbered by tests */
-    try 
-    { 
       FU.copy(_fileSIARD_10_SOURCE, FILE_SIARD_10);
       if (_fileSIARD_21_NEW.exists())
         _fileSIARD_21_NEW.delete();
@@ -57,11 +54,8 @@ public class ArchiveTester
         _fileTABLE_XSD.delete();
       if (_fileMETADATA_XML.exists())
         _fileMETADATA_XML.delete();
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
-  } /* setUp */
-  
+  }
+
   @After
   public void tearDown()
   {
@@ -114,7 +108,7 @@ public class ArchiveTester
     assertEquals(Archive.sMETA_DATA_VERSION, md.getVersion());
     archive.close();
   }
-  
+
   @Test
   public void shouldOpenComplexArchiveInFormatSiard22() throws IOException {
     // given
@@ -163,7 +157,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testClose()
   {
@@ -194,7 +188,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testMaxInlineSize()
   {
@@ -234,25 +228,19 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
-  public void testExportMetaDataSchema()
-  {
+  public void testExportMetaDataSchema() throws IOException {
     System.out.println("testExportMetaDataSchema");
     Archive archive = ArchiveImpl.newInstance();
-    try
-    {
-      archive.open(FILE_SIARD_10);
-      FileOutputStream fos = new FileOutputStream(_fileMETADATA_XSD);
-      archive.exportMetaDataSchema(fos);
-      fos.close();
-      archive.close();
-      assertTrue("Exported metadata.xsd is incorrect!",areFilesEqual(_fileMETADATA_XSD_ORIGIN,_fileMETADATA_XSD));
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch(Exception e) { fail(EU.getExceptionMessage(e)); }
+    archive.open(FILE_SIARD_10);
+    FileOutputStream fos = new FileOutputStream(_fileMETADATA_XSD);
+    archive.exportMetaDataSchema(fos);
+    fos.close();
+    archive.close();
+    assertTrue("Exported metadata.xsd is incorrect!", areFilesEqual(_fileMETADATA_XSD_ORIGIN, _fileMETADATA_XSD));
   }
-  
+
   @Test
   public void testExportGenericTableSchema()
   {
@@ -352,7 +340,7 @@ public class ArchiveTester
       assertTrue("New archive is not empty!",archive.isEmpty());
       setMandatoryMetaData(archive);
       archive.close();
-      
+
       archive = ArchiveImpl.newInstance();
       archive.open(FILE_SIARD_10);
       assertFalse("Old archive is empty!",archive.isEmpty());
@@ -377,7 +365,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testIsValidOld()
   {
@@ -398,17 +386,17 @@ public class ArchiveTester
     {
       Table tab = schema.createTable(_sTEST_TABLE_NAME);
       assertSame("Table create failed!",schema,tab.getParentSchema());
-      
+
       MetaColumn mc1 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN1_NAME);
       mc1.setType(_sTEST_TYPE1_NAME);
       mc1.setNullable(false);
-      
+
       MetaColumn mc2 = tab.getMetaTable().createMetaColumn(_sTEST_COLUMN2_NAME);
       mc2.setType(_sTEST_TYPE2_NAME);
-      
+
       return tab;
     } /* createTable */
-    
+
   @Test
   public void testIsValidMetaDataOnly()
   {
@@ -430,7 +418,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testIsUnchanged()
   {
@@ -455,7 +443,7 @@ public class ArchiveTester
   @Test
   public void testGetSchemas()
   {
-    /* we will have to upgade to JAXB 2.4.0 as soon as it is available! 
+    /* we will have to upgade to JAXB 2.4.0 as soon as it is available!
      * For now we suppress the illegal access warning in a primitive way.
      */
     System.out.println("testGetSchemas");
@@ -475,7 +463,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testGetSchema_Int()
   {
@@ -494,7 +482,7 @@ public class ArchiveTester
     catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
     catch(Exception e) { fail(EU.getExceptionMessage(e)); }
   }
-  
+
   @Test
   public void testGetSchema_String()
   {
@@ -528,7 +516,7 @@ public class ArchiveTester
       }
       catch(IOException ie) { System.out.println(EU.getExceptionMessage(ie)); }
       catch(Exception e) { fail(EU.getExceptionMessage(e)); }
-      finally 
+      finally
       {
         System.out.println("Closing archive");
         archive.close();

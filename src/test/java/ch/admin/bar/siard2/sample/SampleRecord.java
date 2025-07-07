@@ -10,7 +10,6 @@ import ch.enterag.utils.*;
 import ch.enterag.utils.test.*;
 import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.*;
-import sun.misc.IOUtils;
 
 public class SampleRecord
 {
@@ -21,7 +20,7 @@ public class SampleRecord
   private int _iRecord = -1;
 
   public static String getCircleJpgUrl() {
-    return "file://localhost" + new File("testfiles/circle.jpg").getAbsolutePath();
+    return "file://localhost" + new File("src/test/resources/testfiles/circle.jpg").getAbsolutePath();
   }
   
   public static void printValue(String sLabel, String sValue)

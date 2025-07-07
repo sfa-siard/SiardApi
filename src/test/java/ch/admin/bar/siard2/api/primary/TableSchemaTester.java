@@ -20,9 +20,9 @@ import ch.admin.bar.siard2.api.generated.*;
 
 public class TableSchemaTester
 {
-  private static final File _fileSIARD_SOURCE = new File("testfiles/sample_source.siard");
-  private static final File _fileSIARD_TARGET = new File("testfiles/sample_target.siard");
-  private static final File _fileSIARD_ARCHIVE = new File("testfiles/sample_archive.siard");
+  private static final File _fileSIARD_SOURCE = new File("src/test/resources/testfiles/sample_source.siard");
+  private static final File _fileSIARD_TARGET = new File("src/test/resources/testfiles/sample_target.siard");
+  private static final File _fileSIARD_ARCHIVE = new File("src/test/resources/testfiles/sample_archive.siard");
   private static final File _fileLOBS_FOLDER = new File("D:\\Temp\\lobs");
   private static final String _sDBNAME = "SIARD 2.1 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
@@ -460,12 +460,12 @@ public class TableSchemaTester
     try
     {
 
-      File fileTable = new File("testfiles/table_simple.xsd");
+      File fileTable = new File("src/test/resources/testfiles/table_simple.xsd");
       OutputStream osXsd = new FileOutputStream(fileTable);
       writeTableXsd(_tabSimple, osXsd);
       osXsd.close();
 
-      File fileMetaData = new File("testfiles/metadata.xml");
+      File fileMetaData = new File("src/test/resources/testfiles/metadata.xml");
       OutputStream osXml = new FileOutputStream(fileMetaData);
       _tabSimple.getParentSchema().getParentArchive().exportMetaData(osXml);
       osXml.close();
@@ -477,7 +477,7 @@ public class TableSchemaTester
   @Test
   public void testComplex()
   {
-    File file = new File("testfiles/table_complex.xsd");
+    File file = new File("src/test/resources/testfiles/table_complex.xsd");
     try
     {
       OutputStream osXsd = new FileOutputStream(file); 

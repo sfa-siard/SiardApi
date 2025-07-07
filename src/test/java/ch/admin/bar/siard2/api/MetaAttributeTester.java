@@ -10,7 +10,7 @@ import ch.admin.bar.siard2.api.primary.*;
 
 public class MetaAttributeTester
 {
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
   private static final String _sDBNAME = "SIARD 2.1 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
@@ -36,10 +36,7 @@ public class MetaAttributeTester
   }
 
   @Before
-  public void setUp()
-  {
-    try 
-    { 
+  public void setUp() throws IOException {
       Files.deleteIfExists(_fileSIARD_21_NEW.toPath());
       Archive archive = ArchiveImpl.newInstance();
       archive.create(_fileSIARD_21_NEW);
@@ -52,17 +49,12 @@ public class MetaAttributeTester
       mt.setCategory(CategoryType.UDT.value());
       _maNew = mt.createMetaAttribute(_sTEST_ATTRIBUTE_NAME);
       assertSame("Invalid parent type!",mt,_maNew.getParentMetaType());
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
   
   @After
-  public void tearDown()
-  {
-    try
-    {
+  public void tearDown() throws IOException {
       setMandatoryMetaData(_maNew.getParentMetaType());
-      FileOutputStream fosXml = new FileOutputStream("tmp/table_complex.xml");
+      FileOutputStream fosXml = new FileOutputStream("src/test/resources/tmp/table_complex.xml");
       _maNew.getParentMetaType().
         getParentMetaSchema().
         getSchema().
@@ -70,8 +62,6 @@ public class MetaAttributeTester
         exportMetaData(fosXml);
       fosXml.close();
       _maNew.getParentMetaType().getParentMetaSchema().getSchema().getParentArchive().close();
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
   }
   
 

@@ -8,12 +8,12 @@ import ch.enterag.utils.*;
 
 public class TableTester
 {
-  private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
-  private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
+  private static final File _fileSIARD_10_SOURCE = new File("src/test/resources/testfiles/sql1999.siard");
+  private static final File _fileSIARD_10 = new File("src/test/resources/tmp/sql1999.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
   private static ConfigurationProperties _cp = new ConfigurationProperties();
   private static final File _fileLOBS_FOLDER = new File(_cp.getLobsFolder());
-  private static final File _fileOE = new File("testfiles/sfdboe.siard");
+  private static final File _fileOE = new File("src/test/resources/testfiles/sfdboe.siard");
   private static final String _sDBNAME = "SIARD 2.1 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
@@ -176,12 +176,12 @@ public class TableTester
   {
     try
     {
-      File file = new File("tmp/"+_tabOld.getMetaTable().getFolder()+"_old.xsd");
+      File file = new File("src/test/resources/tmp/"+_tabOld.getMetaTable().getFolder()+"_old.xsd");
       FileOutputStream fos = new FileOutputStream(file);
       _tabOld.exportTableSchema(fos);
       fos.close();
       
-      file = new File("tmp/"+_tabNew.getMetaTable().getFolder()+"_new.xsd");
+      file = new File("src/test/resources/tmp/"+_tabNew.getMetaTable().getFolder()+"_new.xsd");
       fos = new FileOutputStream(file);
       try
       { 
@@ -208,7 +208,7 @@ public class TableTester
   {
     try
     {
-      File file = new File("tmp/"+_tabNew.getMetaTable().getFolder()+"_new_complex.xsd");
+      File file = new File("src/test/resources/tmp/"+_tabNew.getMetaTable().getFolder()+"_new_complex.xsd");
 
       MetaColumn mc1 = _tabNew.getMetaTable().createMetaColumn(_sTEST_COLUMN1_NAME);
       mc1.setType("INTEGER");
@@ -333,9 +333,9 @@ public class TableTester
       // archive.open(new File("../SiardGui/testfiles/sfdboe.siard"));
       archive.open(_fileOE);
       Schema schema = archive.getSchema("OE"); 
-      File fileTable = new File("tmp/CUSTOMERS.html");
+      File fileTable = new File("src/test/resources/tmp/CUSTOMERS.html");
       FileOutputStream fosTable = new FileOutputStream(fileTable);
-      schema.getTable("CUSTOMERS").exportAsHtml(fosTable, new File("tmp/lobs"));
+      schema.getTable("CUSTOMERS").exportAsHtml(fosTable, new File("src/test/resources/tmp/lobs"));
       fosTable.close();
       archive.close();
     }

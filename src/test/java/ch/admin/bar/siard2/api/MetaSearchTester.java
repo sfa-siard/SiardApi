@@ -12,10 +12,10 @@ import ch.admin.bar.siard2.api.primary.*;
 
 public class MetaSearchTester
 {
-  private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
-  private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
-  private static final File _fileSAMPLE = new File("testfiles/sample.siard");
+  private static final File _fileSIARD_10_SOURCE = new File("src/test/resources/testfiles/sql1999.siard");
+  private static final File _fileSIARD_10 = new File("src/test/resources/tmp/sql1999.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
+  private static final File _fileSAMPLE = new File("src/test/resources/testfiles/sample.siard");
   private static ConfigurationProperties _cp = new ConfigurationProperties();
   private static final File _fileLOBS_FOLDER = new File(_cp.getLobsFolder());
   private static final String _sDBNAME = "SIARD 2.1 Test Database";

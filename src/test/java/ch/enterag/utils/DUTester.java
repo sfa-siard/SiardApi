@@ -7,23 +7,18 @@ import org.junit.*;
 public class DUTester
 {
   private static DU _du = DU.getInstance("en", "dd.MM.yyyy");
-  
+
   @Test
-  public void testDate()
-  {
-    try 
-    { 
-      String s1 = "2016-07-06Z";
-      System.out.println(s1);
-      java.sql.Date date1 = _du.fromXsDate(s1);
-      System.out.println(String.valueOf(date1.getTime()));
-      String s2 = _du.toXsDate(date1);
-      System.out.println(s2);
-      assertEquals("Date were not equal!",s1,s2);
-      java.sql.Date date2 = _du.fromXsDate(s2);
-      assertEquals("Dates were not equal!",date1,date2);
-    }
-    catch(ParseException pe) { fail(EU.getExceptionMessage(pe)); }
+  public void testDate() throws ParseException {
+    String s1 = "2016-07-06Z";
+    System.out.println(s1);
+    java.sql.Date date1 = _du.fromXsDate(s1);
+    System.out.println(String.valueOf(date1.getTime()));
+    String s2 = _du.toXsDate(date1);
+    System.out.println(s2);
+    assertEquals("Date were not equal!", s1, s2);
+    java.sql.Date date2 = _du.fromXsDate(s2);
+    assertEquals("Dates were not equal!", date1, date2);
   }
 
   @Test

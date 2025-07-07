@@ -19,14 +19,14 @@ import ch.admin.bar.siard2.api.primary.*;
 
 public class RecordTester
 {
-  private static final File _fileSIARD_10_SOURCE = new File("testfiles/sql1999.siard");
-  private static final File _fileSIARD_10 = new File("tmp/sql1999.siard");
-  private static final File _fileSIARD_21_SOURCE = new File("testfiles/sql2008.siard");
-  private static final File _fileSIARD_21 = new File("tmp/sql2008.siard");
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
-  private static final File _fileLOBS_FOLDER_SOURCE = new File("testfiles/lobs");
-  private static final File _fileLOBS_FOLDER = new File("tmp/lobs");
-  private static final File _fileIMPORT_XML = new File("testfiles/import.xml");
+  private static final File _fileSIARD_10_SOURCE = new File("src/test/resources/testfiles/sql1999.siard");
+  private static final File _fileSIARD_10 = new File("src/test/resources/tmp/sql1999.siard");
+  private static final File _fileSIARD_21_SOURCE = new File("src/test/resources/testfiles/sql2008.siard");
+  private static final File _fileSIARD_21 = new File("src/test/resources/tmp/sql2008.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
+  private static final File _fileLOBS_FOLDER_SOURCE = new File("src/test/resources/testfiles/lobs");
+  private static final File _fileLOBS_FOLDER = new File("src/test/resources/tmp/lobs");
+  private static final File _fileIMPORT_XML = new File("src/test/resources/testfiles/import.xml");
   private static final URI _uriLOBS_FOLDER = URI.create("../lobs/"); // same relative to SIARD file
   private static final URI _uriLOBS_FIELD_FOLDER = URI.create("../lobs/field/");
   private static final URI _uriLOBS_FIELD_FIELD_FOLDER = URI.create("../lobs/field/field/");
@@ -1015,7 +1015,7 @@ public class RecordTester
 
       setMandatoryMetaData(_tabSimpleNew.getParentSchema());
 
-      OutputStream osXml = new FileOutputStream("tmp/import.xml"); 
+      OutputStream osXml = new FileOutputStream("src/test/resources/tmp/import.xml");
       _tabSimpleNew.getParentSchema().getParentArchive().exportMetaData(osXml);
       osXml.close();
       

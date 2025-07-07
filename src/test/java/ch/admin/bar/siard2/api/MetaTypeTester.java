@@ -11,7 +11,7 @@ import ch.admin.bar.siard2.api.primary.*;
 
 public class MetaTypeTester
 {
-  private static final File _fileSIARD_21_NEW = new File("tmp/sql2008new.siard");
+  private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
   private static final String _sDBNAME = "SIARD 2.1 Test Database";
   private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
   private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";

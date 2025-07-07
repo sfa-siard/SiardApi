@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class RecordWithDataLinkTest {
 
     // created with SampleArchive generator
-    private static final File ARCHIVE = new File("testfiles/sample-datalink-2-2.siard");
+    private static final File ARCHIVE = new File("src/test/resources/testfiles/sample-datalink-2-2.siard");
     private static final String TSIMPLE = "TSIMPLE";
     private static final String TCOMPLEX = "TCOMPLEX";
 

@@ -10,8 +10,8 @@ import ch.enterag.utils.EU;
 
 public class SearchTester
 {
-  private static final File _fileSAKILA = new File("testfiles/sfdbsakila.siard");
-  private static final File _fileAW = new File("testfiles/sfdbaw.siard");
+  private static final File _fileSAKILA = new File("src/test/resources/testfiles/sfdbsakila.siard");
+  private static final File _fileAW = new File("src/test/resources/testfiles/sfdbaw.siard");
 
   @Test
   public void testSakila()

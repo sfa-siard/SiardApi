@@ -15,22 +15,18 @@ import ch.admin.bar.siard2.api.primary.*;
 
 // These test are not working - and they are not part of the ch.admin.bar.siard2.api._SiardApiTestSuite that is run when the ant test target is run!
 // TODO: check what these tests should actually do. Then make these test work or delete them!
+@Ignore
 public class IoTester
 {
   @Test
-  public void testRead2008()
-  {
-    try
-    {
-      URL urlXsd = Archive.class.getResource(Archive.sSIARD2_META_DATA_XSD_RESOURCE);
-      InputStream isXml = new FileInputStream("testfiles/metadata-21.xml");
-      SiardArchive sa = Io.readJaxbObject(SiardArchive.class, isXml, urlXsd);
-      isXml.close();
-      System.out.println(String.valueOf(sa.getDatabaseUser()));
-    }
-    catch(IOException ie) { fail(EU.getExceptionMessage(ie)); }
-    catch(JAXBException je) { fail(EU.getExceptionMessage(je)); }
+  public void testRead2008() throws IOException, JAXBException {
+    URL urlXsd = Archive.class.getResource(Archive.sSIARD2_META_DATA_XSD_RESOURCE);
+    InputStream isXml = new FileInputStream("src/test/resources/testfiles/metadata-21.xml");
+    SiardArchive sa = Io.readJaxbObject(SiardArchive.class, isXml, urlXsd);
+    isXml.close();
+    System.out.println(String.valueOf(sa.getDatabaseUser()));
   }
+
   @Test
   public void testRead2003()
   {

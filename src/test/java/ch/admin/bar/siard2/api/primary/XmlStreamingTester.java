@@ -25,6 +25,7 @@ import ch.enterag.utils.jaxb.*;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.table.*;
 
+@Ignore("these test were not part of the ch.admin.bar.siard2.api._SiardApiTestSuite that is run when the ant test target is run! The specified files never existed in the repository")
 public class XmlStreamingTester
 {
   private ObjectFactory _of = new ObjectFactory();
@@ -189,32 +190,32 @@ public class XmlStreamingTester
   @Test
   public void testReadComplexTable()
   {
-    File fileXsd = new File("testfiles/table1.xsd");
-    File fileXml = new File("testfiles/table1.xml");
+    File fileXsd = new File("src/test/resources/testfiles/table1.xsd");
+    File fileXml = new File("src/test/resources/testfiles/table1.xml");
     readTable(fileXsd, fileXml);
   }
   
   @Test
   public void testReadSimpleTable()
   {
-    File fileXsd = new File("testfiles/table0.xsd");
-    File fileXml = new File("testfiles/table0.xml");
+    File fileXsd = new File("src/test/resources/testfiles/table0.xsd");
+    File fileXml = new File("src/test/resources/testfiles/table0.xml");
     readTable(fileXsd, fileXml);
   }
   
   @Test
   public void testReadTable()
   {
-    File fileXsd = new File("testfiles/tabletest.xsd");
-    File fileXml = new File("testfiles/tabletest.xml");
+    File fileXsd = new File("src/test/resources/testfiles/tabletest.xsd");
+    File fileXml = new File("src/test/resources/testfiles/tabletest.xml");
     readTable(fileXsd, fileXml);
   }
 
   @Test
   public void testReadOldTable()
   {
-    File fileXsd = new File("testfiles/table_old.xsd");
-    File fileXml = new File("testfiles/table_old.xml");
+    File fileXsd = new File("src/test/resources/testfiles/table_old.xsd");
+    File fileXml = new File("src/test/resources/testfiles/table_old.xml");
     readTable(fileXsd,fileXml);
   }
 
