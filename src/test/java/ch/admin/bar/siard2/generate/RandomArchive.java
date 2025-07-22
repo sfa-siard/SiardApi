@@ -8,13 +8,16 @@ Created    : 20.03.2019, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.generate;
 
-import java.io.*;
-
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
 import ch.admin.bar.siard2.api.*;
-import ch.enterag.utils.cli.*;
-import ch.enterag.utils.configuration.*;
+import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.primary.MetaDataXml;
+import ch.enterag.utils.cli.Arguments;
+import ch.enterag.utils.configuration.ManifestAttributes;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class RandomArchive
 {

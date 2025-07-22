@@ -8,7 +8,10 @@ Created    : 21.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /*====================================================================*/
 /** Archive interface provides access to primary data and metadata.

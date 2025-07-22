@@ -1,13 +1,21 @@
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.util.*;
-import static org.junit.Assert.*;
+import ch.admin.bar.siard2.api.generated.SiardArchive;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.admin.bar.siard2.api.primary.MetaDataXml;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.FU;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.junit.*;
-import ch.enterag.utils.*;
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 public class ArchiveTester
 {

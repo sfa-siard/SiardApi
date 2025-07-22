@@ -8,10 +8,11 @@ Created    : 24.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.logging.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.MetaSearch;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.logging.IndentLogger;
+
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaSearchImpl implements the interface MetaSearch.

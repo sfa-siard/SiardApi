@@ -1,21 +1,29 @@
 package ch.admin.bar.siard2.api;
 
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.*;
+import ch.enterag.utils.test.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
 import java.io.*;
-import java.math.*;
-import java.net.*;
-import java.nio.file.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.xml.datatype.*;
-
 import static org.junit.Assert.*;
-import org.junit.*;
-
-import ch.enterag.utils.*;
-import ch.enterag.utils.test.*;
-import ch.admin.bar.siard2.api.primary.*;
 
 public class RecordTester
 {

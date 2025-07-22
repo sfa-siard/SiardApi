@@ -8,11 +8,19 @@ Created    : 27.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.util.*;
 import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.meta.*;
+import ch.admin.bar.siard2.api.generated.SchemaType;
+import ch.admin.bar.siard2.api.generated.SchemasType;
+import ch.admin.bar.siard2.api.generated.TableType;
+import ch.admin.bar.siard2.api.generated.TablesType;
+import ch.admin.bar.siard2.api.meta.MetaDataImpl;
+import ch.admin.bar.siard2.api.meta.MetaSchemaImpl;
+import ch.admin.bar.siard2.api.meta.MetaTableImpl;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /*====================================================================*/
 /** SchemaImpl implements the interface Schema.

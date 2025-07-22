@@ -1,8 +1,11 @@
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.util.*;
-import static org.junit.Assert.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Properties;
+
+import static org.junit.Assert.fail;
 
 public class ConfigurationProperties
   extends Properties

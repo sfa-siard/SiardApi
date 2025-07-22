@@ -8,11 +8,12 @@ Created    : 23.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.generated.MessageDigestType;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.Calendar;
+import java.util.List;
 
 /*====================================================================*/
 /** MetaData interface provides access to global meta data.

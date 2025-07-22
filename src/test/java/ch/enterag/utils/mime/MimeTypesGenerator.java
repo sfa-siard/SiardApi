@@ -1,7 +1,8 @@
 package ch.enterag.utils.mime;
 
+import ch.enterag.utils.EU;
+
 import java.io.*;
-import ch.enterag.utils.*;
 
 public class MimeTypesGenerator
 {

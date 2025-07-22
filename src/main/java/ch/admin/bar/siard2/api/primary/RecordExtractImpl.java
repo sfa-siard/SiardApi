@@ -8,8 +8,12 @@ Created    : 01.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Record;
+import ch.admin.bar.siard2.api.RecordDispenser;
+import ch.admin.bar.siard2.api.RecordExtract;
+import ch.admin.bar.siard2.api.Table;
+
+import java.io.IOException;
 
 /*====================================================================*/
 /** RecordExtractImpl implements the RecordExtract interface.

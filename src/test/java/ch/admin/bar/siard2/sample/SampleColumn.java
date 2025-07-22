@@ -1,7 +1,9 @@
 package ch.admin.bar.siard2.sample;
 
-import java.io.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.MetaColumn;
+import ch.admin.bar.siard2.api.MetaField;
+
+import java.io.IOException;
 
 public class SampleColumn
 {

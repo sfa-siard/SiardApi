@@ -1,6 +1,7 @@
 package ch.enterag.utils.test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 public class TestRandomInputStream

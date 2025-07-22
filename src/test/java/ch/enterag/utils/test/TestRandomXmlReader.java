@@ -1,6 +1,8 @@
 package ch.enterag.utils.test;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 public class TestRandomXmlReader
   extends TestRandomNReader

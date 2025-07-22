@@ -15,8 +15,11 @@ Created    : May 13, 2009, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.cli;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*===================================================================*/
 /** This class parses the command line and makes the arguments

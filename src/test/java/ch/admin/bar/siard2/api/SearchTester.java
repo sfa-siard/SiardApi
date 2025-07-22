@@ -1,12 +1,17 @@
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.util.*;
-import org.junit.*;
-import static org.junit.Assert.*;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.admin.bar.siard2.api.primary.SearchImpl;
 import ch.enterag.utils.DU;
 import ch.enterag.utils.EU;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.fail;
 
 public class SearchTester
 {

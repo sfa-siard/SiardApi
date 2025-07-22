@@ -3,8 +3,8 @@ package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.generated.AttributeType;
 import ch.admin.bar.siard2.api.generated.AttributesType;
-import ch.admin.bar.siard2.api.generated.TypeType;
 import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.admin.bar.siard2.api.generated.TypeType;
 
 import java.util.Collection;
 

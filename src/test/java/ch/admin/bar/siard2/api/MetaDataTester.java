@@ -1,14 +1,26 @@
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
+import ch.admin.bar.siard2.api.generated.MessageDigestType;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.admin.bar.siard2.api.primary.SchemaImpl;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.FU;
+import ch.enterag.utils.SU;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import static org.junit.Assert.*;
-import org.junit.*;
-import ch.enterag.utils.*;
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
 
 public class MetaDataTester
 {

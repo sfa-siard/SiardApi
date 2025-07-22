@@ -1,11 +1,15 @@
 package ch.enterag.utils.test;
 
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import javax.xml.datatype.*;
-
 import ch.enterag.utils.SU;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Random;
 
 public abstract class TestUtils
 {

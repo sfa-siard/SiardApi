@@ -8,15 +8,23 @@ Created    : 05.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Cell;
+import ch.admin.bar.siard2.api.Record;
 import ch.admin.bar.siard2.api.Table;
-import ch.admin.bar.siard2.api.meta.*;
-import ch.admin.bar.siard2.api.generated.table.*;
+import ch.admin.bar.siard2.api.Value;
+import ch.admin.bar.siard2.api.generated.table.ObjectFactory;
+import ch.admin.bar.siard2.api.generated.table.RecordType;
+import ch.admin.bar.siard2.api.meta.MetaColumnImpl;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*====================================================================*/
 /** RecordImpl implements the interface Record.

@@ -1,8 +1,9 @@
 package ch.admin.bar.siard2.api.primary;
 
+import ch.enterag.utils.xml.XU;
+import org.w3c.dom.Element;
+
 import java.io.*;
-import org.w3c.dom.*;
-import ch.enterag.utils.xml.*;
 
 public class ValidatingReader
   extends Reader

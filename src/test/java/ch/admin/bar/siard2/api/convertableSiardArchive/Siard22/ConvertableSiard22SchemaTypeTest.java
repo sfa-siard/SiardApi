@@ -1,6 +1,9 @@
 package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.RoutineType;
+import ch.admin.bar.siard2.api.generated.TableType;
+import ch.admin.bar.siard2.api.generated.TypeType;
+import ch.admin.bar.siard2.api.generated.ViewType;
 import org.junit.Test;
 
 import java.util.Arrays;

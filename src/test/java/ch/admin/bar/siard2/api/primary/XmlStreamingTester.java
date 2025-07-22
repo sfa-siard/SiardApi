@@ -1,29 +1,37 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import ch.admin.bar.siard2.api.Archive;
+import ch.admin.bar.siard2.api.generated.table.ObjectFactory;
+import ch.admin.bar.siard2.api.generated.table.RecordType;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.jaxb.Io;
+import ch.enterag.utils.jaxb.XMLStreamFactory;
+import ch.enterag.utils.xml.XU;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.w3c.dom.*;
 
-import javax.xml.*;
-import javax.xml.bind.*;
-import javax.xml.parsers.*;
-import javax.xml.stream.*;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-import org.w3c.dom.Attr;
-import org.junit.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.xml.*;
-import ch.enterag.utils.jaxb.*;
-import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.table.*;
+import static org.junit.Assert.fail;
 
 @Ignore("these test were not part of the ch.admin.bar.siard2.api._SiardApiTestSuite that is run when the ant test target is run! The specified files never existed in the repository")
 public class XmlStreamingTester

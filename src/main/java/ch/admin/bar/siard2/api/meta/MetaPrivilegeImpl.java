@@ -8,13 +8,16 @@ Created    : 24.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-
-import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.MetaData;
+import ch.admin.bar.siard2.api.MetaPrivilege;
+import ch.admin.bar.siard2.api.generated.PrivOptionType;
+import ch.admin.bar.siard2.api.generated.PrivilegeType;
 import ch.admin.bar.siard2.api.primary.ArchiveImpl;
-import ch.enterag.utils.*;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.SU;
 import ch.enterag.utils.xml.XU;
+
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaPrivilegeImpl implements the interface MetaPrivilege.

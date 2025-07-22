@@ -1,10 +1,18 @@
 package ch.admin.bar.siard2.api;
 
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.FU;
+import ch.enterag.utils.SU;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
-import java.io.*;
-import org.junit.*;
-import ch.admin.bar.siard2.api.primary.*;
-import ch.enterag.utils.*;
 
 public class TableTester
 {

@@ -1,16 +1,23 @@
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-import java.util.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.xml.XU;
-import ch.enterag.sqlparser.*;
-import ch.enterag.sqlparser.datatype.*;
-import ch.enterag.sqlparser.datatype.enums.*;
-import ch.enterag.sqlparser.ddl.enums.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.MetaAttribute;
+import ch.admin.bar.siard2.api.MetaSchema;
+import ch.admin.bar.siard2.api.MetaSearch;
+import ch.admin.bar.siard2.api.MetaType;
 import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.sqlparser.BaseSqlFactory;
+import ch.enterag.sqlparser.SqlFactory;
+import ch.enterag.sqlparser.datatype.PredefinedType;
+import ch.enterag.sqlparser.datatype.enums.PreType;
+import ch.enterag.sqlparser.ddl.enums.Multiplier;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.xml.XU;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MetaTypeImpl
   extends MetaSearchImpl

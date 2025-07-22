@@ -8,7 +8,7 @@ Created    : 31.08.2017, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 
 /*====================================================================*/
 /** RecordDispenser delivers records of a table.

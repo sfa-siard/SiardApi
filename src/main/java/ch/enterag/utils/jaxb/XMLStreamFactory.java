@@ -8,13 +8,18 @@ Created    : 12.01.2012, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.jaxb;
 
-import java.io.*;
-import java.net.*;
-import javax.xml.stream.*;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.logging.IndentLogger;
 import org.codehaus.stax2.*;
 import org.codehaus.stax2.validation.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.logging.*;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 
 /*====================================================================*/
 /** XMLStreamFactory is used for creating a special-purpose

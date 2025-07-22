@@ -8,23 +8,30 @@ Created    : 05.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.math.*;
-import java.net.*;
-import java.nio.file.Files;
-import java.sql.*;
-import java.sql.Date;
-import java.text.*;
-import java.util.*;
-import javax.xml.datatype.*;
-import org.w3c.dom.*;
-
-import ch.enterag.utils.*;
-import ch.enterag.utils.database.*;
-import ch.enterag.utils.mime.*;
-import ch.enterag.utils.xml.XU;
 import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.FU;
+import ch.enterag.utils.database.SqlTypes;
+import ch.enterag.utils.mime.MimeTypes;
+import ch.enterag.utils.xml.XU;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import javax.xml.datatype.Duration;
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Files;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.text.ParseException;
+import java.util.*;
 
 /*====================================================================*/
 /** ValueImpl implements the interface Value (common stuff for Cell and 

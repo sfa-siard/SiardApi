@@ -9,12 +9,17 @@ Created    : 01.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
-import ch.enterag.sqlparser.identifier.*;
-import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.MetaField;
+import ch.admin.bar.siard2.api.MetaSearch;
+import ch.admin.bar.siard2.api.MetaType;
+import ch.admin.bar.siard2.api.MetaValue;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.enterag.sqlparser.identifier.QualifiedId;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /*====================================================================*/
 /** MetaValueImpl implements the interface MetaValue.

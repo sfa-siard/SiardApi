@@ -1,15 +1,24 @@
 package ch.admin.bar.siard2.sample;
 
-import java.io.*;
-import java.math.*;
-import java.net.URL;
-import java.sql.*;
-import java.util.Arrays;
-import javax.xml.datatype.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.test.*;
-import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.test.*;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.Arrays;
 
 public class SampleRecord
 {

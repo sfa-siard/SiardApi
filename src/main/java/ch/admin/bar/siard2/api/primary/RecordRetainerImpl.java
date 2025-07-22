@@ -8,17 +8,24 @@ Created    : 04.09.2017, Hartwig Thomas
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import javax.xml.*;
-import javax.xml.stream.*;
-import org.w3c.dom.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.xml.*;
-import ch.enterag.utils.jaxb.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Archive;
+import ch.admin.bar.siard2.api.Record;
+import ch.admin.bar.siard2.api.RecordRetainer;
 import ch.admin.bar.siard2.api.Table;
-import ch.admin.bar.siard2.api.generated.table.*;
+import ch.admin.bar.siard2.api.generated.table.RecordType;
+import ch.enterag.utils.FU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.jaxb.XMLStreamFactory;
+import ch.enterag.utils.xml.XU;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.*;
+import java.net.URI;
 
 /*====================================================================*/
 /** RecordRetainer provides serial write access to records.

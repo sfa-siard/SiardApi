@@ -1,8 +1,13 @@
 package ch.enterag.utils;
 
-import java.text.*;
-import static org.junit.Assert.*;
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @Ignore("was never exectuted with Ant - did probably not work before the gradle migration")
 public class DUTester

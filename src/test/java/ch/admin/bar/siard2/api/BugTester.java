@@ -1,14 +1,16 @@
 package ch.admin.bar.siard2.api;
 
-import static org.junit.Assert.*;
-import java.io.*;
-import java.util.List;
-
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.EU;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import ch.admin.bar.siard2.api.primary.ArchiveImpl;
-import ch.enterag.utils.EU;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @Ignore("file is not available in repository")
 public class BugTester

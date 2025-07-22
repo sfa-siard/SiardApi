@@ -1,12 +1,14 @@
 package ch.admin.bar.siard2.sample;
 
-import java.io.*;
-import java.util.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.cli.*;
-import ch.enterag.utils.configuration.*;
 import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.cli.Arguments;
+import ch.enterag.utils.configuration.ManifestAttributes;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.GregorianCalendar;
 
 public class SampleArchive
 {

@@ -1,17 +1,22 @@
 package ch.enterag.utils.jaxb;
 
-import java.io.*;
-import java.math.*;
-import java.net.*;
-import java.util.*;
-import javax.xml.bind.*;
-import javax.xml.datatype.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import ch.enterag.utils.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Archive;
 import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.MetaDataXml;
+import ch.enterag.utils.EU;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.*;
+import java.math.BigInteger;
+import java.net.URL;
+import java.util.GregorianCalendar;
+
+import static org.junit.Assert.fail;
 
 // These test are not working - and they are not part of the ch.admin.bar.siard2.api._SiardApiTestSuite that is run when the ant test target is run!
 // TODO: check what these tests should actually do. Then make these test work or delete them!

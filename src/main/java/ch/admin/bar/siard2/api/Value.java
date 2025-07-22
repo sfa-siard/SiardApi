@@ -9,12 +9,16 @@ Created    : 07.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
+import javax.xml.datatype.Duration;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
-import java.util.*;
-import javax.xml.datatype.*;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.List;
 
 /*====================================================================*/
 /** Value interface provides access to value handling of cells or fields.

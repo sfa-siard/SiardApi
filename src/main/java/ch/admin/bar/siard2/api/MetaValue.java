@@ -9,9 +9,9 @@ Created    : 01.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
 
 /*====================================================================*/
 /** MetaValue interface declares meta data common to columns and fields 

@@ -1,11 +1,9 @@
 package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.Archive;
-import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.ConvertableSiard21TriggerType;
 import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.*;
 import ch.admin.bar.siard2.api.generated.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;

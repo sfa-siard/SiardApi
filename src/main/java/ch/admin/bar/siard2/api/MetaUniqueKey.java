@@ -9,7 +9,7 @@ Created    : 27.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaUniqueKey interface provides access to unique key meta data.

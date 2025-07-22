@@ -1,8 +1,9 @@
 package ch.admin.bar.siard2.generate;
 
-import java.io.*;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
+
+import java.io.IOException;
 
 public class RandomSchema
 {

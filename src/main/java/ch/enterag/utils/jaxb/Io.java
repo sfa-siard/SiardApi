@@ -10,14 +10,14 @@ Created    : 29.05.2012, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.jaxb;
 
-import java.io.*;
-import java.net.*;
-import javax.xml.bind.*;
-import javax.xml.namespace.*;
-import javax.xml.transform.stream.*;
-
 import ch.admin.bar.siard2.api.generated.SiardArchive;
-import ch.enterag.utils.reflect.*;
+import ch.enterag.utils.reflect.Glue;
+
+import javax.xml.bind.*;
+import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
+import java.net.URL;
 
 /*====================================================================*/
 /** Abstract class cannot be instantiated but publishes static methods. 

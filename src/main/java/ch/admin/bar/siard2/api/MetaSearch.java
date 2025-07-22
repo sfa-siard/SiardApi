@@ -9,8 +9,9 @@ Created    : 18.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import ch.enterag.utils.*;
+import ch.enterag.utils.DU;
+
+import java.io.IOException;
 
 /*====================================================================*/
 /** Common search interface for all meta data classes in database archive.

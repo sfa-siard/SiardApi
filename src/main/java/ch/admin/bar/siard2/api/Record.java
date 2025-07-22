@@ -8,7 +8,7 @@ Created    : 05.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.List;
 
 /*====================================================================*/

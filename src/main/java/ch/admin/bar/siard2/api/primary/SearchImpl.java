@@ -8,13 +8,15 @@ Created    : 31.08.2017, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
-import ch.enterag.utils.*;
 import ch.admin.bar.siard2.api.*;
+import ch.enterag.utils.DU;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.List;
 
 /*====================================================================*/
 /** Implementation of simple search in table.

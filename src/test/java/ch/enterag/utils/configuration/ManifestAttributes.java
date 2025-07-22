@@ -9,11 +9,14 @@ Created    : 09.05.2012, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.configuration;
 
-import java.io.*;
-import java.net.*;
-import java.util.jar.*;
-import ch.enterag.utils.io.*;
-import ch.enterag.utils.logging.*;
+import ch.enterag.utils.io.SpecialFolder;
+import ch.enterag.utils.logging.IndentLogger;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.jar.Manifest;
 
 /*====================================================================*/
 /** ManifestAttributes extends Manifest for easy access to attributes.

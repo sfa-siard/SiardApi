@@ -8,12 +8,15 @@ Created    : 15.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.sql.*;
-import java.text.*;
-import javax.xml.stream.*;
-import ch.enterag.utils.background.*;
 import ch.admin.bar.siard2.api.*;
+import ch.enterag.utils.background.Progress;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.*;
+import java.sql.Types;
+import java.text.Collator;
 
 /*====================================================================*/
 /** SortedTableImpl implements the interface SortedTable.

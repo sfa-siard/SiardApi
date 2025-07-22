@@ -12,7 +12,7 @@ Created    : 01.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 
 /*====================================================================*/
 /** RecordExtract is an interface for loading a small (max 50) extract

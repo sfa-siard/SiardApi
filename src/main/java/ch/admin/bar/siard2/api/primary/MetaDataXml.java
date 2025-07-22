@@ -8,20 +8,22 @@ Created    : 23.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import javax.xml.bind.*;
-
+import ch.admin.bar.siard2.api.Archive;
 import ch.admin.bar.siard2.api.convertableSiardArchive.Siard21.ConvertableSiard21Archive;
 import ch.admin.bar.siard2.api.convertableSiardArchive.Siard22.Siard21ToSiard22Transformer;
-import ch.enterag.utils.EU;
-import ch.enterag.utils.jaxb.*;
-import ch.enterag.utils.logging.*;
-import ch.enterag.sqlparser.*;
-import ch.enterag.sqlparser.datatype.*;
-import ch.enterag.sqlparser.datatype.enums.*;
-import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
+import ch.enterag.sqlparser.BaseSqlFactory;
+import ch.enterag.sqlparser.SqlFactory;
+import ch.enterag.sqlparser.datatype.PredefinedType;
+import ch.enterag.sqlparser.datatype.enums.PreType;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.jaxb.Io;
+import ch.enterag.utils.logging.IndentLogger;
+
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 
 /*====================================================================*/
 /** MetaDataXml implements reading and writing of SIARD metadata XML data.

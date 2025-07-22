@@ -1,8 +1,10 @@
 package ch.admin.bar.siard2.generate;
 
-import java.io.IOException;
+import ch.admin.bar.siard2.api.Record;
+import ch.admin.bar.siard2.api.RecordRetainer;
+import ch.admin.bar.siard2.api.Table;
 
-import ch.admin.bar.siard2.api.*;
+import java.io.IOException;
 
 public class RandomTable
 {

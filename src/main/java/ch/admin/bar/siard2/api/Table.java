@@ -8,8 +8,11 @@ Created    : 04.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import ch.enterag.utils.background.*;
+import ch.enterag.utils.background.Progress;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /*====================================================================*/
 /** Table interface provides access to primary table data.

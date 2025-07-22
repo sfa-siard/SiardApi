@@ -1,22 +1,30 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.nio.file.*;
-import java.sql.*;
-
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-
-import static org.junit.Assert.*;
-import org.junit.*;
-
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import ch.enterag.utils.*;
 import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.SU;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Types;
+
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 public class TableSchemaTester
 {

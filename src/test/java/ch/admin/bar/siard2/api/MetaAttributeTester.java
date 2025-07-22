@@ -1,12 +1,19 @@
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.nio.file.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import ch.enterag.utils.*;
 import ch.admin.bar.siard2.api.generated.CategoryType;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.SU;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import static org.junit.Assert.*;
 
 public class MetaAttributeTester
 {

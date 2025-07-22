@@ -8,9 +8,12 @@ Created    : 15.02.2008, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.xml;
 
-import java.text.*;
-import org.w3c.dom.*;
-import ch.enterag.utils.*;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.SU;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import java.text.StringCharacterIterator;
 
 /*====================================================================*/
 /** XU implements XML conversion utilities.

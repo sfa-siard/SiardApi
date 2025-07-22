@@ -8,7 +8,7 @@ Created    : 28.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaField interface provides access to field meta data.

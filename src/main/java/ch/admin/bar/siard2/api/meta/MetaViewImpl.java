@@ -8,14 +8,23 @@ Created    : 29.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import ch.enterag.utils.*;
+import ch.admin.bar.siard2.api.MetaColumn;
+import ch.admin.bar.siard2.api.MetaSchema;
+import ch.admin.bar.siard2.api.MetaSearch;
+import ch.admin.bar.siard2.api.MetaView;
+import ch.admin.bar.siard2.api.generated.ColumnType;
+import ch.admin.bar.siard2.api.generated.ColumnsType;
+import ch.admin.bar.siard2.api.generated.ObjectFactory;
+import ch.admin.bar.siard2.api.generated.ViewType;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.SU;
 import ch.enterag.utils.xml.XU;
-import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
+
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 /*====================================================================*/
 /** MetaViewImpl implements the interface MetaView.

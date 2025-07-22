@@ -2,8 +2,8 @@ package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.generated.ForeignKeyType;
 import ch.admin.bar.siard2.api.generated.MatchTypeType;
-import ch.admin.bar.siard2.api.generated.ReferentialActionType;
 import ch.admin.bar.siard2.api.generated.ReferenceType;
+import ch.admin.bar.siard2.api.generated.ReferentialActionType;
 
 import java.util.List;
 

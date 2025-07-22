@@ -8,16 +8,24 @@ Created    : 04.09.2017, Hartwig Thomas
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.stream.*;
-import org.w3c.dom.*;
-
-import ch.enterag.utils.EU;
-import ch.enterag.utils.jaxb.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Record;
+import ch.admin.bar.siard2.api.RecordDispenser;
 import ch.admin.bar.siard2.api.Table;
-import ch.admin.bar.siard2.api.generated.table.*;
+import ch.admin.bar.siard2.api.generated.table.RecordType;
+import ch.enterag.utils.EU;
+import ch.enterag.utils.jaxb.XMLStreamFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /*====================================================================*/
 /** RecordDispenser  provides serial read access to records.

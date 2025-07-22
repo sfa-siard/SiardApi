@@ -1,15 +1,27 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
-import java.io.*;
-import javax.xml.bind.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.zip.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Archive;
+import ch.admin.bar.siard2.api.MetaData;
+import ch.admin.bar.siard2.api.MetaSchema;
+import ch.admin.bar.siard2.api.Schema;
 import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.meta.*;
+import ch.admin.bar.siard2.api.meta.MetaDataImpl;
+import ch.admin.bar.siard2.api.meta.MetaSchemaImpl;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.StopWatch;
+import ch.enterag.utils.zip.EntryOutputStream;
+import ch.enterag.utils.zip.FileEntry;
+import ch.enterag.utils.zip.Zip64File;
+
+import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.util.*;
 
 public class ArchiveImpl
   implements Archive

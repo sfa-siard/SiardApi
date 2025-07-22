@@ -1,10 +1,15 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.security.*;
-import java.util.*;
-import org.w3c.dom.*;
-import ch.enterag.utils.*;
+import ch.enterag.utils.BU;
+import org.w3c.dom.Element;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class ValidatingInputStream
   extends InputStream

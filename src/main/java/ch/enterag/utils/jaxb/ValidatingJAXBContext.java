@@ -9,15 +9,18 @@ Created    : 29.05.2012, Hartwig Thomas
 ======================================================================*/
 package ch.enterag.utils.jaxb;
 
-import java.io.*;
-import java.net.*;
-import javax.xml.*;
+import ch.enterag.utils.logging.IndentLogger;
+import org.xml.sax.SAXException;
+
+import javax.xml.XMLConstants;
 import javax.xml.bind.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.validation.*;
-import org.xml.sax.*;
-import ch.enterag.utils.logging.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /*====================================================================*/
 /** ValidatingJAXBContext wraps a JAXBContext adding schema validation. 

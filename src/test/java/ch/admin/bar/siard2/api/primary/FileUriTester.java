@@ -1,11 +1,15 @@
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import ch.enterag.utils.*;
+import ch.enterag.utils.EU;
+import org.junit.Test;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static org.junit.Assert.fail;
 
 public class FileUriTester
 {

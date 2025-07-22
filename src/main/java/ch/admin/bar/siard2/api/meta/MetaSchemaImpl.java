@@ -8,14 +8,18 @@ Created    : 24.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.meta;
 
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.xml.XU;
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.primary.*;
+import ch.admin.bar.siard2.api.primary.ArchiveImpl;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.xml.XU;
+
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /*====================================================================*/
 /** MetaSchemaImpl implements the interface MetaSchema.

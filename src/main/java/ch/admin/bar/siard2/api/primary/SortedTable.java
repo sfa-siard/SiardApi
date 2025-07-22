@@ -10,9 +10,11 @@ Created    : 15.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import ch.enterag.utils.background.*;
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.Table;
+import ch.enterag.utils.background.Progress;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /*====================================================================*/
 /** SortedTable is an internal interface to access tables sorted  by some 

@@ -8,7 +8,7 @@ Created    : 29.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaRoutine interface provides access to routine meta data.

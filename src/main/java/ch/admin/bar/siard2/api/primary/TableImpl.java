@@ -8,25 +8,34 @@ Created    : 04.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import ch.enterag.utils.*;
-import ch.enterag.utils.xml.*;
-import ch.enterag.utils.background.*;
-import ch.enterag.sqlparser.*;
 import ch.admin.bar.siard2.api.*;
-import ch.admin.bar.siard2.api.Table;
-import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.meta.*;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+import ch.admin.bar.siard2.api.generated.TableType;
+import ch.admin.bar.siard2.api.generated.TablesType;
+import ch.admin.bar.siard2.api.meta.MetaSchemaImpl;
+import ch.admin.bar.siard2.api.meta.MetaTableImpl;
+import ch.enterag.sqlparser.Interval;
+import ch.enterag.sqlparser.SqlLiterals;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.DU;
+import ch.enterag.utils.SU;
+import ch.enterag.utils.background.Progress;
+import ch.enterag.utils.xml.XU;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.net.URI;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /*====================================================================*/
 /** TableImpl implements the interface Table.

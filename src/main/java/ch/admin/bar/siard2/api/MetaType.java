@@ -8,8 +8,9 @@ Created    : 27.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import ch.admin.bar.siard2.api.generated.*;
+import ch.admin.bar.siard2.api.generated.CategoryType;
+
+import java.io.IOException;
 
 /*====================================================================*/
 /** MetaType interface provides access to a schema's UDT type data.

@@ -8,9 +8,10 @@ Created    : 31.08.2017, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-import java.io.*;
-import java.util.*;
-import ch.enterag.utils.*;
+import ch.enterag.utils.DU;
+
+import java.io.IOException;
+import java.util.List;
 
 /*====================================================================*/
 /** Basic interface for simple search in table.
