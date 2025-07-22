@@ -31,9 +31,9 @@ public class MetaDataXml
 {
   /** logger */
   private static IndentLogger _il = IndentLogger.getIndentLogger(MetaDataXml.class.getName());
-  public static final String sSIARD10_XSD_RESOURCE = "/main/java/ch/admin/bar/siard2/api/res/old10/metadata.xsd";
-  public static final String sSIARD21_XSD_RESOURCE = "/main/java/ch/admin/bar/siard2/api/res/old21/metadata.xsd";
-  private static ch.admin.bar.siard2.api.generated.ObjectFactory _of = new ch.admin.bar.siard2.api.generated.ObjectFactory();
+  public static final String sSIARD10_XSD_RESOURCE = "/res/old10/metadata.xsd";
+  public static final String sSIARD21_XSD_RESOURCE = "/res/old21/metadata.xsd";
+  private static ObjectFactory _of = new ObjectFactory();
 
   private static String convertType(String sType)
     throws JAXBException
@@ -555,7 +555,7 @@ public class MetaDataXml
   } /* convertArchive */
   
   /*------------------------------------------------------------------*/
-  /** read meta data XML stream using the current SIARD Format version 2.1
+  /** read meta data XML stream using the current SIARD Format version 2.2
    * @param isXml input stream to read.
    * @return meta data.
    * @throws JAXBException if a validation error occurred.

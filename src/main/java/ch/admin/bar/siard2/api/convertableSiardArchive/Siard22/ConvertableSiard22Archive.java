@@ -1,7 +1,6 @@
 package ch.admin.bar.siard2.api.convertableSiardArchive.Siard22;
 
 import ch.admin.bar.siard2.api.generated.*;
-import ch.admin.bar.siard2.api.generated.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;

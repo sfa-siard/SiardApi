@@ -320,7 +320,7 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
 
     /**
      * Converts an thing from to another enum value
-     * This only workds for enums with identical values - but that are from different types - because they are generated code...
+     * This only works for enums with identical values - but that are from different types - because they are generated code...
      *
      * @param thing   the thing that should be converted - usually an enum
      * @param toValue how to get the value from the given thing

@@ -1,11 +1,9 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 plugins {
     java
-    `java-library`
     id("pl.allegro.tech.build.axion-release") version "1.14.3"
     id("io.freefair.lombok") version "6.5.0"
 }
