@@ -31,3 +31,4 @@
 build
 
 /src/test/resources/tmp/
+/src/test/resources/testfiles/sample_archive.siard
