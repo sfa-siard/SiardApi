@@ -28,39 +28,33 @@ repositories {
 val dirSrc = "src/main/java"
 val dirRes = "src/main/resources/res"
 val dirGenerated = "$dirSrc/ch/admin/bar/siard2/api/generated"
-val dirLib = "lib"
 val dirTmp = "tmp"
 
+// used for xjc tasks
 val xjcConfiguration = configurations.create("xjc")
 
 // Define dependencies similar to Ant classpath definitions
 dependencies {
-    // Local JAR files
-    implementation(files("$dirLib/enterutils.jar"))
-    implementation(files("$dirLib/sqlparser.jar"))
-    implementation(files("$dirLib/zip64.jar"))
+    implementation("ch.admin.bar:enterutilities:v2.2.3")
+    implementation("ch.admin.bar:SqlParser:v2.2.2")
+    implementation("ch.admin.bar:Zip64File:v2.2.2")
 
-    // JAXB dependencies
-    implementation(files("$dirLib/activation-1.1.1.jar"))
-    implementation(files("$dirLib/jaxb-api.jar"))
-    implementation(files("$dirLib/jaxb-core.jar"))
-    implementation(files("$dirLib/jaxb-impl.jar"))
+    implementation("org.antlr:antlr4-runtime:4.5.2")
 
-    // Woodstox dependencies
-    implementation(files("$dirLib/stax2-api-3.1.1.jar"))
-    implementation(files("$dirLib/woodstox-core-lgpl-4.1.2.jar"))
+    implementation("javax.activation:activation:1.1.1")
+    implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("com.sun.xml.bind:jaxb-core:2.3.0")
+    implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
 
-    // MSV dependencies
-    implementation(files("$dirLib/msv-core-2010.2.jar"))
-    implementation(files("$dirLib/xsdlib-2010.1.jar"))
-    implementation(files("$dirLib/woodstox-msv-rng-datatype-20020414.jar"))
+    implementation("org.codehaus.woodstox:stax2-api:3.1.1")
+    implementation("org.codehaus.woodstox:woodstox-core-lgpl:4.1.2")
+
+    implementation("net.java.dev.msv:msv-core:2010.2")
+    implementation("net.java.dev.msv:xsdlib:2013.2.2")
 
     // Test dependencies
     testImplementation("junit:junit:4.13.1")
     testImplementation("org.hamcrest:hamcrest-core:1.3")
-
-    // ANTLR dependency
-    implementation(files("$dirLib/antlr-runtime-4.5.2.jar"))
 
     // 4.x uses jakarta.* packages.  For a javax‑based project stick to 2.3.*.
     xjcConfiguration("org.glassfish.jaxb:jaxb-xjc:2.3.2")
