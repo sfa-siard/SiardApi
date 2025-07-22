@@ -8,7 +8,7 @@ plugins {
     id("io.freefair.lombok") version "6.5.0"
 }
 
-group = "ch.admin.bar.siard"
+group = "ch.admin.bar"
 version = scmVersion.version
 
 java {
