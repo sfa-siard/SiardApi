@@ -151,7 +151,7 @@ public class RecordTester {
         mu1.setType("INTEGER");
         MetaAttribute mu2 = mtUdt.createMetaAttribute(_sTEST_UDT_COMPLEX_ATTRIBUTE2_NAME);
         mu2.setTypeName(_sTEST_UDT_SIMPLE_TYPE);
-    } /* createTypes */
+    } 
 
     private Table createSimpleTable(Schema schema)
             throws IOException {
@@ -262,7 +262,7 @@ public class RecordTester {
         mc25.setType(_sTEST_TYPE25_NAME);
 
         return tab;
-    } /* createSimpleTable */
+    } 
 
     private Table createComplexTable(Schema schema)
             throws IOException {
@@ -298,7 +298,7 @@ public class RecordTester {
         mfTranscription.setLobFolder(_uriLOBS_FIELD_FIELD_FOLDER);
 
         return tab;
-    } /* createComplexTable */
+    } 
 
     private boolean populateSimpleCell(Cell cell, int iCell, int iRecord)
             throws IOException {
@@ -427,7 +427,7 @@ public class RecordTester {
             }
         }
         return bNull;
-    } /* populateSimpleCell */
+    } 
 
     private void verifySimpleCell(Cell cell, int iCell, int iRecord)
             throws IOException {
@@ -562,7 +562,7 @@ public class RecordTester {
                     break;
             }
         }
-    } /* verifySimpleCell */
+    } 
 
     private boolean populateComplexCell(Cell cell, int iCell, int iRecord)
             throws IOException {
@@ -638,7 +638,7 @@ public class RecordTester {
                 break;
         }
         return bNull;
-    } /* populateComplexCell */
+    } 
 
     private void verifyComplexCell(Cell cell, int iCell, int iRecord)
             throws IOException {
@@ -728,7 +728,7 @@ public class RecordTester {
                 }
                 break;
         }
-    } /* verifyComplexCell */
+    } 
 
     @Before
     public void setUp() {
@@ -899,7 +899,7 @@ public class RecordTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testOld */
+    } 
 
 //  @Test
 //  public void testCreateSimple()
@@ -935,7 +935,7 @@ public class RecordTester {
 //        catch(IOException ie) {}
 //      }
 //    }
-//  } /* testCreateSimple */
+//  } 
 
     @Test
     public void testVerifySimple() {
@@ -956,7 +956,7 @@ public class RecordTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testVerifySimple */
+    } 
 
     @Test
     public void testCreateComplex() {
@@ -981,7 +981,7 @@ public class RecordTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testCreateComplex */
+    } 
 
     @Test
     public void testVerifyComplex() {
@@ -1002,7 +1002,7 @@ public class RecordTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testVerifyComplex */
+    } 
 
     @Test
     public void testCreateBoth() {

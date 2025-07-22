@@ -33,13 +33,11 @@ import java.sql.Types;
 import java.text.ParseException;
 import java.util.*;
 
-/*====================================================================*/
 
 /**
  * ValueImpl implements the interface Value (common stuff for Cell and
  * Field).
  *
- * @author Hartwig Thomas
  */
 public abstract class ValueImpl
         implements Value {
@@ -110,10 +108,9 @@ public abstract class ValueImpl
             }
         }
         return _elValue;
-    } /* getValueElement */
+    } 
 
     private MetaValue _mv = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -122,8 +119,6 @@ public abstract class ValueImpl
     public MetaValue getMetaValue() {
         return _mv;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * extend an array to new size.
@@ -143,9 +138,7 @@ public abstract class ValueImpl
                 getFieldMap().put(sTag, createField(iField, mfNull, null));
             }
         }
-    } /* extendArray */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * create a child field of this cell or field.
@@ -159,8 +152,6 @@ public abstract class ValueImpl
     protected abstract Field createField(int iField, MetaField mf, Element el)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the internal LOB folder relative to this table's LOB folder,
      * or null, if it should be stored externally.
@@ -171,16 +162,12 @@ public abstract class ValueImpl
     protected abstract String getInternalLobFolder()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the current cell or the cell ancestor of this field.
      *
      * @return
      */
     public abstract Cell getAncestorCell();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return the number of fields in this column's or field's meta data.
@@ -191,9 +178,7 @@ public abstract class ValueImpl
     private int getMetaFields()
             throws IOException {
         return getMetaValue().getMetaFields();
-    } /* getMetaFields */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the field meta data with the given index in this column's or
@@ -206,9 +191,7 @@ public abstract class ValueImpl
     private MetaField getMetaField(int iField)
             throws IOException {
         return getMetaValue().getMetaField(iField);
-    } /* getMetaField */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the absolute LOB folder for externally storing the LOB of
@@ -219,9 +202,7 @@ public abstract class ValueImpl
      */
     private URI getAbsoluteLobFolder() {
         return getMetaValue().getAbsoluteLobFolder();
-    } /* getAbsoluteFolder */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the Table implementation to which this cell or field belongs.
@@ -231,9 +212,7 @@ public abstract class ValueImpl
     private TableImpl getTableImpl() {
         return (TableImpl) getAncestorCell().getParentRecord()
                                             .getParentTable();
-    } /* getTableImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the Archive implementation
@@ -243,9 +222,7 @@ public abstract class ValueImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getTableImpl().getParentSchema()
                                            .getParentArchive();
-    } /* getArchiveImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the cardinality (maximum length of array) associated with
@@ -257,9 +234,7 @@ public abstract class ValueImpl
     private int getCardinality()
             throws IOException {
         return getMetaValue().getCardinality();
-    } /* getCardinality */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the predefined type of this cell or field as a java.sql.Types
@@ -295,9 +270,7 @@ public abstract class ValueImpl
     private int getPreType()
             throws IOException {
         return getMetaValue().getPreType();
-    } /* getPreType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the type meta data associated with this cell or field.
@@ -308,9 +281,7 @@ public abstract class ValueImpl
     private MetaType getMetaType()
             throws IOException {
         return getMetaValue().getMetaType();
-    } /* getMetaType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the MIME type of the LOBs in this column or field, or null, if
@@ -321,9 +292,7 @@ public abstract class ValueImpl
      */
     private String getMimeType() {
         return getMetaValue().getMimeType();
-    } /* getMimeType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * column tag
@@ -333,8 +302,7 @@ public abstract class ValueImpl
      */
     public static String getColumnTag(int iColumn) {
         return "c" + (iColumn + 1);
-    } /* getColumnTag */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * ARRAY element tag
@@ -344,8 +312,7 @@ public abstract class ValueImpl
      */
     public static String getElementTag(int iIndex) {
         return "a" + (iIndex + 1);
-    } /* getElementTag */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * UDT attribute tag
@@ -355,8 +322,7 @@ public abstract class ValueImpl
      */
     public static String getAttributeTag(int iIndex) {
         return "u" + (iIndex + 1);
-    } /* getAttributeTag */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * ROW field tag
@@ -366,9 +332,7 @@ public abstract class ValueImpl
      */
     public static String getFieldTag(int iIndex) {
         return "r" + (iIndex + 1);
-    } /* getFieldTag */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get the index of a cell of field from its tag.
@@ -378,9 +342,7 @@ public abstract class ValueImpl
      */
     public static int getIndex(String sTag) {
         return Integer.parseInt(sTag.substring(1)) - 1;
-    } /* getIndex */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get suitable tag for the type and index of this cell's or field's child field.
@@ -402,9 +364,7 @@ public abstract class ValueImpl
                 sTag = getFieldTag(iField);
         }
         return sTag;
-    } /* getTag */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return the file name for a non-inlined value of this cell or field.
@@ -429,7 +389,7 @@ public abstract class ValueImpl
         }
         String sFilename = _sRECORD_PREFIX + getRecord();
         return sFilename + "." + sExtension;
-    } /* getLobFileName */
+    } 
 
     /* the map of the fields contained in this cell or field */
     private Map<String, Field> _mapFields = null;
@@ -452,9 +412,7 @@ public abstract class ValueImpl
             }
         }
         return _mapFields;
-    } /* getFieldMap */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * set the DOM element of the value of this cell or field.
@@ -482,9 +440,7 @@ public abstract class ValueImpl
             }
         }
         _elValue = elValue;
-    } /* setValue */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get the DOM element for this cell's or field's value.
@@ -497,7 +453,7 @@ public abstract class ValueImpl
         if (getFieldMap() != null) {
             if (getMetaFields() > 0)
                 XU.clearElement(getValueElement());
-            /* append fields */
+            
             int iCardinality = getCardinality();
             MetaType mt = getMetaType();
             for (int iField = 0; iField < getMetaFields(); iField++) {
@@ -511,9 +467,7 @@ public abstract class ValueImpl
             }
         }
         return _elValue;
-    } /* getValue */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * to be called in constructor of CellImpl and FieldImpl.
@@ -544,16 +498,14 @@ public abstract class ValueImpl
                         elChild = (Element) nodeChild;
                 }
                 if (elChild != null) {
-                    /* its index */
+                    
                     int iArrayIndex = getIndex(elChild.getTagName());
                     /* create NULL fields for array */
                     extendArray(iArrayIndex + 1, iCardinality);
                 }
             }
         }
-    } /* initialize */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -561,9 +513,7 @@ public abstract class ValueImpl
     @Override
     public boolean isNull() {
         return _elValue == null;
-    } /* isNull */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -589,8 +539,6 @@ public abstract class ValueImpl
         return s;
     } /* getString */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -605,8 +553,6 @@ public abstract class ValueImpl
             setReader(srdr);
         }
     } /* setString */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -631,8 +577,6 @@ public abstract class ValueImpl
         return buf;
     } /* getBytes */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -648,8 +592,6 @@ public abstract class ValueImpl
             setInputStream(bais);
         }
     } /* setBytes */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -670,8 +612,6 @@ public abstract class ValueImpl
         return b;
     } /* getBoolean */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -686,8 +626,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to boolean!");
     } /* setBoolean */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -710,8 +648,6 @@ public abstract class ValueImpl
         return sh;
     } /* getShort */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -728,8 +664,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to short!");
     } /* setShort */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -752,8 +686,6 @@ public abstract class ValueImpl
         return i;
     } /* getInt */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -770,8 +702,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to int!");
     } /* setInt */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -794,8 +724,6 @@ public abstract class ValueImpl
         return l;
     } /* getLong */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -812,8 +740,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to int!");
     } /* setLong */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -836,8 +762,6 @@ public abstract class ValueImpl
         return bi;
     } /* getBigInteger */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -854,8 +778,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to BigInteger!");
     } /* setBigInteger */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -882,8 +804,6 @@ public abstract class ValueImpl
         }
         return bd;
     } /* getBigDecimal */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -914,8 +834,6 @@ public abstract class ValueImpl
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to BigDecimal!");
     } /* setBigDecimal */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -937,8 +855,6 @@ public abstract class ValueImpl
         return f;
     } /* getFloat */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -955,8 +871,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to float!");
     } /* setFloat */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -979,8 +893,6 @@ public abstract class ValueImpl
         return d;
     } /* getDouble */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -997,8 +909,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to double!");
     } /* setDouble */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1023,8 +933,6 @@ public abstract class ValueImpl
         return date;
     } /* getDate */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1039,8 +947,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to date!");
     } /* setDate */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1065,8 +971,6 @@ public abstract class ValueImpl
         return time;
     } /* getTime */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1081,8 +985,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to time!");
     } /* setTime */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1107,8 +1009,6 @@ public abstract class ValueImpl
         return ts;
     } /* getTimestamp */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1123,8 +1023,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to timestamp!");
     } /* setTimestamp */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1149,8 +1047,6 @@ public abstract class ValueImpl
         return duration;
     } /* getDuration */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1165,8 +1061,6 @@ public abstract class ValueImpl
         else
             throw new IllegalArgumentException("Value of cell of complex type cannot be set to duration!");
     } /* setDuration */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1196,8 +1090,6 @@ public abstract class ValueImpl
         return reader;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1225,8 +1117,6 @@ public abstract class ValueImpl
         }
         return lCharLength;
     } /* getCharLength */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1279,8 +1169,6 @@ public abstract class ValueImpl
     } /* setReader */
 
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1292,8 +1180,6 @@ public abstract class ValueImpl
             sFilename = getValueElement().getAttribute(ArchiveImpl._sATTR_FILE);
         return sFilename;
     } /* getFilename */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1338,8 +1224,6 @@ public abstract class ValueImpl
         return inputStream;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1363,8 +1247,6 @@ public abstract class ValueImpl
         }
         return lByteLength;
     } /* getByteLength */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1450,8 +1332,6 @@ public abstract class ValueImpl
         }
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1464,8 +1344,6 @@ public abstract class ValueImpl
             iElements = getMetaValue().getMetaFields();
         return iElements;
     } /* getElements */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1484,8 +1362,6 @@ public abstract class ValueImpl
         return field;
     } /* getElement */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -1501,8 +1377,6 @@ public abstract class ValueImpl
             iAttributes = getFieldMap().size();
         return iAttributes;
     } /* getAttributes */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1521,8 +1395,6 @@ public abstract class ValueImpl
             throw new IllegalArgumentException("Cell or field is not a UDT!");
         return field;
     } /* getAttribute */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -1595,8 +1467,6 @@ public abstract class ValueImpl
         }
         return o;
     } /* getObject */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}

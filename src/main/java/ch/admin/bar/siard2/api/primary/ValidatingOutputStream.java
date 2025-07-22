@@ -31,28 +31,28 @@ public class ValidatingOutputStream
             } catch (NoSuchAlgorithmException nsae) {
             }
         }
-    } /* constructor ValidatingOutputStream */
+    } 
 
     @Override
     public void write(int b)
             throws IOException {
         _os.write(b);
         _lWritten++;
-    } /* write */
+    } 
 
     @Override
     public void write(byte[] buf)
             throws IOException {
         _os.write(buf);
         _lWritten = _lWritten + buf.length;
-    } /* write */
+    } 
 
     @Override
     public void write(byte[] buf, int iOffset, int iLength)
             throws IOException {
         _os.write(buf, iOffset, iLength);
         _lWritten = _lWritten + iLength;
-    } /* write */
+    } 
 
     @Override
     public void close()
@@ -68,6 +68,6 @@ public class ValidatingOutputStream
                 _el.setAttribute(ArchiveImpl._sATTR_MESSAGE_DIGEST, BU.toHex(_md.digest()));
             }
         }
-    } /* close */
+    } 
 
-} /* class ValidatingOutputStream */
+} 

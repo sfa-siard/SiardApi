@@ -14,12 +14,10 @@ import ch.enterag.utils.logging.IndentLogger;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaSearchImpl implements the interface MetaSearch.
  *
- * @author Hartwig Thomas
  */
 public abstract class MetaSearchImpl
         implements MetaSearch {
@@ -35,7 +33,6 @@ public abstract class MetaSearchImpl
      * find string
      */
     protected String _sFindString = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -54,7 +51,6 @@ public abstract class MetaSearchImpl
      * element which contains the found string (in interface order)
      */
     protected int _iFoundElement = 0;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -63,8 +59,7 @@ public abstract class MetaSearchImpl
     public int getFoundElement()
             throws IOException {
         return _iFoundElement;
-    } /* getFoundElement */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -73,13 +68,12 @@ public abstract class MetaSearchImpl
     public String getFoundString(DU du)
             throws IOException {
         return getSearchElements(du)[_iFoundElement];
-    } /* getFoundString */
+    } 
 
     /**
      * offset in element at position where string was found if _mdFind == this
      */
     protected int _iFoundOffset = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -92,7 +86,6 @@ public abstract class MetaSearchImpl
   /*====================================================================
   abstract methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get searchable elements
@@ -100,8 +93,6 @@ public abstract class MetaSearchImpl
      * @return searchable elements of the searchable meta data.
      */
     abstract protected String[] getSearchElements(DU du) throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get searchable sub meta data
@@ -113,12 +104,11 @@ public abstract class MetaSearchImpl
     protected MetaSearch[] getSubMetaSearches()
             throws IOException {
         return new MetaSearch[]{};
-    } /* getSubMetaSearches */
+    } 
   
   /*====================================================================
   interface methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -141,9 +131,7 @@ public abstract class MetaSearchImpl
                 amsSubMeta[iSubMeta].find(_sFindString, _bMatchCase);
         }
         _il.exit();
-    } /* find */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -159,7 +147,7 @@ public abstract class MetaSearchImpl
             _il.event("Find string: " + _sFindString);
             /* skip previous find */
             _iFoundOffset++;
-            /* check elements */
+            
             String[] asElement = getSearchElements(du);
             while ((msFind == null) && (_iFoundElement < asElement.length)) {
                 int iPos = -1;
@@ -200,9 +188,7 @@ public abstract class MetaSearchImpl
         }
         _il.exit(String.valueOf(msFind));
         return msFind;
-    } /* findNext */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -210,6 +196,6 @@ public abstract class MetaSearchImpl
     @Override
     public boolean canFindNext() {
         return (_sFindString != null);
-    } /* canFindNext */
+    } 
 
-} /* MetaSearchImpl */
+} 

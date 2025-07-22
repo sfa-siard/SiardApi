@@ -33,12 +33,12 @@ public class SampleRecord {
 
     public static void printValue(String sLabel, String sValue) {
         SampleColumn.printValue("  " + sLabel, sValue);
-    } /* printValue */
+    } 
 
     public SampleRecord(Record record, int iRecord) {
         _record = record;
         _iRecord = iRecord;
-    } /* constructor */
+    } 
 
     private String getValue(Value value, int iPreType)
             throws IOException {
@@ -121,7 +121,7 @@ public class SampleRecord {
                 break;
         }
         return sValue;
-    } /* getValue */
+    } 
 
     private int readSubFields(Value value, int iCardinality, MetaType mt)
             throws IOException {
@@ -145,7 +145,7 @@ public class SampleRecord {
         }
         System.out.print(")");
         return iReturn;
-    } /* readSubFields */
+    } 
 
     private int readField(Field field, int iField) {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -167,7 +167,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* readField */
+    } 
 
     private int readCell(Cell cell, int iCell) {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -189,7 +189,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* readCell */
+    } 
 
     public int readRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -207,7 +207,7 @@ public class SampleRecord {
         }
         System.out.println();
         return iReturn;
-    } /* readRecord */
+    } 
 
     private int createSimpleCell(Cell cell, int iCell) {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -253,7 +253,7 @@ public class SampleRecord {
                         case 1:
                             cell.setString(TestUtils.getString(2345));
                             break;
-                        case 2: /* null */
+                        case 2: 
                             break;
                         case 3:
                             cell.setReader(new TestReader(234567));
@@ -286,7 +286,7 @@ public class SampleRecord {
                         case 0:
                             cell.setReader(new TestNReader(1000000));
                             break;
-                        case 1: /* null */
+                        case 1: 
                             break;
                         case 2:
                             cell.setString(TestUtils.getNString(1234));
@@ -307,7 +307,7 @@ public class SampleRecord {
                         case 2:
                             cell.setReader(new TestXmlReader(10000));
                             break;
-                        case 3: /* null */
+                        case 3: 
                             break;
                     }
                     break;
@@ -381,7 +381,7 @@ public class SampleRecord {
                         case 0:
                             cell.setBoolean(true);
                             break;
-                        case 1: /* UNKNOWN */
+                        case 1: 
                             break;
                         case 2:
                             cell.setBoolean(false);
@@ -425,7 +425,7 @@ public class SampleRecord {
                         case 0:
                             duration23 = df.newDurationYearMonth(true, 7, 3);
                             break;
-                        case 1: /* null */
+                        case 1: 
                             break;
                         case 2:
                             duration23 = df.newDurationYearMonth(true, 17, 1);
@@ -482,7 +482,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createSimpleCell */
+    } 
 
     private int createComplexCell(Cell cell, int iCell) {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -606,7 +606,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createComplexCell */
+    } 
 
     private int createSimpleRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -619,7 +619,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createSimpleRecord */
+    } 
 
     private int createComplexRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -632,7 +632,7 @@ public class SampleRecord {
             System.err.println(SampleArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createComplexRecord */
+    } 
 
     public int createRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
@@ -645,6 +645,6 @@ public class SampleRecord {
                                                           .getName()))
             iReturn = createComplexRecord();
         return iReturn;
-    } /* createRecord */
+    } 
 
-} /* class SampleRecord */
+} 

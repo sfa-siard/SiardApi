@@ -18,18 +18,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaUniqueKeyImpl implements the interface MetaUniqueKey.
  *
- * @author Hartwig Thomas
  */
 public class MetaUniqueKeyImpl
         extends MetaSearchImpl
         implements MetaUniqueKey {
     private final MetaTable _mtParent;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -39,8 +36,6 @@ public class MetaUniqueKeyImpl
         return _mtParent;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -48,8 +43,6 @@ public class MetaUniqueKeyImpl
     public boolean isValid() {
         return getColumns() > 0;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get archive
@@ -60,11 +53,9 @@ public class MetaUniqueKeyImpl
         return (ArchiveImpl) getParentMetaTable().getTable()
                                                  .getParentSchema()
                                                  .getParentArchive();
-    } /* getArchive */
+    } 
 
     private final UniqueKeyType _ukt;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -74,9 +65,7 @@ public class MetaUniqueKeyImpl
     public void setTemplate(UniqueKeyType uktTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(uktTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -87,9 +76,7 @@ public class MetaUniqueKeyImpl
     private MetaUniqueKeyImpl(MetaTable mtParent, UniqueKeyType ukt) {
         _mtParent = mtParent;
         _ukt = ukt;
-    } /* constructor MetaUniqueKeyImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -100,10 +87,9 @@ public class MetaUniqueKeyImpl
      */
     public static MetaUniqueKey newInstance(MetaTable mtParent, UniqueKeyType ukt) {
         return new MetaUniqueKeyImpl(mtParent, ukt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -114,7 +100,6 @@ public class MetaUniqueKeyImpl
     }
 
     /* list property column */
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -124,7 +109,6 @@ public class MetaUniqueKeyImpl
         return _ukt.getColumn()
                    .size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -134,7 +118,6 @@ public class MetaUniqueKeyImpl
         return XU.fromXml(_ukt.getColumn()
                               .get(iColumn));
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -148,8 +131,7 @@ public class MetaUniqueKeyImpl
             getArchive().isMetaDataDifferent(null, sColumn);
         } else
             throw new IOException("Column cannot be set!");
-    } /* addColumn */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -163,10 +145,9 @@ public class MetaUniqueKeyImpl
             sbColumns.append(getColumn(iColumn));
         }
         return sbColumns.toString();
-    } /* getColumnsString */
+    } 
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -175,8 +156,7 @@ public class MetaUniqueKeyImpl
     public void setDescription(String sDescription) {
         if (getArchive().isMetaDataDifferent(getDescription(), sDescription))
             _ukt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -185,8 +165,6 @@ public class MetaUniqueKeyImpl
     public String getDescription() {
         return XU.fromXml(_ukt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -199,9 +177,7 @@ public class MetaUniqueKeyImpl
                 getColumnsString(),
                 getDescription()
         };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -218,4 +194,4 @@ public class MetaUniqueKeyImpl
             s = getName();
         return s;
     }
-} /* class MetaUniqueKeyImpl */
+} 

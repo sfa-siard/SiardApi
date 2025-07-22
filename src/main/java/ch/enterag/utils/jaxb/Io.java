@@ -19,7 +19,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.net.URL;
 
-/*====================================================================*/
 
 /**
  * Abstract class cannot be instantiated but publishes static methods.
@@ -56,7 +55,7 @@ public abstract class Io {
         jo = u.unmarshal(ss, classType)
               .getValue();
         return jo;
-    } /* readJaxbObject */
+    } 
 
 
     /*--------------------------------------------------------------------*/
@@ -80,7 +79,7 @@ public abstract class Io {
         jo = readJaxbObject(classType, fis, urlXsd);
         fis.close();
         return jo;
-    } /* readJaxbObject */
+    } 
 
     /*--------------------------------------------------------------------*/
 
@@ -119,7 +118,7 @@ public abstract class Io {
             m.marshal(jbe, os);
         } else
             m.marshal(jo, os);
-    } /* writeJaxbObject */
+    } 
 
     /*--------------------------------------------------------------------*/
 
@@ -136,7 +135,7 @@ public abstract class Io {
     public static void writeJaxbObject(SiardArchive jo, OutputStream os, QName qname, String sNoNamespaceSchemaLocation, boolean bFormat)
             throws JAXBException {
         writeJaxbObject(jo, os, qname, sNoNamespaceSchemaLocation, null, bFormat, null);
-    } /* writeJaxbObject */
+    } 
 
 
 
@@ -156,5 +155,5 @@ public abstract class Io {
     public static void writeJaxbObject(SiardArchive jo, OutputStream os, String sSchemaLocation, boolean bFormat, URL urlXsd)
             throws JAXBException {
         writeJaxbObject(jo, os, null, null, sSchemaLocation, bFormat, urlXsd);
-    } /* writeJaxbObject */
-} /* Io */
+    } 
+} 

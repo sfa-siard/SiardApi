@@ -27,12 +27,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * RecordDispenser  provides serial read access to records.
  *
- * @author Hartwig Thomas
  */
 public class RecordDispenserImpl
         implements RecordDispenser {
@@ -98,10 +96,8 @@ public class RecordDispenserImpl
         public long getByteCount() {
             return _lCount;
         }
-    } /* class CountingOutputStream */
+    } 
     /*==================================================================*/
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get ArchiveImpl instance.
@@ -111,9 +107,7 @@ public class RecordDispenserImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) _table.getParentSchema()
                                    .getParentArchive();
-    } /* getArchiveImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * read the header of the table XML and position reader on first record.
@@ -141,9 +135,7 @@ public class RecordDispenserImpl
             throw new IOException("XMLStreamReader cannot be created!", xse);
         }
         return xsr;
-    } /* readHeader */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor opens a RecordInputStream to a table.
@@ -167,9 +159,7 @@ public class RecordDispenserImpl
             _lRecord = 0;
         } else
             throw new IOException("Table cannot be opened for reading!");
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get the row as a DOM element from the XML stream reader.
@@ -216,9 +206,7 @@ public class RecordDispenserImpl
             }
         }
         return elRow;
-    } /* getRowElement */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get the record type with "any" elements for cells.
@@ -252,9 +240,7 @@ public class RecordDispenserImpl
         if (!(xsr.isStartElement() || xsr.isEndElement()))
             xsr.nextTag();
         return rt;
-    } /* getRecordType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * read a record from the XML stream reader.
@@ -274,9 +260,7 @@ public class RecordDispenserImpl
         } else
             throw new IOException("Unexpected tag " + xsr.getLocalName() + " encountered");
         return record;
-    } /* readRecord */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -296,8 +280,6 @@ public class RecordDispenserImpl
         }
         return record;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * skip the given number of repeated elements with given tag.
@@ -321,8 +303,6 @@ public class RecordDispenserImpl
         return lSkipped;
     } /* skip */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -343,8 +323,6 @@ public class RecordDispenserImpl
         }
     } /* skip */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -364,8 +342,6 @@ public class RecordDispenserImpl
         _lRecord = -1;
     } /* close */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -373,8 +349,6 @@ public class RecordDispenserImpl
     public long getPosition() {
         return _lRecord;
     } /* getPosition */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}

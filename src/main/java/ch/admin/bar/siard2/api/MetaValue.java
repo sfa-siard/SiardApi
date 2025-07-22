@@ -13,17 +13,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * MetaValue interface declares meta data common to columns and fields
  * ("values").
  *
- * @author Hartwig Thomas
  */
 public interface MetaValue extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the ancestor column meta data with which this field meta data
      * is ultimately associated.
@@ -31,8 +27,6 @@ public interface MetaValue extends MetaSearch {
      * @return ancestor meta column.
      */
     MetaColumn getAncestorMetaColumn();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of value.
@@ -47,16 +41,12 @@ public interface MetaValue extends MetaSearch {
      */
     String getName();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get position of field  in parent value (1-based!).
      *
      * @return position of field in parent value.
      */
     int getPosition();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set folder for external LOB files for this value.
@@ -94,8 +84,6 @@ public interface MetaValue extends MetaSearch {
      */
     URI getAbsoluteLobFolder();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get SQL:2008 predefined data type of the value.
      *
@@ -105,8 +93,6 @@ public interface MetaValue extends MetaSearch {
      */
     String getType()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get predefined data type of the value as a java.sql.Types integer
@@ -141,7 +127,6 @@ public interface MetaValue extends MetaSearch {
      * @throws IOException if an I/O error occurred.
      */
     int getPreType() throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get original data type of the column.
@@ -151,7 +136,6 @@ public interface MetaValue extends MetaSearch {
      */
     String getTypeOriginal()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get schema of UDT type for this column.
@@ -161,7 +145,6 @@ public interface MetaValue extends MetaSearch {
      */
     String getTypeSchema()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of UDT type for this column.
@@ -172,8 +155,6 @@ public interface MetaValue extends MetaSearch {
     String getTypeName()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get (maximum) length of type or -1 if it is not defined.
      *
@@ -181,7 +162,6 @@ public interface MetaValue extends MetaSearch {
      * @throws IOException if an I/O error occurred.
      */
     long getLength() throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get scale of type or -1 if it is not defined.
@@ -190,7 +170,6 @@ public interface MetaValue extends MetaSearch {
      * @throws IOException if an I/O error occurred.
      */
     int getScale() throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get (maximum) length of string (in characters) or byte
@@ -204,8 +183,6 @@ public interface MetaValue extends MetaSearch {
      */
     long getMaxLength() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get the type meta data for this value or null if its type name
      * is not set.
@@ -215,8 +192,6 @@ public interface MetaValue extends MetaSearch {
      */
     MetaType getMetaType()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set MIME type of BLOBs in the value.
@@ -236,8 +211,6 @@ public interface MetaValue extends MetaSearch {
      * @return MIME type of BLOBs in the column.
      */
     String getMimeType();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of array elements of this array value or the number of
@@ -293,8 +266,6 @@ public interface MetaValue extends MetaSearch {
     MetaField createMetaField()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the cardinality (maximum length) if this value is an array.
      *
@@ -303,8 +274,6 @@ public interface MetaValue extends MetaSearch {
      */
     int getCardinality()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set description of the value's meaning and content.
@@ -320,8 +289,6 @@ public interface MetaValue extends MetaSearch {
      */
     String getDescription();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return a list of "flattened" field names contained in this value,
      * each given as a list of field names.
@@ -335,8 +302,6 @@ public interface MetaValue extends MetaSearch {
             boolean bSupportsArrays, boolean bSupportsUdts)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * retrieve the (predefined) type for this "flattened" field name.
      *
@@ -349,4 +314,4 @@ public interface MetaValue extends MetaSearch {
     String getType(List<String> listNames)
             throws IOException;
 
-} /* interface MetaValue */
+} 

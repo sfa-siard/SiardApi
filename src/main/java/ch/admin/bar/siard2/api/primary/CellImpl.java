@@ -14,18 +14,15 @@ import org.w3c.dom.Element;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * CellImpl implements the interface Cell.
  *
- * @author Hartwig Thomas
  */
 public class CellImpl
         extends ValueImpl
         implements Cell {
     private Record _record = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -36,7 +33,6 @@ public class CellImpl
     }
 
     private MetaColumn _mc = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -45,8 +41,6 @@ public class CellImpl
     public MetaColumn getMetaColumn() {
         return _mc;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * constructor
@@ -63,9 +57,7 @@ public class CellImpl
         _mc = mc;
         RecordImpl ri = (RecordImpl) record;
         initialize(ri.getRecord(), ri.getTemporaryLobFolder(), iIndex, elCell, mc);
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -79,9 +71,7 @@ public class CellImpl
     public static Cell newInstance(Record record, int iIndex, MetaColumn mc, Element elCell)
             throws IOException {
         return new CellImpl(record, iIndex, mc, elCell);
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -95,9 +85,7 @@ public class CellImpl
                 super.extendArray(iField, iCardinality);
         }
         return FieldImpl.newInstance(iField, this, this, mf, el);
-    } /* createField */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -105,9 +93,7 @@ public class CellImpl
     @Override
     public Cell getAncestorCell() {
         return this;
-    } /* getCell */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -116,6 +102,6 @@ public class CellImpl
     protected String getInternalLobFolder()
             throws IOException {
         return ((MetaColumnImpl) getMetaColumn()).getFolder();
-    } /* getInternalLobFolder */
+    } 
 
-} /* class CellImpl */
+} 

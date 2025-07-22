@@ -10,18 +10,15 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * RecordDispenser delivers records of a table.
  *
- * @author Hartwig Thomas
  */
 public interface RecordDispenser {
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * read the next record.
@@ -31,8 +28,6 @@ public interface RecordDispenser {
      */
     Record get() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * skip a number of records.
      *
@@ -41,16 +36,12 @@ public interface RecordDispenser {
      */
     void skip(long lSkip) throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * close the Dispenser.
      *
      * @throws IOException if an I/O error occurred.
      */
     void close() throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of records already dispensed.
@@ -59,8 +50,6 @@ public interface RecordDispenser {
      */
     long getPosition();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get byte count already read from XML.
      *
@@ -68,4 +57,4 @@ public interface RecordDispenser {
      */
     long getByteCount();
 
-} /* interface RecordDispenser */
+} 

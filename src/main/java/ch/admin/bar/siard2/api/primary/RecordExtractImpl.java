@@ -15,12 +15,10 @@ import ch.admin.bar.siard2.api.Table;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * RecordExtractImpl implements the RecordExtract interface.
  *
- * @author Hartwig Thomas
  */
 public class RecordExtractImpl
         implements RecordExtract {
@@ -37,7 +35,6 @@ public class RecordExtractImpl
     }
 
     private Table _table = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -48,7 +45,6 @@ public class RecordExtractImpl
     }
 
     private long _lOffset = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -59,7 +55,6 @@ public class RecordExtractImpl
     }
 
     private long _lDelta = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -70,7 +65,6 @@ public class RecordExtractImpl
     }
 
     private RecordExtract _rsParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -81,7 +75,6 @@ public class RecordExtractImpl
     }
 
     private Record _recordOffset = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -92,8 +85,6 @@ public class RecordExtractImpl
     }
 
     private RecordExtract[] _ars = null;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * construct a root record set of a table.
@@ -107,9 +98,7 @@ public class RecordExtractImpl
                                                   .getRows(); lDelta = lDelta * _iMAX_RECORDS)
             _lDelta = lDelta;
         _lOffset = 0;
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * construct a record set in a record set.
@@ -124,9 +113,7 @@ public class RecordExtractImpl
         _table = rsParent.getTable();
         _lOffset = rsParent.getOffset() + iRecordSet * rsParent.getDelta();
         _lDelta = rsParent.getDelta() / _iMAX_RECORDS;
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory for a root record set in a table.
@@ -135,9 +122,7 @@ public class RecordExtractImpl
      */
     public static RecordExtract newInstance(Table table) {
         return new RecordExtractImpl(table);
-    } /* factory */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory for a record set in a record set.
@@ -147,9 +132,7 @@ public class RecordExtractImpl
      */
     public static RecordExtract newInstance(RecordExtract rsParent, int iRecordSet, Record recordOffset) {
         return new RecordExtractImpl(rsParent, iRecordSet, recordOffset);
-    } /* factory */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get the full number of records in and under this record set.
@@ -163,9 +146,7 @@ public class RecordExtractImpl
         if (_lOffset + lRecords > lRows)
             lRecords = lRows - _lOffset;
         return lRecords;
-    } /* getRecords */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -186,9 +167,7 @@ public class RecordExtractImpl
             sLabel = sLabel + " (" + getRecords() + ")";
         }
         return sLabel;
-    } /* getLabel */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -207,9 +186,7 @@ public class RecordExtractImpl
         } else
             iRecordExtracts = _ars.length;
         return iRecordExtracts;
-    } /* getRecordExtracts */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * load the records of this record set.
@@ -227,9 +204,7 @@ public class RecordExtractImpl
             _ars[iRecordSet] = RecordExtractImpl.newInstance(this, iRecordSet, rd.get());
         }
         rd.close();
-    } /* loadRecordExtract */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -240,9 +215,7 @@ public class RecordExtractImpl
         if (_ars == null)
             loadRecordExtract();
         return _ars[iRecordExtract];
-    } /* getRecordExtract */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -254,4 +227,4 @@ public class RecordExtractImpl
     public String toString() {
         return getLabel();
     }
-} /* class RecordExtractImpl */
+} 

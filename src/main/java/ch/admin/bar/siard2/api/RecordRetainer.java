@@ -10,18 +10,15 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * RecordRetainer absorbs records of a table.
  *
- * @author Hartwig Thomas
  */
 public interface RecordRetainer {
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * create an (empty) record with the current record number.
@@ -31,8 +28,6 @@ public interface RecordRetainer {
      */
     Record create() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * write the next record.
      *
@@ -41,16 +36,12 @@ public interface RecordRetainer {
      */
     void put(Record record) throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * close the Retainer.
      *
      * @throws IOException if an I/O error occurred.
      */
     void close() throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of records already retained.
@@ -59,8 +50,6 @@ public interface RecordRetainer {
      */
     long getPosition();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get byte count already written to XML.
      *
@@ -68,4 +57,4 @@ public interface RecordRetainer {
      */
     long getByteCount();
 
-} /* RecordRetainer */
+} 

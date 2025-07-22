@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.Manifest;
 
-/*====================================================================*/
+
 
 /**
  * ManifestAttributes extends Manifest for easy access to attributes.
@@ -29,9 +29,7 @@ public class ManifestAttributes extends Manifest {
     private static final IndentLogger m_il = IndentLogger.getIndentLogger(ManifestAttributes.class.getName());
     private static final String sMANIFEST_RESOURCE = "/META-INF/MANIFEST.MF";
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * constructor loads manifest from InputStream
      */
     public ManifestAttributes(InputStream is)
@@ -39,11 +37,9 @@ public class ManifestAttributes extends Manifest {
         super(is);
         m_il.enter();
         m_il.exit();
-    } /* constructor ManifestAttributes */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * retrieve attribute ImplementationVersion
      */
     public String getImplementationVersion() {
@@ -51,11 +47,9 @@ public class ManifestAttributes extends Manifest {
         String sImplementationVersion = getMainAttributes().getValue("Implementation-Version");
         m_il.exit(sImplementationVersion);
         return sImplementationVersion;
-    } /* getImplementationVersion */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * retrieve attribute ImplementationTitle
      */
     public String getImplementationTitle() {
@@ -63,11 +57,9 @@ public class ManifestAttributes extends Manifest {
         String sImplementationTitle = getMainAttributes().getValue("Implementation-Title");
         m_il.exit(sImplementationTitle);
         return sImplementationTitle;
-    } /* getImplementationTitle */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * retrieve attribute ImplementationVendor
      */
     public String getImplementationVendor() {
@@ -75,11 +67,9 @@ public class ManifestAttributes extends Manifest {
         String sImplementationVendor = getMainAttributes().getValue("Implementation-Vendor");
         m_il.exit(sImplementationVendor);
         return sImplementationVendor;
-    } /* getImplementationVendor */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * factory loads manifest from stream
      */
     public static ManifestAttributes getInstance(InputStream is) {
@@ -94,11 +84,9 @@ public class ManifestAttributes extends Manifest {
         }
         m_il.exit(mfa);
         return mfa;
-    } /* getInstance */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * factory loads manifest from class path
      */
     public static ManifestAttributes getInstance(Class<?> clazz) {
@@ -127,15 +115,13 @@ public class ManifestAttributes extends Manifest {
         }
         m_il.exit(mfa);
         return mfa;
-    } /* getInstance */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * factory loads manifest from class path
      */
     public static ManifestAttributes getInstance() {
         return getInstance(ManifestAttributes.class);
-    } /* getInstance */
+    } 
 
-} /* ManifestVersion */
+} 

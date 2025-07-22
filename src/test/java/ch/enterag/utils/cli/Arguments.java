@@ -30,7 +30,6 @@ import java.util.Map;
  * In the name of simplicity this class does support switches that
  * indicate a boolean value just by their presence.
  *
- * @author Hartwig Thomas
  */
 public class Arguments {
     /**
@@ -82,9 +81,7 @@ public class Arguments {
         return m_sError;
     }
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * constructor parses the command-line arguments
      *
      * @param args command-line arguments.
@@ -121,6 +118,6 @@ public class Arguments {
             iArgument++;
         }
         m_asArgument = listArgument.toArray(new String[]{});
-    } /* constructor Arguments */
+    } 
 
-} /* class Arguments */
+} 

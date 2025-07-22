@@ -60,7 +60,7 @@ public class RecordExtractTester {
         mc2.setType(_sTEST_TYPE2_NAME);
 
         return tab;
-    } /* createTable */
+    } 
 
     private void populateCell(Cell cell, int iCell, long lRecord)
             throws IOException {
@@ -82,7 +82,7 @@ public class RecordExtractTester {
             rr.put(record);
         }
         rr.close();
-    } /* fillTable */
+    } 
 
     @Before
     public void setUp() {

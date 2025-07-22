@@ -18,18 +18,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaCheckConstraintImpl implements the interface MetaCheckConstraint.
  *
- * @author Hartwig Thomas
  */
 public class MetaCheckConstraintImpl
         extends MetaSearchImpl
         implements MetaCheckConstraint {
     private final MetaTable _mtParent;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -39,8 +36,6 @@ public class MetaCheckConstraintImpl
         return _mtParent;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -48,8 +43,6 @@ public class MetaCheckConstraintImpl
     public boolean isValid() {
         return getCondition() != null;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get archive
@@ -60,11 +53,9 @@ public class MetaCheckConstraintImpl
         return (ArchiveImpl) getParentMetaTable().getTable()
                                                  .getParentSchema()
                                                  .getParentArchive();
-    } /* getArchive */
+    } 
 
     private final CheckConstraintType _cct;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -74,9 +65,7 @@ public class MetaCheckConstraintImpl
     public void setTemplate(CheckConstraintType cctTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(cctTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -87,9 +76,7 @@ public class MetaCheckConstraintImpl
     private MetaCheckConstraintImpl(MetaTable mtParent, CheckConstraintType cct) {
         _mtParent = mtParent;
         _cct = cct;
-    } /* constructor MetaCheckConstraintImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -100,10 +87,9 @@ public class MetaCheckConstraintImpl
      */
     public static MetaCheckConstraint newInstance(MetaTable mtParent, CheckConstraintType cct) {
         return new MetaCheckConstraintImpl(mtParent, cct);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -113,8 +99,7 @@ public class MetaCheckConstraintImpl
         return XU.fromXml(_cct.getName());
     }
 
-    /* property Condition */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -127,8 +112,7 @@ public class MetaCheckConstraintImpl
                 _cct.setCondition(XU.toXml(sCondition));
         } else
             throw new IOException("Condition cannot be set!");
-    } /* setCondition */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -138,8 +122,7 @@ public class MetaCheckConstraintImpl
         return XU.fromXml(_cct.getCondition());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -148,8 +131,7 @@ public class MetaCheckConstraintImpl
     public void setDescription(String sDescription) {
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _cct.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -158,8 +140,6 @@ public class MetaCheckConstraintImpl
     public String getDescription() {
         return XU.fromXml(_cct.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -173,9 +153,7 @@ public class MetaCheckConstraintImpl
                         getCondition(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -187,4 +165,4 @@ public class MetaCheckConstraintImpl
     public String toString() {
         return getName();
     }
-} /* class MetaCheckConstraintImpl */
+} 

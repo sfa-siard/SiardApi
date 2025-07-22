@@ -26,12 +26,10 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-/*====================================================================*/
 
 /**
  * MetaViewImpl implements the interface MetaView.
  *
- * @author Hartwig Thomas
  */
 public class MetaViewImpl
         extends MetaSearchImpl
@@ -40,7 +38,6 @@ public class MetaViewImpl
     private final Map<String, MetaColumn> _mapMetaColumns = new HashMap<String, MetaColumn>();
 
     private MetaSchema _msParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -59,9 +56,7 @@ public class MetaViewImpl
             ((MetaColumnImpl) mc).getColumnType();
         }
         return _vt;
-    } /* getViewType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -76,9 +71,7 @@ public class MetaViewImpl
                 bValid = false;
         }
         return bValid;
-    } /* isValid */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get archive
@@ -88,10 +81,9 @@ public class MetaViewImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getParentMetaSchema().getSchema()
                                                   .getParentArchive();
-    } /* getArchive */
+    } 
 
     private ViewType _vtTemplate = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -119,9 +111,7 @@ public class MetaViewImpl
                 }
             }
         }
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -145,9 +135,7 @@ public class MetaViewImpl
                 _mapMetaColumns.put(XU.fromXml(ct.getName()), mc);
             }
         }
-    } /* constructor MetaViewImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -160,10 +148,9 @@ public class MetaViewImpl
     public static MetaView newInstance(MetaSchema msParent, ViewType vt)
             throws IOException {
         return new MetaViewImpl(msParent, vt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -173,8 +160,7 @@ public class MetaViewImpl
         return XU.fromXml(_vt.getName());
     }
 
-    /* property Query */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -183,8 +169,7 @@ public class MetaViewImpl
     public void setQuery(String sQuery) {
         if (getArchiveImpl().isMetaDataDifferent(getQuery(), sQuery))
             _vt.setQuery(XU.toXml(sQuery));
-    } /* setQuery */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -194,8 +179,7 @@ public class MetaViewImpl
         return XU.fromXml(_vt.getQuery());
     }
 
-    /* property QueryOriginal */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -208,8 +192,7 @@ public class MetaViewImpl
                 _vt.setQueryOriginal(XU.toXml(sQueryOriginal));
         } else
             throw new IOException("Original query cannot be set!");
-    } /* setQueryOriginal */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -219,8 +202,7 @@ public class MetaViewImpl
         return XU.fromXml(_vt.getQueryOriginal());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -229,7 +211,7 @@ public class MetaViewImpl
     public void setDescription(String sDescription) {
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _vt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
+    } 
 
     /**
      * {@inheritDoc}
@@ -239,8 +221,7 @@ public class MetaViewImpl
         return XU.fromXml(_vt.getDescription());
     }
 
-    /* property Rows */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -253,8 +234,7 @@ public class MetaViewImpl
                 _vt.setRows(BigInteger.valueOf(lRows));
         } else
             throw new IOException("Rows cannot be set!");
-    } /* setRows */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -266,10 +246,9 @@ public class MetaViewImpl
             lRows = _vt.getRows()
                        .intValue();
         return lRows;
-    } /* getRows */
+    } 
 
-    /* columns */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -278,7 +257,6 @@ public class MetaViewImpl
     public int getMetaColumns() {
         return _mapMetaColumns.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -294,8 +272,7 @@ public class MetaViewImpl
             mc = getMetaColumn(sName);
         }
         return mc;
-    } /* getMetaColumn */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -303,8 +280,7 @@ public class MetaViewImpl
     @Override
     public MetaColumn getMetaColumn(String sName) {
         return _mapMetaColumns.get(sName);
-    } /* getMetaColumn */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -349,9 +325,7 @@ public class MetaViewImpl
         } else
             throw new IOException("New columns can only be created if archive is open for modification of primary data and table is empty.");
         return mc;
-    } /* createMetaColumn */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -363,9 +337,7 @@ public class MetaViewImpl
         for (int iColumn = 0; iColumn < getMetaColumns(); iColumn++)
             ams[iColumn] = getMetaColumn(iColumn);
         return ams;
-    } /* getSubMetaSearches */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -381,9 +353,7 @@ public class MetaViewImpl
                         String.valueOf(getRows()),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -394,4 +364,4 @@ public class MetaViewImpl
     public String toString() {
         return getName();
     }
-} /* class MetaViewImpl */
+} 

@@ -12,25 +12,19 @@ import ch.admin.bar.siard2.api.generated.CategoryType;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaType interface provides access to a schema's UDT type data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaType
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated schema instance to which these meta data belong.
      *
      * @return associated schema instance.
      */
     MetaSchema getParentMetaSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the type meta data is valid.
@@ -42,7 +36,6 @@ public interface MetaType
   /*====================================================================
   type properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get type name.
@@ -50,8 +43,6 @@ public interface MetaType
      * @return type name.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set category (distinct or udt) of the type.
@@ -80,8 +71,6 @@ public interface MetaType
     CategoryType getCategoryType();
 
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set schema of super type.
      * Can only be set if the SIARD archive is open for modification
@@ -99,8 +88,6 @@ public interface MetaType
      * @return schema of super type.
      */
     String getUnderSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set name of super type.
@@ -120,8 +107,6 @@ public interface MetaType
      */
     String getUnderType();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set instantiability of the type.
      * Can only be set if the SIARD archive is open for modification
@@ -140,8 +125,6 @@ public interface MetaType
      */
     boolean isInstantiable();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set finality of the type.
      * Can only be set if the SIARD archive is open for modification
@@ -159,8 +142,6 @@ public interface MetaType
      * @return finality of the type.
      */
     boolean isFinal();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set name of base type (predefined type) of DISTINCT type.
@@ -275,8 +256,6 @@ public interface MetaType
      */
     int getBaseScale();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get number of attributes of the structured type.
      *
@@ -313,8 +292,6 @@ public interface MetaType
     MetaAttribute createMetaAttribute(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the type.
      *
@@ -329,4 +306,4 @@ public interface MetaType
      */
     String getDescription();
 
-} /* interface MetaType */
+} 

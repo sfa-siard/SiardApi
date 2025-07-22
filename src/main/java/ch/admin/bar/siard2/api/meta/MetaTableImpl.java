@@ -22,12 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*====================================================================*/
 
 /**
  * MetaTableImpl implements the interface MetaTable.
  *
- * @author Hartwig Thomas
  */
 public class MetaTableImpl
         extends MetaSearchImpl
@@ -40,8 +38,6 @@ public class MetaTableImpl
     private final Map<String, MetaCheckConstraint> _mapMetaCheckConstraints = new HashMap<String, MetaCheckConstraint>();
     private final Map<String, MetaTrigger> _mapMetaTriggers = new HashMap<String, MetaTrigger>();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -49,10 +45,9 @@ public class MetaTableImpl
     public MetaSchema getParentMetaSchema() {
         return getTable().getParentSchema()
                          .getMetaSchema();
-    } /* getParentMetaSchema */
+    } 
 
     private final Table _table;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -62,8 +57,7 @@ public class MetaTableImpl
         return _table;
     }
 
-    /*------------------------------------------------------------------*/
-    /*------------------------------------------------------------------*/
+
 
     /**
      * {@inheritDoc}
@@ -94,7 +88,7 @@ public class MetaTableImpl
                 bValid = false;
         }
         return bValid;
-    } /* isValid */
+    } 
 
     private TableType _tt = null;
 
@@ -105,9 +99,7 @@ public class MetaTableImpl
             ((MetaColumnImpl) mc).getColumnType();
         }
         return _tt;
-    } /* getTableType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get archive
@@ -117,10 +109,9 @@ public class MetaTableImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getTable().getParentSchema()
                                        .getParentArchive();
-    } /* getArchive */
+    } 
 
     private TableType _ttTemplate = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -210,9 +201,7 @@ public class MetaTableImpl
                 }
             }
         }
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * create an empty TableType instance.
@@ -228,9 +217,7 @@ public class MetaTableImpl
         tt.setColumns(_of.createColumnsType());
         tt.setRows(BigInteger.ZERO);
         return tt;
-    } /* createTableType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -300,9 +287,7 @@ public class MetaTableImpl
                 _mapMetaTriggers.put(XU.fromXml(trt.getName()), mt);
             }
         }
-    } /* constructor MetaSchemaImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -315,10 +300,9 @@ public class MetaTableImpl
     public static MetaTable newInstance(Table table, TableType tt)
             throws IOException {
         return new MetaTableImpl(table, tt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -328,8 +312,7 @@ public class MetaTableImpl
         return XU.fromXml(_tt.getName());
     }
 
-    /* property Folder */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -339,8 +322,7 @@ public class MetaTableImpl
         return XU.fromXml(_tt.getFolder());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -359,8 +341,7 @@ public class MetaTableImpl
         return XU.fromXml(_tt.getDescription());
     }
 
-    /* property Rows */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -373,8 +354,7 @@ public class MetaTableImpl
                 _tt.setRows(BigInteger.valueOf(lRows));
         } else
             throw new IOException("Rows cannot be set!");
-    } /* setRows */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -385,8 +365,7 @@ public class MetaTableImpl
                   .longValue();
     }
 
-    /* columns */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -395,7 +374,6 @@ public class MetaTableImpl
     public int getMetaColumns() {
         return _mapMetaColumns.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -411,8 +389,7 @@ public class MetaTableImpl
             mc = getMetaColumn(sName);
         }
         return mc;
-    } /* getMetaColumn */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -420,8 +397,7 @@ public class MetaTableImpl
     @Override
     public MetaColumn getMetaColumn(String sName) {
         return _mapMetaColumns.get(sName);
-    } /* getMetaColumn */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -466,10 +442,9 @@ public class MetaTableImpl
         } else
             throw new IOException("New columns can only be created if archive is open for modification of primary data and table is empty.");
         return mc;
-    } /* createMetaColumn */
+    } 
 
-    /* primary key */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -477,8 +452,7 @@ public class MetaTableImpl
     @Override
     public MetaUniqueKey getMetaPrimaryKey() {
         return this._mukPrimaryKey;
-    } /* createMetaPrimaryKey */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -493,10 +467,9 @@ public class MetaTableImpl
             getArchiveImpl().isMetaDataDifferent(null, _mukPrimaryKey);
         }
         return _mukPrimaryKey;
-    } /* createMetaPrimaryKey */
+    } 
 
-    /* foreign keys */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -505,7 +478,6 @@ public class MetaTableImpl
     public int getMetaForeignKeys() {
         return _mapMetaForeignKeys.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -521,8 +493,7 @@ public class MetaTableImpl
             mfk = getMetaForeignKey(sName);
         }
         return mfk;
-    } /* getMetaForeignKey */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -530,8 +501,7 @@ public class MetaTableImpl
     @Override
     public MetaForeignKey getMetaForeignKey(String sName) {
         return _mapMetaForeignKeys.get(sName);
-    } /* getMetaForeignKey */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -576,10 +546,9 @@ public class MetaTableImpl
         } else
             throw new IOException("New foreign keys can only be created if archive is open for modification of primary data.");
         return mfk;
-    } /* createMetaForeignKey */
+    } 
 
-    /* candidate keys */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -588,7 +557,6 @@ public class MetaTableImpl
     public int getMetaCandidateKeys() {
         return _mapMetaCandidateKeys.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -604,8 +572,7 @@ public class MetaTableImpl
             muk = getMetaCandidateKey(sName);
         }
         return muk;
-    } /* getMetaCandidateKey */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -613,8 +580,7 @@ public class MetaTableImpl
     @Override
     public MetaUniqueKey getMetaCandidateKey(String sName) {
         return _mapMetaCandidateKeys.get(sName);
-    } /* getMetaCandidateKey */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -659,10 +625,9 @@ public class MetaTableImpl
         } else
             throw new IOException("New candidaten keys can only be created if archive is open for modification of primary data.");
         return muk;
-    } /* createMetaCandidateKey */
+    } 
 
-    /* check constraints */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -671,7 +636,6 @@ public class MetaTableImpl
     public int getMetaCheckConstraints() {
         return _mapMetaCheckConstraints.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -687,8 +651,7 @@ public class MetaTableImpl
             mcc = getMetaCheckConstraint(sName);
         }
         return mcc;
-    } /* getMetaCheckConstraint */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -696,8 +659,7 @@ public class MetaTableImpl
     @Override
     public MetaCheckConstraint getMetaCheckConstraint(String sName) {
         return _mapMetaCheckConstraints.get(sName);
-    } /* getMetaCheckConstraint */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -742,10 +704,9 @@ public class MetaTableImpl
         } else
             throw new IOException("New check constraints can only be created if archive is open for modification of primary data.");
         return mcc;
-    } /* createMetaCheckConstraint */
+    } 
 
-    /* check constraints */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -754,7 +715,6 @@ public class MetaTableImpl
     public int getMetaTriggers() {
         return _mapMetaTriggers.size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -770,8 +730,7 @@ public class MetaTableImpl
             mt = getMetaTrigger(sName);
         }
         return mt;
-    } /* getMetaTrigger */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -779,8 +738,7 @@ public class MetaTableImpl
     @Override
     public MetaTrigger getMetaTrigger(String sName) {
         return _mapMetaTriggers.get(sName);
-    } /* getMetaTrigger */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -825,9 +783,7 @@ public class MetaTableImpl
         } else
             throw new IOException("New triggers can only be created if archive is open for modification of primary data.");
         return mt;
-    } /* createMetaTrigger */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -842,9 +798,7 @@ public class MetaTableImpl
             llNames.addAll(mc.getNames(bSupportsArrays, bSupportsUdts));
         }
         return llNames;
-    } /* getNames */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -854,9 +808,7 @@ public class MetaTableImpl
             throws IOException {
         MetaColumn mc = getMetaColumn(listNames.get(0));
         return mc.getType(listNames);
-    } /* getType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -890,9 +842,7 @@ public class MetaTableImpl
             ams[getMetaColumns() + iPrimaryKeys + getMetaCandidateKeys() + getMetaForeignKeys() + getMetaCheckConstraints() + iTrigger] =
                     getMetaTrigger(iTrigger);
         return ams;
-    } /* getSubMetaSearches */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -906,9 +856,7 @@ public class MetaTableImpl
                         String.valueOf(getRows()),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}

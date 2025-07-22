@@ -14,17 +14,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/*====================================================================*/
 
 /**
  * Table interface provides access to primary table data.
  *
- * @author Hartwig Thomas
  */
 public interface Table
         extends Search {
-    /*------------------------------------------------------------------*/
-
     /**
      * get schema with which this Table instance is associated
      *
@@ -32,16 +28,12 @@ public interface Table
      */
     Schema getParentSchema();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated table meta data describing this table instance.
      *
      * @return associated table meta data.
      */
     MetaTable getMetaTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * export the table XSD.
@@ -52,8 +44,6 @@ public interface Table
     void exportTableSchema(OutputStream osXsd)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return true, if the table has at least one column.
      *
@@ -61,16 +51,12 @@ public interface Table
      */
     boolean isValid();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * check, if table is empty (contains no records).
      *
      * @return true, if table is empty (contains no records).
      */
     boolean isEmpty();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * open a record inputs stream on the table.
@@ -82,8 +68,6 @@ public interface Table
      */
     RecordDispenser openRecords()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * write the table XSD and create the XMLStreamWriter for writing the
@@ -97,8 +81,6 @@ public interface Table
     RecordRetainer createRecords()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * retrieve the root record set for this table.
      *
@@ -107,8 +89,6 @@ public interface Table
      */
     RecordExtract getRecordExtract()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * sorts the table data in the given direction by the data in the given
@@ -126,8 +106,6 @@ public interface Table
     void sort(boolean bAscending, int iSortColumn, Progress progress)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get current sort direction of sorted table.
      *
@@ -135,16 +113,12 @@ public interface Table
      */
     boolean getAscending();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get current sort column of sorted table.
      *
      * @return sort column of sorted table.
      */
     int getSortColumn();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * export the database table as an HTML table (can be opened in Excel, ...)
@@ -157,4 +131,4 @@ public interface Table
     void exportAsHtml(OutputStream os, File folderLobs)
             throws IOException;
 
-} /* interface Table */
+} 

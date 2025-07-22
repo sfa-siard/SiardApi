@@ -10,7 +10,7 @@ public class RandomRecord {
 
     public RandomRecord(Record record) {
         _record = record;
-    } /* constructor */
+    } 
 
     private int createValue(Value value) {
         int iReturn = RandomArchive.iRETURN_OK;
@@ -110,7 +110,7 @@ public class RandomRecord {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createValue */
+    } 
 
     public int createRecord() {
         int iReturn = RandomArchive.iRETURN_OK;
@@ -123,6 +123,6 @@ public class RandomRecord {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createRecord */
+    } 
 
 }

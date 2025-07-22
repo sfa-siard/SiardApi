@@ -38,12 +38,10 @@ import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-/*====================================================================*/
 
 /**
  * TableImpl implements the interface Table.
  *
- * @author Hartwig Thomas
  */
 public class TableImpl
         extends SearchImpl
@@ -76,7 +74,7 @@ public class TableImpl
             throw new IOException("DocumentBuilder could not be created!", pce);
         }
         return _db;
-    } /* getDocumentBuilder */
+    } 
 
     private static Transformer _trans = null;
 
@@ -99,7 +97,7 @@ public class TableImpl
             throw new IOException("Transformer could not be created!", tce);
         }
         return _trans;
-    } /* getTransformer */
+    } 
 
     /**
      * sorted, temporary table
@@ -111,7 +109,6 @@ public class TableImpl
     }
 
     private Schema _schemaParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -122,7 +119,6 @@ public class TableImpl
     }
 
     private MetaTable _mt = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -134,12 +130,12 @@ public class TableImpl
 
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getParentSchema().getParentArchive();
-    } /* getArchive */
+    } 
 
-    /*------------------------------------------------------------------*/
+
     String getTableFolder() {
         return ((SchemaImpl) getParentSchema()).getSchemaFolder() + getMetaTable().getFolder() + "/";
-    } /* getTableFolder */
+    } 
 
     String getTableXsd() {
         return getTableFolder() + getMetaTable().getFolder() + ".xsd";
@@ -148,8 +144,6 @@ public class TableImpl
     String getTableXml() {
         return getTableFolder() + getMetaTable().getFolder() + ".xml";
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * add the <xs:element> meta data definition for the given tag and type
@@ -274,9 +268,7 @@ public class TableImpl
                 addElement(elSequence, sTagField, mvField, true);
             }
         }
-    } /* addElement */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -297,7 +289,7 @@ public class TableImpl
                 /* read table template into DOM */
                 InputStream isXsdTable = ArchiveImpl.class.getResourceAsStream(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE);
                 Document doc = getDocumentBuilder().parse(isXsdTable);
-                /* edit DOM */
+                
                 Element elAny = (Element) doc.getElementsByTagName("xs:any")
                                              .item(0);
                 Element elSequence = (Element) elAny.getParentNode();
@@ -319,9 +311,7 @@ public class TableImpl
             }
         } else
             throw new IOException("Table contains no columns!");
-    } /* exportTableSchema */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -334,9 +324,7 @@ public class TableImpl
               .getFileEntry(getTableXml()) != null)
             bEmpty = false;
         return bEmpty;
-    } /* isEmpty */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -365,9 +353,7 @@ public class TableImpl
             }
         }
         return bValid;
-    } /* isValid */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor for existing table
@@ -407,9 +393,7 @@ public class TableImpl
         }
         _mt = MetaTableImpl.newInstance(this, tt);
         si.registerTable(sName, this);
-    } /* constructor TableImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -423,9 +407,7 @@ public class TableImpl
             throws IOException {
         Table table = new TableImpl(schemaParent, sName);
         return table;
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -434,7 +416,7 @@ public class TableImpl
     public RecordDispenserImpl openRecords()
             throws IOException {
         return new RecordDispenserImpl(this);
-    } /* openRecords */
+    } 
 
     private boolean _bCreating = false;
 
@@ -446,8 +428,6 @@ public class TableImpl
         _bCreating = bCreating;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -455,9 +435,7 @@ public class TableImpl
     public RecordRetainerImpl createRecords()
             throws IOException {
         return new RecordRetainerImpl(this);
-    } /* createRecords */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -472,9 +450,7 @@ public class TableImpl
         else
             throw new IOException("Records cannot be read if archive is open for modification!");
         return re;
-    } /* getRecordExtract */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -487,9 +463,7 @@ public class TableImpl
             stable = new SortedTableImpl();
         stable.sort(this, bAscending, iSortColumn, progress);
         _stable = stable;
-    } /* sort */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -500,9 +474,7 @@ public class TableImpl
         if (_stable != null)
             bAscending = _stable.getAscending();
         return bAscending;
-    } /* getAscending */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -513,9 +485,7 @@ public class TableImpl
         if (_stable != null)
             iSortColumn = _stable.getSortColumn();
         return iSortColumn;
-    } /* getSortColumn */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write the value as HTML to the table cell.
@@ -571,9 +541,7 @@ public class TableImpl
         }
         /* write a link to the LOB file to HTML */
         wr.write("<a href=\"" + sFilename + "\">" + sFilename + "</a>");
-    } /* writeLinkToLob */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write the UDT value as a definition list.
@@ -597,9 +565,7 @@ public class TableImpl
             wr.write("</dd>\r\n");
         }
         wr.write("</dl>\r\n");
-    } /* writeUdtValue */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write the array value as an ordered list.
@@ -618,9 +584,7 @@ public class TableImpl
             wr.write("</li>\r\n");
         }
         wr.write("</ol>\r\n");
-    } /* writeUdtValue */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write the value as HTML to the table cell.
@@ -712,9 +676,7 @@ public class TableImpl
                 }
             }
         }
-    } /* writeValue */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -757,6 +719,6 @@ public class TableImpl
         oswr.write("  </body>\r\n");
         oswr.write("</html>\r\n");
         oswr.flush();
-    } /* exportAsHtml */
+    } 
 
-} /* class TableImpl */
+} 

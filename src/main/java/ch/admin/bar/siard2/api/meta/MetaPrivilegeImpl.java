@@ -19,18 +19,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaPrivilegeImpl implements the interface MetaPrivilege.
  *
- * @author Hartwig Thomas
  */
 public class MetaPrivilegeImpl
         extends MetaSearchImpl
         implements MetaPrivilege {
     private MetaData _mdParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -42,8 +39,6 @@ public class MetaPrivilegeImpl
 
     private PrivilegeType _pt = null;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive
      *
@@ -51,9 +46,7 @@ public class MetaPrivilegeImpl
      */
     private ArchiveImpl getArchive() {
         return (ArchiveImpl) getParentMetaData().getArchive();
-    } /* getArchive */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * set template meta data.
@@ -63,9 +56,7 @@ public class MetaPrivilegeImpl
     public void setTemplate(PrivilegeType ptTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(ptTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -76,9 +67,7 @@ public class MetaPrivilegeImpl
     private MetaPrivilegeImpl(MetaData mdParent, PrivilegeType pt) {
         _mdParent = mdParent;
         _pt = pt;
-    } /* constructor MetaPrivilegeImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -89,10 +78,9 @@ public class MetaPrivilegeImpl
      */
     public static MetaPrivilege newInstance(MetaData mdParent, PrivilegeType pt) {
         return new MetaPrivilegeImpl(mdParent, pt);
-    } /* newInstance */
+    } 
 
-    /* property Type */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -102,8 +90,7 @@ public class MetaPrivilegeImpl
         return XU.fromXml(_pt.getType());
     }
 
-    /* property Object */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -113,8 +100,7 @@ public class MetaPrivilegeImpl
         return XU.fromXml(_pt.getObject());
     }
 
-    /* property Grantor */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -124,8 +110,7 @@ public class MetaPrivilegeImpl
         return XU.fromXml(_pt.getGrantor());
     }
 
-    /* property Grantee */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -135,8 +120,7 @@ public class MetaPrivilegeImpl
         return XU.fromXml(_pt.getGrantee());
     }
 
-    /* property Option */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -154,8 +138,7 @@ public class MetaPrivilegeImpl
                 throw new IOException("Invalid privilege option value!");
         } else
             throw new IOException("Privilege option value cannot be set!");
-    } /* setOption */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -167,10 +150,9 @@ public class MetaPrivilegeImpl
             sOption = _pt.getOption()
                          .value();
         return sOption;
-    } /* getOption */
+    } 
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -179,8 +161,7 @@ public class MetaPrivilegeImpl
     public void setDescription(String sDescription) {
         if (getArchive().isMetaDataDifferent(getDescription(), sDescription))
             _pt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -189,8 +170,6 @@ public class MetaPrivilegeImpl
     public String getDescription() {
         return XU.fromXml(_pt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -207,9 +186,7 @@ public class MetaPrivilegeImpl
                         getOption(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -238,6 +215,6 @@ public class MetaPrivilegeImpl
             sb.append(getObject());
         }
         return sb.toString();
-    } /* toString */
+    } 
 
-} /* class MetaPrivilegeImpl */
+} 

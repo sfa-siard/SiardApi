@@ -26,12 +26,9 @@ import ch.enterag.utils.xml.XU;
 import java.io.IOException;
 import java.math.BigInteger;
 
-/*====================================================================*/
-
 /**
  * MetaAttributeImpl implements the interface MetaAttribute.
  *
- * @author Hartwig Thomas
  */
 public class MetaAttributeImpl
         extends MetaSearchImpl
@@ -41,7 +38,6 @@ public class MetaAttributeImpl
     private static final long lGIGA = lKILO * lMEGA;
 
     private MetaType _mtParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -52,7 +48,6 @@ public class MetaAttributeImpl
     }
 
     private int _iPosition = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -62,8 +57,6 @@ public class MetaAttributeImpl
         return _iPosition;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -71,8 +64,6 @@ public class MetaAttributeImpl
     public boolean isValid() {
         return (getType() != null) || (getTypeName() != null);
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get archive
@@ -85,17 +76,16 @@ public class MetaAttributeImpl
         return (ArchiveImpl) mt.getParentMetaSchema()
                                .getSchema()
                                .getParentArchive();
-    } /* getArchive */
+    } 
 
     private AttributeType _at = null;
 
     public AttributeType getAttributeType()
             throws IOException {
         return _at;
-    } /* getAttributeType */
+    } 
 
     private AttributeType _atTemplate = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -107,9 +97,7 @@ public class MetaAttributeImpl
         _atTemplate = atTemplate;
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(_atTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -124,9 +112,7 @@ public class MetaAttributeImpl
         _mtParent = mtParent;
         _at = at;
         _iPosition = iPosition;
-    } /* constructor MetaAttributeImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -140,10 +126,9 @@ public class MetaAttributeImpl
     public static MetaAttribute newInstance(MetaType mtParent, AttributeType at, int iPosition)
             throws IOException {
         return new MetaAttributeImpl(mtParent, at, iPosition);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -153,8 +138,7 @@ public class MetaAttributeImpl
         return XU.fromXml(_at.getName());
     }
 
-    /* property Type */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -176,8 +160,7 @@ public class MetaAttributeImpl
                 _at.setType(XU.toXml(sType));
         } else
             throw new IOException("Type cannot be set!");
-    } /* setType */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -190,8 +173,7 @@ public class MetaAttributeImpl
         prt.initialize(iDataType, lPrecision, iScale);
         String sType = prt.format();
         setType(sType);
-    } /* setPreType */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -200,7 +182,6 @@ public class MetaAttributeImpl
     public String getType() {
         return XU.fromXml(_at.getType());
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -221,9 +202,7 @@ public class MetaAttributeImpl
         } else if (cat == CategoryType.DISTINCT)
             iDataType = mt.getBasePreType();
         return iDataType;
-    } /* getPreType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -260,9 +239,7 @@ public class MetaAttributeImpl
         } else if (cat == CategoryType.DISTINCT)
             lLength = mt.getBaseLength();
         return lLength;
-    } /* getLength */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -282,10 +259,9 @@ public class MetaAttributeImpl
         } else if (cat == CategoryType.DISTINCT)
             iScale = mt.getBaseScale();
         return iScale;
-    } /* getLength */
+    } 
 
-    /* property TypeOriginal */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -299,8 +275,7 @@ public class MetaAttributeImpl
                 _at.setTypeOriginal(XU.toXml(sTypeOriginal));
         } else
             throw new IOException("Original type cannot be set!");
-    } /* setTypeOriginal */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -310,8 +285,7 @@ public class MetaAttributeImpl
         return XU.fromXml(_at.getTypeOriginal());
     }
 
-    /* property TypeSchema */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -327,8 +301,7 @@ public class MetaAttributeImpl
                 _at.setTypeSchema(XU.toXml(sTypeSchema));
         } else
             throw new IOException("Type schema cannot be set!");
-    } /* setTypeSchema */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -338,8 +311,7 @@ public class MetaAttributeImpl
         return XU.fromXml(_at.getTypeSchema());
     }
 
-    /* property TypeName */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -359,8 +331,7 @@ public class MetaAttributeImpl
             }
         } else
             throw new IOException("Type name cannot be set!");
-    } /* setTypeName */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -369,7 +340,6 @@ public class MetaAttributeImpl
     public String getTypeName() {
         return XU.fromXml(_at.getTypeName());
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -385,10 +355,9 @@ public class MetaAttributeImpl
                        .getMetaType(getTypeName());
         }
         return mt;
-    } /* getMetaType */
+    } 
 
-    /* property Nullable */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -402,8 +371,7 @@ public class MetaAttributeImpl
                 _at.setNullable(bNullable);
         } else
             throw new IOException("Nullability cannot be set!");
-    } /* setNullable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -415,10 +383,9 @@ public class MetaAttributeImpl
             bNullable = _at.isNullable()
                            .booleanValue();
         return bNullable;
-    } /* isNullable */
+    } 
 
-    /* property DefaultValue */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -432,8 +399,7 @@ public class MetaAttributeImpl
                 _at.setDefaultValue(XU.toXml(sDefaultValue));
         } else
             throw new IOException("Default value cannot be set!");
-    } /* setDefaultValue */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -443,8 +409,7 @@ public class MetaAttributeImpl
         return XU.fromXml(_at.getDefaultValue());
     }
 
-    /* property Cardinality */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -458,9 +423,7 @@ public class MetaAttributeImpl
                 _at.setCardinality(BigInteger.valueOf(iCardinality));
         } else
             throw new IOException("Cardinality cannot be set!");
-    } /* setCardinality */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -472,10 +435,9 @@ public class MetaAttributeImpl
         if (bi != null)
             iCardinality = bi.intValue();
         return iCardinality;
-    } /* getCardinality */
+    } 
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -485,8 +447,7 @@ public class MetaAttributeImpl
         ArchiveImpl ai = getArchiveImpl();
         if (ai.isMetaDataDifferent(getDescription(), sDescription))
             _at.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -495,8 +456,6 @@ public class MetaAttributeImpl
     public String getDescription() {
         return XU.fromXml(_at.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -517,9 +476,7 @@ public class MetaAttributeImpl
                         (getCardinality() <= 0) ? "" : String.valueOf(getCardinality()),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -530,4 +487,4 @@ public class MetaAttributeImpl
     public String toString() {
         return getName();
     }
-} /* class MetaAttributeImpl */
+} 

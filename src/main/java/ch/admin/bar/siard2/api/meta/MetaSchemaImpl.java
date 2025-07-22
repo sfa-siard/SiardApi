@@ -21,12 +21,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/*====================================================================*/
 
 /**
  * MetaSchemaImpl implements the interface MetaSchema.
  *
- * @author Hartwig Thomas
  */
 public class MetaSchemaImpl
         extends MetaSearchImpl
@@ -36,8 +34,6 @@ public class MetaSchemaImpl
     private final Map<String, MetaView> _mapMetaViews = new HashMap<String, MetaView>();
     private final Map<String, MetaRoutine> _mapMetaRoutines = new HashMap<String, MetaRoutine>();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive
      *
@@ -45,8 +41,7 @@ public class MetaSchemaImpl
      */
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getSchema().getParentArchive();
-    } /* getArchiveImpl */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -57,7 +52,6 @@ public class MetaSchemaImpl
     }
 
     private final Schema _schema;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -66,8 +60,6 @@ public class MetaSchemaImpl
     public Schema getSchema() {
         return _schema;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -94,7 +86,7 @@ public class MetaSchemaImpl
                 bValid = false;
         }
         return bValid;
-    } /* isValid */
+    } 
 
     private SchemaType _st = null;
 
@@ -118,14 +110,13 @@ public class MetaSchemaImpl
                 ((MetaTableImpl) mt).getTableType();
         }
         return _st;
-    } /* getSchemaType */
+    } 
 
     private SchemaType _stTemplate = null;
 
     public SchemaType getTemplate() {
         return _stTemplate;
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -193,9 +184,7 @@ public class MetaSchemaImpl
                 }
             }
         }
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * create an empty SchemaType instance.
@@ -209,9 +198,7 @@ public class MetaSchemaImpl
         st.setName(XU.toXml(sName));
         st.setFolder(XU.toXml(sFolder));
         return st;
-    } /* createSchemaType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -260,9 +247,7 @@ public class MetaSchemaImpl
                 _mapMetaRoutines.put(XU.fromXml(rt.getSpecificName()), mr);
             }
         }
-    } /* constructor MetaSchemaImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -275,10 +260,9 @@ public class MetaSchemaImpl
     public static MetaSchema newInstance(Schema schema, SchemaType st)
             throws IOException {
         return new MetaSchemaImpl(schema, st);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -288,8 +272,7 @@ public class MetaSchemaImpl
         return XU.fromXml(_st.getName());
     }
 
-    /* property Folder */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -299,8 +282,7 @@ public class MetaSchemaImpl
         return XU.fromXml(_st.getFolder());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -309,7 +291,7 @@ public class MetaSchemaImpl
     public void setDescription(String sDescription) {
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _st.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
+    } 
 
     /**
      * {@inheritDoc}
@@ -319,8 +301,7 @@ public class MetaSchemaImpl
         return XU.fromXml(_st.getDescription());
     }
 
-    /* tables */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -333,7 +314,7 @@ public class MetaSchemaImpl
             iTables = tts.getTable()
                          .size();
         return iTables;
-    } /* getMetaTables */
+    } 
 
     /**
      * {@inheritDoc}
@@ -345,7 +326,7 @@ public class MetaSchemaImpl
                           .get(iTable)
                           .getName();
         return getMetaTable(sName);
-    } /* getMetaTable */
+    } 
 
     /**
      * {@inheritDoc}
@@ -356,10 +337,9 @@ public class MetaSchemaImpl
         if (table != null)
             mt = table.getMetaTable();
         return mt;
-    } /* getMetaTable */
+    } 
 
-    /* views */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -367,7 +347,7 @@ public class MetaSchemaImpl
     @Override
     public int getMetaViews() {
         return _mapMetaViews.size();
-    } /* getMetaViews */
+    } 
 
     /**
      * {@inheritDoc}
@@ -438,7 +418,7 @@ public class MetaSchemaImpl
         } else
             throw new IOException("Views can only be created if archive is open for modification of primary data.");
         return mv;
-    } /* createMetaView */
+    } 
 
     /**
      * {@inheritDoc}
@@ -465,10 +445,9 @@ public class MetaSchemaImpl
         } else
             throw new IOException("Views can only be removed if archive is open for modification of primary data.");
         return bRemoved;
-    } /* removeMetaView */
+    } 
 
-    /* routines */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -476,7 +455,7 @@ public class MetaSchemaImpl
     @Override
     public int getMetaRoutines() {
         return _mapMetaRoutines.size();
-    } /* getMetaRoutines */
+    } 
 
     /**
      * {@inheritDoc}
@@ -501,7 +480,6 @@ public class MetaSchemaImpl
     public MetaRoutine getMetaRoutine(String sSpecificName) {
         return _mapMetaRoutines.get(sSpecificName);
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -547,10 +525,9 @@ public class MetaSchemaImpl
         } else
             throw new IOException("Views can only be created if archive is open for modification of primary data.");
         return mr;
-    } /* createMetaRoutine */
+    } 
 
-    /* types */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -558,8 +535,7 @@ public class MetaSchemaImpl
     @Override
     public int getMetaTypes() {
         return _mapMetaTypes.size();
-    } /* getMetaTypes */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -576,7 +552,6 @@ public class MetaSchemaImpl
         }
         return mt;
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -633,9 +608,7 @@ public class MetaSchemaImpl
         } else
             throw new IOException("Types can only be created if archive is open for modification of primary data.");
         return mt;
-    } /* createMetaType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -653,9 +626,7 @@ public class MetaSchemaImpl
         for (int iRoutine = 0; iRoutine < getMetaRoutines(); iRoutine++)
             ams[getMetaTypes() + getMetaTables() + getMetaViews() + iRoutine] = getMetaRoutine(iRoutine);
         return ams;
-    } /* getSubMetaSearches */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -668,9 +639,7 @@ public class MetaSchemaImpl
                         getName(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -681,4 +650,4 @@ public class MetaSchemaImpl
     public String toString() {
         return getName();
     }
-} /* class MetaSchemaImpl */
+} 

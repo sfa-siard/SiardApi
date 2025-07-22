@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaRole interface provides access to role meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaRole
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the global meta data instance to which these role
      * meta data belong.
@@ -40,8 +36,6 @@ public interface MetaRole
      */
     String getName();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set name of administrator (user or role) of this role.
      * Can only be set if the SIARD archive is open for modification
@@ -60,8 +54,6 @@ public interface MetaRole
      */
     String getAdmin();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the role.
      *
@@ -76,4 +68,4 @@ public interface MetaRole
      */
     String getDescription();
 
-} /* interfaceMetaRole */
+} 

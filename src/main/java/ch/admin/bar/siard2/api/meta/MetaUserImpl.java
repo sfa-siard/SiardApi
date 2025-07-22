@@ -18,18 +18,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaUserImpl implements the interface MetaUser.
  *
- * @author Hartwig Thomas
  */
 public class MetaUserImpl
         extends MetaSearchImpl
         implements MetaUser {
     private MetaData _mdParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -41,8 +38,6 @@ public class MetaUserImpl
 
     private UserType _ut = null;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive
      *
@@ -50,9 +45,7 @@ public class MetaUserImpl
      */
     private ArchiveImpl getArchive() {
         return (ArchiveImpl) getParentMetaData().getArchive();
-    } /* getArchive */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * set template meta data.
@@ -62,9 +55,7 @@ public class MetaUserImpl
     public void setTemplate(UserType utTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(utTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -75,9 +66,7 @@ public class MetaUserImpl
     private MetaUserImpl(MetaData mdParent, UserType ut) {
         _mdParent = mdParent;
         _ut = ut;
-    } /* constructor MetaUserImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -88,9 +77,7 @@ public class MetaUserImpl
      */
     public static MetaUser newInstance(MetaData mdParent, UserType ut) {
         return new MetaUserImpl(mdParent, ut);
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -100,8 +87,7 @@ public class MetaUserImpl
         return XU.fromXml(_ut.getName());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -110,8 +96,7 @@ public class MetaUserImpl
     public void setDescription(String sDescription) {
         if (getArchive().isMetaDataDifferent(getDescription(), sDescription))
             _ut.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -120,8 +105,6 @@ public class MetaUserImpl
     public String getDescription() {
         return XU.fromXml(_ut.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -134,9 +117,7 @@ public class MetaUserImpl
                         getName(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -147,4 +128,4 @@ public class MetaUserImpl
     public String toString() {
         return getName();
     }
-} /* class MetaUserImpl */
+} 

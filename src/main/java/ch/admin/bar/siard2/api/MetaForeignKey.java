@@ -11,17 +11,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaForeignKey interface provides access to foreign key meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaForeignKey
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the table meta data instance to which these candidate key
      * meta data belong.
@@ -29,8 +25,6 @@ public interface MetaForeignKey
      * @return table meta data instance.
      */
     MetaTable getParentMetaTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the key has at least one reference.
@@ -42,7 +36,6 @@ public interface MetaForeignKey
   /*====================================================================
   candidate key properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of candidate key.
@@ -50,8 +43,6 @@ public interface MetaForeignKey
      * @return name of candidate key.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set schema referenced by foreign key.
@@ -71,8 +62,6 @@ public interface MetaForeignKey
      */
     String getReferencedSchema();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set table referenced by foreign key.
      * Can only be set if the SIARD archive is open for modification
@@ -90,8 +79,6 @@ public interface MetaForeignKey
      * @return table referenced by foreign key.
      */
     String getReferencedTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of references in foreign key.
@@ -128,8 +115,6 @@ public interface MetaForeignKey
     void addReference(String sColumn, String sReferenced)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the column names as a comma-separated string.
      *
@@ -137,16 +122,12 @@ public interface MetaForeignKey
      */
     String getColumnsString();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the referenced column names as a comma-separated string.
      *
      * @return referenced column names.
      */
     String getReferencesString();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set match type of foreign key.
@@ -165,8 +146,6 @@ public interface MetaForeignKey
      * @return match type of foreign key.
      */
     String getMatchType();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set ON DELETE action (CASCADE, SET NULL, SET DEFAULT, RESTRICT, or
@@ -188,8 +167,6 @@ public interface MetaForeignKey
      */
     String getDeleteAction();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set ON UPDATE action (CASCADE, SET NULL, SET DEFAULT, RESTRICT, or
      * NO ACTION) of foreign key.
@@ -210,8 +187,6 @@ public interface MetaForeignKey
      */
     String getUpdateAction();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the foreign key's meaning and content.
      *
@@ -226,4 +201,4 @@ public interface MetaForeignKey
      */
     String getDescription();
 
-} /* interface MetaForeignKey */
+} 

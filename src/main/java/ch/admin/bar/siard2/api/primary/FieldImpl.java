@@ -17,18 +17,15 @@ import org.w3c.dom.Element;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * FieldImpl implements the interface Field.
  *
- * @author Hartwig Thomas
  */
 public class FieldImpl
         extends ValueImpl
         implements Field {
     private Cell _cellAncestor = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -39,7 +36,6 @@ public class FieldImpl
     }
 
     private Value _valueParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -50,7 +46,6 @@ public class FieldImpl
     }
 
     private MetaField _mf = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -59,8 +54,6 @@ public class FieldImpl
     public MetaField getMetaField() {
         return _mf;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * constructor
@@ -79,9 +72,7 @@ public class FieldImpl
         _cellAncestor = cellAncestor;
         RecordImpl ri = (RecordImpl) cellAncestor.getParentRecord();
         initialize(ri.getRecord(), ri.getTemporaryLobFolder(), iIndex, elField, mf);
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -97,9 +88,7 @@ public class FieldImpl
     public static Field newInstance(int iIndex, Value valueParent, Cell cellAncestor, MetaField mf, Element elField)
             throws IOException {
         return new FieldImpl(iIndex, valueParent, cellAncestor, mf, elField);
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -113,9 +102,7 @@ public class FieldImpl
                 super.extendArray(iField, iCardinality);
         }
         return FieldImpl.newInstance(iField, this, getAncestorCell(), mf, el);
-    } /* createField */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -124,6 +111,6 @@ public class FieldImpl
     protected String getInternalLobFolder()
             throws IOException {
         return ((MetaFieldImpl) getMetaField()).getFolder();
-    } /* getInternalLobFolder */
+    } 
 
-} /* FieldImpl */
+} 

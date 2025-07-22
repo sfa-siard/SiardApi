@@ -26,12 +26,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-/*====================================================================*/
 
 /**
  * MetaFieldImpl implements the interface MetaField.
  *
- * @author Hartwig Thomas
  */
 public class MetaFieldImpl
         extends MetaValueImpl
@@ -55,10 +53,10 @@ public class MetaFieldImpl
             }
         }
         return _mapMetaFields;
-    } /* getMetaFieldsMap */
+    } 
 
     private String _sFolder = null;
-    /*------------------------------------------------------------------*/
+
 
     /**
      * get relative internal lob folder for this field or null, if it
@@ -71,10 +69,9 @@ public class MetaFieldImpl
         if (getLobFolder() == null)
             sFolder = _sFolder;
         return sFolder;
-    } /* getFolder */
+    } 
 
     private MetaColumn _mcAncestor = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -85,7 +82,6 @@ public class MetaFieldImpl
     }
 
     private MetaColumn _mcParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -96,7 +92,6 @@ public class MetaFieldImpl
     }
 
     private MetaField _mfParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -105,8 +100,6 @@ public class MetaFieldImpl
     public MetaField getParentMetaField() {
         return _mfParent;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get table meta data.
@@ -119,9 +112,7 @@ public class MetaFieldImpl
         }
         return mf.getParentMetaColumn()
                  .getParentMetaTable();
-    } /* getMetaTable */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get view meta data.
@@ -134,9 +125,7 @@ public class MetaFieldImpl
         }
         return mf.getParentMetaColumn()
                  .getParentMetaView();
-    } /* getMetaView */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get archive
@@ -154,9 +143,7 @@ public class MetaFieldImpl
                                    .getSchema()
                                    .getParentArchive();
         return (ArchiveImpl) archive;
-    } /* getArchive */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -176,7 +163,7 @@ public class MetaFieldImpl
         if (mtParent != null)
             ma = mtParent.getMetaAttribute(getPosition() - 1);
         return ma;
-    } /* getAttribute */
+    } 
 
     FieldType _ft = null;
 
@@ -187,10 +174,9 @@ public class MetaFieldImpl
             ((MetaFieldImpl) mf).getFieldType();
         }
         return _ft;
-    } /* getFieldType */
+    } 
 
     private FieldType _ftTemplate = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -216,9 +202,7 @@ public class MetaFieldImpl
                 }
             }
         }
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * open all sub field meta data.
@@ -238,9 +222,7 @@ public class MetaFieldImpl
                 _mapMetaFields.put(XU.fromXml(ftSub.getName()), mfSub);
             }
         }
-    } /* openMetaFields */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -261,9 +243,7 @@ public class MetaFieldImpl
         if (sFolder != null)
             _sFolder = sFolder + _sFIELD_FOLDER_PREFIX + (iPosition - 1) + "/";
         openMetaFields();
-    } /* constructor MetaFieldImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -284,9 +264,7 @@ public class MetaFieldImpl
         if (sFolder != null)
             _sFolder = sFolder + _sFIELD_FOLDER_PREFIX + (iPosition - 1) + "/";
         openMetaFields();
-    } /* constructor MetaFieldImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -301,9 +279,7 @@ public class MetaFieldImpl
     public static MetaField newInstance(MetaColumn mcParent, FieldType ft, String sFolder, int iIndex)
             throws IOException {
         return new MetaFieldImpl(mcParent, ft, sFolder, iIndex);
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -316,10 +292,9 @@ public class MetaFieldImpl
     public static MetaField newInstance(MetaField mfParent, FieldType ft, String sFolder, int iIndex)
             throws IOException {
         return new MetaFieldImpl(mfParent, ft, sFolder, iIndex);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -328,8 +303,6 @@ public class MetaFieldImpl
     public String getName() {
         return XU.fromXml(_ft.getName());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -376,8 +349,7 @@ public class MetaFieldImpl
             }
         } else
             throw new IOException("LOB folder value cannot be set!");
-    } /* setLobFolder */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -392,9 +364,7 @@ public class MetaFieldImpl
             }
         }
         return uriLobFolder;
-    } /* getLobFolder */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -414,9 +384,7 @@ public class MetaFieldImpl
             }
         }
         return uriLocal;
-    } /* getAbsoluteLobFolder */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -439,9 +407,7 @@ public class MetaFieldImpl
             }
         }
         return sType;
-    } /* getType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -464,9 +430,7 @@ public class MetaFieldImpl
             }
         }
         return iDataType;
-    } /* getPreType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -489,9 +453,7 @@ public class MetaFieldImpl
             }
         }
         return sTypeOriginal;
-    } /* getTypeOriginal */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -514,9 +476,7 @@ public class MetaFieldImpl
             }
         }
         return sTypeSchema;
-    } /* getTypeSchema */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -539,9 +499,7 @@ public class MetaFieldImpl
             }
         }
         return sTypeName;
-    } /* getTypeName */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -564,9 +522,7 @@ public class MetaFieldImpl
             }
         }
         return lPrecision;
-    } /* getPrecision */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -589,9 +545,7 @@ public class MetaFieldImpl
             }
         }
         return iScale;
-    } /* getPrecision */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -613,9 +567,7 @@ public class MetaFieldImpl
                 mt = mfParent.getMetaType();
         }
         return mt;
-    } /* getMetaType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -628,10 +580,9 @@ public class MetaFieldImpl
         if (ma != null)
             iCardinality = ma.getCardinality();
         return iCardinality;
-    } /* getCardinality */
+    } 
 
-    /* property MimeType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -640,8 +591,7 @@ public class MetaFieldImpl
     public void setMimeType(String sMimeType) {
         if (getArchiveImpl().isMetaDataDifferent(getMimeType(), sMimeType))
             _ft.setMimeType(XU.toXml(sMimeType));
-    } /* setMimeType */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -651,8 +601,7 @@ public class MetaFieldImpl
         return XU.fromXml(_ft.getMimeType());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -661,8 +610,7 @@ public class MetaFieldImpl
     public void setDescription(String sDescription) {
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _ft.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -672,8 +620,6 @@ public class MetaFieldImpl
         return XU.fromXml(_ft.getDescription());
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -681,8 +627,7 @@ public class MetaFieldImpl
     public int getMetaFields()
             throws IOException {
         return getMetaFieldsMap().size();
-    } /* getMetaFields */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -706,8 +651,7 @@ public class MetaFieldImpl
                 mf = mfi;
         }
         return mf;
-    } /* getMetaField */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -725,9 +669,7 @@ public class MetaFieldImpl
             }
         }
         return getMetaFieldsMap().get(sName);
-    } /* getMetaField */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -776,9 +718,7 @@ public class MetaFieldImpl
         } else
             throw new IOException("New field cannot be added!");
         return mf;
-    } /* createMetaField */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -796,9 +736,7 @@ public class MetaFieldImpl
                         (getCardinality() <= 0) ? "" : String.valueOf(getCardinality()),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -809,4 +747,4 @@ public class MetaFieldImpl
     public String toString() {
         return getName();
     }
-} /* class MetaField */
+} 

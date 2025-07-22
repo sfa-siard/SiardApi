@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaColum interface provides access to column meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaColumn
         extends MetaValue {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the table meta data instance to which these column
      * meta data belong or null if the belong to a view.
@@ -29,8 +25,6 @@ public interface MetaColumn
      */
     MetaTable getParentMetaTable();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the view meta data instance to which these column
      * meta data belong or null if they belong to a table.
@@ -38,8 +32,6 @@ public interface MetaColumn
      * @return table meta data instance.
      */
     MetaView getParentMetaView();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if column's type or type name is not null.
@@ -51,7 +43,6 @@ public interface MetaColumn
   /*====================================================================
   column properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * set SQL:2008 predefined data type of the column.
@@ -112,8 +103,6 @@ public interface MetaColumn
      * @return SQL:2008 predefined data type of the column or null for a
      * structured type.
      */
-    /*------------------------------------------------------------------*/
-
     /**
      * set original data type of the column.
      * Can only be set if the SIARD archive is open for modification
@@ -131,8 +120,6 @@ public interface MetaColumn
      * @return original data type of the column.
      */
     String getTypeOriginal();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set schema of UDT type for this column.
@@ -153,8 +140,6 @@ public interface MetaColumn
      */
     String getTypeSchema();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set name of UDT type for this column.
      * Can only be set if the SIARD archive is open for modification
@@ -173,8 +158,6 @@ public interface MetaColumn
      * @return name of UDT type for this column.
      */
     String getTypeName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set nullability of the column.
@@ -195,8 +178,6 @@ public interface MetaColumn
      */
     boolean isNullable();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set default value of the column.
      * Can only be set if the SIARD archive is open for modification
@@ -216,8 +197,6 @@ public interface MetaColumn
      */
     String getDefaultValue();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set cardinality (maximum array length) of the column if it is
      * an ARRAY.
@@ -230,4 +209,4 @@ public interface MetaColumn
     void setCardinality(int iCardinality)
             throws IOException;
 
-} /* interface MetaColumn */
+} 

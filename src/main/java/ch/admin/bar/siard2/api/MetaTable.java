@@ -11,17 +11,13 @@ package ch.admin.bar.siard2.api;
 import java.io.IOException;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * MetaTable interface provides access to table meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaTable
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the schema meta data.
      *
@@ -29,16 +25,12 @@ public interface MetaTable
      */
     MetaSchema getParentMetaSchema();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated table instance to which these meta data belong.
      *
      * @return associated table instance.
      */
     Table getTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the table meta data is valid.
@@ -50,8 +42,7 @@ public interface MetaTable
   /*====================================================================
   table properties
   ====================================================================*/
-    /* name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get table name.
@@ -60,8 +51,7 @@ public interface MetaTable
      */
     String getName();
 
-    /* folder */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get table folder.
@@ -70,8 +60,7 @@ public interface MetaTable
      */
     String getFolder();
 
-    /* description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set description of the table.
@@ -87,8 +76,7 @@ public interface MetaTable
      */
     String getDescription();
 
-    /* rows */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set number of rows of the table.
@@ -98,8 +86,6 @@ public interface MetaTable
      */
     void setRows(long lRows)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get the number of rows of the table.
@@ -111,7 +97,6 @@ public interface MetaTable
   /*====================================================================
   list properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of column meta data entries.
@@ -148,8 +133,6 @@ public interface MetaTable
     MetaColumn createMetaColumn(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get meta data entry of primary key of the table.
      *
@@ -168,8 +151,6 @@ public interface MetaTable
      */
     MetaUniqueKey createMetaPrimaryKey(String sName)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of foreign key meta data entries.
@@ -206,8 +187,6 @@ public interface MetaTable
     MetaForeignKey createMetaForeignKey(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get number of candidate key meta data entries.
      *
@@ -242,8 +221,6 @@ public interface MetaTable
      */
     MetaUniqueKey createMetaCandidateKey(String sName)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of check constraint meta data entries.
@@ -280,8 +257,6 @@ public interface MetaTable
     MetaCheckConstraint createMetaCheckConstraint(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get number of trigger meta data entries.
      *
@@ -317,8 +292,6 @@ public interface MetaTable
     MetaTrigger createMetaTrigger(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return a list of "flattened" column names contained in this table,
      * each given as a list of column and field names.
@@ -332,8 +305,6 @@ public interface MetaTable
             boolean bSupportsArrays, boolean bSupportsUdts)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * retrieve the (predefined) type for this "flattened" column name.
      *
@@ -345,4 +316,4 @@ public interface MetaTable
     String getType(List<String> listNames)
             throws IOException;
 
-} /* interface MetaTable */
+} 

@@ -15,19 +15,15 @@ import org.w3c.dom.Node;
 
 import java.text.StringCharacterIterator;
 
-/*====================================================================*/
 
 /**
  * XU implements XML conversion utilities.
  *
- * @author Hartwig Thomas
  */
 public class XU {
     public static final String sXML_VERSION_1_0 = "1.0";
     private static final int m_iCODES = 256;
     private static String[] m_asToDom = null;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * creates the lookup table for conversion of a string to DOM.
@@ -50,12 +46,11 @@ public class XU {
                 b = (byte) i;
             m_asToDom[i] = "\\u00" + BU.toHex(b);
         }
-    } /* buildToDom */
+    } 
   
   /*====================================================================
   (static, public) Methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * prepare text for xs:string by replacing all "critical" but
@@ -93,9 +88,7 @@ public class XU {
             sText = sb.toString();
         }
         return sText;
-    } /* toXml */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * prepare text for xs:string by replacing all "critical" but
@@ -109,9 +102,7 @@ public class XU {
         if (sText != null)
             el.appendChild(el.getOwnerDocument()
                              .createTextNode(toXml(sText)));
-    } /* toXml */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * prepare text from xs:string by removing all "ignorable" white space.
@@ -163,9 +154,7 @@ public class XU {
             sText = sb.toString();
         }
         return sText;
-    } /* fromXml */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * prepare text from xs:string by removing all "ignorable" white space.
@@ -180,9 +169,7 @@ public class XU {
         if (el != null)
             sText = el.getTextContent();
         return fromXml(sText);
-    } /* fromXml */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * remove all child elements of a DOM element.
@@ -197,6 +184,6 @@ public class XU {
                           .item(iChild);
             el.removeChild(node);
         }
-    } /* clearElement */
+    } 
 
-} /* XU */
+} 

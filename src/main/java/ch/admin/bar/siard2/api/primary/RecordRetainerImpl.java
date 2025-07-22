@@ -27,12 +27,10 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
 import java.net.URI;
 
-/*====================================================================*/
 
 /**
  * RecordRetainer provides serial write access to records.
  *
- * @author Hartwig Thomas
  */
 public class RecordRetainerImpl
         implements RecordRetainer {
@@ -87,10 +85,8 @@ public class RecordRetainerImpl
         public long getByteCount() {
             return _lCount;
         }
-    } /* class CountingOutputStream */
+    } 
     /*==================================================================*/
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get ArchiveImpl instance.
@@ -100,9 +96,7 @@ public class RecordRetainerImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) _table.getParentSchema()
                                    .getParentArchive();
-    } /* getArchiveImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write the header of the table XML.
@@ -132,9 +126,7 @@ public class RecordRetainerImpl
             throw new IOException("Start of document could not be written!", xse);
         }
         return xsw;
-    } /* writeHeader */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor opens a Retainer on the records of a table.
@@ -167,9 +159,7 @@ public class RecordRetainerImpl
             _xsw = writeHeader(_osXml, _table);
         } else
             throw new IOException("Table cannot be opened for writing!");
-    } /* constructor RecordRetainer */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * put an element (cell or field) to the XML stream writer)
@@ -201,9 +191,7 @@ public class RecordRetainerImpl
         }
         // System.out.println();
         xsw.writeEndElement();
-    } /* putRowElement */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * put the record type with "any" elements for cells to the XML
@@ -221,9 +209,7 @@ public class RecordRetainerImpl
             putRowElement((Element) rt.getAny()
                                       .get(i), xsw);
         xsw.writeEndElement();
-    } /* putRecordType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write a record to the XML stream writer.
@@ -236,9 +222,7 @@ public class RecordRetainerImpl
     static void writeRecord(Record record, XMLStreamWriter xsw)
             throws IOException, XMLStreamException {
         putRecordType(((RecordImpl) record).getRecordType(), xsw);
-    } /* writeRecord */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -254,9 +238,7 @@ public class RecordRetainerImpl
         catch (XMLStreamException xse) {
             throw new IOException("Error writing record " + _lRecord + "!", xse);
         }
-    } /* put */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * copy all temporary external LOB files into the ZIP file and
@@ -296,9 +278,7 @@ public class RecordRetainerImpl
             }
             fileTempLobFolder.delete();
         }
-    } /* copyLobFiles */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * write all terminating elements to the XML stream writer.
@@ -315,8 +295,6 @@ public class RecordRetainerImpl
             throw new IOException("End of document could not be written!", xse);
         }
     } /* writeFooter */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -349,8 +327,6 @@ public class RecordRetainerImpl
         _lRecord = -1;
     } /* close */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -361,8 +337,6 @@ public class RecordRetainerImpl
         return record;
     } /* createRecord */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -370,8 +344,6 @@ public class RecordRetainerImpl
     public long getPosition() {
         return _lRecord;
     } /* getPosition */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}

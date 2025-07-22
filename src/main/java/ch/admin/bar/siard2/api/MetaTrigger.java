@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaTrigger interface provides access to trigger meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaTrigger
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the table meta data instance to which these trigger
      * meta data belong.
@@ -28,8 +24,6 @@ public interface MetaTrigger
      * @return table meta data instance.
      */
     MetaTable getParentMetaTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the trigger's action time, event and action is set.
@@ -41,7 +35,6 @@ public interface MetaTrigger
   /*====================================================================
   trigger properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get trigger name.
@@ -49,8 +42,6 @@ public interface MetaTrigger
      * @return trigger name.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set trigger action time (BEFORE, AFTER or INSTEAD OF).
@@ -70,8 +61,6 @@ public interface MetaTrigger
      */
     String getActionTime();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set trigger event INSERT, DELETE, UPDATE [OF &lt;trigger column list&gt;].
      * Can only be set if the SIARD archive is open for modification
@@ -89,8 +78,6 @@ public interface MetaTrigger
      * @return trigger event INSERT, DELETE, UPDATE [OF &lt;trigger column list&gt;].
      */
     String getTriggerEvent();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set alias list &lt;old or new values alias&gt;.
@@ -110,8 +97,6 @@ public interface MetaTrigger
      */
     String getAliasList();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set triggered action.
      * Can only be set if the SIARD archive is open for modification
@@ -130,8 +115,6 @@ public interface MetaTrigger
      */
     String getTriggeredAction();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the trigger's meaning and content.
      *
@@ -146,4 +129,4 @@ public interface MetaTrigger
      */
     String getDescription();
 
-} /* interface MetaTrigger */
+} 

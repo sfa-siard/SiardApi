@@ -155,7 +155,7 @@ public class MetaParameterTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testCardinality */
+    } 
 
     @Test
     public void testDescription() {

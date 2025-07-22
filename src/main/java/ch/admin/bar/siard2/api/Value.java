@@ -20,16 +20,12 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * Value interface provides access to value handling of cells or fields.
  *
- * @author Hartwig Thomas
  */
 public interface Value {
-    /*------------------------------------------------------------------*/
-
     /**
      * get ancestor cell with which this Field instance is ultimately associated.
      *
@@ -38,16 +34,12 @@ public interface Value {
      */
     Cell getAncestorCell();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return value (cell or field) meta data associated with this value.
      *
      * @return value (cell or field) meta data associated with this value.
      */
     MetaValue getMetaValue();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if field value is null
@@ -57,7 +49,6 @@ public interface Value {
     boolean isNull();
 
     /* xs:string */
-    /*------------------------------------------------------------------*/
 
     /**
      * return string value of cell (or null for NULL).
@@ -67,7 +58,6 @@ public interface Value {
      */
     String getString()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set string value of cell.
@@ -79,7 +69,6 @@ public interface Value {
             throws IOException;
 
     /* xs:hexBinary */
-    /*------------------------------------------------------------------*/
 
     /**
      * return byte array value of cell (or null for NULL).
@@ -89,7 +78,6 @@ public interface Value {
      */
     byte[] getBytes()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set byte array value of cell.
@@ -101,7 +89,6 @@ public interface Value {
             throws IOException;
 
     /* xs:boolean */
-    /*------------------------------------------------------------------*/
 
     /**
      * return boolean value of cell (or null for NULL).
@@ -111,7 +98,6 @@ public interface Value {
      */
     Boolean getBoolean()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set boolean value of cell.
@@ -123,7 +109,6 @@ public interface Value {
             throws IOException;
 
     /* xs:int */
-    /*------------------------------------------------------------------*/
 
     /**
      * return short value of cell (or null for NULL) for cells of type
@@ -134,7 +119,6 @@ public interface Value {
      */
     Short getShort()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set short value of cell for cells of type SMALLINT.
@@ -145,8 +129,6 @@ public interface Value {
     void setShort(short sh)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return integer value of cell (or null for NULL) for cells of type
      * INTEGER.
@@ -156,7 +138,6 @@ public interface Value {
      */
     Integer getInt()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set integer value of cell for cells of type INTEGER.
@@ -168,7 +149,6 @@ public interface Value {
             throws IOException;
 
     /* xs:integer */
-    /*------------------------------------------------------------------*/
 
     /**
      * return long value of cell (or null for NULL) for cells of type
@@ -179,7 +159,6 @@ public interface Value {
      */
     Long getLong()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set long value of cell for cells of type BIGINT.
@@ -190,8 +169,6 @@ public interface Value {
     void setLong(long l)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return big integer value of cell (or null for NULL).
      *
@@ -200,7 +177,6 @@ public interface Value {
      */
     BigInteger getBigInteger()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set big integer value of cell.
@@ -212,7 +188,6 @@ public interface Value {
             throws IOException;
 
     /* xs:decimal */
-    /*------------------------------------------------------------------*/
 
     /**
      * return big decimal value of cell (or null for NULL).
@@ -222,7 +197,6 @@ public interface Value {
      */
     BigDecimal getBigDecimal()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set big decimal value of cell.
@@ -234,7 +208,6 @@ public interface Value {
             throws IOException;
 
     /* xs:float */
-    /*------------------------------------------------------------------*/
 
     /**
      * return float value of cell (or null for NULL) for cells of type REAL.
@@ -244,7 +217,6 @@ public interface Value {
      */
     Float getFloat()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set float value of cell for cells of type REAL.
@@ -256,7 +228,6 @@ public interface Value {
             throws IOException;
 
     /* xs:double */
-    /*------------------------------------------------------------------*/
 
     /**
      * return double value of cell (or null for NULL).
@@ -266,7 +237,6 @@ public interface Value {
      */
     Double getDouble()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set double value of cell.
@@ -278,7 +248,6 @@ public interface Value {
             throws IOException;
 
     /* xs:date (dateType) */
-    /*------------------------------------------------------------------*/
 
     /**
      * return date value of cell (or null for NULL).
@@ -288,7 +257,6 @@ public interface Value {
      */
     Date getDate()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set date value of cell.
@@ -300,7 +268,6 @@ public interface Value {
             throws IOException;
 
     /* xs:time (timeType) */
-    /*------------------------------------------------------------------*/
 
     /**
      * return time value of cell (or null for NULL).
@@ -310,7 +277,6 @@ public interface Value {
      */
     Time getTime()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set time value of cell.
@@ -322,7 +288,6 @@ public interface Value {
             throws IOException;
 
     /* xs:dateTime (dateTimeType) */
-    /*------------------------------------------------------------------*/
 
     /**
      * return timestamp value of cell (or null for NULL).
@@ -332,7 +297,6 @@ public interface Value {
      */
     Timestamp getTimestamp()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set timestamp value of cell.
@@ -344,7 +308,6 @@ public interface Value {
             throws IOException;
 
     /* xs:duration */
-    /*------------------------------------------------------------------*/
 
     /**
      * return duration value of cell (or null for NULL).
@@ -354,7 +317,6 @@ public interface Value {
      */
     Duration getDuration()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * set duration value of cell.
@@ -365,8 +327,7 @@ public interface Value {
     void setDuration(Duration duration)
             throws IOException;
 
-    /* clobType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * return cell reader (or null for NULL).
@@ -377,8 +338,6 @@ public interface Value {
     Reader getReader()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return length (in characters) of character value or -1 otherwise.
      *
@@ -387,8 +346,6 @@ public interface Value {
      */
     long getCharLength()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set cell reader.
@@ -399,8 +356,6 @@ public interface Value {
     void setReader(Reader rdrClob)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return file name stored in attribute of cell, or null.
      *
@@ -410,8 +365,7 @@ public interface Value {
     String getFilename()
             throws IOException;
 
-    /* blobType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * return cell input stream (or null for NULL).
@@ -422,8 +376,6 @@ public interface Value {
     InputStream getInputStream()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return byte length of binary value or -1 otherwise.
      *
@@ -432,8 +384,6 @@ public interface Value {
      */
     long getByteLength()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set cell input stream.
@@ -446,8 +396,7 @@ public interface Value {
 
     void setInputStream(InputStream isBlob, String filePath) throws IOException;
 
-    /*  predefined type */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * return object of type appropriate for the data type, or null,
@@ -461,8 +410,7 @@ public interface Value {
     Object getObject()
             throws IOException;
 
-    /* array */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * return number of elements of ARRAY cell (or 0 for NULL).
@@ -472,7 +420,6 @@ public interface Value {
      */
     int getElements()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get ARRAY field with the given index.
@@ -484,8 +431,7 @@ public interface Value {
     Field getElement(int iElement)
             throws IOException;
 
-    /* udt */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * return number of attributes of UDT cell (or 0 for NULL).
@@ -495,7 +441,6 @@ public interface Value {
      */
     int getAttributes()
             throws IOException;
-    /*------------------------------------------------------------------*/
 
     /**
      * get UDT attribute field with the given index.
@@ -506,8 +451,6 @@ public interface Value {
      */
     Field getAttribute(int iAttribute)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get a linearized ("flattened") list of values represented by this
@@ -521,4 +464,4 @@ public interface Value {
     List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
             throws IOException;
 
-} /* interface Value */
+} 

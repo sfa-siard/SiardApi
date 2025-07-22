@@ -16,25 +16,19 @@ import ch.enterag.utils.background.Progress;
 import java.io.IOException;
 import java.io.InputStream;
 
-/*====================================================================*/
 
 /**
  * SortedTable is an internal interface to access tables sorted  by some
  * column in a given direction.
  *
- * @author Hartwig Thomas
  */
 public interface SortedTable {
-    /*------------------------------------------------------------------*/
-
     /**
      * opens the input stream of the sorted table
      *
      * @throws IOException if an I/O error occurred.
      */
     InputStream open() throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * sorts the table data in the given direction by the data in the given
@@ -59,16 +53,12 @@ public interface SortedTable {
     void sort(Table table, boolean bAscending, int iSortColumn, Progress bg)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get current sort direction of sorted table.
      *
      * @return sort direction of sorted table.
      */
     boolean getAscending();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get current sort column of sorted table.
@@ -77,4 +67,4 @@ public interface SortedTable {
      */
     int getSortColumn();
 
-} /* SortedTable */
+} 

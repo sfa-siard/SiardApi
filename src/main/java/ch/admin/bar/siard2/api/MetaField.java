@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaField interface provides access to field meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaField
         extends MetaValue {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the parent column meta data to which these meta data belong.
      *
@@ -28,16 +24,12 @@ public interface MetaField
      */
     MetaColumn getParentMetaColumn();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the parent field meta data to which these meta data belong.
      *
      * @return parent field meta data, or null, if parent is a column.
      */
     MetaField getParentMetaField();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return the associated attribute.
@@ -51,4 +43,4 @@ public interface MetaField
   /*====================================================================
   field properties
   ====================================================================*/
-} /* interface MetaField */
+} 

@@ -18,12 +18,10 @@ import java.io.*;
 import java.sql.Types;
 import java.text.Collator;
 
-/*====================================================================*/
 
 /**
  * SortedTableImpl implements the interface SortedTable.
  *
- * @author Hartwig Thomas
  */
 public class SortedTableImpl
         implements SortedTable {
@@ -36,8 +34,6 @@ public class SortedTableImpl
     private long _lWrites = -1;
     private long _lWritesPercent = -1;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * increment the number or records written, issuing a notification,
      * when a percent is reached.
@@ -48,9 +44,7 @@ public class SortedTableImpl
             int iPercent = (int) ((100 * _lWritten) / _lWrites);
             _progress.notifyProgress(iPercent);
         }
-    } /* incWritten */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * check if cancel was requested.
@@ -62,9 +56,7 @@ public class SortedTableImpl
         if (_progress != null)
             bCancelRequested = _progress.cancelRequested();
         return bCancelRequested;
-    } /* cancelRequested */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -75,7 +67,6 @@ public class SortedTableImpl
     }
 
     private int _iSortColumn = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -85,8 +76,6 @@ public class SortedTableImpl
         return _iSortColumn;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -94,7 +83,7 @@ public class SortedTableImpl
     public InputStream open()
             throws IOException {
         return new FileInputStream(_fileSorted);
-    } /* open */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -110,7 +99,7 @@ public class SortedTableImpl
     private int compareStrings(String sLeft, String sRight) {
         return Collator.getInstance()
                        .compare(sLeft, sRight);
-    } /* compareStrings */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -145,7 +134,7 @@ public class SortedTableImpl
                 iCompare = 1;
         }
         return iCompare;
-    } /* compareBytes */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -177,7 +166,7 @@ public class SortedTableImpl
         isLeft.close();
         isRight.close();
         return iCompare;
-    } /* compareInputStreams */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -210,7 +199,7 @@ public class SortedTableImpl
         rdrLeft.close();
         rdrRight.close();
         return iCompare;
-    } /* compareReaders */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -310,7 +299,7 @@ public class SortedTableImpl
                 iCompare = -1;
         }
         return iCompare;
-    } /* compare */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -334,7 +323,7 @@ public class SortedTableImpl
         else
             bLessEqual = (iCompare >= 0);
         return bLessEqual;
-    } /* lessEqual */
+    } 
 
     /*-------------------------------------------------------------------*/
 
@@ -388,9 +377,7 @@ public class SortedTableImpl
             else
                 recordRight = null;
         }
-    } /* merge */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * sort the given number of records in the input XML stream and write
@@ -438,9 +425,7 @@ public class SortedTableImpl
             RecordRetainerImpl.writeRecord(_rdi.readRecord(xsr), xsw);
             incWritten();
         }
-    } /* sort */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -503,6 +488,6 @@ public class SortedTableImpl
                 throw new IllegalArgumentException("Cannot sort 0 records!");
         }
         _progress = null;
-    } /* sort */
+    } 
 
-} /* SortedTableImpl */
+} 

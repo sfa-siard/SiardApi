@@ -18,12 +18,10 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaForeignKeyImpl implements the interface MetaForeignKey.
  *
- * @author Hartwig Thomas
  */
 public class MetaForeignKeyImpl
         extends MetaSearchImpl
@@ -31,7 +29,6 @@ public class MetaForeignKeyImpl
     private static final ObjectFactory _of = new ObjectFactory();
 
     private final MetaTable _mtParent;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -41,8 +38,6 @@ public class MetaForeignKeyImpl
         return _mtParent;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -50,8 +45,6 @@ public class MetaForeignKeyImpl
     public boolean isValid() {
         return getReferences() > 0;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get archive
@@ -62,11 +55,9 @@ public class MetaForeignKeyImpl
         return (ArchiveImpl) getParentMetaTable().getTable()
                                                  .getParentSchema()
                                                  .getParentArchive();
-    } /* getArchive */
+    } 
 
     private final ForeignKeyType _fkt;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -76,9 +67,7 @@ public class MetaForeignKeyImpl
     public void setTemplate(ForeignKeyType fktTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(fktTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -89,9 +78,7 @@ public class MetaForeignKeyImpl
     private MetaForeignKeyImpl(MetaTable mtParent, ForeignKeyType fkt) {
         _mtParent = mtParent;
         _fkt = fkt;
-    } /* constructor MetaForeignKeyImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -102,10 +89,9 @@ public class MetaForeignKeyImpl
      */
     public static MetaForeignKey newInstance(MetaTable mtParent, ForeignKeyType fkt) {
         return new MetaForeignKeyImpl(mtParent, fkt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -115,8 +101,7 @@ public class MetaForeignKeyImpl
         return XU.fromXml(_fkt.getName());
     }
 
-    /* property ReferencedSchema */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -129,8 +114,7 @@ public class MetaForeignKeyImpl
                 _fkt.setReferencedSchema(XU.toXml(sReferencedSchema));
         } else
             throw new IOException("Referenced schema cannot be set!");
-    } /* setReferencedSchema */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -140,8 +124,7 @@ public class MetaForeignKeyImpl
         return XU.fromXml(_fkt.getReferencedSchema());
     }
 
-    /* property ReferencedTable */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -158,8 +141,7 @@ public class MetaForeignKeyImpl
             }
         } else
             throw new IOException("Referenced table cannot be set!");
-    } /* setReferencedTable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -170,7 +152,6 @@ public class MetaForeignKeyImpl
     }
 
     /* list property reference */
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -180,7 +161,6 @@ public class MetaForeignKeyImpl
         return _fkt.getReference()
                    .size();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -191,7 +171,6 @@ public class MetaForeignKeyImpl
                               .get(iColumn)
                               .getColumn());
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -202,7 +181,6 @@ public class MetaForeignKeyImpl
                               .get(iColumn)
                               .getReferenced());
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -219,9 +197,7 @@ public class MetaForeignKeyImpl
             getArchive().isMetaDataDifferent(null, rt);
         } else
             throw new IOException("Reference cannot be set!");
-    } /* addReference */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -235,9 +211,7 @@ public class MetaForeignKeyImpl
             sbColumns.append(getColumn(iReference));
         }
         return sbColumns.toString();
-    } /* getColumnsString */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -251,10 +225,9 @@ public class MetaForeignKeyImpl
             sbReferenced.append(getReferenced(iReference));
         }
         return sbReferenced.toString();
-    } /* getReferencesString */
+    } 
 
-    /* property MatchType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -274,8 +247,7 @@ public class MetaForeignKeyImpl
             }
         } else
             throw new IOException("Match type cannot be set!");
-    } /* setReferencedTable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -287,10 +259,9 @@ public class MetaForeignKeyImpl
             sMatchType = _fkt.getMatchType()
                              .value();
         return sMatchType;
-    } /* getMatchType */
+    } 
 
-    /* property DeleteAction */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -310,8 +281,7 @@ public class MetaForeignKeyImpl
             }
         } else
             throw new IOException("Referential action cannot be set!");
-    } /* setDeleteAction */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -323,10 +293,9 @@ public class MetaForeignKeyImpl
             sDeleteAction = _fkt.getDeleteAction()
                                 .value();
         return sDeleteAction;
-    } /* getDeleteAction */
+    } 
 
-    /* property UpdateAction */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -346,8 +315,7 @@ public class MetaForeignKeyImpl
             }
         } else
             throw new IOException("Referential action cannot be set!");
-    } /* setUpdateAction */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -359,10 +327,9 @@ public class MetaForeignKeyImpl
             sUpdateAction = _fkt.getUpdateAction()
                                 .value();
         return sUpdateAction;
-    } /* getUpdateAction */
+    } 
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -371,8 +338,7 @@ public class MetaForeignKeyImpl
     public void setDescription(String sDescription) {
         if (getArchive().isMetaDataDifferent(getDescription(), sDescription))
             _fkt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -381,8 +347,6 @@ public class MetaForeignKeyImpl
     public String getDescription() {
         return XU.fromXml(_fkt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -402,9 +366,7 @@ public class MetaForeignKeyImpl
                         getUpdateAction(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -416,4 +378,4 @@ public class MetaForeignKeyImpl
     public String toString() {
         return getName();
     }
-} /* class MetaForeignKeyImpl */
+} 

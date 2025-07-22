@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaSchema interface provides access to schema meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaSchema
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the meta data on the archive level.
      *
@@ -28,16 +24,12 @@ public interface MetaSchema
      */
     MetaData getParentMetaData();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated schema instance to which these meta data belong.
      *
      * @return associated schema instance.
      */
     Schema getSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the schema meta data is valid.
@@ -49,8 +41,7 @@ public interface MetaSchema
   /*====================================================================
   schema properties
   ====================================================================*/
-    /* name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get schema name.
@@ -59,8 +50,7 @@ public interface MetaSchema
      */
     String getName();
 
-    /* folder */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get schema folder.
@@ -68,8 +58,6 @@ public interface MetaSchema
      * @return schema folder.
      */
     String getFolder();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set description of the schema.
@@ -88,7 +76,6 @@ public interface MetaSchema
   /*====================================================================
   list properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of table meta data entries.
@@ -112,8 +99,6 @@ public interface MetaSchema
      * @return table meta data.
      */
     MetaTable getMetaTable(String sName);
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of view meta data entries.
@@ -162,8 +147,6 @@ public interface MetaSchema
     boolean removeMetaView(MetaView mv)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get number of routine meta data entries.
      *
@@ -198,8 +181,6 @@ public interface MetaSchema
      */
     MetaRoutine createMetaRoutine(String sName)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of type meta data entries.
@@ -236,4 +217,4 @@ public interface MetaSchema
     MetaType createMetaType(String sName)
             throws IOException;
 
-} /* interface MetaSchema */
+} 

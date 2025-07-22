@@ -29,7 +29,7 @@ public class RandomArchive {
     private int _iReturn = iRETURN_ERROR;
     private SiardArchive _sa = null;
 
-    /*------------------------------------------------------------------*/
+
     /* constructs a full message with all causes from a throwable.
      * @return full message.
      */
@@ -47,11 +47,9 @@ public class RandomArchive {
                 sMessage = sMessage + tException.getMessage();
         }
         return "  " + sMessage;
-    } /* getThrowableMessage */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * retrieves a full error message.
      *
      * @param e error.
@@ -59,11 +57,9 @@ public class RandomArchive {
      */
     public static String getErrorMessage(Error e) {
         return getThrowableMessage(e);
-    } /* getErrorMessage */
+    } 
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * retrieves a full exception message.
      *
      * @param e exception.
@@ -71,7 +67,7 @@ public class RandomArchive {
      */
     public static String getExceptionMessage(Exception e) {
         return getThrowableMessage(e);
-    } /* getExceptionMessage */
+    } 
 
 
     private int readMetaData(File fileInput) {
@@ -95,7 +91,7 @@ public class RandomArchive {
             System.err.println(getExceptionMessage(ie));
         }
         return iReturn;
-    } /* readMetaData */
+    } 
 
     private int createMetaData(MetaData md) {
         int iReturn = iRETURN_ERROR;
@@ -152,7 +148,7 @@ public class RandomArchive {
             System.err.println(getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createMetaData */
+    } 
 
     private int createRandomFile(File fileOutput, double dFraction) {
         int iReturn = iRETURN_ERROR;
@@ -205,7 +201,7 @@ public class RandomArchive {
         System.out.println("-o:<siard file>: random SIARD file - force overwrite, if -f option is given.");
         System.out.println();
         return iRETURN_WARNING;
-    } /* displaySyntax */
+    } 
 
     public RandomArchive(String[] args) {
         Arguments arguments = new Arguments(args);
@@ -241,7 +237,7 @@ public class RandomArchive {
             if (_iReturn != iRETURN_OK)
                 _iReturn = displaySyntax();
         }
-    } /* constructor */
+    } 
 
     public static void main(String[] args) {
         System.out.println("Random application of " + _ma.getImplementationTitle() + " " + _ma.getImplementationVersion());

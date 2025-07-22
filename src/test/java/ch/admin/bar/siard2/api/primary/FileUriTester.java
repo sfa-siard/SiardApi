@@ -15,7 +15,7 @@ public class FileUriTester {
 
     @Test
     public void testRelative() {
-        /* relative URI */
+        
         try {
             URI uri = new URI("../../../Temp/lobs/");
             System.out.println(

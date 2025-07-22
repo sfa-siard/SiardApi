@@ -25,12 +25,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-/*====================================================================*/
 
 /**
  * MetaDataXml implements reading and writing of SIARD metadata XML data.
  *
- * @author Hartwig Thomas
  */
 public class MetaDataXml {
     /**
@@ -77,7 +75,7 @@ public class MetaDataXml {
             sType = pt.format();
         }
         return sType;
-    } /* convertType */
+    } 
 
     private static ColumnType convertColumn(ch.admin.bar.siard2.api.generated.old10.ColumnType ctOld)
             throws JAXBException {
@@ -93,7 +91,7 @@ public class MetaDataXml {
             ct.setDescription(ctOld.getDescription());
         }
         return ct;
-    } /* convertColumn */
+    } 
 
     private static ColumnsType convertColumns(ch.admin.bar.siard2.api.generated.old10.ColumnsType ctsOld)
             throws JAXBException {
@@ -109,7 +107,7 @@ public class MetaDataXml {
             }
         }
         return cts;
-    } /* convertColumns */
+    } 
 
     private static UniqueKeyType convertPrimaryKey(ch.admin.bar.siard2.api.generated.old10.PrimaryKeyType pktOld) {
         UniqueKeyType ukt = null;
@@ -124,7 +122,7 @@ public class MetaDataXml {
                               .get(i));
         }
         return ukt;
-    } /* convertPrimaryKey */
+    } 
 
     private static ReferenceType convertReference(ch.admin.bar.siard2.api.generated.old10.ReferenceType rtOld) {
         ReferenceType rt = null;
@@ -134,7 +132,7 @@ public class MetaDataXml {
             rt.setReferenced(rtOld.getReferenced());
         }
         return rt;
-    } /* convertReference */
+    } 
 
     private static ForeignKeyType convertForeignKey(ch.admin.bar.siard2.api.generated.old10.ForeignKeyType fktOld) {
         ForeignKeyType fkt = null;
@@ -162,7 +160,7 @@ public class MetaDataXml {
             fkt.setDescription(fktOld.getDescription());
         }
         return fkt;
-    } /* convertForeignKey */
+    } 
 
     private static ForeignKeysType convertForeignKeys(ch.admin.bar.siard2.api.generated.old10.ForeignKeysType fktsOld) {
         ForeignKeysType fkts = null;
@@ -177,7 +175,7 @@ public class MetaDataXml {
             }
         }
         return fkts;
-    } /* convertForeignKeys */
+    } 
 
     private static UniqueKeyType convertCandidateKey(ch.admin.bar.siard2.api.generated.old10.CandidateKeyType cktOld) {
         UniqueKeyType ukt = null;
@@ -192,7 +190,7 @@ public class MetaDataXml {
                               .get(i));
         }
         return ukt;
-    } /* convertCandidateKey */
+    } 
 
     private static CandidateKeysType convertCandidateKeys(ch.admin.bar.siard2.api.generated.old10.CandidateKeysType cktsOld) {
         CandidateKeysType ckts = null;
@@ -207,7 +205,7 @@ public class MetaDataXml {
             }
         }
         return ckts;
-    } /* convertCandidateKeys */
+    } 
 
     private static CheckConstraintType convertCheckConstraint(ch.admin.bar.siard2.api.generated.old10.CheckConstraintType cctOld) {
         CheckConstraintType cct = null;
@@ -218,7 +216,7 @@ public class MetaDataXml {
             cct.setDescription(cctOld.getDescription());
         }
         return cct;
-    } /* convertCheckConstraint */
+    } 
 
     private static CheckConstraintsType convertCheckConstraints(ch.admin.bar.siard2.api.generated.old10.CheckConstraintsType cctsOld) {
         CheckConstraintsType ccts = null;
@@ -233,7 +231,7 @@ public class MetaDataXml {
             }
         }
         return ccts;
-    } /* convertCheckConstraints */
+    } 
 
     private static ActionTimeType convertActionTime(ch.admin.bar.siard2.api.generated.old10.ActionTimeType attOld) {
         ActionTimeType att = null;
@@ -248,7 +246,7 @@ public class MetaDataXml {
             }
         }
         return att;
-    } /* concertActionTime */
+    } 
 
     private static TriggerType convertTrigger(ch.admin.bar.siard2.api.generated.old10.TriggerType ttOld) {
         TriggerType tt = null;
@@ -262,7 +260,7 @@ public class MetaDataXml {
             tt.setDescription(ttOld.getDescription());
         }
         return tt;
-    } /* convertTrigger */
+    } 
 
     private static TriggersType convertTriggers(ch.admin.bar.siard2.api.generated.old10.TriggersType ttsOld) {
         TriggersType tts = null;
@@ -277,7 +275,7 @@ public class MetaDataXml {
             }
         }
         return tts;
-    } /* convertTriggers */
+    } 
 
     private static TableType convertTable(ch.admin.bar.siard2.api.generated.old10.TableType ttOld)
             throws JAXBException {
@@ -296,7 +294,7 @@ public class MetaDataXml {
             tt.setRows(ttOld.getRows());
         }
         return tt;
-    } /* convertTable */
+    } 
 
     private static TablesType convertTables(ch.admin.bar.siard2.api.generated.old10.TablesType ttsOld)
             throws JAXBException {
@@ -312,7 +310,7 @@ public class MetaDataXml {
             }
         }
         return tts;
-    } /* convertTables */
+    } 
 
     private static ViewType convertView(ch.admin.bar.siard2.api.generated.old10.ViewType vtOld)
             throws JAXBException {
@@ -326,7 +324,7 @@ public class MetaDataXml {
             vt.setColumns(convertColumns(vtOld.getColumns()));
         }
         return vt;
-    } /* convertView */
+    } 
 
     private static ViewsType convertViews(ch.admin.bar.siard2.api.generated.old10.ViewsType vtsOld)
             throws JAXBException {
@@ -569,8 +567,6 @@ public class MetaDataXml {
         return sa;
     } /* convertArchive */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * read meta data XML stream using the current SIARD Format version 2.2
      *
@@ -605,8 +601,6 @@ public class MetaDataXml {
         return siardArchive;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * read an "old" meta data XML file using SIARD Format version 1.0 and
      * convert it to the current format.
@@ -629,8 +623,6 @@ public class MetaDataXml {
         }
         return sa;
     } /* readXmlOld10 */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * write a meta data XML file in the current SIARD Format 2.1

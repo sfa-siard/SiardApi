@@ -10,24 +10,18 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * Schema interface provides access to primary schema data.
  *
- * @author Hartwig Thomas
  */
 public interface Schema {
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive with which this Schema instance is associated
      *
      * @return get archive associated with this schema.
      */
     Archive getParentArchive();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return the associated schema meta data describing this schema instance.
@@ -36,8 +30,6 @@ public interface Schema {
      */
     MetaSchema getMetaSchema();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return true, if the schema has at least one table with at least
      * one column and at least one row.
@@ -45,8 +37,6 @@ public interface Schema {
      * @return true if the schema is valid.
      */
     boolean isValid();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * check, if schema is empty (contains not tables).
@@ -58,7 +48,6 @@ public interface Schema {
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of table entries in the schema.
@@ -95,4 +84,4 @@ public interface Schema {
     Table createTable(String sName)
             throws IOException;
 
-} /* Schema */
+} 

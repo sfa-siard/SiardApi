@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/*====================================================================*/
 
 /**
  * Archive interface provides access to primary data and metadata.
@@ -21,7 +20,6 @@ import java.io.OutputStream;
  * ch.admin.bar.siard2.api.primary.ArchiveImpl.newInstance()
  * which returns an implementation of this interface.
  *
- * @author Hartwig Thomas
  */
 public interface Archive {
     /**
@@ -53,7 +51,6 @@ public interface Archive {
   /*====================================================================
   properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * gets file name.
@@ -62,8 +59,6 @@ public interface Archive {
      */
     File getFile();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * returns true, if SIARD file was opened with an option to
      * modify the primary data.
@@ -71,8 +66,6 @@ public interface Archive {
      * @return true, if primary data can be modified.
      */
     boolean canModifyPrimaryData();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set maximum string size for inlining LOBs.
@@ -86,16 +79,12 @@ public interface Archive {
     void setMaxInlineSize(int iMaxInlineSize)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * gets maximum string size for inlining LOBs.
      *
      * @return maximum string size for inlining LOBs.
      */
     int getMaxInlineSize();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set maximum number of external LOB files per folder (-1 for unlimited).
@@ -112,16 +101,12 @@ public interface Archive {
     void setMaxLobsPerFolder(int iMaxLobsPerFolder)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get maximum number of external LOBs per folder.
      *
      * @return maximum number of external LOBs per folder or -1 for unlimited.
      */
     int getMaxLobsPerFolder();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * export the meta data schema.
@@ -133,8 +118,6 @@ public interface Archive {
     void exportMetaDataSchema(OutputStream osXsd)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * export the generic table XSD.
      * N.B.: closes the stream!
@@ -144,8 +127,6 @@ public interface Archive {
      */
     void exportGenericTableSchema(OutputStream osXsd)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * export the current meta data.
@@ -158,8 +139,6 @@ public interface Archive {
      */
     void exportMetaData(OutputStream osXml)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * import a meta data template.
@@ -181,7 +160,6 @@ public interface Archive {
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * open an existing SIARD file for reading and modification of
@@ -191,8 +169,6 @@ public interface Archive {
      * @throws IOException if an I/O error occurred.
      */
     void open(File file) throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * create a new SIARD file with empty meta data and without primary
@@ -207,8 +183,6 @@ public interface Archive {
      */
     void create(File file) throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * close the SIARD file and save the current modifications.
      * If the SIARD files was open for writing, this computes a new message
@@ -219,16 +193,12 @@ public interface Archive {
      */
     void close() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * gets meta data for modification.
      *
      * @return MetaData instance, or null, if the Archive is not yet created.
      */
     MetaData getMetaData();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * reloads the meta data from the ZIP file.
@@ -238,8 +208,6 @@ public interface Archive {
      */
     void loadMetaData() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * writes the meta data to the ZIP file.
      *
@@ -247,16 +215,12 @@ public interface Archive {
      */
     void saveMetaData() throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * gets the number of schemas in this archive.
      *
      * @return number of schemas in the archive.
      */
     int getSchemas();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * gets a schema for reading primary data.
@@ -266,8 +230,6 @@ public interface Archive {
      */
     Schema getSchema(int iSchema);
 
-    /*------------------------------------------------------------------*/
-
     /**
      * gets a schema for reading primary data.
      *
@@ -275,8 +237,6 @@ public interface Archive {
      * @return schema open for reading.
      */
     Schema getSchema(String sName);
-
-    /*------------------------------------------------------------------*/
 
     /**
      * create a new schema for writing primary data.
@@ -290,16 +250,12 @@ public interface Archive {
     Schema createSchema(String sName)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * checks if the Archive instance is "empty" (no primary, only meta data).
      *
      * @return true, if instance is empty.
      */
     boolean isEmpty();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * checks if the Archive instance is valid, i.e. it has valid meta data
@@ -309,8 +265,6 @@ public interface Archive {
      * @return true, if instance is valid.
      */
     boolean isValid();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * checks integrity of the primary data of the Archive instance.
@@ -325,4 +279,4 @@ public interface Archive {
 
     boolean isMetaDataUnchanged();
 
-} /* interface Archive */
+} 

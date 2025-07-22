@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaParameter interface provides access to parameter meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaParameter
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the routine  meta data instance to which these parameter
      * meta data belong.
@@ -28,8 +24,6 @@ public interface MetaParameter
      * @return routine meta data instance.
      */
     MetaRoutine getParentMetaRoutine();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if attribute's type or type name is not null.
@@ -41,7 +35,6 @@ public interface MetaParameter
   /*====================================================================
   parameter properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of parameter.
@@ -50,16 +43,12 @@ public interface MetaParameter
      */
     String getName();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get position of parameter in routine (1-based!).
      *
      * @return position of parameter in routine.
      */
     int getPosition();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set mode (IN, OUT, INOUT) of parameter.
@@ -78,8 +67,6 @@ public interface MetaParameter
      * @return mode (IN, OUT, INOUT) of parameter.
      */
     String getMode();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set SQL:2008 predefined data type of the parameter.
@@ -177,8 +164,6 @@ public interface MetaParameter
      */
     int getPreType();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set original data type of the parameter.
      * Can only be set if the SIARD archive is open for modification
@@ -196,8 +181,6 @@ public interface MetaParameter
      * @return original data type of the parameter.
      */
     String getTypeOriginal();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set schema of UDT type for this parameter.
@@ -217,8 +200,6 @@ public interface MetaParameter
      * @return schema of UDT type for this parameter.
      */
     String getTypeSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set name of UDT type for this parameter.
@@ -247,8 +228,6 @@ public interface MetaParameter
      */
     MetaType getMetaType();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set cardinality (maximum array length) of the parameter if it is
      * an ARRAY.
@@ -268,8 +247,6 @@ public interface MetaParameter
      */
     int getCardinality();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the parameter's meaning and content.
      *
@@ -284,4 +261,4 @@ public interface MetaParameter
      */
     String getDescription();
 
-} /* interface MetaParameter */
+} 

@@ -22,18 +22,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/*====================================================================*/
 
 /**
  * SchemaImpl implements the interface Schema.
  *
- * @author Hartwig Thomas
  */
 public class SchemaImpl
         implements Schema {
     public static final String _sSCHEMA_FOLDER_PREFIX = "schema";
     private Archive _archiveParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -44,7 +41,6 @@ public class SchemaImpl
     }
 
     private MetaSchema _ms = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -58,9 +54,7 @@ public class SchemaImpl
 
     public void registerTable(String sName, Table table) {
         _mapTables.put(sName, table);
-    } /* registerTable */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -76,9 +70,7 @@ public class SchemaImpl
                 bEmpty = false;
         }
         return bEmpty;
-    } /* isEmpty */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -91,9 +83,7 @@ public class SchemaImpl
                 bValid = false;
         }
         return bValid;
-    } /* isValid */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * return full entry name of schema folder.
@@ -102,9 +92,7 @@ public class SchemaImpl
      */
     String getSchemaFolder() {
         return ArchiveImpl.getContentFolder() + getMetaSchema().getFolder() + "/";
-    } /* getSchemaFolder */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -148,9 +136,7 @@ public class SchemaImpl
                 TableImpl.newInstance(this, tt.getName());
             }
         }
-    } /* constructor SchemaImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -162,12 +148,11 @@ public class SchemaImpl
     public static Schema newInstance(Archive archiveParent, String sName)
             throws IOException {
         return new SchemaImpl(archiveParent, sName);
-    } /* newInstance */
+    } 
   
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -175,8 +160,7 @@ public class SchemaImpl
     @Override
     public int getTables() {
         return getMetaSchema().getMetaTables();
-    } /* getTables */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -188,16 +172,14 @@ public class SchemaImpl
         if (mt != null)
             table = getTable(mt.getName());
         return table;
-    } /* getTable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
      */
     public Table getTable(String sName) {
         return _mapTables.get(sName);
-    } /* getTable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -235,6 +217,6 @@ public class SchemaImpl
             throw new IOException("Table cannot be created!\r\n" +
                                           "SIARD archive is not open for modification of primary data!");
         return table;
-    } /* createTable */
+    } 
 
-} /* SchemaImpl */
+} 

@@ -10,25 +10,19 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaRoutine interface provides access to routine meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaRoutine
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated schema meta data to which these meta data belong.
      *
      * @return associated schema meta data.
      */
     MetaSchema getParentMetaSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the routine meta data is valid.
@@ -40,8 +34,7 @@ public interface MetaRoutine
   /*====================================================================
   routine properties
   ====================================================================*/
-    /* specificName */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get specific routine name which is unique within its schema.
@@ -50,8 +43,7 @@ public interface MetaRoutine
      */
     String getSpecificName();
 
-    /* name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the routine name to a value possibly different from the
@@ -60,7 +52,6 @@ public interface MetaRoutine
      * @param sName possibly overloaded routine name.
      */
     void setName(String sName);
-    /*------------------------------------------------------------------*/
 
     /**
      * get (possibly overloaded) routine name.
@@ -69,8 +60,7 @@ public interface MetaRoutine
      */
     String getName();
 
-    /* body */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the SQL:2008 (ISO 9075) routine body.
@@ -86,8 +76,7 @@ public interface MetaRoutine
      */
     String getBody();
 
-    /* source */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the original source code (VBA, PL/SQL, ...) defining the routine
@@ -107,8 +96,7 @@ public interface MetaRoutine
      */
     String getSource();
 
-    /* description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set description of the routine.
@@ -124,8 +112,7 @@ public interface MetaRoutine
      */
     String getDescription();
 
-    /* characteristic */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the routine characteristic.
@@ -145,8 +132,7 @@ public interface MetaRoutine
      */
     String getCharacteristic();
 
-    /* returnType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the SQL:2008 data type of the return value (for functions)
@@ -210,7 +196,6 @@ public interface MetaRoutine
   /*====================================================================
   list properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of parameter meta data entries.
@@ -249,4 +234,4 @@ public interface MetaRoutine
     MetaParameter createMetaParameter(String sName)
             throws IOException;
 
-} /* interface MetaRoutine */
+} 

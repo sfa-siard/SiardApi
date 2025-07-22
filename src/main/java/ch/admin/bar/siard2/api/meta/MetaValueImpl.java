@@ -21,19 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/*====================================================================*/
 
 /**
  * MetaValueImpl implements the interface MetaValue.
  *
- * @author Hartwig Thomas
  */
 public abstract class MetaValueImpl
         extends MetaSearchImpl
         implements MetaValue {
     protected static final Pattern _patARRAY_INDEX = Pattern.compile("^.*?\\[\\s*(\\d+)\\s*\\]$");
     private int _iPosition = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -45,9 +42,7 @@ public abstract class MetaValueImpl
 
     public MetaValueImpl(int iPosition) {
         _iPosition = iPosition;
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -80,9 +75,7 @@ public abstract class MetaValueImpl
             }
         }
         return llNames;
-    } /* getNames */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -114,9 +107,7 @@ public abstract class MetaValueImpl
             sType = mf.getType(listNames.subList(1, listNames.size()));
         }
         return sType;
-    } /* getType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -134,9 +125,7 @@ public abstract class MetaValueImpl
                 l = Long.MAX_VALUE;
         }
         return l;
-    } /* getMaxLength */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -148,6 +137,6 @@ public abstract class MetaValueImpl
         for (int iField = 0; iField < getMetaFields(); iField++)
             ams[iField] = getMetaField(iField);
         return ams;
-    } /* getSubMetaSearches */
+    } 
 
-} /* class MetaValueImpl */
+} 

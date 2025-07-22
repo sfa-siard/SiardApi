@@ -18,12 +18,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * Implementation of simple search in table.
  *
- * @author Hartwig Thomas
  */
 public class SearchImpl
         implements Search {
@@ -35,8 +33,6 @@ public class SearchImpl
     private Cell _cell = null;
     private int _iFoundOffset = -1;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -45,17 +41,13 @@ public class SearchImpl
         return _sFindString;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
     @Override
     public long getFoundRow() {
         return _record.getRecord();
-    } /* getFoundRow */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -64,9 +56,7 @@ public class SearchImpl
     public int getFoundPosition() {
         return _cell.getMetaColumn()
                     .getPosition();
-    } /* getFoundPosition */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -88,9 +78,7 @@ public class SearchImpl
                 s = du.fromSqlTimestamp((Timestamp) o);
         }
         return s;
-    } /* getFoundString */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -98,9 +86,7 @@ public class SearchImpl
     @Override
     public int getFoundOffset() {
         return _iFoundOffset;
-    } /* getFoundOffset */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -123,9 +109,7 @@ public class SearchImpl
             _rd = table.openRecords();
         } else
             throw new IllegalArgumentException("List of columns must not be empty for search!");
-    } /* find */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * find another occurrence of the find string in the current cell.
@@ -147,9 +131,7 @@ public class SearchImpl
         } else
             _iFoundOffset = -1;
         return _iFoundOffset;
-    } /* findInCell */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * find another occurrence of the find string in the current record.
@@ -172,9 +154,7 @@ public class SearchImpl
                 _cell = null;
         }
         return _cell;
-    } /* findInRecord */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * find another occurrence of the find string in the rest of the table.
@@ -195,9 +175,7 @@ public class SearchImpl
             _sFindString = null;
         }
         return _cell;
-    } /* findInTable */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -223,9 +201,7 @@ public class SearchImpl
                 _cell = findInTable(du);
         }
         return _cell;
-    } /* findNext */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -233,6 +209,6 @@ public class SearchImpl
     @Override
     public boolean canFindNext() {
         return (_sFindString != null);
-    } /* canFindNext */
+    } 
 
-} /* SearchImpl */
+} 

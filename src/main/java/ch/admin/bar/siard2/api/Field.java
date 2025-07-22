@@ -2,8 +2,6 @@ package ch.admin.bar.siard2.api;
 
 public interface Field
         extends Value {
-    /*------------------------------------------------------------------*/
-
     /**
      * get parent field or cell with which this Field instance is associated.
      *
@@ -12,8 +10,6 @@ public interface Field
      */
     Value getParent();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get field meta data associated with this field.
      *
@@ -21,4 +17,4 @@ public interface Field
      */
     MetaField getMetaField();
 
-} /* interface Field */
+} 

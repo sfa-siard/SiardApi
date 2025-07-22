@@ -19,18 +19,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaTriggerImpl implements the interface MetaTrigger.
  *
- * @author Hartwig Thomas
  */
 public class MetaTriggerImpl
         extends MetaSearchImpl
         implements MetaTrigger {
     private MetaTable _mtParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -41,8 +38,6 @@ public class MetaTriggerImpl
     }
 
     private final TriggerType _tt;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -57,8 +52,6 @@ public class MetaTriggerImpl
         return bValid;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive
      *
@@ -68,9 +61,7 @@ public class MetaTriggerImpl
         return (ArchiveImpl) getParentMetaTable().getTable()
                                                  .getParentSchema()
                                                  .getParentArchive();
-    } /* getArchive */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * set template meta data.
@@ -80,9 +71,7 @@ public class MetaTriggerImpl
     public void setTemplate(TriggerType ttTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(ttTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -93,9 +82,7 @@ public class MetaTriggerImpl
     private MetaTriggerImpl(MetaTable mtParent, TriggerType tt) {
         _mtParent = mtParent;
         _tt = tt;
-    } /* constructor MetaTriggerImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -106,10 +93,9 @@ public class MetaTriggerImpl
      */
     public static MetaTrigger newInstance(MetaTable mtParent, TriggerType tt) {
         return new MetaTriggerImpl(mtParent, tt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -119,8 +105,7 @@ public class MetaTriggerImpl
         return XU.fromXml(_tt.getName());
     }
 
-    /* property ActionTime */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -139,8 +124,7 @@ public class MetaTriggerImpl
             }
         } else
             throw new IOException("Action time cannot be set!");
-    } /* setActionTime */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -152,10 +136,9 @@ public class MetaTriggerImpl
         if (att != null)
             sActionTime = XU.fromXml(att.value());
         return sActionTime;
-    } /* getActionTime */
+    } 
 
-    /* property TriggerEvent */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -168,8 +151,7 @@ public class MetaTriggerImpl
                 _tt.setTriggerEvent(XU.toXml(sTriggerEvent));
         } else
             throw new IOException("Trigger event cannot be set!");
-    } /* setTriggerEvent */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -179,8 +161,7 @@ public class MetaTriggerImpl
         return XU.fromXml(_tt.getTriggerEvent());
     }
 
-    /* property AliasList */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -193,8 +174,7 @@ public class MetaTriggerImpl
                 _tt.setAliasList(XU.toXml(sAliasList));
         } else
             throw new IOException("Alias list cannot be set!");
-    } /* setAliasList */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -204,8 +184,7 @@ public class MetaTriggerImpl
         return XU.fromXml(_tt.getAliasList());
     }
 
-    /* property TriggeredAction */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -218,8 +197,7 @@ public class MetaTriggerImpl
                 _tt.setTriggeredAction(XU.toXml(sTriggeredAction));
         } else
             throw new IOException("Triggered action cannot be set!");
-    } /* setAliasList */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -229,8 +207,7 @@ public class MetaTriggerImpl
         return XU.fromXml(_tt.getTriggeredAction());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -239,8 +216,7 @@ public class MetaTriggerImpl
     public void setDescription(String sDescription) {
         if (getArchive().isMetaDataDifferent(getDescription(), sDescription))
             _tt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -249,8 +225,6 @@ public class MetaTriggerImpl
     public String getDescription() {
         return XU.fromXml(_tt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -267,9 +241,7 @@ public class MetaTriggerImpl
                         getTriggeredAction(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -280,4 +252,4 @@ public class MetaTriggerImpl
     public String toString() {
         return getName();
     }
-} /* class MetaTriggerImpl */
+} 

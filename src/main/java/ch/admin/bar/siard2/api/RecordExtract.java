@@ -14,7 +14,6 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * RecordExtract is an interface for loading a small (max 50) extract
@@ -23,19 +22,14 @@ import java.io.IOException;
  * at a time to the user interface and thus prevents memory problems
  * with large tables.
  *
- * @author Hartwig Thomas
  */
 public interface RecordExtract {
-    /*------------------------------------------------------------------*/
-
     /**
      * get table instance to which the record extract belongs.
      *
      * @return table instance.
      */
     Table getTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get parent record extract or null, if root extract.
@@ -44,16 +38,12 @@ public interface RecordExtract {
      */
     RecordExtract getParentRecordExtract();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get number of rows skipped before first element of the record extract.
      *
      * @return number of rows skipped before first element of the record extract.
      */
     long getOffset();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get delta between two records in the record extract.
@@ -62,16 +52,12 @@ public interface RecordExtract {
      */
     long getDelta();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get label for record extract ("rows" or "row &lt;nnn&gt;").
      *
      * @return label for record extract.
      */
     String getLabel();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return the record at the offset of this record extract.
@@ -80,16 +66,12 @@ public interface RecordExtract {
      */
     Record getRecord();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get the number of record extracts under this record extract.
      *
      * @return number of record extracts under this record extract.
      */
     int getRecordExtracts();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get record extract under this record extract with the given index.
@@ -101,4 +83,4 @@ public interface RecordExtract {
     RecordExtract getRecordExtract(int iRecordExtract)
             throws IOException;
 
-} /* RecordExtract */
+} 

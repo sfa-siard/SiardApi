@@ -11,24 +11,18 @@ package ch.admin.bar.siard2.api;
 import java.io.IOException;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * Record interface provides access to records of primary table data.
  *
- * @author Hartwig Thomas
  */
 public interface Record {
-    /*------------------------------------------------------------------*/
-
     /**
      * get table with which this Record instance is associated
      *
      * @return table associated with this record.
      */
     Table getParentTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get row number (zero-based) of the current record.
@@ -40,7 +34,6 @@ public interface Record {
   /*====================================================================
   methods
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get the number of cells of the record.
@@ -51,8 +44,6 @@ public interface Record {
     int getCells()
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get cell with given (0-based) index.
      *
@@ -62,8 +53,6 @@ public interface Record {
      */
     Cell getCell(int iCell)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get a linearized ("flattened") list of values represented by this
@@ -77,4 +66,4 @@ public interface Record {
     List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
             throws IOException;
 
-} /* interface Record */
+} 

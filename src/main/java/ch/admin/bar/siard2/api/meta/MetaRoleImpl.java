@@ -18,18 +18,15 @@ import ch.enterag.utils.xml.XU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaRoleImpl implements the interface MetaRole.
  *
- * @author Hartwig Thomas
  */
 public class MetaRoleImpl
         extends MetaSearchImpl
         implements MetaRole {
     private MetaData _mdParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -41,8 +38,6 @@ public class MetaRoleImpl
 
     private RoleType _rt = null;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get archive
      *
@@ -50,9 +45,7 @@ public class MetaRoleImpl
      */
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getParentMetaData().getArchive();
-    } /* getArchive */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * set template meta data.
@@ -62,9 +55,7 @@ public class MetaRoleImpl
     public void setTemplate(RoleType rtTemplate) {
         if (!SU.isNotEmpty(getDescription()))
             setDescription(XU.fromXml(rtTemplate.getDescription()));
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -75,9 +66,7 @@ public class MetaRoleImpl
     private MetaRoleImpl(MetaData mdParent, RoleType rt) {
         _mdParent = mdParent;
         _rt = rt;
-    } /* constructor MetaRoleImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -88,10 +77,9 @@ public class MetaRoleImpl
      */
     public static MetaRole newInstance(MetaData mdParent, RoleType rt) {
         return new MetaRoleImpl(mdParent, rt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -101,8 +89,7 @@ public class MetaRoleImpl
         return XU.fromXml(_rt.getName());
     }
 
-    /* property Admin */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -115,8 +102,7 @@ public class MetaRoleImpl
                 _rt.setAdmin(XU.toXml(sAdmin));
         } else
             throw new IOException("Admin name cannot be set!");
-    } /* setAdmin */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -126,8 +112,7 @@ public class MetaRoleImpl
         return XU.fromXml(_rt.getAdmin());
     }
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -137,7 +122,6 @@ public class MetaRoleImpl
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _rt.setDescription(XU.toXml(sDescription));
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -146,8 +130,6 @@ public class MetaRoleImpl
     public String getDescription() {
         return XU.fromXml(_rt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -161,9 +143,7 @@ public class MetaRoleImpl
                         getAdmin(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -174,4 +154,4 @@ public class MetaRoleImpl
     public String toString() {
         return getName();
     }
-} /* class MetaRoleImpl */
+} 

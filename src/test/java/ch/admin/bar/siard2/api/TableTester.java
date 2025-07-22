@@ -369,5 +369,5 @@ public class TableTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    } /* testExportHtml */
+    } 
 }

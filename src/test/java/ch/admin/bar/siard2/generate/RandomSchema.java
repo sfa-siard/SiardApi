@@ -14,7 +14,7 @@ public class RandomSchema {
         _schema = schema;
         _s = s;
         _dFraction = dFraction;
-    } /* constructor */
+    } 
 
     private int createTrigger(MetaTrigger mt, TriggerType tt) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -43,7 +43,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createCheckConstraint */
+    } 
 
     private int createForeignKey(MetaForeignKey mfk, ForeignKeyType fk) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -71,7 +71,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createForeignKey */
+    } 
 
     private int createUniqueKey(MetaUniqueKey muk, UniqueKeyType uk) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -88,7 +88,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createUniqueKey */
+    } 
 
     private int createParameter(MetaParameter mp, ParameterType p) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -109,7 +109,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createParameter */
+    } 
 
     private int createField(MetaField mf, FieldType f) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -132,7 +132,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createField */
+    } 
 
     private int createColumn(MetaColumn mc, ColumnType c) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -166,7 +166,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createColumn */
+    } 
 
     private int createAttribute(MetaAttribute ma, AttributeType a) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -188,7 +188,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createAttribute */
+    } 
 
     private int createTable(MetaTable mt, TableType t) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -264,7 +264,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createTable */
+    } 
 
     private int createRoutine(MetaRoutine mr, RoutineType r) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -291,7 +291,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createRoutine */
+    } 
 
     private int createView(MetaView mv, ViewType v) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -317,7 +317,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createView */
+    } 
 
     private int createType(MetaType mt, TypeType t) {
         int iReturn = RandomArchive.iRETURN_ERROR;
@@ -347,7 +347,7 @@ public class RandomSchema {
             System.err.println(RandomArchive.getExceptionMessage(ie));
         }
         return iReturn;
-    } /* createType */
+    } 
 
     public int createSchema() {
         int iReturn = RandomArchive.iRETURN_OK;

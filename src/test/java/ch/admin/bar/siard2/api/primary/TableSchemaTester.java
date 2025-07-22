@@ -160,7 +160,7 @@ public class TableSchemaTester {
         mu1.setType("INTEGER");
         MetaAttribute mu2 = mtUdt.createMetaAttribute(_sTEST_UDT_ATTRIBUTE2_NAME);
         mu2.setTypeName(_sTEST_ROW_TYPE);
-    } /* createTypes */
+    } 
 
     private Table createSimpleTable(Schema schema)
             throws IOException {
@@ -274,7 +274,7 @@ public class TableSchemaTester {
         mc26.setType(_sTEST_TYPE26_NAME);
 
         return tab;
-    } /* createSimpleTable */
+    } 
 
     private Table createComplexTable(Schema schema)
             throws IOException {
@@ -304,7 +304,7 @@ public class TableSchemaTester {
         mc5.setTypeName(_sTEST_UDT_TYPE);
 
         return tab;
-    } /* createComplexTable */
+    } 
 
     private Table openOldTable(Schema schema) {
         Table tab = schema.getTable(0);
@@ -349,9 +349,7 @@ public class TableSchemaTester {
         }
     }
 
-    /*------------------------------------------------------------------*/
-
-    /**
+        /**
      * add the <xs:element> meta data definition for the given tag and type
      * to the parent element (<xs:sequence>).
      *
@@ -479,7 +477,7 @@ public class TableSchemaTester {
                 addElement(elSequence, sTagField, iFieldPreType, mtField, iFieldCardinality, true);
             }
         }
-    } /* addElement */
+    } 
 
     private void writeTableXsd(Table table, OutputStream osXsd)
             throws IOException {
@@ -489,7 +487,7 @@ public class TableSchemaTester {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(isXsdTable);
-            /* edit DOM */
+            
             Element elAny = (Element) doc.getElementsByTagName("xs:any")
                                          .item(0);
             Element elSequence = (Element) elAny.getParentNode();

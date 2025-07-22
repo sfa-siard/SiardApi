@@ -10,25 +10,19 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaAttribute interface provides access to attribute meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaAttribute
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the parent type meta data to which these meta data belong.
      *
      * @return parent type meta data or null, if parent is an attribute.
      */
     MetaType getParentMetaType();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if attribute's type or type name is not null.
@@ -40,7 +34,6 @@ public interface MetaAttribute
   /*====================================================================
   attribute properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get attribute name.
@@ -49,16 +42,12 @@ public interface MetaAttribute
      */
     String getName();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get position of field  in parent column or field (1-based!).
      *
      * @return position of field in parent.
      */
     int getPosition();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set SQL:2008 predefined data type of the attribute.
@@ -170,8 +159,6 @@ public interface MetaAttribute
      */
     int getScale();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set original data type of the attribute.
      * Can only be set if the SIARD archive is open for modification
@@ -189,8 +176,6 @@ public interface MetaAttribute
      * @return original data type of the attribute.
      */
     String getTypeOriginal();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set schema of UDT type for this attribute.
@@ -210,8 +195,6 @@ public interface MetaAttribute
      * @return schema of UDT type for this attribute.
      */
     String getTypeSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set name of UDT type for this attribute.
@@ -240,8 +223,6 @@ public interface MetaAttribute
      */
     MetaType getMetaType();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set nullability of the column.
      * Can only be set if the SIARD archive is open for modification
@@ -260,8 +241,6 @@ public interface MetaAttribute
      * @return nullability of the column.
      */
     boolean isNullable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set default value of the attribute.
@@ -282,8 +261,6 @@ public interface MetaAttribute
      */
     String getDefaultValue();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set cardinality (maximum array length) of the attribute if it is
      * an ARRAY.
@@ -303,8 +280,6 @@ public interface MetaAttribute
      */
     int getCardinality();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the attribute.
      *
@@ -319,4 +294,4 @@ public interface MetaAttribute
      */
     String getDescription();
 
-} /* interface MetaAttribute */
+} 

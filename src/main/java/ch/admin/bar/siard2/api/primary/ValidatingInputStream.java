@@ -43,9 +43,7 @@ public class ValidatingInputStream
                 }
             }
         }
-    } /* initialize */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -55,9 +53,7 @@ public class ValidatingInputStream
      */
     ValidatingInputStream(Element el, InputStream is, boolean bValidateLength) {
         initialize(el, is, bValidateLength);
-    } /* constructor ValidatingInputStream */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -67,7 +63,7 @@ public class ValidatingInputStream
      */
     public ValidatingInputStream(Element el, InputStream is) {
         initialize(el, is, true);
-    } /* constructor ValidatingInputStream */
+    } 
 
     private void validateAtEof()
             throws IOException {
@@ -82,7 +78,7 @@ public class ValidatingInputStream
                 }
             }
         }
-    } /* validateAtEof */
+    } 
 
     @Override
     public int read()
@@ -93,7 +89,7 @@ public class ValidatingInputStream
         else
             validateAtEof();
         return iRead;
-    } /* read */
+    } 
 
     @Override
     public int read(byte[] buf)
@@ -104,7 +100,7 @@ public class ValidatingInputStream
         else
             validateAtEof();
         return iRead;
-    } /* read */
+    } 
 
     @Override
     public int read(byte[] buf, int iOffset, int iLength)
@@ -118,7 +114,7 @@ public class ValidatingInputStream
                 validateAtEof();
         }
         return iRead;
-    } /* read */
+    } 
 
     @Override
     public long skip(long lSkip)
@@ -126,7 +122,7 @@ public class ValidatingInputStream
         long lSkipped = _is.skip(lSkip);
         _lRead = _lRead + lSkipped;
         return lSkipped;
-    } /* skip */
+    } 
 
     @Override
     public void close()
@@ -138,6 +134,6 @@ public class ValidatingInputStream
                 read();
         }
         _is.close();
-    } /* close */
+    } 
 
-} /* ValidatingInputStream */
+} 

@@ -10,25 +10,19 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaView interface provides access to view meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaView
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the associated schema meta data to which these meta data belong.
      *
      * @return associated schema meta data.
      */
     MetaSchema getParentMetaSchema();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the view meta data is valid.
@@ -40,8 +34,7 @@ public interface MetaView
   /*====================================================================
   view properties
   ====================================================================*/
-    /* name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * get view name.
@@ -50,8 +43,7 @@ public interface MetaView
      */
     String getName();
 
-    /* query */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the SQL:2008 (ISO 9075) query defining the view.
@@ -67,8 +59,7 @@ public interface MetaView
      */
     String getQuery();
 
-    /* queryOriginal */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the original query string defining the view.
@@ -88,8 +79,7 @@ public interface MetaView
      */
     String getQueryOriginal();
 
-    /* description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set description of the table.
@@ -105,8 +95,7 @@ public interface MetaView
      */
     String getDescription();
 
-    /* rows */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * set the number of rows of the view.
@@ -129,7 +118,6 @@ public interface MetaView
   /*====================================================================
   list properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of column meta data entries.
@@ -168,4 +156,4 @@ public interface MetaView
     MetaColumn createMetaColumn(String sName)
             throws IOException;
 
-} /* interface MetaView */
+} 

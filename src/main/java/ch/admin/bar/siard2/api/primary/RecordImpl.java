@@ -26,12 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*====================================================================*/
 
 /**
  * RecordImpl implements the interface Record.
  *
- * @author Hartwig Thomas
  */
 public class RecordImpl
         implements Record {
@@ -44,7 +42,7 @@ public class RecordImpl
             _doc = db.newDocument();
         }
         return _doc;
-    } /* getDocument */
+    } 
 
     private URI _uriTemporaryLobFolder = null;
 
@@ -74,7 +72,6 @@ public class RecordImpl
 
     private Table _tableParent = null;
     private long _lRecord = -1;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -83,8 +80,6 @@ public class RecordImpl
     public long getRecord() {
         return _lRecord;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -110,7 +105,7 @@ public class RecordImpl
             getCellMap().put(sTag, cell);
         }
         _rt = rt;
-    } /* setRecordType */
+    } 
 
     RecordType getRecordType()
             throws IOException {
@@ -127,9 +122,7 @@ public class RecordImpl
             }
         }
         return _rt;
-    } /* getRecordType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor for writing a record.
@@ -144,9 +137,7 @@ public class RecordImpl
         _lRecord = lRecord;
         _uriTemporaryLobFolder = uriTemporaryLobFolder;
         setRecordType(_of.createRecordType());
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory for writing a record.
@@ -158,9 +149,7 @@ public class RecordImpl
     public static Record newInstance(Table tableParent, long lRecord, URI uriTemporaryLobFolder)
             throws IOException {
         return new RecordImpl(tableParent, lRecord, uriTemporaryLobFolder);
-    } /* factory */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor for reading a record.
@@ -181,9 +170,7 @@ public class RecordImpl
                 _doc = el.getOwnerDocument();
         }
         setRecordType(rt);
-    } /* constructor */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory for reading a record.
@@ -195,9 +182,7 @@ public class RecordImpl
     public static Record newInstance(Table tableParent, long lRecord, RecordType rt)
             throws IOException {
         return new RecordImpl(tableParent, lRecord, rt);
-    } /* factory */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -206,9 +191,7 @@ public class RecordImpl
     public int getCells()
             throws IOException {
         return getCellMap().size();
-    } /* getCells */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -219,9 +202,7 @@ public class RecordImpl
         String sTag = CellImpl.getColumnTag(iCell);
         Cell cell = getCellMap().get(sTag);
         return cell;
-    } /* getCell */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -233,6 +214,6 @@ public class RecordImpl
         for (int iCell = 0; iCell < getCells(); iCell++)
             listValues.addAll(getCell(iCell).getValues(bSupportsArrays, bSupportsUdts));
         return listValues;
-    } /* getValues */
+    } 
 
-} /* class RecordImpl */
+} 

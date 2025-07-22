@@ -95,8 +95,6 @@ public class ArchiveImpl
         return _zipFile;
     }
 
-    /*------------------------------------------------------------------*/
-
     /**
      * check whether a file entry exists.
      *
@@ -113,9 +111,7 @@ public class ArchiveImpl
         } else
             throw new IOException("ZIP file entries must not end with \"/\"!");
         return bExists;
-    } /* existsFileEntry */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * check whether a folder entry exists.
@@ -133,9 +129,7 @@ public class ArchiveImpl
         } else
             throw new IOException("ZIP folder entries must end with \"/\"!");
         return bExists;
-    } /* existsFolderEntry */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * create a new folder entry.
@@ -160,12 +154,11 @@ public class ArchiveImpl
                 throw new IOException("Folder " + sEntryName + " exists already!");
         } else
             throw new IOException("Folder names must end with \"/\"!");
-    } /* createFolderEntry */
+    } 
 
     private void removeFolderEntry(String folder) throws IOException {
         getZipFile().delete(folder);
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * open an existing file entry.
@@ -177,9 +170,7 @@ public class ArchiveImpl
     public InputStream openFileEntry(String sEntryName)
             throws IOException {
         return getZipFile().openEntryInputStream(sEntryName);
-    } /* openFileEntry */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * create a new file entry.
@@ -191,17 +182,13 @@ public class ArchiveImpl
     public OutputStream createFileEntry(String sEntryName)
             throws IOException {
         return getZipFile().openEntryOutputStream(sEntryName, FileEntry.iMETHOD_DEFLATED, new Date());
-    } /* createFileEntry */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * private constructor for inaccessibility from the outside.
      */
     private ArchiveImpl() {
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * factory returns interface.
@@ -210,9 +197,7 @@ public class ArchiveImpl
      */
     public static Archive newInstance() {
         return new ArchiveImpl();
-    } /* newInstance */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -221,7 +206,7 @@ public class ArchiveImpl
     public File getFile() {
         return new File(getZipFile().getDiskFile()
                                     .getFileName());
-    } /* getFile */
+    } 
 
     private String _sPreviousMetaDataVersion = Archive.sMETA_DATA_VERSION;
 
@@ -230,7 +215,6 @@ public class ArchiveImpl
     }
 
     private boolean _bModifyPrimaryData = false;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -246,10 +230,9 @@ public class ArchiveImpl
         if (bDifferent)
             _bMetaDataModified = true;
         return bDifferent;
-    } /* isMetaDataDifferent */
+    } 
 
     private int _iMaxInlineSize = Archive.iDEFAULT_MAX_INLINE_SIZE;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -261,8 +244,7 @@ public class ArchiveImpl
             _iMaxInlineSize = iMaxInlineSize;
         else
             throw new IOException("Maximum inline size can only be set for SIARD archives that are empty!");
-    } /* setMaxInlineSize */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -282,7 +264,6 @@ public class ArchiveImpl
         else
             throw new IOException("Maximum number of external LOBs per folder can only be set for SIARD archives that are empty!");
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -293,7 +274,6 @@ public class ArchiveImpl
     }
 
     private MetaData _md = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -317,9 +297,7 @@ public class ArchiveImpl
             os.close();
         } else
             throw new IOException("Resource " + sResource + " not in JAR!");
-    } /* exportResource */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -328,9 +306,7 @@ public class ArchiveImpl
     public void exportMetaDataSchema(OutputStream osXsd)
             throws IOException {
         exportResource(Archive.sSIARD2_META_DATA_XSD_RESOURCE, osXsd);
-    } /* exportMetaData */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -338,9 +314,7 @@ public class ArchiveImpl
     public void exportGenericTableSchema(OutputStream osXsd)
             throws IOException {
         exportResource(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE, osXsd);
-    } /* exportGenericTableSchema */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * export metadata.xml to an output stream.
@@ -360,9 +334,7 @@ public class ArchiveImpl
         } catch (JAXBException je) {
             throw new IOException("Error exporting metadata!", je);
         }
-    } /* exportMetaData */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -371,9 +343,7 @@ public class ArchiveImpl
     public void exportMetaData(OutputStream osXml)
             throws IOException {
         exportMetaData(osXml, false);
-    } /* exportMetaData */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -404,15 +374,13 @@ public class ArchiveImpl
             mdi.setTemplate(saTemplate);
         } else
             throw new IOException("Error importing metadata!");
-    } /* importMetaDataTemplate */
+    } 
 
     private final Map<String, Schema> _mapSchemas = new HashMap<String, Schema>();
 
     public void registerSchema(String sName, Schema schema) {
         _mapSchemas.put(sName, schema);
-    } /* registerSchema */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -450,9 +418,7 @@ public class ArchiveImpl
             _md = MetaDataImpl.newInstance(this, sa);
         } else
             throw new IOException("Invalid SIARD file (missing metadata.xml)!");
-    } /* loadMetaData */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -478,9 +444,7 @@ public class ArchiveImpl
             validate();
         } else
             throw new IOException("SIARD file " + file.getAbsolutePath() + " does not exist!");
-    } /* open */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -497,9 +461,7 @@ public class ArchiveImpl
             _md = MetaDataImpl.newInstance(this, MetaDataImpl.createSiardArchive());
         } else
             throw new FileAlreadyExistsException("File " + file.getAbsolutePath() + " exists already!");
-    } /* create */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * computes the message digest of the primary data of the Db instance.
@@ -526,8 +488,6 @@ public class ArchiveImpl
         return md;
     } /* getMessageDigest */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * resets internal state to initial state.
      * Makes it possible to reuse the archive calling open() or create()
@@ -543,8 +503,6 @@ public class ArchiveImpl
         _iMaxLobsPerFolder = -1; // negative = unlimited
         _md = null;
     } /* reset */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -589,8 +547,6 @@ public class ArchiveImpl
         }
     } /* saveMetaData */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -622,8 +578,6 @@ public class ArchiveImpl
             throw new IOException("Archive was not open!");
     } /* close */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -631,8 +585,6 @@ public class ArchiveImpl
     public int getSchemas() {
         return getMetaData().getMetaSchemas();
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -648,7 +600,6 @@ public class ArchiveImpl
         }
         return schema;
     } /* getSchema */
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -657,7 +608,6 @@ public class ArchiveImpl
     public Schema getSchema(String sName) {
         return _mapSchemas.get(sName);
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -699,8 +649,6 @@ public class ArchiveImpl
         return schema;
     } /* createSchema */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -716,8 +664,6 @@ public class ArchiveImpl
         }
         return bEmpty;
     } /* isEmpty */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * check validity of archive.
@@ -737,8 +683,6 @@ public class ArchiveImpl
         _swValid.stop();
     } /* validate */
 
-    /*------------------------------------------------------------------*/
-
     /**
      * {@inheritDoc}
      */
@@ -748,8 +692,6 @@ public class ArchiveImpl
             validate();
         return _bValid;
     } /* isValid */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -767,8 +709,6 @@ public class ArchiveImpl
         }
         return bUnchanged;
     } /* isPrimaryDataUnchanged */
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}

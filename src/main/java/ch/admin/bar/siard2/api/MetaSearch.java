@@ -13,24 +13,18 @@ import ch.enterag.utils.DU;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * Common search interface for all meta data classes in database archive.
  *
- * @author Hartwig Thomas
  */
 public interface MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return string searched for.
      *
      * @return find string.
      */
     String getFindString();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return index of data element found.
@@ -40,8 +34,6 @@ public interface MetaSearch {
      */
     int getFoundElement()
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return of data element found.
@@ -53,16 +45,12 @@ public interface MetaSearch {
     String getFoundString(DU du)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return offset in element where find string was found.
      *
      * @return offset in element.
      */
     int getFoundOffset();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * prepare meta data for finding the desired string.
@@ -73,8 +61,6 @@ public interface MetaSearch {
      */
     void find(String sFindString, boolean bMatchCase)
             throws IOException;
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return meta data element which contains desired string.
@@ -87,8 +73,6 @@ public interface MetaSearch {
     MetaSearch findNext(DU du)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * returns true, if findNext can be applied.
      *
@@ -96,4 +80,4 @@ public interface MetaSearch {
      */
     boolean canFindNext();
 
-} /* interface MetaSearch */
+} 

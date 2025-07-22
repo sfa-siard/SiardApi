@@ -11,17 +11,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaCheckConstraint interface provides access to check constraint meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaCheckConstraint
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the table meta data instance to which these check constraint
      * meta data belong.
@@ -29,8 +25,6 @@ public interface MetaCheckConstraint
      * @return table meta data instance.
      */
     MetaTable getParentMetaTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the constraint's condition is not null.
@@ -42,7 +36,6 @@ public interface MetaCheckConstraint
   /*====================================================================
   check constraint properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of check constraint.
@@ -50,8 +43,6 @@ public interface MetaCheckConstraint
      * @return name of check constraint.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set condition to be checked by constraint.
@@ -71,8 +62,6 @@ public interface MetaCheckConstraint
      */
     String getCondition();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the check constraint's meaning and content.
      *
@@ -87,4 +76,4 @@ public interface MetaCheckConstraint
      */
     String getDescription();
 
-} /* interface MetaCheckConstraint */
+} 

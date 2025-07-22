@@ -11,17 +11,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaUniqueKey interface provides access to unique key meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaUniqueKey
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the table meta data instance to which these unique key
      * meta data belong.
@@ -29,8 +25,6 @@ public interface MetaUniqueKey
      * @return table meta data instance.
      */
     MetaTable getParentMetaTable();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * return true, if the key has at least one column.
@@ -42,7 +36,6 @@ public interface MetaUniqueKey
   /*====================================================================
   unique key properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get name of unique key.
@@ -50,8 +43,6 @@ public interface MetaUniqueKey
      * @return name of unique key.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get number of columns in the unique key.
@@ -79,16 +70,12 @@ public interface MetaUniqueKey
     void addColumn(String sColumn)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return the column names as a comma-separated string.
      *
      * @return column names.
      */
     String getColumnsString();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set description of the unique key's meaning and content.
@@ -104,4 +91,4 @@ public interface MetaUniqueKey
      */
     String getDescription();
 
-} /* interface MetaUniqueKey */
+} 

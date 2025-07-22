@@ -10,17 +10,13 @@ package ch.admin.bar.siard2.api;
 
 import java.io.IOException;
 
-/*====================================================================*/
 
 /**
  * MetaPrivilege interface provides access to privilege meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaPrivilege
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the global meta data instance to which these privilege
      * meta data belong.
@@ -32,7 +28,6 @@ public interface MetaPrivilege
   /*====================================================================
   privilege properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get privilege type (incl. ROLE privilege or "ALL PRIVILEGES".
@@ -41,16 +36,12 @@ public interface MetaPrivilege
      */
     String getType();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get privilege object (may be null for ROLE privilege).
      *
      * @return privilege object (may be null for ROLE privilege).
      */
     String getObject();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get grantor (user or role name) of privilege.
@@ -59,16 +50,12 @@ public interface MetaPrivilege
      */
     String getGrantor();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get grantee (user or role name) of privilege.
      *
      * @return grantee (user or role name) of privilege.
      */
     String getGrantee();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set optional option "GRANT" or "ADMIN".
@@ -88,8 +75,6 @@ public interface MetaPrivilege
      */
     String getOption();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * set description of the grant's meaning and content.
      *
@@ -104,4 +89,4 @@ public interface MetaPrivilege
      */
     String getDescription();
 
-} /* interface MetaPrivilege */
+} 

@@ -10,8 +10,11 @@ package ch.enterag.utils.jaxb;
 
 import ch.enterag.utils.SU;
 import ch.enterag.utils.logging.IndentLogger;
-import org.codehaus.stax2.*;
-import org.codehaus.stax2.validation.*;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
+import org.codehaus.stax2.XMLStreamReader2;
+import org.codehaus.stax2.validation.XMLValidationSchema;
+import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -21,19 +24,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-/*====================================================================*/
 
 /**
  * XMLStreamFactory is used for creating a special-purpose
  * validating XMLStreamReader and XMLStreamWriter with all options
  * that we need.
  *
- * @author Hartwig Thomas
  */
 public abstract class XMLStreamFactory {
     private static final IndentLogger _il = IndentLogger.getIndentLogger(XMLStreamFactory.class.getName());
-
-    /*------------------------------------------------------------------*/
 
     /**
      * returns a customized XMLStreamReader.
@@ -55,9 +54,7 @@ public abstract class XMLStreamFactory {
         XMLStreamReader2 xsr = (XMLStreamReader2) xif.createXMLStreamReader(isXml);
         _il.exit(xsr);
         return xsr;
-    } /* createXMLStreamReader */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * returns a validating customized XMLStreamReader.
@@ -85,9 +82,7 @@ public abstract class XMLStreamFactory {
         }
         _il.exit(xsr);
         return xsr;
-    } /* createXMLStreamReader */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * returns a validating customized XMLStreamReader.
@@ -114,9 +109,7 @@ public abstract class XMLStreamFactory {
         }
         _il.exit(xsr);
         return xsr;
-    } /* createXMLStreamReader */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * returns a customized XMLStreamWriter.
@@ -133,6 +126,6 @@ public abstract class XMLStreamFactory {
         XMLStreamWriter xsw = xof.createXMLStreamWriter(osXml, SU.sUTF8_CHARSET_NAME);
         _il.exit(xsw);
         return xsw;
-    } /* createStreamWriter */
+    } 
 
-} /* XMLStreamFactory */
+} 

@@ -29,7 +29,6 @@ public class MetaTypeImpl
     private final Map<String, MetaAttribute> _mapMetaAttributes = new HashMap<String, MetaAttribute>();
 
     private MetaSchema _msParent = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -38,8 +37,6 @@ public class MetaTypeImpl
     public MetaSchema getParentMetaSchema() {
         return _msParent;
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -57,7 +54,7 @@ public class MetaTypeImpl
                 bValid = false;
         }
         return bValid;
-    } /* isValid */
+    } 
 
     private TypeType _tt = null;
 
@@ -68,9 +65,7 @@ public class MetaTypeImpl
             ((MetaAttributeImpl) ma).getAttributeType();
         }
         return _tt;
-    } /* getTypeType */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * get archive
@@ -80,10 +75,9 @@ public class MetaTypeImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getParentMetaSchema().getSchema()
                                                   .getParentArchive();
-    } /* getArchive */
+    } 
 
     private TypeType _ttTemplate = null;
-    /*------------------------------------------------------------------*/
 
     /**
      * set template meta data.
@@ -109,9 +103,7 @@ public class MetaTypeImpl
                 }
             }
         }
-    } /* setTemplate */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * constructor
@@ -135,9 +127,7 @@ public class MetaTypeImpl
                 _mapMetaAttributes.put(XU.fromXml(at.getName()), ma);
             }
         }
-    } /* constructor MetaTypeImpl */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * factory
@@ -150,10 +140,9 @@ public class MetaTypeImpl
     public static MetaType newInstance(MetaSchema msParent, TypeType tt)
             throws IOException {
         return new MetaTypeImpl(msParent, tt);
-    } /* newInstance */
+    } 
 
-    /* property Name */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -163,8 +152,7 @@ public class MetaTypeImpl
         return XU.fromXml(_tt.getName());
     }
 
-    /* property Category */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -185,8 +173,7 @@ public class MetaTypeImpl
             }
         } else
             throw new IOException("Category cannot be set!");
-    } /* setCategory */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -196,7 +183,6 @@ public class MetaTypeImpl
         return _tt.getCategory()
                   .value();
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -207,8 +193,7 @@ public class MetaTypeImpl
                                          .value());
     }
 
-    /* property UnderSchema */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -221,8 +206,7 @@ public class MetaTypeImpl
                 _tt.setUnderSchema(XU.toXml(sUnderSchema));
         } else
             throw new IOException("Schema of supertype cannot be set!");
-    } /* setUnderSchema */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -232,8 +216,7 @@ public class MetaTypeImpl
         return XU.fromXml(_tt.getUnderSchema());
     }
 
-    /* property UnderType */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -249,8 +232,7 @@ public class MetaTypeImpl
             }
         } else
             throw new IOException("Supertype cannot be set!");
-    } /* setUnderSchema */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -260,8 +242,7 @@ public class MetaTypeImpl
         return XU.fromXml(_tt.getUnderType());
     }
 
-    /* property Instantiable */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -274,8 +255,7 @@ public class MetaTypeImpl
                 _tt.setInstantiable(bInstantiable);
         } else
             throw new IOException("Instantiability cannot be set!");
-    } /* setInstantiable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -285,8 +265,7 @@ public class MetaTypeImpl
         return _tt.isInstantiable();
     }
 
-    /* property Final */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -299,8 +278,7 @@ public class MetaTypeImpl
                 _tt.setFinal(bFinal);
         } else
             throw new IOException("Finality cannot be set!");
-    } /* setInstantiable */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -310,8 +288,7 @@ public class MetaTypeImpl
         return _tt.isFinal();
     }
 
-    /* property Base */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -334,8 +311,7 @@ public class MetaTypeImpl
             }
         } else
             throw new IOException("Base type cannot be set!");
-    } /* setBase */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -347,8 +323,7 @@ public class MetaTypeImpl
         prt.initialize(iBaseType, lPrecision, iScale);
         String sBase = prt.format();
         setBase(sBase);
-    } /* setBasePreType */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -357,7 +332,6 @@ public class MetaTypeImpl
     public String getBase() {
         return XU.fromXml(_tt.getBase());
     }
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -374,8 +348,7 @@ public class MetaTypeImpl
             iBaseType = ptBase.getSqlType();
         }
         return iBaseType;
-    } /* getBasePreType */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -408,8 +381,7 @@ public class MetaTypeImpl
                 lLength = prt.getPrecision();
         }
         return lLength;
-    } /* getBaseLength */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -425,9 +397,7 @@ public class MetaTypeImpl
             iScale = prt.getScale();
         }
         return iScale;
-    } /* getBaseScale */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -435,8 +405,7 @@ public class MetaTypeImpl
     @Override
     public int getMetaAttributes() {
         return _mapMetaAttributes.size();
-    } /* getMetaAttributes */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -452,8 +421,7 @@ public class MetaTypeImpl
             ma = getMetaAttribute(sName);
         }
         return ma;
-    } /* getMetaAttribute */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -461,8 +429,7 @@ public class MetaTypeImpl
     @Override
     public MetaAttribute getMetaAttribute(String sName) {
         return _mapMetaAttributes.get(sName);
-    } /* getMetaAttribute */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -509,10 +476,9 @@ public class MetaTypeImpl
         } else
             throw new IOException("Attribute cannot be created!");
         return ma;
-    } /* createMetaAttribute */
+    } 
 
-    /* property Description */
-    /*------------------------------------------------------------------*/
+    
 
     /**
      * {@inheritDoc}
@@ -521,8 +487,7 @@ public class MetaTypeImpl
     public void setDescription(String sDescription) {
         if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
             _tt.setDescription(XU.toXml(sDescription));
-    } /* setDescription */
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -531,8 +496,6 @@ public class MetaTypeImpl
     public String getDescription() {
         return XU.fromXml(_tt.getDescription());
     }
-
-    /*------------------------------------------------------------------*/
 
     /**
      * {@inheritDoc}
@@ -544,9 +507,7 @@ public class MetaTypeImpl
         for (int iAttribute = 0; iAttribute < getMetaAttributes(); iAttribute++)
             ams[iAttribute] = getMetaAttribute(iAttribute);
         return ams;
-    } /* getSubMetaSearches */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -567,9 +528,7 @@ public class MetaTypeImpl
                         getBase(),
                         getDescription()
                 };
-    } /* getSearchElements */
-
-    /*------------------------------------------------------------------*/
+    } 
 
     /**
      * {@inheritDoc}
@@ -580,4 +539,4 @@ public class MetaTypeImpl
     public String toString() {
         return getName();
     }
-} /* class MetaTypeImpl */
+} 

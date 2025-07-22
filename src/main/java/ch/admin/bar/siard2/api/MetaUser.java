@@ -8,17 +8,13 @@ Created    : 24.06.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
-/*====================================================================*/
 
 /**
  * MetaUser interface provides access to user meta data.
  *
- * @author Hartwig Thomas
  */
 public interface MetaUser
         extends MetaSearch {
-    /*------------------------------------------------------------------*/
-
     /**
      * return the global meta data instance to which these user
      * meta data belong.
@@ -30,7 +26,6 @@ public interface MetaUser
   /*====================================================================
   user properties
   ====================================================================*/
-    /*------------------------------------------------------------------*/
 
     /**
      * get user name.
@@ -38,8 +33,6 @@ public interface MetaUser
      * @return user name.
      */
     String getName();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * set description of the user.
@@ -55,4 +48,4 @@ public interface MetaUser
      */
     String getDescription();
 
-} /* interface MetaUser */
+} 

@@ -13,24 +13,18 @@ import ch.enterag.utils.DU;
 import java.io.IOException;
 import java.util.List;
 
-/*====================================================================*/
 
 /**
  * Basic interface for simple search in table.
  *
- * @author Hartwig Thomas
  */
 public interface Search {
-    /*------------------------------------------------------------------*/
-
     /**
      * return string searched for.
      *
      * @return find string.
      */
     String getFindString();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get row (0-based) where find string was last found.
@@ -39,16 +33,12 @@ public interface Search {
      */
     long getFoundRow();
 
-    /*------------------------------------------------------------------*/
-
     /**
      * get position (1-based) of cell where string was last found.
      *
      * @return position (1-based) of cell where string was last found.
      */
     int getFoundPosition();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * get string representation of found cell.
@@ -60,8 +50,6 @@ public interface Search {
     String getFoundString(DU du)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return offset in string representation of the cell where find
      * string was found.
@@ -69,8 +57,6 @@ public interface Search {
      * @return offset in string representation of cell.
      */
     int getFoundOffset();
-
-    /*------------------------------------------------------------------*/
 
     /**
      * open records in preparation for finding the desired string.
@@ -84,8 +70,6 @@ public interface Search {
             throws IOException;
 
 
-    /*------------------------------------------------------------------*/
-
     /**
      * return cell which contains desired string.
      *
@@ -96,8 +80,6 @@ public interface Search {
     Cell findNext(DU du)
             throws IOException;
 
-    /*------------------------------------------------------------------*/
-
     /**
      * returns true, if findNext can be applied.
      *
@@ -105,4 +87,4 @@ public interface Search {
      */
     boolean canFindNext();
 
-} /* interface Search */
+} 

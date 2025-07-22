@@ -474,7 +474,7 @@ public class MetaTableTester {
             }
             System.out.println(sbColumnName);
         }
-    } /* checkColumnNames */
+    } 
 
     @Test
     public void testGetColumnNames() {

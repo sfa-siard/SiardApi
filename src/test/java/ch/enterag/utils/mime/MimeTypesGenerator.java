@@ -26,7 +26,7 @@ public class MimeTypesGenerator {
                 s = sb.toString();
         }
         return s;
-    } /* readLine */
+    } 
 
     private void readHeaderAndFooter(Reader rdr)
             throws IOException {
@@ -46,19 +46,19 @@ public class MimeTypesGenerator {
             sbFooter.append(sLine);
         _sHeader = sbHeader.toString();
         _sFooter = sbFooter.toString();
-    } /* readKeywordHeaderAndFooter */
+    } 
 
     private void writeHeader(Writer wr)
             throws IOException {
         wr.write(_sHeader);
         wr.write(sMAP_GENERATED_STARTS);
-    } /* writeEnumHeader */
+    } 
 
     private void writeFooter(Writer wr)
             throws IOException {
         wr.write(sMAP_GENERATED_ENDS);
         wr.write(_sFooter);
-    } /* writeFooter */
+    } 
 
     private MimeTypesGenerator() {
         System.out.println("Generating MIME type extensions");
