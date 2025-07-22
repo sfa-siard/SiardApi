@@ -4,6 +4,7 @@ import ch.admin.bar.siard2.api.generated.ParameterType;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +23,7 @@ public class ConvertableSiard22RoutineTypeTest {
                                                                                  "returnType",
                                                                                  "specificName",
                                                                                  "source",
-                                                                                 Arrays.asList(parameterType));
+                                                                                 Collections.singletonList(parameterType));
 
         // then
         assertEquals("name", result.getName());
@@ -33,7 +34,9 @@ public class ConvertableSiard22RoutineTypeTest {
         assertEquals("specificName", result.getSpecificName());
         assertEquals("source", result.getSource());
         assertNotNull(result.getParameters());
-        assertTrue(result.getParameters().getParameter().contains(parameterType));
+        assertTrue(result.getParameters()
+                         .getParameter()
+                         .contains(parameterType));
     }
 
     @Test
@@ -48,7 +51,7 @@ public class ConvertableSiard22RoutineTypeTest {
                                                                                  "returnType",
                                                                                  "specificName",
                                                                                  "source",
-                                                                                 Arrays.asList());
+                                                                                 Collections.emptyList());
 
         // then
         assertNull(result.getParameters());

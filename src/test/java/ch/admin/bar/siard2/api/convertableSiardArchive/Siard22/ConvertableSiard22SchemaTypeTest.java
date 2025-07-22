@@ -7,6 +7,7 @@ import ch.admin.bar.siard2.api.generated.ViewType;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -24,10 +25,10 @@ public class ConvertableSiard22SchemaTypeTest {
         ConvertableSiard22SchemaType result = new ConvertableSiard22SchemaType("name",
                                                                                "description",
                                                                                "folder",
-                                                                               Arrays.asList(typeType),
-                                                                               Arrays.asList(routineType),
-                                                                               Arrays.asList(tableType),
-                                                                               Arrays.asList(viewType));
+                                                                               Collections.singletonList(typeType),
+                                                                               Collections.singletonList(routineType),
+                                                                               Collections.singletonList(tableType),
+                                                                               Collections.singletonList(viewType));
 
         // then
         assertEquals("name", result.getName());
@@ -37,10 +38,18 @@ public class ConvertableSiard22SchemaTypeTest {
         assertNotNull(result.getRoutines());
         assertNotNull(result.getTables());
         assertNotNull(result.getViews());
-        assertTrue(result.getTypes().getType().contains(typeType));
-        assertTrue(result.getRoutines().getRoutine().contains(routineType));
-        assertTrue(result.getTables().getTable().contains(tableType));
-        assertTrue(result.getViews().getView().contains(viewType));
+        assertTrue(result.getTypes()
+                         .getType()
+                         .contains(typeType));
+        assertTrue(result.getRoutines()
+                         .getRoutine()
+                         .contains(routineType));
+        assertTrue(result.getTables()
+                         .getTable()
+                         .contains(tableType));
+        assertTrue(result.getViews()
+                         .getView()
+                         .contains(viewType));
     }
 
     @Test
@@ -51,10 +60,10 @@ public class ConvertableSiard22SchemaTypeTest {
         ConvertableSiard22SchemaType result = new ConvertableSiard22SchemaType("name",
                                                                                "description",
                                                                                "folder",
-                                                                               Arrays.asList(),
-                                                                               Arrays.asList(),
-                                                                               Arrays.asList(),
-                                                                               Arrays.asList());
+                                                                               Collections.emptyList(),
+                                                                               Collections.emptyList(),
+                                                                               Collections.emptyList(),
+                                                                               Collections.emptyList());
 
         // then
         assertNull(result.getTypes());

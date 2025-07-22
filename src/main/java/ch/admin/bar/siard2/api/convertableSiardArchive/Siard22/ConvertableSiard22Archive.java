@@ -37,22 +37,26 @@ public class ConvertableSiard22Archive extends SiardArchive {
 
         if (schemas.size() > 0) {
             this.schemas = new SchemasType();
-            this.schemas.getSchema().addAll(schemas);
+            this.schemas.getSchema()
+                        .addAll(schemas);
         }
 
         if (users.size() > 0) {
             this.users = new UsersType();
-            this.users.getUser().addAll(users);
+            this.users.getUser()
+                      .addAll(users);
         }
 
         if (roles.size() > 0) {
             this.roles = new RolesType();
-            this.roles.getRole().addAll(roles);
+            this.roles.getRole()
+                      .addAll(roles);
         }
 
         if (privileges.size() > 0) {
             this.privileges = new PrivilegesType();
-            this.privileges.getPrivilege().addAll(privileges);
+            this.privileges.getPrivilege()
+                           .addAll(privileges);
         }
     }
 }

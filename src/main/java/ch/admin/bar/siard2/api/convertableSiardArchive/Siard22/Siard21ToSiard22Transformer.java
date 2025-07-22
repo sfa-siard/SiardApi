@@ -313,7 +313,11 @@ public class Siard21ToSiard22Transformer implements Siard21Transformer {
     private <I, T, V, R> List<R> convertElements(I container, Function<I, List<T>> getElements, Function<T, V> make,
                                                  Function<V, R> accept) {
         if (container == null) return Collections.emptyList();
-        return getElements.apply(container).stream().map(make).map(accept).collect(Collectors.toList());
+        return getElements.apply(container)
+                          .stream()
+                          .map(make)
+                          .map(accept)
+                          .collect(Collectors.toList());
     }
 
     /**

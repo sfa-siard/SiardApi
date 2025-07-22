@@ -16,22 +16,26 @@ public class ConvertableSiard22SchemaType extends SchemaType {
         this.folder = folder;
         if (types.size() > 0) {
             this.types = new TypesType();
-            this.types.getType().addAll(types);
+            this.types.getType()
+                      .addAll(types);
         }
 
         if (routines.size() > 0) {
             this.routines = new RoutinesType();
-            this.routines.getRoutine().addAll(routines);
+            this.routines.getRoutine()
+                         .addAll(routines);
         }
 
         if (tables.size() > 0) {
             this.tables = new TablesType();
-            this.tables.getTable().addAll(tables);
+            this.tables.getTable()
+                       .addAll(tables);
         }
 
         if (views.size() > 0) {
             this.views = new ViewsType();
-            this.views.getView().addAll(views);
+            this.views.getView()
+                      .addAll(views);
         }
 
     }

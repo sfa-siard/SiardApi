@@ -21,7 +21,8 @@ public class ConvertableSiard22RoutineType extends RoutineType {
         this.source = source;
         if (parameters.size() > 0) {
             this.parameters = new ParametersType();
-            this.parameters.getParameter().addAll(parameters);
+            this.parameters.getParameter()
+                           .addAll(parameters);
         }
     }
 }

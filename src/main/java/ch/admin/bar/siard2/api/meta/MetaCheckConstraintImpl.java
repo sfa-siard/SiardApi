@@ -19,124 +19,172 @@ import ch.enterag.utils.xml.XU;
 import java.io.IOException;
 
 /*====================================================================*/
-/** MetaCheckConstraintImpl implements the interface MetaCheckConstraint.
- @author Hartwig Thomas
+
+/**
+ * MetaCheckConstraintImpl implements the interface MetaCheckConstraint.
+ *
+ * @author Hartwig Thomas
  */
 public class MetaCheckConstraintImpl
-  extends MetaSearchImpl
-  implements MetaCheckConstraint
-{
-  private MetaTable _mtParent;
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public MetaTable getParentMetaTable() { return _mtParent; }
-  
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public boolean isValid() { return getCondition() != null; }
-  
-  /*------------------------------------------------------------------*/
-  /** get archive
-   * @return archive.
-   */
-  private ArchiveImpl getArchiveImpl()
-  {
-    return (ArchiveImpl)getParentMetaTable().getTable().getParentSchema().getParentArchive();
-  } /* getArchive */
-  
-  private CheckConstraintType _cct;
+        extends MetaSearchImpl
+        implements MetaCheckConstraint {
+    private final MetaTable _mtParent;
+    /*------------------------------------------------------------------*/
 
-  /*------------------------------------------------------------------*/
-  /** set template meta data.
-   * @param cctTemplate template data.
-   */
-  public void setTemplate(CheckConstraintType cctTemplate)
-  {
-    if (!SU.isNotEmpty(getDescription()))
-      setDescription(XU.fromXml(cctTemplate.getDescription()));
-  } /* setTemplate */
-  
-  /*------------------------------------------------------------------*/
-  /** constructor
-   * @param mtParent table meta data object of SIARD archive.
-   * @param cct CheckConstraintType instance (JAXB).
-   */
-  private MetaCheckConstraintImpl(MetaTable mtParent, CheckConstraintType cct)
-  {
-    _mtParent = mtParent;
-    _cct = cct;
-  } /* constructor MetaCheckConstraintImpl */
-  
-  /*------------------------------------------------------------------*/
-  /** factory
-   * @param mtParent table meta data object of SIARD archive.
-   * @param cct CheckConstraintType instance (JAXB).
-   * @return new MetaCheckConstraint instance.
-   */
-  public static MetaCheckConstraint newInstance(MetaTable mtParent, CheckConstraintType cct)
-  {
-    return new MetaCheckConstraintImpl(mtParent,cct);
-  } /* newInstance */
-
-  /* property Name */
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public String getName() { return XU.fromXml(_cct.getName()); }
-  
-  /* property Condition */
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override
-  public void setCondition(String sCondition)
-    throws IOException
-  {
-    if (getArchiveImpl().canModifyPrimaryData())
-    {
-      if (getArchiveImpl().isMetaDataDifferent(getCondition(),sCondition))
-        _cct.setCondition(XU.toXml(sCondition));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MetaTable getParentMetaTable() {
+        return _mtParent;
     }
-    else
-      throw new IOException("Condition cannot be set!");
-  } /* setCondition */
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public String getCondition() { return XU.fromXml(_cct.getCondition()); }
-  
-  /* property Description */
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override 
-  public void setDescription(String sDescription) 
-  { 
-    if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
-      _cct.setDescription(XU.toXml(sDescription)); 
-  } /* setDescription */
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public String getDescription() { return XU.fromXml(_cct.getDescription()); }
-  
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc} */
-  @Override public String[] getSearchElements(DU du)
-    throws IOException
-  { 
-    return new String[] 
-      {
-        getName(),
-        getCondition(),
-        getDescription()
-      };
-  } /* getSearchElements */
-  
-  /*------------------------------------------------------------------*/
-  /** {@inheritDoc}
-   * toString() returns the name of the check constraint which is to be 
-   * displayed as the label of the check constraint node of the tree 
-   * displaying the archive.   
-   */
-  @Override 
-  public String toString()
-  {
-    return getName();
-  }
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isValid() {
+        return getCondition() != null;
+    }
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get archive
+     *
+     * @return archive.
+     */
+    private ArchiveImpl getArchiveImpl() {
+        return (ArchiveImpl) getParentMetaTable().getTable()
+                                                 .getParentSchema()
+                                                 .getParentArchive();
+    } /* getArchive */
+
+    private final CheckConstraintType _cct;
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * set template meta data.
+     *
+     * @param cctTemplate template data.
+     */
+    public void setTemplate(CheckConstraintType cctTemplate) {
+        if (!SU.isNotEmpty(getDescription()))
+            setDescription(XU.fromXml(cctTemplate.getDescription()));
+    } /* setTemplate */
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * constructor
+     *
+     * @param mtParent table meta data object of SIARD archive.
+     * @param cct      CheckConstraintType instance (JAXB).
+     */
+    private MetaCheckConstraintImpl(MetaTable mtParent, CheckConstraintType cct) {
+        _mtParent = mtParent;
+        _cct = cct;
+    } /* constructor MetaCheckConstraintImpl */
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * factory
+     *
+     * @param mtParent table meta data object of SIARD archive.
+     * @param cct      CheckConstraintType instance (JAXB).
+     * @return new MetaCheckConstraint instance.
+     */
+    public static MetaCheckConstraint newInstance(MetaTable mtParent, CheckConstraintType cct) {
+        return new MetaCheckConstraintImpl(mtParent, cct);
+    } /* newInstance */
+
+    /* property Name */
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return XU.fromXml(_cct.getName());
+    }
+
+    /* property Condition */
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCondition(String sCondition)
+            throws IOException {
+        if (getArchiveImpl().canModifyPrimaryData()) {
+            if (getArchiveImpl().isMetaDataDifferent(getCondition(), sCondition))
+                _cct.setCondition(XU.toXml(sCondition));
+        } else
+            throw new IOException("Condition cannot be set!");
+    } /* setCondition */
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getCondition() {
+        return XU.fromXml(_cct.getCondition());
+    }
+
+    /* property Description */
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setDescription(String sDescription) {
+        if (getArchiveImpl().isMetaDataDifferent(getDescription(), sDescription))
+            _cct.setDescription(XU.toXml(sDescription));
+    } /* setDescription */
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return XU.fromXml(_cct.getDescription());
+    }
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getSearchElements(DU du)
+            throws IOException {
+        return new String[]
+                {
+                        getName(),
+                        getCondition(),
+                        getDescription()
+                };
+    } /* getSearchElements */
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * {@inheritDoc}
+     * toString() returns the name of the check constraint which is to be
+     * displayed as the label of the check constraint node of the tree
+     * displaying the archive.
+     */
+    @Override
+    public String toString() {
+        return getName();
+    }
 } /* class MetaCheckConstraintImpl */

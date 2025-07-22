@@ -19,7 +19,8 @@ public class ConvertableSiard22ViewType extends ViewType {
         this.queryOriginal = queryOriginal;
         if (columns.size() > 0) {
             this.columns = new ColumnsType();
-            this.columns.getColumn().addAll(columns);
+            this.columns.getColumn()
+                        .addAll(columns);
         }
     }
 }

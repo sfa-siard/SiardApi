@@ -15,64 +15,90 @@ package ch.admin.bar.siard2.api;
 import java.io.IOException;
 
 /*====================================================================*/
-/** RecordExtract is an interface for loading a small (max 50) extract
+
+/**
+ * RecordExtract is an interface for loading a small (max 50) extract
  * of records at a time.
- * This permits to transfer only the data that can be viewed 
- * at a time to the user interface and thus prevents memory problems 
+ * This permits to transfer only the data that can be viewed
+ * at a time to the user interface and thus prevents memory problems
  * with large tables.
+ *
  * @author Hartwig Thomas
  */
-public interface RecordExtract
-{
-  /*------------------------------------------------------------------*/
-  /** get table instance to which the record extract belongs.
-   * @return table instance.
-   */
-  public Table getTable();
+public interface RecordExtract {
+    /*------------------------------------------------------------------*/
 
-  /*------------------------------------------------------------------*/
-  /** get parent record extract or null, if root extract.
-   * @return parent record extract or null.
-   */
-  public RecordExtract getParentRecordExtract();
+    /**
+     * get table instance to which the record extract belongs.
+     *
+     * @return table instance.
+     */
+    Table getTable();
 
-  /*------------------------------------------------------------------*/
-  /** get number of rows skipped before first element of the record extract.
-   * @return number of rows skipped before first element of the record extract.
-   */
-  public long getOffset();
+    /*------------------------------------------------------------------*/
 
-  /*------------------------------------------------------------------*/
-  /** get delta between two records in the record extract.
-   * @return delta between two records in the record extract.
-   */
-  public long getDelta();
-  
-  /*------------------------------------------------------------------*/
-  /** get label for record extract ("rows" or "row &lt;nnn&gt;").
-   * @return label for record extract.
-   */
-  public String getLabel();
-  
-  /*------------------------------------------------------------------*/
-  /** return the record at the offset of this record extract.
-   * @return the record at the offset of this record extract.
-   */
-  public Record getRecord();
+    /**
+     * get parent record extract or null, if root extract.
+     *
+     * @return parent record extract or null.
+     */
+    RecordExtract getParentRecordExtract();
 
-  /*------------------------------------------------------------------*/
-  /** get the number of record extracts under this record extract.
-   * @return number of record extracts under this record extract.
-   */
-  public int getRecordExtracts();
-  
-  /*------------------------------------------------------------------*/
-  /** get record extract under this record extract with the given index.
-   * @param iRecordExtract index of record extract.
-   * @return record extract.
-   * @throws IOException if an I/O error occurred.
-   */
-  public RecordExtract getRecordExtract(int iRecordExtract)
-    throws IOException;
-  
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get number of rows skipped before first element of the record extract.
+     *
+     * @return number of rows skipped before first element of the record extract.
+     */
+    long getOffset();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get delta between two records in the record extract.
+     *
+     * @return delta between two records in the record extract.
+     */
+    long getDelta();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get label for record extract ("rows" or "row &lt;nnn&gt;").
+     *
+     * @return label for record extract.
+     */
+    String getLabel();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * return the record at the offset of this record extract.
+     *
+     * @return the record at the offset of this record extract.
+     */
+    Record getRecord();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get the number of record extracts under this record extract.
+     *
+     * @return number of record extracts under this record extract.
+     */
+    int getRecordExtracts();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get record extract under this record extract with the given index.
+     *
+     * @param iRecordExtract index of record extract.
+     * @return record extract.
+     * @throws IOException if an I/O error occurred.
+     */
+    RecordExtract getRecordExtract(int iRecordExtract)
+            throws IOException;
+
 } /* RecordExtract */

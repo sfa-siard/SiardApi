@@ -24,7 +24,8 @@ public class ConvertableSiard22TypeType extends TypeType {
         this.category = category;
         if (attributes.size() > 0) {
             this.attributes = new AttributesType();
-            this.attributes.getAttribute().addAll(attributes);
+            this.attributes.getAttribute()
+                           .addAll(attributes);
         }
 
     }

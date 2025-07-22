@@ -20,27 +20,32 @@ public class ConvertableSiard22TableType extends TableType {
         this.primaryKey = primaryKey;
         if (columns.size() > 0) {
             this.columns = new ColumnsType();
-            this.columns.getColumn().addAll(columns);
+            this.columns.getColumn()
+                        .addAll(columns);
         }
 
         if (candidateKeys.size() > 0) {
             this.candidateKeys = new CandidateKeysType();
-            this.candidateKeys.getCandidateKey().addAll(candidateKeys);
+            this.candidateKeys.getCandidateKey()
+                              .addAll(candidateKeys);
         }
 
         if (checkConstraints.size() > 0) {
             this.checkConstraints = new CheckConstraintsType();
-            this.checkConstraints.getCheckConstraint().addAll(checkConstraints);
+            this.checkConstraints.getCheckConstraint()
+                                 .addAll(checkConstraints);
         }
 
         if (foreignKeys.size() > 0) {
             this.foreignKeys = new ForeignKeysType();
-            this.foreignKeys.getForeignKey().addAll(foreignKeys);
+            this.foreignKeys.getForeignKey()
+                            .addAll(foreignKeys);
         }
 
         if (triggers.size() > 0) {
             this.triggers = new TriggersType();
-            this.triggers.getTrigger().addAll(triggers);
+            this.triggers.getTrigger()
+                         .addAll(triggers);
         }
     }
 }

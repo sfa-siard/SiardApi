@@ -28,7 +28,9 @@ public class ConvertableSiard22ViewTypeTest {
         assertEquals(BigInteger.TEN, result.getRows());
         assertEquals("query", result.getQuery());
         assertEquals("queryOriginal", result.getQueryOriginal());
-        assertTrue(result.getColumns().getColumn().contains(columnType));
+        assertTrue(result.getColumns()
+                         .getColumn()
+                         .contains(columnType));
     }
 
     @Test

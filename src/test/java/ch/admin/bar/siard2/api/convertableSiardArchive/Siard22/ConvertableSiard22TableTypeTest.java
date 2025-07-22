@@ -38,11 +38,21 @@ public class ConvertableSiard22TableTypeTest {
         assertEquals("folder", result.getFolder());
         assertEquals(primaryKey, result.getPrimaryKey());
         assertEquals(BigInteger.ONE, result.getRows());
-        assertTrue(result.getColumns().getColumn().contains(columnType));
-        assertTrue(result.getCandidateKeys().getCandidateKey().contains(uniqueKeyType));
-        assertTrue(result.getCheckConstraints().getCheckConstraint().contains(checkConstraintType));
-        assertTrue(result.getForeignKeys().getForeignKey().contains(foreignKeyType));
-        assertTrue(result.getTriggers().getTrigger().contains(trigger));
+        assertTrue(result.getColumns()
+                         .getColumn()
+                         .contains(columnType));
+        assertTrue(result.getCandidateKeys()
+                         .getCandidateKey()
+                         .contains(uniqueKeyType));
+        assertTrue(result.getCheckConstraints()
+                         .getCheckConstraint()
+                         .contains(checkConstraintType));
+        assertTrue(result.getForeignKeys()
+                         .getForeignKey()
+                         .contains(foreignKeyType));
+        assertTrue(result.getTriggers()
+                         .getTrigger()
+                         .contains(trigger));
     }
 
     @Test

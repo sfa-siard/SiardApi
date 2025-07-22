@@ -16,7 +16,8 @@ public class ConvertableSiard22FieldType extends FieldType {
 
         if (fields != null && !fields.isEmpty()) {
             this.fields = new FieldsType();
-            this.fields.getField().addAll(fields);
+            this.fields.getField()
+                       .addAll(fields);
         }
     }
 }

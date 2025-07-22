@@ -32,10 +32,12 @@ public class ConvertableSiard22TypeTypeTest {
         assertEquals("base", result.getBase());
         assertEquals("underType", result.getUnderType());
         assertEquals("underSchema", result.getUnderSchema());
-        assertEquals(false, result.isFinal());
-        assertEquals(true, result.isInstantiable());
+        assertFalse(result.isFinal());
+        assertTrue(result.isInstantiable());
         assertEquals(CategoryType.DISTINCT, result.getCategory());
-        assertTrue(result.getAttributes().getAttribute().contains(attributeType));
+        assertTrue(result.getAttributes()
+                         .getAttribute()
+                         .contains(attributeType));
     }
 
     @Test
@@ -60,8 +62,8 @@ public class ConvertableSiard22TypeTypeTest {
         assertEquals("base", result.getBase());
         assertEquals("underType", result.getUnderType());
         assertEquals("underSchema", result.getUnderSchema());
-        assertEquals(false, result.isFinal());
-        assertEquals(true, result.isInstantiable());
+        assertFalse(result.isFinal());
+        assertTrue(result.isInstantiable());
         assertEquals(CategoryType.DISTINCT, result.getCategory());
         assertNull(result.getAttributes());
     }

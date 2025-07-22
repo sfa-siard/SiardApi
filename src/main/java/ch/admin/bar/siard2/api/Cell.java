@@ -10,22 +10,30 @@ Created    : 05.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 package ch.admin.bar.siard2.api;
 
 /*====================================================================*/
-/** Cell interface provides access to cells of records of primary table data.
- @author Hartwig Thomas
+
+/**
+ * Cell interface provides access to cells of records of primary table data.
+ *
+ * @author Hartwig Thomas
  */
 public interface Cell
-  extends Value
-{
-  /*------------------------------------------------------------------*/
-  /** get record with which this Cell instance is associated.
-   * @return get record with which this Cell instance is associated. 
-   */
-  public Record getParentRecord();
+        extends Value {
+    /*------------------------------------------------------------------*/
 
-  /*------------------------------------------------------------------*/
-  /** get column meta data associated with this cell. 
-   * @return column meta data associated with this cell. 
-   */
-  public MetaColumn getMetaColumn();
-  
+    /**
+     * get record with which this Cell instance is associated.
+     *
+     * @return get record with which this Cell instance is associated.
+     */
+    Record getParentRecord();
+
+    /*------------------------------------------------------------------*/
+
+    /**
+     * get column meta data associated with this cell.
+     *
+     * @return column meta data associated with this cell.
+     */
+    MetaColumn getMetaColumn();
+
 } /* interface Cell */

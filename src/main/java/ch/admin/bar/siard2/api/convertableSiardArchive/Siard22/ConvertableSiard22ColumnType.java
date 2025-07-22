@@ -27,7 +27,8 @@ public class ConvertableSiard22ColumnType extends ColumnType {
         this.nullable = nullable;
         if (fields.size() > 0) {
             this.fields = new FieldsType();
-            this.fields.getField().addAll(fields);
+            this.fields.getField()
+                       .addAll(fields);
         }
     }
 }

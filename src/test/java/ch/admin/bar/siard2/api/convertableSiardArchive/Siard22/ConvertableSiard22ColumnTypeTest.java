@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -29,7 +30,7 @@ public class ConvertableSiard22ColumnTypeTest {
                                                                                "typrOriginal",
                                                                                BigInteger.ZERO,
                                                                                true,
-                                                                               Arrays.asList(fieldType));
+                                                                               Collections.singletonList(fieldType));
 
         // then
         assertEquals("name", result.getName());
@@ -44,7 +45,9 @@ public class ConvertableSiard22ColumnTypeTest {
         assertEquals(BigInteger.ZERO, result.getCardinality());
         assertEquals(true, result.isNullable());
         assertNotNull(result.getFields());
-        assertTrue(result.getFields().getField().contains(fieldType));
+        assertTrue(result.getFields()
+                         .getField()
+                         .contains(fieldType));
     }
 
     @Test
