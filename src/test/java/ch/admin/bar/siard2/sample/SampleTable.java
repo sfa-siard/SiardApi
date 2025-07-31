@@ -96,12 +96,12 @@ public class SampleTable extends SampleColumn {
         int iReturn = readMetaTable(_table.getMetaTable());
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            RecordDispenser rd = _table.openRecords();
+            TableRecordDispenser rd = _table.openTableRecords();
             for (int iRecord = 0; (iResult == SampleArchive.iRETURN_OK) && iRecord < _table.getMetaTable()
                                                                                            .getRows(); iRecord++) {
-                Record record = rd.get();
-                SampleRecord sr = new SampleRecord(record, iRecord);
-                sr.readRecord();
+                TableRecord tableRecord = rd.get();
+                SampleTableRecord sr = new SampleTableRecord(tableRecord, iRecord);
+                sr.readTableRecord();
             }
             rd.close();
             iReturn = iResult;
@@ -267,12 +267,12 @@ public class SampleTable extends SampleColumn {
         int iReturn = createSimpleMetaTable(_table.getMetaTable());
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            RecordRetainer rr = _table.createRecords();
-            for (int iRecord = 0; (iResult == SampleArchive.iRETURN_OK) && (iRecord < SampleRecord.iSIMPLE_RECORDS); iRecord++) {
-                Record record = rr.create();
-                SampleRecord sr = new SampleRecord(record, iRecord);
+            TableRecordRetainer rr = _table.createTableRecords();
+            for (int iRecord = 0; (iResult == SampleArchive.iRETURN_OK) && (iRecord < SampleTableRecord.iSIMPLE_RECORDS); iRecord++) {
+                TableRecord tableRecord = rr.create();
+                SampleTableRecord sr = new SampleTableRecord(tableRecord, iRecord);
                 iResult = sr.createRecord();
-                rr.put(record);
+                rr.put(tableRecord);
             }
             rr.close();
             iReturn = iResult;
@@ -334,12 +334,12 @@ public class SampleTable extends SampleColumn {
         int iReturn = createComplexMetaTable(_table.getMetaTable());
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            RecordRetainer rr = _table.createRecords();
-            for (int iRecord = 0; (iResult == SampleArchive.iRETURN_OK) && (iRecord < SampleRecord.iCOMPLEX_RECORDS); iRecord++) {
-                Record record = rr.create();
-                SampleRecord sr = new SampleRecord(record, iRecord);
+            TableRecordRetainer rr = _table.createTableRecords();
+            for (int iRecord = 0; (iResult == SampleArchive.iRETURN_OK) && (iRecord < SampleTableRecord.iCOMPLEX_RECORDS); iRecord++) {
+                TableRecord tableRecord = rr.create();
+                SampleTableRecord sr = new SampleTableRecord(tableRecord, iRecord);
                 iResult = sr.createRecord();
-                rr.put(record);
+                rr.put(tableRecord);
             }
             rr.close();
             iReturn = iResult;

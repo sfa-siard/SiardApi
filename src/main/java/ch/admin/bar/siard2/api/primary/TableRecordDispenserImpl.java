@@ -8,8 +8,8 @@ Created    : 04.09.2017, Hartwig Thomas
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import ch.admin.bar.siard2.api.Record;
-import ch.admin.bar.siard2.api.RecordDispenser;
+import ch.admin.bar.siard2.api.TableRecord;
+import ch.admin.bar.siard2.api.TableRecordDispenser;
 import ch.admin.bar.siard2.api.Table;
 import ch.admin.bar.siard2.api.generated.table.RecordType;
 import ch.enterag.utils.EU;
@@ -29,11 +29,11 @@ import java.util.List;
 
 
 /**
- * RecordDispenser  provides serial read access to records.
+ * RecordDispenser provides serial read access to records.
  *
  */
-public class RecordDispenserImpl
-        implements RecordDispenser {
+public class TableRecordDispenserImpl
+        implements TableRecordDispenser {
     private static final ch.admin.bar.siard2.api.generated.table.ObjectFactory _OF_TABLE = new ch.admin.bar.siard2.api.generated.table.ObjectFactory();
     private Table _table = null;
     private CountingInputStream _isXml = null;
@@ -143,7 +143,7 @@ public class RecordDispenserImpl
      * @param table Table instance.
      * @throws IOException
      */
-    public RecordDispenserImpl(Table table)
+    public TableRecordDispenserImpl(Table table)
             throws IOException {
         _table = table;
         TableImpl ti = (TableImpl) table;
@@ -250,35 +250,35 @@ public class RecordDispenserImpl
      * @throws IOException        if an I/O exception occurred.
      * @throws XMLStreamException if an XML streaming exception occurred.
      */
-    Record readRecord(XMLStreamReader xsr)
+    TableRecord readTableRecord(XMLStreamReader xsr)
             throws IOException, XMLStreamException {
-        Record record = null;
+        TableRecord tableRecord = null;
         if (xsr.isStartElement() && TableImpl._sTAG_RECORD.equals(xsr.getLocalName())) {
             /* create the record DOM */
             RecordType rt = getRecordType(xsr);
-            record = RecordImpl.newInstance(_table, getPosition(), rt);
+            tableRecord = TableRecordImpl.newInstance(_table, getPosition(), rt);
         } else
             throw new IOException("Unexpected tag " + xsr.getLocalName() + " encountered");
-        return record;
+        return tableRecord;
     } 
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Record get()
+    public TableRecord get()
             throws IOException {
-        Record record = null;
+        TableRecord tableRecord = null;
         try {
             if (_lRecord < _table.getMetaTable()
                                  .getRows()) {
-                record = readRecord(_xsr);
+                tableRecord = readTableRecord(_xsr);
                 _lRecord++;
             }
         } catch (XMLStreamException xse) {
             throw new IOException("Record " + _lRecord + " cannot be read!", xse);
         }
-        return record;
+        return tableRecord;
     }
 
     /**

@@ -9,7 +9,7 @@ Created    : 05.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 package ch.admin.bar.siard2.api.primary;
 
 import ch.admin.bar.siard2.api.Cell;
-import ch.admin.bar.siard2.api.Record;
+import ch.admin.bar.siard2.api.TableRecord;
 import ch.admin.bar.siard2.api.Table;
 import ch.admin.bar.siard2.api.Value;
 import ch.admin.bar.siard2.api.generated.table.ObjectFactory;
@@ -31,8 +31,8 @@ import java.util.Map;
  * RecordImpl implements the interface Record.
  *
  */
-public class RecordImpl
-        implements Record {
+public class TableRecordImpl
+        implements TableRecord {
     private static Document _doc = null;
 
     public static Document getDocument()
@@ -131,7 +131,7 @@ public class RecordImpl
      * @param lRecord               row in table.
      * @param uriTemporaryLobFolder temporary folder for LOBs.
      */
-    private RecordImpl(Table tableParent, long lRecord, URI uriTemporaryLobFolder)
+    private TableRecordImpl(Table tableParent, long lRecord, URI uriTemporaryLobFolder)
             throws IOException {
         _tableParent = tableParent;
         _lRecord = lRecord;
@@ -146,9 +146,9 @@ public class RecordImpl
      * @param lRecord               row in table.
      * @param uriTemporaryLobFolder temporary folder for LOBs.
      */
-    public static Record newInstance(Table tableParent, long lRecord, URI uriTemporaryLobFolder)
+    public static TableRecord newInstance(Table tableParent, long lRecord, URI uriTemporaryLobFolder)
             throws IOException {
-        return new RecordImpl(tableParent, lRecord, uriTemporaryLobFolder);
+        return new TableRecordImpl(tableParent, lRecord, uriTemporaryLobFolder);
     } 
 
     /**
@@ -158,7 +158,7 @@ public class RecordImpl
      * @param lRecord     row in table.
      * @param rt          record type filled with cell elements.
      */
-    private RecordImpl(Table tableParent, long lRecord, RecordType rt)
+    private TableRecordImpl(Table tableParent, long lRecord, RecordType rt)
             throws IOException {
         _tableParent = tableParent;
         _lRecord = lRecord;
@@ -179,9 +179,9 @@ public class RecordImpl
      * @param lRecord     row in table.
      * @param rt          record type filled with cell elements.
      */
-    public static Record newInstance(Table tableParent, long lRecord, RecordType rt)
+    public static TableRecord newInstance(Table tableParent, long lRecord, RecordType rt)
             throws IOException {
-        return new RecordImpl(tableParent, lRecord, rt);
+        return new TableRecordImpl(tableParent, lRecord, rt);
     } 
 
     /**

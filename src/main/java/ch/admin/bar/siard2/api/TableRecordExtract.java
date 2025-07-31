@@ -23,7 +23,7 @@ import java.io.IOException;
  * with large tables.
  *
  */
-public interface RecordExtract {
+public interface TableRecordExtract {
     /**
      * get table instance to which the record extract belongs.
      *
@@ -36,7 +36,7 @@ public interface RecordExtract {
      *
      * @return parent record extract or null.
      */
-    RecordExtract getParentRecordExtract();
+    TableRecordExtract getParentTableRecordExtract();
 
     /**
      * get number of rows skipped before first element of the record extract.
@@ -64,14 +64,14 @@ public interface RecordExtract {
      *
      * @return the record at the offset of this record extract.
      */
-    Record getRecord();
+    TableRecord getTableRecord();
 
     /**
      * get the number of record extracts under this record extract.
      *
      * @return number of record extracts under this record extract.
      */
-    int getRecordExtracts();
+    int getTableRecordExtracts();
 
     /**
      * get record extract under this record extract with the given index.
@@ -80,7 +80,7 @@ public interface RecordExtract {
      * @return record extract.
      * @throws IOException if an I/O error occurred.
      */
-    RecordExtract getRecordExtract(int iRecordExtract)
+    TableRecordExtract getTableRecordExtract(int iRecordExtract)
             throws IOException;
 
 } 

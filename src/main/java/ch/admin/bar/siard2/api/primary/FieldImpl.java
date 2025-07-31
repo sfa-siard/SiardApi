@@ -70,7 +70,7 @@ public class FieldImpl
         _mf = mf;
         _valueParent = valueParent;
         _cellAncestor = cellAncestor;
-        RecordImpl ri = (RecordImpl) cellAncestor.getParentRecord();
+        TableRecordImpl ri = (TableRecordImpl) cellAncestor.getParentRecord();
         initialize(ri.getRecord(), ri.getTemporaryLobFolder(), iIndex, elField, mf);
     } 
 

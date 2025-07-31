@@ -1,7 +1,7 @@
 /*======================================================================
-RecordDispenser delivers records of a table.
+RecordRetainer absorbs records of a table.
 Application : SIARD 2.0
-Description : RecordDispenser delivers records of a table. 
+Description : RecordRetainer absorbs records of a table. 
 ------------------------------------------------------------------------
 Copyright  : Swiss Federal Archives, Berne, Switzerland, 2016
 Created    : 31.08.2017, Hartwig Thomas, Enter AG, Rüti ZH
@@ -12,48 +12,48 @@ import java.io.IOException;
 
 
 /**
- * RecordDispenser delivers records of a table.
+ * RecordRetainer absorbs records of a table.
  *
  */
-public interface RecordDispenser {
+public interface TableRecordRetainer {
   /*====================================================================
   methods
   ====================================================================*/
 
     /**
-     * read the next record.
+     * create an (empty) record with the current record number.
      *
-     * @return next record or null if no more records are available.
+     * @return empty record
      * @throws IOException if an I/O error occurred.
      */
-    Record get() throws IOException;
+    TableRecord create() throws IOException;
 
     /**
-     * skip a number of records.
+     * write the next record.
      *
-     * @param lSkip number of records to skip.
+     * @param tableRecord record to be retained.
      * @throws IOException if an I/O error occurred.
      */
-    void skip(long lSkip) throws IOException;
+    void put(TableRecord tableRecord) throws IOException;
 
     /**
-     * close the Dispenser.
+     * close the Retainer.
      *
      * @throws IOException if an I/O error occurred.
      */
     void close() throws IOException;
 
     /**
-     * get number of records already dispensed.
+     * get number of records already retained.
      *
-     * @return index of next records.
+     * @return index of next record.
      */
     long getPosition();
 
     /**
-     * get byte count already read from XML.
+     * get byte count already written to XML.
      *
-     * @return byte count read from XML.
+     * @return byte count written to XML.
      */
     long getByteCount();
 

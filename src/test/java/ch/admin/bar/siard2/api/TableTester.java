@@ -247,9 +247,9 @@ public class TableTester {
     @Test
     public void testRecords() {
         try {
-            RecordDispenser rd = _tabOld.openRecords();
-            Record record = rd.get();
-            System.out.println(record);
+            TableRecordDispenser rd = _tabOld.openTableRecords();
+            TableRecord tableRecord = rd.get();
+            System.out.println(tableRecord);
             rd.close();
 
             MetaColumn mc1 = _tabNew.getMetaTable()
@@ -258,9 +258,9 @@ public class TableTester {
             MetaColumn mc2 = _tabNew.getMetaTable()
                                     .createMetaColumn(_sTEST_COLUMN2_NAME);
             mc2.setType("VARCHAR(256)");
-            RecordRetainer rr = _tabNew.createRecords();
-            record = rr.create();
-            System.out.println(record);
+            TableRecordRetainer rr = _tabNew.createTableRecords();
+            tableRecord = rr.create();
+            System.out.println(tableRecord);
             rr.close();
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
@@ -276,37 +276,37 @@ public class TableTester {
             MetaColumn mc2 = _tabNew.getMetaTable()
                                     .createMetaColumn(_sTEST_COLUMN2_NAME);
             mc2.setType("VARCHAR(256)");
-            RecordRetainer rr = _tabNew.createRecords();
-            Record record = rr.create();
-            record.getCell(0)
+            TableRecordRetainer rr = _tabNew.createTableRecords();
+            TableRecord tableRecord = rr.create();
+            tableRecord.getCell(0)
                   .setInt(5);
-            record.getCell(1)
+            tableRecord.getCell(1)
                   .setString("aber");
-            rr.put(record);
-            record = rr.create();
-            record.getCell(0)
+            rr.put(tableRecord);
+            tableRecord = rr.create();
+            tableRecord.getCell(0)
                   .setInt(1);
-            record.getCell(1)
+            tableRecord.getCell(1)
                   .setString("ähh");
-            rr.put(record);
-            record = rr.create();
-            record.getCell(0)
+            rr.put(tableRecord);
+            tableRecord = rr.create();
+            tableRecord.getCell(0)
                   .setInt(3);
-            record.getCell(1)
+            tableRecord.getCell(1)
                   .setString("ober");
-            rr.put(record);
-            record = rr.create();
-            record.getCell(0)
+            rr.put(tableRecord);
+            tableRecord = rr.create();
+            tableRecord.getCell(0)
                   .setInt(1);
-            record.getCell(1)
+            tableRecord.getCell(1)
                   .setString("über");
-            rr.put(record);
-            record = rr.create();
-            record.getCell(0)
+            rr.put(tableRecord);
+            tableRecord = rr.create();
+            tableRecord.getCell(0)
                   .setInt(4);
-            record.getCell(1)
+            tableRecord.getCell(1)
                   .setString("uber");
-            rr.put(record);
+            rr.put(tableRecord);
             rr.close();
             setMandatoryMetaData(_tabNew.getParentSchema());
             _tabNew.getParentSchema()
@@ -317,34 +317,34 @@ public class TableTester {
             Schema schema = archive.getSchema(_sTEST_SCHEMA_NAME);
             _tabNew = schema.getTable(_sTEST_TABLE_NAME);
             System.out.println("Unsorted:");
-            RecordDispenser rd = _tabNew.openRecords();
+            TableRecordDispenser rd = _tabNew.openTableRecords();
             for (int iRecord = 0; iRecord < _tabNew.getMetaTable()
                                                    .getRows(); iRecord++) {
-                record = rd.get();
-                System.out.println(record.getCell(0)
-                                         .getInt() + ", " + record.getCell(1)
+                tableRecord = rd.get();
+                System.out.println(tableRecord.getCell(0)
+                                         .getInt() + ", " + tableRecord.getCell(1)
                                                                                   .getString());
             }
             rd.close();
             System.out.println("Sorted by string:");
             _tabNew.sort(true, 1, null);
-            rd = _tabNew.openRecords();
+            rd = _tabNew.openTableRecords();
             for (int iRecord = 0; iRecord < _tabNew.getMetaTable()
                                                    .getRows(); iRecord++) {
-                record = rd.get();
-                System.out.println(record.getCell(0)
-                                         .getInt() + ", " + record.getCell(1)
+                tableRecord = rd.get();
+                System.out.println(tableRecord.getCell(0)
+                                         .getInt() + ", " + tableRecord.getCell(1)
                                                                                   .getString());
             }
             rd.close();
             System.out.println("And then decending by integer:");
             _tabNew.sort(false, 0, null);
-            rd = _tabNew.openRecords();
+            rd = _tabNew.openTableRecords();
             for (int iRecord = 0; iRecord < _tabNew.getMetaTable()
                                                    .getRows(); iRecord++) {
-                record = rd.get();
-                System.out.println(record.getCell(0)
-                                         .getInt() + ", " + record.getCell(1)
+                tableRecord = rd.get();
+                System.out.println(tableRecord.getCell(0)
+                                         .getInt() + ", " + tableRecord.getCell(1)
                                                                                   .getString());
             }
             rd.close();

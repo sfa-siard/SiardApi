@@ -8,9 +8,9 @@ Created    : 01.10.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api.primary;
 
-import ch.admin.bar.siard2.api.Record;
-import ch.admin.bar.siard2.api.RecordDispenser;
-import ch.admin.bar.siard2.api.RecordExtract;
+import ch.admin.bar.siard2.api.TableRecord;
+import ch.admin.bar.siard2.api.TableRecordDispenser;
+import ch.admin.bar.siard2.api.TableRecordExtract;
 import ch.admin.bar.siard2.api.Table;
 
 import java.io.IOException;
@@ -20,8 +20,8 @@ import java.io.IOException;
  * RecordExtractImpl implements the RecordExtract interface.
  *
  */
-public class RecordExtractImpl
-        implements RecordExtract {
+public class TableRecordExtractImpl
+        implements TableRecordExtract {
     public static final String _sLABEL_ROWS = "rows";
     public static final String _sLABEL_ROW = "row";
     private static int _iMAX_RECORDS = 50;
@@ -64,34 +64,34 @@ public class RecordExtractImpl
         return _lDelta;
     }
 
-    private RecordExtract _rsParent = null;
+    private TableRecordExtract _rsParent = null;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public RecordExtract getParentRecordExtract() {
+    public TableRecordExtract getParentTableRecordExtract() {
         return _rsParent;
     }
 
-    private Record _recordOffset = null;
+    private TableRecord _tableRecordOffset = null;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Record getRecord() {
-        return _recordOffset;
+    public TableRecord getTableRecord() {
+        return _tableRecordOffset;
     }
 
-    private RecordExtract[] _ars = null;
+    private TableRecordExtract[] _ars = null;
 
     /**
      * construct a root record set of a table.
      *
      * @param table for root record set.
      */
-    private RecordExtractImpl(Table table) {
+    private TableRecordExtractImpl(Table table) {
         _table = table;
         _lDelta = 1;
         for (long lDelta = _lDelta; lDelta < table.getMetaTable()
@@ -107,9 +107,9 @@ public class RecordExtractImpl
      * @param iRecordSet index of new record set in parent record set.
      * @param record     record at offset.
      */
-    private RecordExtractImpl(RecordExtract rsParent, int iRecordSet, Record recordOffset) {
+    private TableRecordExtractImpl(TableRecordExtract rsParent, int iRecordSet, TableRecord tableRecordOffset) {
         _rsParent = rsParent;
-        _recordOffset = recordOffset;
+        _tableRecordOffset = tableRecordOffset;
         _table = rsParent.getTable();
         _lOffset = rsParent.getOffset() + iRecordSet * rsParent.getDelta();
         _lDelta = rsParent.getDelta() / _iMAX_RECORDS;
@@ -120,8 +120,8 @@ public class RecordExtractImpl
      *
      * @param table table instance containing all records.
      */
-    public static RecordExtract newInstance(Table table) {
-        return new RecordExtractImpl(table);
+    public static TableRecordExtract newInstance(Table table) {
+        return new TableRecordExtractImpl(table);
     } 
 
     /**
@@ -130,8 +130,8 @@ public class RecordExtractImpl
      * @param rsParent   parent record set.
      * @param iRecordSet index of new record set in parent record set.
      */
-    public static RecordExtract newInstance(RecordExtract rsParent, int iRecordSet, Record recordOffset) {
-        return new RecordExtractImpl(rsParent, iRecordSet, recordOffset);
+    public static TableRecordExtract newInstance(TableRecordExtract rsParent, int iRecordSet, TableRecord tableRecordOffset) {
+        return new TableRecordExtractImpl(rsParent, iRecordSet, tableRecordOffset);
     } 
 
     /**
@@ -142,7 +142,7 @@ public class RecordExtractImpl
     private long getRecords() {
         long lRows = _table.getMetaTable()
                            .getRows();
-        long lRecords = getRecordExtracts() * _lDelta;
+        long lRecords = getTableRecordExtracts() * _lDelta;
         if (_lOffset + lRecords > lRows)
             lRecords = lRows - _lOffset;
         return lRecords;
@@ -158,7 +158,7 @@ public class RecordExtractImpl
             sLabel = _sLABEL_ROWS;
             String sRows = String.valueOf(getTable().getMetaTable()
                                                     .getRows());
-            if (getParentRecordExtract() != null) {
+            if (getParentTableRecordExtract() != null) {
                 String sOffset = String.valueOf(_lOffset);
                 while (sOffset.length() < sRows.length())
                     sOffset = "0" + sOffset;
@@ -173,7 +173,7 @@ public class RecordExtractImpl
      * {@inheritDoc}
      */
     @Override
-    public int getRecordExtracts() {
+    public int getTableRecordExtracts() {
         int iRecordExtracts = 0;
         if (_ars == null) {
             if (_lDelta > 0) {
@@ -193,15 +193,15 @@ public class RecordExtractImpl
      *
      * @throws IOException if an I/O error occurred.
      */
-    private void loadRecordExtract()
+    private void loadTableRecordExtract()
             throws IOException {
-        _ars = new RecordExtract[getRecordExtracts()];
-        RecordDispenser rd = _table.openRecords();
+        _ars = new TableRecordExtract[getTableRecordExtracts()];
+        TableRecordDispenser rd = _table.openTableRecords();
         rd.skip(_lOffset);
-        _ars[0] = RecordExtractImpl.newInstance(this, 0, rd.get());
-        for (int iRecordSet = 1; iRecordSet < getRecordExtracts(); iRecordSet++) {
+        _ars[0] = TableRecordExtractImpl.newInstance(this, 0, rd.get());
+        for (int iRecordSet = 1; iRecordSet < getTableRecordExtracts(); iRecordSet++) {
             rd.skip(_lDelta - 1);
-            _ars[iRecordSet] = RecordExtractImpl.newInstance(this, iRecordSet, rd.get());
+            _ars[iRecordSet] = TableRecordExtractImpl.newInstance(this, iRecordSet, rd.get());
         }
         rd.close();
     } 
@@ -210,10 +210,10 @@ public class RecordExtractImpl
      * {@inheritDoc}
      */
     @Override
-    public RecordExtract getRecordExtract(int iRecordExtract)
+    public TableRecordExtract getTableRecordExtract(int iRecordExtract)
             throws IOException {
         if (_ars == null)
-            loadRecordExtract();
+            loadTableRecordExtract();
         return _ars[iRecordExtract];
     } 
 

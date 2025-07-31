@@ -26,7 +26,7 @@ import java.text.Collator;
 public class SortedTableImpl
         implements SortedTable {
     private TableImpl _ti = null;
-    private RecordDispenserImpl _rdi = null;
+    private TableRecordDispenserImpl _rdi = null;
     private File _fileSorted = null;
     private boolean _bAscending = true;
     private Progress _progress = null;
@@ -306,17 +306,17 @@ public class SortedTableImpl
     /**
      * compare two table records by the sort column in the sort direction.
      *
-     * @param recordLeft  first table record.
-     * @param recordRight second table record.
+     * @param tableRecordLeft  first table record.
+     * @param tableRecordRight second table record.
      * @return true, if the first record is less (before) or equal to the
      * second record, which results in it being sorted before the second.
      * @throws IOException if an I/O error occurred.
      */
-    private boolean lessEqual(Record recordLeft, Record recordRight)
+    private boolean lessEqual(TableRecord tableRecordLeft, TableRecord tableRecordRight)
             throws IOException {
         boolean bLessEqual = true;
-        Cell cellLeft = recordLeft.getCell(_iSortColumn);
-        Cell cellRight = recordRight.getCell(_iSortColumn);
+        Cell cellLeft = tableRecordLeft.getCell(_iSortColumn);
+        Cell cellRight = tableRecordRight.getCell(_iSortColumn);
         int iCompare = compare(cellLeft, cellRight);
         if (_bAscending)
             bLessEqual = (iCompare <= 0);
@@ -339,43 +339,43 @@ public class SortedTableImpl
     private void merge(XMLStreamReader xsrLeft, XMLStreamReader xsrRight,
                        XMLStreamWriter xsw)
             throws IOException, XMLStreamException {
-        Record recordLeft = null;
-        Record recordRight = null;
+        TableRecord tableRecordLeft = null;
+        TableRecord tableRecordRight = null;
         if (xsrLeft.isStartElement())
-            recordLeft = _rdi.readRecord(xsrLeft);
+            tableRecordLeft = _rdi.readTableRecord(xsrLeft);
         if (xsrRight.isStartElement())
-            recordRight = _rdi.readRecord(xsrRight);
-        while ((recordLeft != null) && (recordRight != null) && (!cancelRequested())) {
-            if (lessEqual(recordLeft, recordRight)) {
-                RecordRetainerImpl.writeRecord(recordLeft, xsw);
+            tableRecordRight = _rdi.readTableRecord(xsrRight);
+        while ((tableRecordLeft != null) && (tableRecordRight != null) && (!cancelRequested())) {
+            if (lessEqual(tableRecordLeft, tableRecordRight)) {
+                TableRecordRetainerImpl.writeTableRecord(tableRecordLeft, xsw);
                 if (xsrLeft.isStartElement())
-                    recordLeft = _rdi.readRecord(xsrLeft);
+                    tableRecordLeft = _rdi.readTableRecord(xsrLeft);
                 else
-                    recordLeft = null;
+                    tableRecordLeft = null;
             } else {
-                RecordRetainerImpl.writeRecord(recordRight, xsw);
+                TableRecordRetainerImpl.writeTableRecord(tableRecordRight, xsw);
                 if (xsrRight.isStartElement())
-                    recordRight = _rdi.readRecord(xsrRight);
+                    tableRecordRight = _rdi.readTableRecord(xsrRight);
                 else
-                    recordRight = null;
+                    tableRecordRight = null;
             }
             incWritten();
         }
-        while ((recordLeft != null) && (!cancelRequested())) {
-            RecordRetainerImpl.writeRecord(recordLeft, xsw);
+        while ((tableRecordLeft != null) && (!cancelRequested())) {
+            TableRecordRetainerImpl.writeTableRecord(tableRecordLeft, xsw);
             incWritten();
             if (xsrLeft.isStartElement())
-                recordLeft = _rdi.readRecord(xsrLeft);
+                tableRecordLeft = _rdi.readTableRecord(xsrLeft);
             else
-                recordLeft = null;
+                tableRecordLeft = null;
         }
-        while ((recordRight != null) && (!cancelRequested())) {
-            RecordRetainerImpl.writeRecord(recordRight, xsw);
+        while ((tableRecordRight != null) && (!cancelRequested())) {
+            TableRecordRetainerImpl.writeTableRecord(tableRecordRight, xsw);
             incWritten();
             if (xsrRight.isStartElement())
-                recordRight = _rdi.readRecord(xsrRight);
+                tableRecordRight = _rdi.readTableRecord(xsrRight);
             else
-                recordRight = null;
+                tableRecordRight = null;
         }
     } 
 
@@ -395,18 +395,18 @@ public class SortedTableImpl
             long lRecordsLeft = lRecords / 2;
             File fileLeft = File.createTempFile("sort", ".xml");
             OutputStream osLeft = new FileOutputStream(fileLeft);
-            XMLStreamWriter xswLeft = RecordRetainerImpl.writeHeader(osLeft, _ti);
+            XMLStreamWriter xswLeft = TableRecordRetainerImpl.writeHeader(osLeft, _ti);
             sort(xsr, xswLeft, lRecordsLeft);
-            RecordRetainerImpl.writeFooter(xswLeft);
+            TableRecordRetainerImpl.writeFooter(xswLeft);
             xswLeft.close();
             osLeft.close();
 
             long lRecordsRight = lRecords - lRecordsLeft;
             File fileRight = File.createTempFile("sort", ".xml");
             OutputStream osRight = new FileOutputStream(fileRight);
-            XMLStreamWriter xswRight = RecordRetainerImpl.writeHeader(osRight, _ti);
+            XMLStreamWriter xswRight = TableRecordRetainerImpl.writeHeader(osRight, _ti);
             sort(xsr, xswRight, lRecordsRight);
-            RecordRetainerImpl.writeFooter(xswRight);
+            TableRecordRetainerImpl.writeFooter(xswRight);
             xswRight.close();
             osRight.close();
 
@@ -422,7 +422,7 @@ public class SortedTableImpl
             isRight.close();
             fileRight.delete();
         } else {
-            RecordRetainerImpl.writeRecord(_rdi.readRecord(xsr), xsw);
+            TableRecordRetainerImpl.writeTableRecord(_rdi.readTableRecord(xsr), xsw);
             incWritten();
         }
     } 
@@ -458,9 +458,9 @@ public class SortedTableImpl
                 try {
                     File fileOutput = File.createTempFile("tab", ".xml");
                     OutputStream osXml = new FileOutputStream(fileOutput);
-                    XMLStreamWriter xsw = RecordRetainerImpl.writeHeader(osXml, _ti);
+                    XMLStreamWriter xsw = TableRecordRetainerImpl.writeHeader(osXml, _ti);
 
-                    _rdi = (RecordDispenserImpl) table.openRecords(); // reads header
+                    _rdi = (TableRecordDispenserImpl) table.openTableRecords(); // reads header
                     InputStream isXml = _rdi.getXmlInputStream();
                     XMLStreamReader xsr = _rdi.getXmlStreamReader();
 
@@ -469,7 +469,7 @@ public class SortedTableImpl
                     xsr.close();
                     isXml.close();
 
-                    RecordRetainerImpl.writeFooter(xsw);
+                    TableRecordRetainerImpl.writeFooter(xsw);
                     xsw.close();
                     osXml.close();
 
