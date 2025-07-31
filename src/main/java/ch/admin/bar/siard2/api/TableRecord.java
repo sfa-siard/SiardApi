@@ -16,7 +16,7 @@ import java.util.List;
  * Record interface provides access to records of primary table data.
  *
  */
-public interface Record {
+public interface TableRecord {
     /**
      * get table with which this Record instance is associated
      *

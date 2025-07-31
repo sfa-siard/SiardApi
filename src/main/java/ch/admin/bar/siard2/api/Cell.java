@@ -21,7 +21,7 @@ public interface Cell
      *
      * @return get record with which this Cell instance is associated.
      */
-    Record getParentRecord();
+    TableRecord getParentRecord();
 
     /**
      * get column meta data associated with this cell.

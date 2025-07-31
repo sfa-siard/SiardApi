@@ -28,8 +28,8 @@ public class SearchImpl
     private String _sFindString = null;
     private boolean _bMatchCase = false;
     private List<MetaColumn> _listColumns = null;
-    private RecordDispenser _rd = null;
-    private Record _record = null;
+    private TableRecordDispenser _rd = null;
+    private TableRecord _tableRecord = null;
     private Cell _cell = null;
     private int _iFoundOffset = -1;
 
@@ -46,7 +46,7 @@ public class SearchImpl
      */
     @Override
     public long getFoundRow() {
-        return _record.getRecord();
+        return _tableRecord.getRecord();
     } 
 
     /**
@@ -106,7 +106,7 @@ public class SearchImpl
                 _sFindString = sFindString;
             else
                 _sFindString = sFindString.toLowerCase();
-            _rd = table.openRecords();
+            _rd = table.openTableRecords();
         } else
             throw new IllegalArgumentException("List of columns must not be empty for search!");
     } 
@@ -141,11 +141,11 @@ public class SearchImpl
      * @return cell containing find string or null.
      * @throws IOException if an I/O error occurred.
      */
-    private Cell findInRecord(int iStartCell, DU du)
+    private Cell findInTableRecord(int iStartCell, DU du)
             throws IOException {
         /* look at more cells in the same record */
-        for (int iCell = iStartCell; (_cell == null) && (iCell < _record.getCells()); iCell++) {
-            _cell = _record.getCell(iCell);
+        for (int iCell = iStartCell; (_cell == null) && (iCell < _tableRecord.getCells()); iCell++) {
+            _cell = _tableRecord.getCell(iCell);
             if (_listColumns.contains(_cell.getMetaColumn())) {
                 _iFoundOffset = findInCell(du);
                 if (_iFoundOffset < 0)
@@ -165,12 +165,12 @@ public class SearchImpl
      */
     private Cell findInTable(DU du)
             throws IOException {
-        for (_record = _rd.get(); (_cell == null) && (_record != null); ) {
-            _cell = findInRecord(0, du);
+        for (_tableRecord = _rd.get(); (_cell == null) && (_tableRecord != null); ) {
+            _cell = findInTableRecord(0, du);
             if (_cell == null)
-                _record = _rd.get();
+                _tableRecord = _rd.get();
         }
-        if (_record == null) {
+        if (_tableRecord == null) {
             _rd.close();
             _sFindString = null;
         }
@@ -194,8 +194,8 @@ public class SearchImpl
                     _cell = null;
             }
             /* look in further cells of same record */
-            if ((_cell == null) && (_record != null))
-                _cell = findInRecord(iStartCell, du);
+            if ((_cell == null) && (_tableRecord != null))
+                _cell = findInTableRecord(iStartCell, du);
             /* look in further records */
             if (_cell == null)
                 _cell = findInTable(du);

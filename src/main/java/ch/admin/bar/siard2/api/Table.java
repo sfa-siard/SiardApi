@@ -66,7 +66,7 @@ public interface Table
      * @throws IOException if archive is open for modification of primary
      *                     data.
      */
-    RecordDispenser openRecords()
+    TableRecordDispenser openTableRecords()
             throws IOException;
 
     /**
@@ -78,7 +78,7 @@ public interface Table
      * @throws IOException if archive is not open for modification of primary
      *                     data.
      */
-    RecordRetainer createRecords()
+    TableRecordRetainer createTableRecords()
             throws IOException;
 
     /**
@@ -87,7 +87,7 @@ public interface Table
      * @return the root record extract for this table.
      * @throws IOException if an I/O error occurred.
      */
-    RecordExtract getRecordExtract()
+    TableRecordExtract getTableRecordExtract()
             throws IOException;
 
     /**

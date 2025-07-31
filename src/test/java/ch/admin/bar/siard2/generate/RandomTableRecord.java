@@ -5,11 +5,11 @@ import ch.enterag.utils.test.*;
 
 import java.io.IOException;
 
-public class RandomRecord {
-    private Record _record = null;
+public class RandomTableRecord {
+    private TableRecord _tableRecord = null;
 
-    public RandomRecord(Record record) {
-        _record = record;
+    public RandomTableRecord(TableRecord record) {
+        _tableRecord = record;
     } 
 
     private int createValue(Value value) {
@@ -112,11 +112,11 @@ public class RandomRecord {
         return iReturn;
     } 
 
-    public int createRecord() {
+    public int createTableRecord() {
         int iReturn = RandomArchive.iRETURN_OK;
         try {
-            for (int iCell = 0; (iReturn == RandomArchive.iRETURN_OK) && (iCell < _record.getCells()); iCell++) {
-                Cell cell = _record.getCell(iCell);
+            for (int iCell = 0; (iReturn == RandomArchive.iRETURN_OK) && (iCell < _tableRecord.getCells()); iCell++) {
+                Cell cell = _tableRecord.getCell(iCell);
                 iReturn = createValue(cell);
             }
         } catch (IOException ie) {

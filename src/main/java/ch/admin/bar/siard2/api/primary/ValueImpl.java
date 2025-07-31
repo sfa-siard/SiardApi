@@ -88,19 +88,19 @@ public abstract class ValueImpl
             throws IOException {
         if (_elValue == null) {
             if (this instanceof Cell)
-                _elValue = RecordImpl.getDocument()
+                _elValue = TableRecordImpl.getDocument()
                                      .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getColumnTag(getIndex()));
             else {
                 ValueImpl viParent = (ValueImpl) ((Field) this).getParent();
                 int iCardinalityParent = viParent.getCardinality();
                 if (iCardinalityParent >= 0)
-                    _elValue = RecordImpl.getDocument()
+                    _elValue = TableRecordImpl.getDocument()
                                          .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getElementTag(getIndex()));
                 else {
                     MetaType mtParent = viParent.getMetaType();
                     CategoryType catParent = mtParent.getCategoryType();
                     if (catParent == CategoryType.UDT)
-                        _elValue = RecordImpl.getDocument()
+                        _elValue = TableRecordImpl.getDocument()
                                              .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getAttributeTag(getIndex()));
                 }
                 viParent.getValueElement()
