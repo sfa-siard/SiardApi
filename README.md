@@ -1,46 +1,40 @@
-# SiardApi - An API for reading and writing files in the SIARD Format 2.1
+# SiardApi - An API for reading and writing files in the SIARD Format 2.2
 
-This package contains an API for reading and writing files in the
-SIARD Format 2.1
+## Getting started
 
-## Getting started (for devs)
-
-For building the binaries, Java JDK (1.8 or higher) and Ant must
-have been installed.
-
-Check `build.properties` and make changes according to your system. No special configuration should be necessary, if the java binaries are available in your `$PATH`.  
-
-Generate Siard 2.1 classes from [metadata.xsd](./doc/specifications/metadata.xsd):
+Build the project and run all tests
 
 ```bash
-ant generate
+./gradlew clean build
 ```
 
-Run all tests:
-```bash
-ant test
-```
 
 Create a release
 
 ```bash
-ant release
+./gradlew release
 ```
 
-this target also:
-* runs all tests.
-* copies `siardapi.jar` to the `dist` folder
-* updates [MANIFEST.MF](src/META-INF/MANIFEST.MF)
+This adds a new tag and pushes it to the repository.
 
-## IDEs
-
-No specific IDE is needed. 
+## Usage
 
 
-## Documentation
+add the following to settings.gradle.kts:
 
-[./doc/manual/user/index.html](./doc/manual/user/index.html) contains the manual for using the binaries.
-[./doc/manual/developer/index.html](./doc/manual/developer/index.html) is the manual for developers wishing to build the binaries or work on the code.
+```kotlin
+    gitRepository(URI.create("https://github.com/sfa-siard/SiardApi")) {
+        producesModule("ch.admin.bar:siard-api")
+    }
+```
 
-More information about the build process can be found in
-[doc/manual/developer/build.html](./doc/manual/developer/build.html).
+and add the dependency in build.gradle.kts to your other dependencies:
+
+```kotlin
+    implementation("ch.admin.bar:siard-api:v2.2.126") // check for the latest version
+```
+
+
+
+
+

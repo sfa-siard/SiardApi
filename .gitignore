@@ -9,7 +9,7 @@
 # target is the default deployment folder where the binaries are unzipped.
 /target
 # generated sources
-src/ch/admin/bar/siard2/api/generated/**
+/src/main/java/ch/admin/bar/siard2/api/generated/
 # sometimes junit4 produces temporary files that we do not want to check in
 /junit*.*
 # bug tests
@@ -24,3 +24,11 @@ src/ch/admin/bar/siard2/api/generated/**
 
 # asdf configuration
 .tool-versions
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+/src/test/resources/tmp/
+/src/test/resources/testfiles/sample_archive.siard
