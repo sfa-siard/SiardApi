@@ -23,14 +23,14 @@ public class BugTester {
             archive.open(_fileBUG49);
             Schema schema = archive.getSchema("public");
             Table table = schema.getTable("film");
-            RecordDispenser rd = table.openRecords();
-            Record record = rd.get();
-            Cell cell = record.getCell(11);
+            TableRecordDispenser rd = table.openTableRecords();
+            TableRecord tableRecord = rd.get();
+            Cell cell = tableRecord.getCell(11);
             MetaColumn mc = cell.getMetaColumn();
             System.out.println("Cardinality: " + mc.getCardinality());
             System.out.println("Fields: " + mc.getMetaFields());
             assertEquals("", 4, cell.getElements());
-            List<Value> listValues = record.getValues(false, false);
+            List<Value> listValues = tableRecord.getValues(false, false);
             assertEquals("", 16, listValues.size());
             rd.close();
             archive.close();

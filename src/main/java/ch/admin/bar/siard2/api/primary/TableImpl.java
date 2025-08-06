@@ -334,9 +334,9 @@ public class TableImpl
         boolean bValid = getMetaTable().isValid();
         if (bValid && (getMetaTable().getMetaColumns() == 0))
             bValid = false;
-        RecordDispenser rd = null;
+        TableRecordDispenser rd = null;
         try {
-            rd = openRecords();
+            rd = openTableRecords();
             long lRowsValidate = Math.min(lROWS_MAX_VALIDATE, getMetaTable().getRows());
             rd.skip(lRowsValidate);
             if (lRowsValidate == getMetaTable().getRows())
@@ -413,9 +413,9 @@ public class TableImpl
      * {@inheritDoc}
      */
     @Override
-    public RecordDispenserImpl openRecords()
+    public TableRecordDispenserImpl openTableRecords()
             throws IOException {
-        return new RecordDispenserImpl(this);
+        return new TableRecordDispenserImpl(this);
     } 
 
     private boolean _bCreating = false;
@@ -432,21 +432,21 @@ public class TableImpl
      * {@inheritDoc}
      */
     @Override
-    public RecordRetainerImpl createRecords()
+    public TableRecordRetainerImpl createTableRecords()
             throws IOException {
-        return new RecordRetainerImpl(this);
+        return new TableRecordRetainerImpl(this);
     } 
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public RecordExtract getRecordExtract()
+    public TableRecordExtract getTableRecordExtract()
             throws IOException {
-        RecordExtract re = null;
+        TableRecordExtract re = null;
         /* open table XML */
         if (!getArchiveImpl().canModifyPrimaryData())
-            re = RecordExtractImpl.newInstance(this);
+            re = TableRecordExtractImpl.newInstance(this);
         else
             throw new IOException("Records cannot be read if archive is open for modification!");
         return re;
@@ -702,13 +702,13 @@ public class TableImpl
             oswr.write("</th>\r\n");
         }
         oswr.write("      </tr>\r\n");
-        RecordDispenser rd = openRecords();
+        TableRecordDispenser rd = openTableRecords();
         for (long lRow = 0; lRow < getMetaTable().getRows(); lRow++) {
             oswr.write("      <tr>\r\n");
-            Record record = rd.get();
-            for (int iColumn = 0; iColumn < record.getCells(); iColumn++) {
+            TableRecord tableRecord = rd.get();
+            for (int iColumn = 0; iColumn < tableRecord.getCells(); iColumn++) {
                 oswr.write("        <td>");
-                Cell cell = record.getCell(iColumn);
+                Cell cell = tableRecord.getCell(iColumn);
                 writeValue(oswr, cell, folderLobs);
                 oswr.write("</td>\r\n");
             }

@@ -22,14 +22,14 @@ import java.io.IOException;
 public class CellImpl
         extends ValueImpl
         implements Cell {
-    private Record _record = null;
+    private TableRecord _tableRecord = null;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Record getParentRecord() {
-        return _record;
+    public TableRecord getParentRecord() {
+        return _tableRecord;
     }
 
     private MetaColumn _mc = null;
@@ -45,17 +45,17 @@ public class CellImpl
     /**
      * constructor
      *
-     * @param record parent record to which this cell belongs.
+     * @param tableRecord parent record to which this cell belongs.
      * @param iIndex index of value in parent cell or field
      *               (is needed, because element can be null).
      * @param mc     associated MetaColumn instance.
      * @param elCell DOM element holding the full cell.
      */
-    private CellImpl(Record record, int iIndex, MetaColumn mc, Element elCell)
+    private CellImpl(TableRecord tableRecord, int iIndex, MetaColumn mc, Element elCell)
             throws IOException {
-        _record = record;
+        _tableRecord = tableRecord;
         _mc = mc;
-        RecordImpl ri = (RecordImpl) record;
+        TableRecordImpl ri = (TableRecordImpl) tableRecord;
         initialize(ri.getRecord(), ri.getTemporaryLobFolder(), iIndex, elCell, mc);
     } 
 
@@ -64,13 +64,13 @@ public class CellImpl
      *
      * @param iIndex index of value in parent cell or field
      *               (is needed, because element can be null).
-     * @param record parent record to which this cell belongs.
+     * @param tableRecord parent record to which this cell belongs.
      * @param mc     associated MetaColumn instance.
      * @param elCell DOM element holding the full cell.
      */
-    public static Cell newInstance(Record record, int iIndex, MetaColumn mc, Element elCell)
+    public static Cell newInstance(TableRecord tableRecord, int iIndex, MetaColumn mc, Element elCell)
             throws IOException {
-        return new CellImpl(record, iIndex, mc, elCell);
+        return new CellImpl(tableRecord, iIndex, mc, elCell);
     } 
 
     /**

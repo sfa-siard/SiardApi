@@ -79,7 +79,7 @@ public class RecordWithDataLinkTest {
         Table table = schema.getTable(TSIMPLE);
 
         // when
-        RecordDispenser recordDispenser = table.openRecords();
+        TableRecordDispenser recordDispenser = table.openTableRecords();
 
         // then
         assertNotNull(recordDispenser);
@@ -93,7 +93,7 @@ public class RecordWithDataLinkTest {
         Table table = schema.getTable(TCOMPLEX);
 
         // when
-        RecordDispenser recordDispenser = table.openRecords();
+        TableRecordDispenser recordDispenser = table.openTableRecords();
 
         // then
         assertNotNull(recordDispenser);
@@ -105,75 +105,75 @@ public class RecordWithDataLinkTest {
         // given
         Schema schema = archive.getSchema(0);
         Table table = schema.getTable(TSIMPLE);
-        RecordDispenser recordDispenser = table.openRecords();
+        TableRecordDispenser recordDispenser = table.openTableRecords();
 
         // when
         recordDispenser.skip(1); // skip the 1st record - for simplicity
-        Record record = recordDispenser.get();
+        TableRecord tableRecord = recordDispenser.get();
 
         // then
         // only asserts values in the first row...
-        assertEquals(1, record.getRecord());
-        assertEquals(26, record.getCells());
+        assertEquals(1, tableRecord.getRecord());
+        assertEquals(26, tableRecord.getCells());
 
-        assertEquals("\"", record.getCell(0)
+        assertEquals("\"", tableRecord.getCell(0)
                                  .getString());
         assertEquals(
                 "efghijklmnopqrstuvwxyz{|}~!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\"#$%&'(",
-                record.getCell(1)
+                tableRecord.getCell(1)
                       .getString());
-        assertEquals(2345L, record.getCell(2)
+        assertEquals(2345L, tableRecord.getCell(2)
                                   .getCharLength());
-        assertTrue(TestUtils.equalReaders(new TestReader(2345L), record.getCell(2)
+        assertTrue(TestUtils.equalReaders(new TestReader(2345L), tableRecord.getCell(2)
                                                                        .getReader()));
-        assertEquals("!", record.getCell(3)
+        assertEquals("!", tableRecord.getCell(3)
                                 .getString());
-        assertEquals("`abcdefghijklmnopqrstuvwxyz{|}~\u007F ¡¢£¤¥¦§¨©ª«¬\u00AD®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ", record.getCell(4)
+        assertEquals("`abcdefghijklmnopqrstuvwxyz{|}~\u007F ¡¢£¤¥¦§¨©ª«¬\u00AD®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ", tableRecord.getCell(4)
                                                                                                                                                                          .getString());
-        assertTrue("", record.getCell(5)
+        assertTrue("", tableRecord.getCell(5)
                              .isNull());
-        assertEquals(36, record.getCell(6)
+        assertEquals(36, tableRecord.getCell(6)
                                .getCharLength());
-        assertEquals("content/schema0/table0/lob6/record1.xml", record.getCell(6)
+        assertEquals("content/schema0/table0/lob6/record1.xml", tableRecord.getCell(6)
                                                                       .getFilename());
-        assertEquals("01", record.getCell(7)
+        assertEquals("01", tableRecord.getCell(7)
                                  .getString());
         assertEquals("C8C9CACBCCCDCECFD0D1D2D3D4D5D6D7D8D9DADBDCDDDEDFE0E1E2E3E4E5E6E7E8E9EAEBECEDEEEFF0F1F2F3F4F5F6F7F8F9FAFBFCFDFEFF000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F303132333435363738393A3B3C3D3E3F404142434445464748494A4B4C4D4E4F505152535455565758",
-                     record.getCell(8)
+                     tableRecord.getCell(8)
                            .getString());
-        assertEquals("content/schema0/table0/lob9/record1.bin", record.getCell(9)
+        assertEquals("content/schema0/table0/lob9/record1.bin", tableRecord.getCell(9)
                                                                       .getFilename());
-        assertEquals("617280.45", record.getCell(10)
+        assertEquals("617280.45", tableRecord.getCell(10)
                                         .getString());
-        assertEquals("0.617283945", record.getCell(11)
+        assertEquals("0.617283945", tableRecord.getCell(11)
                                           .getString());
-        assertEquals("24690", record.getCell(12)
+        assertEquals("24690", tableRecord.getCell(12)
                                     .getString());
-        assertEquals("24691356", record.getCell(13)
+        assertEquals("24691356", tableRecord.getCell(13)
                                        .getString());
-        assertEquals("24691357802469134", record.getCell(14)
+        assertEquals("24691357802469134", tableRecord.getCell(14)
                                                 .getString());
-        assertEquals("0.6283184", record.getCell(15)
+        assertEquals("0.6283184", tableRecord.getCell(15)
                                         .getString());
-        assertEquals("0.3141592", record.getCell(16)
+        assertEquals("0.3141592", tableRecord.getCell(16)
                                         .getString());
-        assertEquals("3.14159265359", record.getCell(17)
+        assertEquals("3.14159265359", tableRecord.getCell(17)
                                             .getString());
-        assertTrue("", record.getCell(18)
+        assertTrue("", tableRecord.getCell(18)
                              .isNull());
-        assertEquals("2022-06-01", record.getCell(19)
+        assertEquals("2022-06-01", tableRecord.getCell(19)
                                          .getString());
-        assertEquals("09:45:02.071Z", record.getCell(20)
+        assertEquals("09:45:02.071Z", tableRecord.getCell(20)
                                             .getString());
-        assertEquals("2022-06-01T09:45:02.123456789Z", record.getCell(21)
+        assertEquals("2022-06-01T09:45:02.123456789Z", tableRecord.getCell(21)
                                                              .getString());
-        assertTrue("", record.getCell(22)
+        assertTrue("", tableRecord.getCell(22)
                              .isNull());
-        assertEquals("-P34DT0H0M0S", record.getCell(23)
+        assertEquals("-P34DT0H0M0S", tableRecord.getCell(23)
                                            .getString());
-        assertEquals("P0DT0H0M23.456S", record.getCell(24)
+        assertEquals("P0DT0H0M23.456S", tableRecord.getCell(24)
                                               .getString());
-        Cell dataLinkCell = record.getCell(25);
+        Cell dataLinkCell = tableRecord.getCell(25);
         assertEquals(79, dataLinkCell.getCharLength());
         assertEquals("content/schema0/table0/lob25/record1.bin", dataLinkCell.getFilename());
         assertEquals("DATALINK", dataLinkCell.getMetaColumn()
@@ -187,19 +187,19 @@ public class RecordWithDataLinkTest {
         // given
         Schema schema = archive.getSchema(0);
         Table table = schema.getTable(TCOMPLEX);
-        RecordDispenser recordDispenser = table.openRecords();
+        TableRecordDispenser recordDispenser = table.openTableRecords();
 
         // when
-        Record record = recordDispenser.get();
+        TableRecord tableRecord = recordDispenser.get();
 
         // then
-        assertEquals(5, record.getCells());
-        assertEquals("1234567890", record.getCell(0)
+        assertEquals(5, tableRecord.getCells());
+        assertEquals("1234567890", tableRecord.getCell(0)
                                          .getString());
-        assertEquals("987654321", record.getCell(1)
+        assertEquals("987654321", tableRecord.getCell(1)
                                         .getString());
 
-        Cell cell3 = record.getCell(2);
+        Cell cell3 = tableRecord.getCell(2);
         assertEquals(4, cell3.getAttributes());
         assertEquals("12345", cell3.getAttribute(0)
                                    .getString());
@@ -210,10 +210,10 @@ public class RecordWithDataLinkTest {
         assertEquals("content/schema0/table1/lob2/field3/record0.bin", cell3.getAttribute(3)
                                                                             .getFilename());
 
-        assertEquals("element 0,1element 0,3element 0,4", record.getCell(3)
+        assertEquals("element 0,1element 0,3element 0,4", tableRecord.getCell(3)
                                                                 .getString());
 
-        Cell cell5 = record.getCell(4);
+        Cell cell5 = tableRecord.getCell(4);
         assertEquals(2, cell5.getAttributes());
         assertEquals("-15", cell5.getAttribute(0)
                                  .getString());

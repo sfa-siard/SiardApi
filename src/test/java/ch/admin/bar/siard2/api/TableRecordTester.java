@@ -20,12 +20,11 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
-public class RecordTester {
+public class TableRecordTester {
     private static final File _fileSIARD_10_SOURCE = new File("src/test/resources/testfiles/sql1999.siard");
     private static final File _fileSIARD_10 = new File("src/test/resources/tmp/sql1999.siard");
     private static final File _fileSIARD_21_SOURCE = new File("src/test/resources/testfiles/sql2008.siard");
@@ -779,14 +778,14 @@ public class RecordTester {
     @Test
     public void testOld() {
         try {
-            RecordDispenser rd = _tabOld.openRecords();
-            Record record = rd.get();
-            assertSame("Invalid record!", _tabOld, record.getParentTable());
+            TableRecordDispenser rd = _tabOld.openTableRecords();
+            TableRecord tableRecord = rd.get();
+            assertSame("Invalid record!", _tabOld, tableRecord.getParentTable());
             assertEquals("Invalid cell count!", _tabOld.getMetaTable()
-                                                       .getMetaColumns(), record.getCells());
-            for (int i = 0; i < record.getCells(); i++) {
-                Cell cell = record.getCell(i);
-                assertEquals("Invalid cell!", record, cell.getParentRecord());
+                                                       .getMetaColumns(), tableRecord.getCells());
+            for (int i = 0; i < tableRecord.getCells(); i++) {
+                Cell cell = tableRecord.getCell(i);
+                assertEquals("Invalid cell!", tableRecord, cell.getParentRecord());
                 assertSame("Invalid cell meta data!", _tabOld.getMetaTable()
                                                              .getMetaColumn(i), cell.getMetaColumn());
                 System.out.print(cell.getMetaColumn()
@@ -800,9 +799,9 @@ public class RecordTester {
                 }
                 System.out.println(sValue);
             }
-            for (int i = 0; i < record.getCells(); i++) {
-                Cell cell = record.getCell(i);
-                assertEquals("Invalid cell!", record, cell.getParentRecord());
+            for (int i = 0; i < tableRecord.getCells(); i++) {
+                Cell cell = tableRecord.getCell(i);
+                assertEquals("Invalid cell!", tableRecord, cell.getParentRecord());
                 assertSame("Invalid cell meta data!", _tabOld.getMetaTable()
                                                              .getMetaColumn(i), cell.getMetaColumn());
                 System.out.print(cell.getMetaColumn()
@@ -945,10 +944,10 @@ public class RecordTester {
             archive.open(_fileSIARD_21);
             Schema schema = archive.getSchema(0);
             Table tabSimple = schema.getTable(_sTEST_SIMPLE_TABLE_NAME);
-            RecordDispenser rd = tabSimple.openRecords();
-            Record record = rd.get();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            TableRecordDispenser rd = tabSimple.openTableRecords();
+            TableRecord tableRecord = rd.get();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 verifySimpleCell(cell, iCell, 0);
             }
             rd.close();
@@ -967,13 +966,13 @@ public class RecordTester {
             File fileLobsFolder = new File(uriLobsFolder);
             FU.deleteFiles(fileLobsFolder);
 
-            RecordRetainer rr = _tabComplexNew.createRecords();
-            Record record = rr.create();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            TableRecordRetainer rr = _tabComplexNew.createTableRecords();
+            TableRecord tableRecord = rr.create();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 populateComplexCell(cell, iCell, 0);
             }
-            rr.put(record);
+            rr.put(tableRecord);
             rr.close();
             assertEquals("Invalid number of rows!", 1, _tabComplexNew.getMetaTable()
                                                                      .getRows());
@@ -991,10 +990,10 @@ public class RecordTester {
             archive.open(_fileSIARD_21);
             Schema schema = archive.getSchema(0);
             Table tabComplex = schema.getTable(_sTEST_COMPLEX_TABLE_NAME);
-            RecordDispenser rd = tabComplex.openRecords();
-            Record record = rd.get();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            TableRecordDispenser rd = tabComplex.openTableRecords();
+            TableRecord tableRecord = rd.get();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 verifyComplexCell(cell, iCell, 0);
             }
             rd.close();
@@ -1018,24 +1017,24 @@ public class RecordTester {
             File fileLobsFolder = new File(uriLobsFolder);
             FU.deleteFiles(fileLobsFolder);
 
-            RecordRetainer rr = _tabSimpleNew.createRecords();
-            Record record = rr.create();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            TableRecordRetainer rr = _tabSimpleNew.createTableRecords();
+            TableRecord tableRecord = rr.create();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 populateSimpleCell(cell, iCell, 0);
             }
-            rr.put(record);
+            rr.put(tableRecord);
             rr.close();
             assertEquals("Invalid number of rows!", 1, _tabSimpleNew.getMetaTable()
                                                                     .getRows());
 
-            rr = _tabComplexNew.createRecords();
-            record = rr.create();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            rr = _tabComplexNew.createTableRecords();
+            tableRecord = rr.create();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 populateComplexCell(cell, iCell, 0);
             }
-            rr.put(record);
+            rr.put(tableRecord);
             rr.close();
             assertEquals("Invalid number of rows!", 1, _tabComplexNew.getMetaTable()
                                                                      .getRows());

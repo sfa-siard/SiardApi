@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-public class RecordExtractTester {
+public class TableRecordExtractTester {
     private static final File _fileSAKILA = new File("src/test/resources/testfiles/sfdbsakila.siard");
     private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
     private static final String _sDBNAME = "SIARD 2.2 Test Database";
@@ -72,14 +72,14 @@ public class RecordExtractTester {
 
     private void fillTable(long lRecords)
             throws IOException {
-        RecordRetainer rr = _tabNew.createRecords();
+        TableRecordRetainer rr = _tabNew.createTableRecords();
         for (long lRecord = 0; lRecord < lRecords; lRecord++) {
-            Record record = rr.create();
-            for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                Cell cell = record.getCell(iCell);
+            TableRecord tableRecord = rr.create();
+            for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                Cell cell = tableRecord.getCell(iCell);
                 populateCell(cell, iCell, lRecord);
             }
-            rr.put(record);
+            rr.put(tableRecord);
         }
         rr.close();
     } 
@@ -108,13 +108,13 @@ public class RecordExtractTester {
             archive.open(_fileSIARD_21_NEW);
             schema = archive.getSchema(_sTEST_SCHEMA_NAME);
             _tabNew = schema.getTable(_sTEST_TABLE_NAME);
-            RecordExtract rs = _tabNew.getRecordExtract();
+            TableRecordExtract rs = _tabNew.getTableRecordExtract();
             System.out.println(rs.getLabel());
             String sIndent = "  ";
-            for (int iRecordSet = 0; iRecordSet < rs.getRecordExtracts(); iRecordSet++) {
-                Record record = rs.getRecordExtract(iRecordSet)
-                                  .getRecord();
-//        System.out.println(sIndent + String.valueOf(record.getCell(0).getLong())+", "+record.getCell(1).getString());
+            for (int iRecordSet = 0; iRecordSet < rs.getTableRecordExtracts(); iRecordSet++) {
+                TableRecord tableRecord = rs.getTableRecordExtract(iRecordSet)
+                                  .getTableRecord();
+//        System.out.println(sIndent + String.valueOf(tableRecord.getCell(0).getLong())+", "+tableRecord.getCell(1).getString());
             }
             archive.close();
         } catch (IOException ie) {
@@ -122,25 +122,25 @@ public class RecordExtractTester {
         }
     }
 
-    private void printRecordSet(String sIndent, RecordExtract rs)
+    private void printRecordSet(String sIndent, TableRecordExtract rs)
             throws IOException {
         String sLabel = rs.getLabel();
-        Record record = rs.getRecord();
+        TableRecord tableRecord = rs.getTableRecord();
         System.out.print(sIndent);
         if (sLabel != null) {
             System.out.print(sLabel);
-            if (record != null)
+            if (tableRecord != null)
                 System.out.print(": ");
         }
-        if (record != null)
-            System.out.println(record.getCell(0)
-                                     .getLong() + ", " + record.getCell(1)
+        if (tableRecord != null)
+            System.out.println(tableRecord.getCell(0)
+                                     .getLong() + ", " + tableRecord.getCell(1)
                                                                                .getString());
         else
             System.out.println();
         if (sLabel != null) {
-            for (int iRecordSet = 0; iRecordSet < rs.getRecordExtracts(); iRecordSet++)
-                printRecordSet(sIndent + "  ", rs.getRecordExtract(iRecordSet));
+            for (int iRecordSet = 0; iRecordSet < rs.getTableRecordExtracts(); iRecordSet++)
+                printRecordSet(sIndent + "  ", rs.getTableRecordExtract(iRecordSet));
         }
     }
 
@@ -160,7 +160,7 @@ public class RecordExtractTester {
         archive.open(_fileSIARD_21_NEW);
         schema = archive.getSchema(_sTEST_SCHEMA_NAME);
         _tabNew = schema.getTable(_sTEST_TABLE_NAME);
-        RecordExtract rs = _tabNew.getRecordExtract();
+        TableRecordExtract rs = _tabNew.getTableRecordExtract();
         try {
             printRecordSet("", rs);
         } catch (IOException ie) {
@@ -183,7 +183,7 @@ public class RecordExtractTester {
         archive.open(_fileSIARD_21_NEW);
         schema = archive.getSchema(_sTEST_SCHEMA_NAME);
         _tabNew = schema.getTable(_sTEST_TABLE_NAME);
-        RecordExtract rs = _tabNew.getRecordExtract();
+        TableRecordExtract rs = _tabNew.getTableRecordExtract();
         printRecordSet("", rs);
         archive.close();
     }
@@ -203,10 +203,10 @@ public class RecordExtractTester {
         archive.open(_fileSIARD_21_NEW);
         schema = archive.getSchema(_sTEST_SCHEMA_NAME);
         _tabNew = schema.getTable(_sTEST_TABLE_NAME);
-        RecordExtract rs = _tabNew.getRecordExtract();
+        TableRecordExtract rs = _tabNew.getTableRecordExtract();
         printRecordSet("", rs);
         _tabNew.sort(true, 1, null);
-        rs = _tabNew.getRecordExtract();
+        rs = _tabNew.getTableRecordExtract();
         System.out.println();
         System.out.println("Sorted");
         printRecordSet("", rs);
@@ -220,10 +220,10 @@ public class RecordExtractTester {
         archive.open(_fileSAKILA);
         Schema schema = archive.getSchema(0);
         Table table = schema.getTable("actor");
-        RecordExtract rs = table.getRecordExtract();
+        TableRecordExtract rs = table.getTableRecordExtract();
         printRecordSet("", rs);
         table.sort(true, 2, null);
-        rs = table.getRecordExtract();
+        rs = table.getTableRecordExtract();
         System.out.println();
         System.out.println("Sorted");
         printRecordSet("", rs);

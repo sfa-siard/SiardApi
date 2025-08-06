@@ -20,11 +20,11 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Arrays;
 
-public class SampleRecord {
+public class SampleTableRecord {
     public static final int iSIMPLE_RECORDS = 4;
     public static final int iCOMPLEX_RECORDS = 2;
     private static final DU _du = DU.getInstance("en", "dd.MM.yyyy");
-    private Record _record = null;
+    private TableRecord _tableRecord = null;
     private int _iRecord = -1;
 
     public static String getCircleJpgUrl() {
@@ -35,8 +35,8 @@ public class SampleRecord {
         SampleColumn.printValue("  " + sLabel, sValue);
     } 
 
-    public SampleRecord(Record record, int iRecord) {
-        _record = record;
+    public SampleTableRecord(TableRecord tableRecord, int iRecord) {
+        _tableRecord = tableRecord;
         _iRecord = iRecord;
     } 
 
@@ -55,7 +55,7 @@ public class SampleRecord {
             case Types.NCLOB:
             case Types.SQLXML:
                 long lCharLength = value.getCharLength();
-                if (lCharLength < _record.getParentTable()
+                if (lCharLength < _tableRecord.getParentTable()
                                          .getParentSchema()
                                          .getParentArchive()
                                          .getMaxInlineSize())
@@ -69,7 +69,7 @@ public class SampleRecord {
                 break;
             case Types.BLOB:
                 long lByteLength = value.getByteLength();
-                if (lByteLength < _record.getParentTable()
+                if (lByteLength < _tableRecord.getParentTable()
                                          .getParentSchema()
                                          .getParentArchive()
                                          .getMaxInlineSize() / 2)
@@ -191,15 +191,15 @@ public class SampleRecord {
         return iReturn;
     } 
 
-    public int readRecord() {
+    public int readTableRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
         System.out.print("      Record[" + _iRecord + "]: ");
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _record.getCells()); iCell++) {
+            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _tableRecord.getCells()); iCell++) {
                 if (iCell > 0)
                     System.out.print("\t");
-                iResult = readCell(_record.getCell(iCell), iCell);
+                iResult = readCell(_tableRecord.getCell(iCell), iCell);
             }
             iReturn = iResult;
         } catch (IOException ie) {
@@ -612,8 +612,8 @@ public class SampleRecord {
         int iReturn = SampleArchive.iRETURN_ERROR;
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _record.getCells()); iCell++)
-                iResult = createSimpleCell(_record.getCell(iCell), iCell);
+            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _tableRecord.getCells()); iCell++)
+                iResult = createSimpleCell(_tableRecord.getCell(iCell), iCell);
             iReturn = iResult;
         } catch (IOException ie) {
             System.err.println(SampleArchive.getExceptionMessage(ie));
@@ -625,8 +625,8 @@ public class SampleRecord {
         int iReturn = SampleArchive.iRETURN_ERROR;
         try {
             int iResult = SampleArchive.iRETURN_OK;
-            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _record.getCells()); iCell++)
-                iResult = createComplexCell(_record.getCell(iCell), iCell);
+            for (int iCell = 0; (iResult == SampleArchive.iRETURN_OK) && (iCell < _tableRecord.getCells()); iCell++)
+                iResult = createComplexCell(_tableRecord.getCell(iCell), iCell);
             iReturn = iResult;
         } catch (IOException ie) {
             System.err.println(SampleArchive.getExceptionMessage(ie));
@@ -636,11 +636,11 @@ public class SampleRecord {
 
     public int createRecord() {
         int iReturn = SampleArchive.iRETURN_ERROR;
-        if (SampleTable.sTABLE_SIMPLE.equals(_record.getParentTable()
+        if (SampleTable.sTABLE_SIMPLE.equals(_tableRecord.getParentTable()
                                                     .getMetaTable()
                                                     .getName()))
             iReturn = createSimpleRecord();
-        else if (SampleTable.sTABLE_COMPLEX.equals(_record.getParentTable()
+        else if (SampleTable.sTABLE_COMPLEX.equals(_tableRecord.getParentTable()
                                                           .getMetaTable()
                                                           .getName()))
             iReturn = createComplexRecord();

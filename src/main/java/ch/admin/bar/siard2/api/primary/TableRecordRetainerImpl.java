@@ -9,8 +9,8 @@ Created    : 04.09.2017, Hartwig Thomas
 package ch.admin.bar.siard2.api.primary;
 
 import ch.admin.bar.siard2.api.Archive;
-import ch.admin.bar.siard2.api.Record;
-import ch.admin.bar.siard2.api.RecordRetainer;
+import ch.admin.bar.siard2.api.TableRecord;
+import ch.admin.bar.siard2.api.TableRecordRetainer;
 import ch.admin.bar.siard2.api.Table;
 import ch.admin.bar.siard2.api.generated.table.RecordType;
 import ch.enterag.utils.FU;
@@ -32,8 +32,8 @@ import java.net.URI;
  * RecordRetainer provides serial write access to records.
  *
  */
-public class RecordRetainerImpl
-        implements RecordRetainer {
+public class TableRecordRetainerImpl
+        implements TableRecordRetainer {
     private static final int iBUFFER_SIZE = 8192;
     private Table _table = null;
     private CountingOutputStream _osXml = null;
@@ -135,7 +135,7 @@ public class RecordRetainerImpl
      * @param table table.
      * @throws IOException if an I/O error occurred.
      */
-    public RecordRetainerImpl(Table table)
+    public TableRecordRetainerImpl(Table table)
             throws IOException {
         TableImpl ti = (TableImpl) table;
         ti.setCreating(true);
@@ -214,24 +214,24 @@ public class RecordRetainerImpl
     /**
      * write a record to the XML stream writer.
      *
-     * @param record record to be written.
+     * @param tableRecord record to be written.
      * @param xsw    XML stream writer.
      * @throws IOException        if an I/O exception occurred.
      * @throws XMLStreamException if an XML streaming exception occurred.
      */
-    static void writeRecord(Record record, XMLStreamWriter xsw)
+    static void writeTableRecord(TableRecord tableRecord, XMLStreamWriter xsw)
             throws IOException, XMLStreamException {
-        putRecordType(((RecordImpl) record).getRecordType(), xsw);
+        putRecordType(((TableRecordImpl) tableRecord).getRecordType(), xsw);
     } 
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void put(Record record)
+    public void put(TableRecord tableRecord)
             throws IOException {
         try {
-            writeRecord(record, _xsw);
+            writeTableRecord(tableRecord, _xsw);
             _lRecord++;
         }
         //catch(JAXBException je) { throw new IOException("Error marshalling record "+String.valueOf(_lRecord)+"!",je); }
@@ -331,10 +331,10 @@ public class RecordRetainerImpl
      * {@inheritDoc}
      */
     @Override
-    public Record create()
+    public TableRecord create()
             throws IOException {
-        Record record = RecordImpl.newInstance(_table, getPosition(), getTemporaryLobFolder());
-        return record;
+        TableRecord tableRecord = TableRecordImpl.newInstance(_table, getPosition(), getTemporaryLobFolder());
+        return tableRecord;
     } /* createRecord */
 
     /**

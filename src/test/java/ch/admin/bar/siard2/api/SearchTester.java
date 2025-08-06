@@ -24,11 +24,11 @@ public class SearchTester {
             archive.open(_fileSAKILA);
             Schema schema = archive.getSchema(0);
             Table table = schema.getTable(0);
-            RecordDispenser rd = table.openRecords();
-            for (Record record = rd.get(); record != null; record = rd.get()) {
-                System.out.print((rd.getPosition() - 1) + " (" + record.getRecord() + ")");
-                for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                    Cell cell = record.getCell(iCell);
+            TableRecordDispenser rd = table.openTableRecords();
+            for (TableRecord tableRecord = rd.get(); tableRecord != null; tableRecord = rd.get()) {
+                System.out.print((rd.getPosition() - 1) + " (" + tableRecord.getRecord() + ")");
+                for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                    Cell cell = tableRecord.getCell(iCell);
                     System.out.print("\t" + cell.getObject());
                 }
                 System.out.println();
@@ -71,11 +71,11 @@ public class SearchTester {
             Table table = schema.getTable(1);
             MetaTable mt = table.getMetaTable();
             System.out.println("Table: " + mt.getName());
-            RecordDispenser rd = table.openRecords();
-            for (Record record = rd.get(); record != null; record = rd.get()) {
-                System.out.print((rd.getPosition() - 1) + " (" + record.getRecord() + ")");
-                for (int iCell = 0; iCell < record.getCells(); iCell++) {
-                    Cell cell = record.getCell(iCell);
+            TableRecordDispenser rd = table.openTableRecords();
+            for (TableRecord tableRecord = rd.get(); tableRecord != null; tableRecord = rd.get()) {
+                System.out.print((rd.getPosition() - 1) + " (" + tableRecord.getRecord() + ")");
+                for (int iCell = 0; iCell < tableRecord.getCells(); iCell++) {
+                    Cell cell = tableRecord.getCell(iCell);
                     System.out.print("\t" + cell.getObject());
                 }
                 System.out.println();
