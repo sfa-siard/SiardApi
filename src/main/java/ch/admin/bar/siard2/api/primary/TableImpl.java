@@ -38,10 +38,8 @@ import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-
 /**
  * TableImpl implements the interface Table.
- *
  */
 public class TableImpl
         extends SearchImpl
@@ -63,10 +61,7 @@ public class TableImpl
             throws IOException {
         try {
             if (_db == null) {
-                /* avoid Oracle XML parsing and make outcomes predictable */
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(
-                        com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl.class.getName(),
-                        null);
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 dbf.setNamespaceAware(true);
                 _db = dbf.newDocumentBuilder();
             }
@@ -74,7 +69,7 @@ public class TableImpl
             throw new IOException("DocumentBuilder could not be created!", pce);
         }
         return _db;
-    } 
+    }
 
     private static Transformer _trans = null;
 
@@ -82,10 +77,7 @@ public class TableImpl
             throws IOException {
         try {
             if (_trans == null) {
-                /* avoid Oracle XML parsing and make outcomes predictable */
-                TransformerFactory tf = TransformerFactory.newInstance(
-                        com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.class.getName(),
-                        null);
+                TransformerFactory tf = TransformerFactory.newInstance();
                 _trans = tf.newTransformer();
                 _trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
                 _trans.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -97,7 +89,7 @@ public class TableImpl
             throw new IOException("Transformer could not be created!", tce);
         }
         return _trans;
-    } 
+    }
 
     /**
      * sorted, temporary table
@@ -130,12 +122,12 @@ public class TableImpl
 
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getParentSchema().getParentArchive();
-    } 
+    }
 
 
     String getTableFolder() {
         return ((SchemaImpl) getParentSchema()).getSchemaFolder() + getMetaTable().getFolder() + "/";
-    } 
+    }
 
     String getTableXsd() {
         return getTableFolder() + getMetaTable().getFolder() + ".xsd";
@@ -261,14 +253,14 @@ public class TableImpl
                     sTagField = CellImpl.getElementTag(iField);
                 else {
                     CategoryType cat = mv.getMetaType()
-                                         .getCategoryType();
+                            .getCategoryType();
                     if (cat == CategoryType.UDT)
                         sTagField = CellImpl.getAttributeTag(iField);
                 }
                 addElement(elSequence, sTagField, mvField, true);
             }
         }
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -289,9 +281,9 @@ public class TableImpl
                 /* read table template into DOM */
                 InputStream isXsdTable = ArchiveImpl.class.getResourceAsStream(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE);
                 Document doc = getDocumentBuilder().parse(isXsdTable);
-                
+
                 Element elAny = (Element) doc.getElementsByTagName("xs:any")
-                                             .item(0);
+                        .item(0);
                 Element elSequence = (Element) elAny.getParentNode();
                 XU.clearElement(elSequence);
                 for (int iColumn = 0; iColumn < getMetaTable().getMetaColumns(); iColumn++) {
@@ -311,7 +303,7 @@ public class TableImpl
             }
         } else
             throw new IOException("Table contains no columns!");
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -321,10 +313,10 @@ public class TableImpl
         boolean bEmpty = true;
         ArchiveImpl ai = getArchiveImpl();
         if (ai.getZipFile()
-              .getFileEntry(getTableXml()) != null)
+                .getFileEntry(getTableXml()) != null)
             bEmpty = false;
         return bEmpty;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -353,7 +345,7 @@ public class TableImpl
             }
         }
         return bValid;
-    } 
+    }
 
     /**
      * constructor for existing table
@@ -367,33 +359,33 @@ public class TableImpl
         _schemaParent = schemaParent;
         MetaSchemaImpl msi = (MetaSchemaImpl) getParentSchema().getMetaSchema();
         TablesType tts = msi.getSchemaType()
-                            .getTables();
+                .getTables();
         if (tts == null) {
             tts = _OF.createTablesType();
             msi.getSchemaType()
-               .setTables(tts);
+                    .setTables(tts);
         }
         TableType tt = null;
         for (int iTable = 0; (tt == null) && (iTable < tts.getTable()
-                                                          .size()); iTable++) {
+                .size()); iTable++) {
             TableType ttTry = tts.getTable()
-                                 .get(iTable);
+                    .get(iTable);
             if (sName.equals(ttTry.getName()))
                 tt = ttTry;
         }
         SchemaImpl si = ((SchemaImpl) getParentSchema());
         if (tt == null) {
             String sFolder = _sTABLE_FOLDER_PREFIX + tts.getTable()
-                                                        .size();
+                    .size();
             ArchiveImpl ai = getArchiveImpl();
             ai.createFolderEntry(si.getSchemaFolder() + sFolder + "/");
             tt = MetaTableImpl.createTableType(sName, sFolder);
             tts.getTable()
-               .add(tt);
+                    .add(tt);
         }
         _mt = MetaTableImpl.newInstance(this, tt);
         si.registerTable(sName, this);
-    } 
+    }
 
     /**
      * factory
@@ -407,7 +399,7 @@ public class TableImpl
             throws IOException {
         Table table = new TableImpl(schemaParent, sName);
         return table;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -416,7 +408,7 @@ public class TableImpl
     public TableRecordDispenserImpl openTableRecords()
             throws IOException {
         return new TableRecordDispenserImpl(this);
-    } 
+    }
 
     private boolean _bCreating = false;
 
@@ -435,7 +427,7 @@ public class TableImpl
     public TableRecordRetainerImpl createTableRecords()
             throws IOException {
         return new TableRecordRetainerImpl(this);
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -450,7 +442,7 @@ public class TableImpl
         else
             throw new IOException("Records cannot be read if archive is open for modification!");
         return re;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -463,7 +455,7 @@ public class TableImpl
             stable = new SortedTableImpl();
         stable.sort(this, bAscending, iSortColumn, progress);
         _stable = stable;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -474,7 +466,7 @@ public class TableImpl
         if (_stable != null)
             bAscending = _stable.getAscending();
         return bAscending;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -485,7 +477,7 @@ public class TableImpl
         if (_stable != null)
             iSortColumn = _stable.getSortColumn();
         return iSortColumn;
-    } 
+    }
 
     /**
      * write the value as HTML to the table cell.
@@ -498,22 +490,22 @@ public class TableImpl
     private void writeLinkToLob(Writer wr, Value value, File folderLobs, String sFilename)
             throws IOException {
         URI uriAbsoluteFolder = value.getMetaValue()
-                                     .getAbsoluteLobFolder();
+                .getAbsoluteLobFolder();
         if (uriAbsoluteFolder != null) {
             URI uriExternal = uriAbsoluteFolder.resolve(sFilename);
             sFilename = uriExternal.toURL()
-                                   .toString();
+                    .toString();
             /* leave external LOB file where it is */
         } else if (folderLobs != null) {
 
             sFilename = "/" + folderLobs.getAbsolutePath()
-                                        .replace('\\', '/') + "/" + sFilename;
+                    .replace('\\', '/') + "/" + sFilename;
             File fileLob = new File(sFilename);
             fileLob.getParentFile()
-                   .mkdirs();
+                    .mkdirs();
             /* copy internal LOB file to lobFolder */
             int iType = value.getMetaValue()
-                             .getPreType();
+                    .getPreType();
             if ((iType == Types.BINARY) ||
                     (iType == Types.VARBINARY) ||
                     (iType == Types.BLOB) ||
@@ -541,7 +533,7 @@ public class TableImpl
         }
         /* write a link to the LOB file to HTML */
         wr.write("<a href=\"" + sFilename + "\">" + sFilename + "</a>");
-    } 
+    }
 
     /**
      * write the UDT value as a definition list.
@@ -565,7 +557,7 @@ public class TableImpl
             wr.write("</dd>\r\n");
         }
         wr.write("</dl>\r\n");
-    } 
+    }
 
     /**
      * write the array value as an ordered list.
@@ -584,7 +576,7 @@ public class TableImpl
             wr.write("</li>\r\n");
         }
         wr.write("</ol>\r\n");
-    } 
+    }
 
     /**
      * write the value as HTML to the table cell.
@@ -597,7 +589,7 @@ public class TableImpl
     private void writeValue(Writer wr, Value value, File folderLobs)
             throws IOException {
         DU du = DU.getInstance(Locale.getDefault()
-                                     .getLanguage(), (new SimpleDateFormat()).toPattern());
+                .getLanguage(), (new SimpleDateFormat()).toPattern());
         if (!value.isNull()) {
             // if it is a Lob with a file name then create a link
             String sFilename = value.getFilename();
@@ -632,32 +624,32 @@ public class TableImpl
                         case Types.NUMERIC:
                         case Types.DECIMAL:
                             sText = value.getBigDecimal()
-                                         .toPlainString();
+                                    .toPlainString();
                             break;
                         case Types.SMALLINT:
                             sText = value.getInt()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.INTEGER:
                             sText = value.getLong()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.BIGINT:
                             sText = value.getBigInteger()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.FLOAT:
                         case Types.DOUBLE:
                             sText = value.getDouble()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.REAL:
                             sText = value.getFloat()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.BOOLEAN:
                             sText = value.getBoolean()
-                                         .toString();
+                                    .toString();
                             break;
                         case Types.DATE:
                             sText = du.fromSqlDate(value.getDate());
@@ -676,7 +668,7 @@ public class TableImpl
                 }
             }
         }
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -698,7 +690,7 @@ public class TableImpl
         for (int iColumn = 0; iColumn < mt.getMetaColumns(); iColumn++) {
             oswr.write("        <th>");
             oswr.write(SU.toHtml(mt.getMetaColumn(iColumn)
-                                   .getName()));
+                    .getName()));
             oswr.write("</th>\r\n");
         }
         oswr.write("      </tr>\r\n");
@@ -719,6 +711,5 @@ public class TableImpl
         oswr.write("  </body>\r\n");
         oswr.write("</html>\r\n");
         oswr.flush();
-    } 
-
+    }
 } 
