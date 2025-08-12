@@ -1,7 +1,11 @@
 import java.net.URI
 
-rootProject.name = "siard-api"
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention").version("1.0.0")
+}
 
+
+rootProject.name = "siard-api"
 
 sourceControl {
     gitRepository(URI.create("https://github.com/sfa-siard/EnterUtilities.git")) {
