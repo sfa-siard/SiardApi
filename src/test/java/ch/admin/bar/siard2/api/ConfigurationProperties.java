@@ -7,18 +7,17 @@ import java.util.Properties;
 
 import static org.junit.Assert.fail;
 
-public class ConfigurationProperties
-        extends Properties {
+public class ConfigurationProperties extends Properties {
     private static final long serialVersionUID = 5204423170460249028L;
 
     private void readProperties() {
         try {
-            Reader rdr = new FileReader("build.properties");
+            Reader rdr = new FileReader("test.properties");
             load(rdr);
             rdr.close();
         } catch (IOException ie) {
             fail(ie.getClass()
-                   .getName() + ": " + ie.getMessage());
+                    .getName() + ": " + ie.getMessage());
         }
     }
 
@@ -29,5 +28,4 @@ public class ConfigurationProperties
     public String getLobsFolder() {
         return getProperty("lobsfolder");
     }
-
 }
