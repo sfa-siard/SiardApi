@@ -282,7 +282,7 @@ public class TableImpl
                 InputStream isXsdTable = ArchiveImpl.class.getResourceAsStream(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE);
                 Document doc = getDocumentBuilder().parse(isXsdTable);
 
-                Element elAny = (Element) doc.getElementsByTagName("xs:any")
+                Element elAny = (Element) doc.getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "any")
                         .item(0);
                 Element elSequence = (Element) elAny.getParentNode();
                 XU.clearElement(elSequence);
