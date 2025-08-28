@@ -47,7 +47,7 @@ dependencies {
     implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
 
     implementation("org.codehaus.woodstox:stax2-api:3.1.1")
-    implementation("org.codehaus.woodstox:woodstox-core-lgpl:4.1.2")
+    implementation("com.fasterxml.woodstox:woodstox-core:5.0.3")
 
     implementation("net.java.dev.msv:msv-core:2010.2")
     implementation("net.java.dev.msv:xsdlib:2013.2.2")
