@@ -160,34 +160,34 @@ public class TableImpl
             String sXmlType = null;
             switch (iPreType) {
                 case Types.CHAR:
-                    sXmlType = bShort ? "xs:string" : "clobType";
+                    sXmlType = bShort ? "xs:string" : "siard:clobType";
                     break;
                 case Types.VARCHAR:
-                    sXmlType = bShort ? "xs:string" : "clobType";
+                    sXmlType = bShort ? "xs:string" : "siard:clobType";
                     break;
                 case Types.DATALINK:
-                    sXmlType = "blobType";
+                    sXmlType = "siard:blobType";
                     break;
                 case Types.CLOB:
-                    sXmlType = "clobType";
+                    sXmlType = "siard:clobType";
                     break;
                 case Types.NCHAR:
-                    sXmlType = bShort ? "xs:string" : "clobType";
+                    sXmlType = bShort ? "xs:string" : "siard:clobType";
                     break;
                 case Types.NVARCHAR:
-                    sXmlType = bShort ? "xs:string" : "clobType";
+                    sXmlType = bShort ? "xs:string" : "siard:clobType";
                     break;
                 case Types.NCLOB:
-                    sXmlType = "clobType";
+                    sXmlType = "siard:clobType";
                     break;
                 case Types.BINARY:
-                    sXmlType = bShort ? "xs:hexBinary" : "blobType";
+                    sXmlType = bShort ? "xs:hexBinary" : "siard:blobType";
                     break;
                 case Types.VARBINARY:
-                    sXmlType = bShort ? "xs:hexBinary" : "blobType";
+                    sXmlType = bShort ? "xs:hexBinary" : "siard:blobType";
                     break;
                 case Types.BLOB:
-                    sXmlType = "blobType";
+                    sXmlType = "siard:blobType";
                     break;
                 case Types.NUMERIC:
                     sXmlType = "xs:decimal";
@@ -217,16 +217,16 @@ public class TableImpl
                     sXmlType = "xs:boolean";
                     break;
                 case Types.DATE:
-                    sXmlType = "dateType";
+                    sXmlType = "siard:dateType";
                     break;
                 case Types.TIME:
-                    sXmlType = "timeType";
+                    sXmlType = "siard:timeType";
                     break;
                 case Types.TIMESTAMP:
-                    sXmlType = "dateTimeType";
+                    sXmlType = "siard:dateTimeType";
                     break;
                 case Types.SQLXML:
-                    sXmlType = "clobType";
+                    sXmlType = "siard:clobType";
                     break;
                 case Types.OTHER:
                     sXmlType = "xs:duration";
@@ -281,6 +281,10 @@ public class TableImpl
                 /* read table template into DOM */
                 InputStream isXsdTable = ArchiveImpl.class.getResourceAsStream(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE);
                 Document doc = getDocumentBuilder().parse(isXsdTable);
+
+                // Ensure the schema declares the 'siard' prefix for SIARD table namespace
+                Element elSchema = doc.getDocumentElement();
+                elSchema.setAttribute(_sXML_NS + ":siard", Archive.sSIARD2_TABLE_NAMESPACE);
 
                 Element elAny = (Element) doc.getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "any")
                         .item(0);
