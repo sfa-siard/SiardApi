@@ -759,6 +759,7 @@ Copyright  : 2007, 2014, 2018, Swiss Federal Archives, Berne, Switzerland, 2021 
             <xs:extension base="xs:hexBinary">
                 <xs:attribute name="file" type="xs:anyURI"/>
                 <xs:attribute name="length" type="xs:integer"/>
+                <xs:attribute name="mimeType" type="xs:string"/>
                 <xs:attribute name="digestType" type="digestTypeType"/>
                 <xs:attribute name="digest" type="xs:string"/>
                 <xs:attribute name="dlurlpathonly" type="xs:anyURI"/>            <!-- applies only to external LOBs -->
