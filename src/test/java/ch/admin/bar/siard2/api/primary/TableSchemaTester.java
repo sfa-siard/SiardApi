@@ -487,9 +487,9 @@ public class TableSchemaTester {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(isXsdTable);
-            
+
             Element elAny = (Element) doc.getElementsByTagName("xs:any")
-                                         .item(0);
+                                         .item(0);  // TODO: may be cause of error after java17 upgrade
             Element elSequence = (Element) elAny.getParentNode();
             for (int i = elSequence.getChildNodes()
                                    .getLength() - 1; i >= 0; i--) {
