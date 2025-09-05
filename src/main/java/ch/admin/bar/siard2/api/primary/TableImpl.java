@@ -61,7 +61,7 @@ public class TableImpl
     @SneakyThrows
     static DocumentBuilder getDocumentBuilder() throws IOException {
         if (_db == null) {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); // TODO: may be cause of error after java17 upgrade
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setNamespaceAware(true);
             _db = dbf.newDocumentBuilder();
         }
@@ -74,7 +74,7 @@ public class TableImpl
             throws IOException {
         try {
             if (_trans == null) {
-                TransformerFactory tf = TransformerFactory.newInstance(); // TODO: may be cause of error after java17 upgrade
+                TransformerFactory tf = TransformerFactory.newInstance();
                 _trans = tf.newTransformer();
                 _trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
                 _trans.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -279,7 +279,7 @@ public class TableImpl
                 InputStream isXsdTable = ArchiveImpl.class.getResourceAsStream(Archive.sSIARD2_GENERIC_TABLE_XSD_RESOURCE);
                 Document doc = getDocumentBuilder().parse(isXsdTable);
 
-                Element elAny = (Element) doc.getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "any") // TODO: may be cause of error after java17 upgrade
+                Element elAny = (Element) doc.getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "any")
                         .item(0);
                 Element elSequence = (Element) elAny.getParentNode();
                 XU.clearElement(elSequence);
