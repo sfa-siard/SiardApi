@@ -21,6 +21,7 @@ import ch.enterag.utils.DU;
 import ch.enterag.utils.SU;
 import ch.enterag.utils.background.Progress;
 import ch.enterag.utils.xml.XU;
+import lombok.SneakyThrows;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -57,16 +58,12 @@ public class TableImpl
 
     static DocumentBuilder _db = null;
 
-    static DocumentBuilder getDocumentBuilder()
-            throws IOException {
-        try {
-            if (_db == null) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                _db = dbf.newDocumentBuilder();
-            }
-        } catch (ParserConfigurationException pce) {
-            throw new IOException("DocumentBuilder could not be created!", pce);
+    @SneakyThrows
+    static DocumentBuilder getDocumentBuilder() throws IOException {
+        if (_db == null) {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
+            _db = dbf.newDocumentBuilder();
         }
         return _db;
     }
@@ -150,8 +147,8 @@ public class TableImpl
     private void addElement(Element elParent, String sTag, MetaValue mv, boolean bNullable)
             throws IOException {
         Document doc = elParent.getOwnerDocument();
-        // Element elElement = doc.createElementNS(elParent.getNamespaceURI(),"xs:element");
-        Element elElement = doc.createElement("xs:element");
+        // create the element with the same namespace as the parent (XML Schema namespace)
+        Element elElement = doc.createElementNS(elParent.getNamespaceURI(), "xs:element");
         elParent.appendChild(elElement);
         elElement.setAttribute("name", sTag);
         int iPreType = mv.getPreType();
@@ -238,12 +235,12 @@ public class TableImpl
         } else {
             elElement.setAttribute("minOccurs", "0");
 
-            //Element elComplexType = doc.createElementNS(elElement.getNamespaceURI(),"xs:complexType");
-            Element elComplexType = doc.createElement("xs:complexType");
+            // create complexType in the XML Schema namespace
+            Element elComplexType = doc.createElementNS(elElement.getNamespaceURI(), "xs:complexType");
             elElement.appendChild(elComplexType);
 
-            //Element elSequence = doc.createElementNS(elComplexType.getNamespaceURI(),"xs:sequence");
-            Element elSequence = doc.createElement("xs:sequence");
+            // create sequence in the XML Schema namespace
+            Element elSequence = doc.createElementNS(elComplexType.getNamespaceURI(), "xs:sequence");
             elComplexType.appendChild(elSequence);
 
             for (int iField = 0; iField < mv.getMetaFields(); iField++) {
