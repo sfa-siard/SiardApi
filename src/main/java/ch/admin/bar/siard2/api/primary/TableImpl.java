@@ -682,6 +682,8 @@ public class TableImpl
         oswr.write("    <meta charset=\"utf-8\" />\r\n");
         oswr.write("  </head>\r\n");
         oswr.write("  <body>\r\n");
+        oswr.write("    <h1>" + mt.getName() + "</h1>\r\n");
+        oswr.write("    <h1>" + mt.getDescription() + "</h1>\r\n");
         oswr.write("    <table>\r\n");
         oswr.write("      <tr>\r\n");
         for (int iColumn = 0; iColumn < mt.getMetaColumns(); iColumn++) {
