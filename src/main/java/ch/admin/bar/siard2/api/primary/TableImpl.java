@@ -678,7 +678,7 @@ public class TableImpl
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");
         oswr.write("  <head>\r\n");
-        oswr.write("    <title>" + SU.toHtml(mt.getName()) + "</title>\r\n");
+        oswr.write("    <title>" + SU.toHtml(mt.getName()) + " (" + mt.getDescription() + ")</title>\r\n");
         oswr.write("    <meta charset=\"utf-8\" />\r\n");
         oswr.write("  </head>\r\n");
         oswr.write("  <body>\r\n");
