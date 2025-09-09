@@ -27,7 +27,7 @@ public class HtmlExport {
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");
         oswr.write("  <head>\r\n");
-        oswr.write("    <title>" + SU.toHtml(metaTable.getName()) + " (" + metaTable.getDescription() + ")</title>\r\n");
+        oswr.write("    <title>" + SU.toHtml(metaTable.getName()) + "</title>\r\n");
         oswr.write("    <meta charset=\"utf-8\" />\r\n");
         oswr.write("  </head>\r\n");
         oswr.write("  <body>\r\n");
@@ -38,7 +38,7 @@ public class HtmlExport {
         for (int iColumn = 0; iColumn < metaTable.getMetaColumns(); iColumn++) {
             oswr.write("        <th>");
             oswr.write(SU.toHtml(metaTable.getMetaColumn(iColumn)
-                                          .getName()));
+                    .getName()));
             oswr.write("</th>\r\n");
         }
         oswr.write("      </tr>\r\n");
