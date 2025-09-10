@@ -52,19 +52,21 @@ public class HtmlExport {
                .append("    <table>\r\n")
                .append("      <tr>\r\n");
 
-        metaTableFacade.getMetaColums()
-                       .forEach(col -> content.append("        <th>")
-                                              .append(escapeHtml4(col.getName()))
-                                              .append("</th>\r\n"));
+        addColumns(content);
         content.append("      </tr>\r\n");
-
         addRows(folderLobs, dispenser, content);
-        dispenser.close();
         content.append("    </table>\r\n");
         content.append("  </body>\r\n");
         content.append("</html>\r\n");
         oswr.write(content.toString());
         oswr.flush();
+    }
+
+    private void addColumns(StringBuilder content) {
+        metaTableFacade.getMetaColums()
+                       .forEach(col -> content.append("        <th>")
+                                              .append(escapeHtml4(col.getName()))
+                                              .append("</th>\r\n"));
     }
 
     private void addRows(File folderLobs, TableRecordDispenserImpl dispenser, StringBuilder content) throws IOException {
