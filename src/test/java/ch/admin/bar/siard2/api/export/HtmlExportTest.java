@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 @DisplayName("Test Html Export of Tables")
 public class HtmlExportTest {
@@ -63,10 +65,10 @@ public class HtmlExportTest {
         archive.close();
 
         // then
-        String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
-        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
+        List<String> generatedHtml = Files.readAllLines(fileTable.toPath(), StandardCharsets.UTF_8);
+        List<String> expectedHtml = Files.readAllLines(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
 
-        assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
+        assertIterableEquals(expectedHtml, generatedHtml, "Generated HTML should match expected content");
     }
 
 }
