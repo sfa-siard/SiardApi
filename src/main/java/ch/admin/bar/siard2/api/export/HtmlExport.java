@@ -1,6 +1,7 @@
 package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.facade.MetaTableFacade;
 import ch.admin.bar.siard2.api.generated.CategoryType;
 import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
 import ch.enterag.sqlparser.Interval;
@@ -29,6 +30,9 @@ public class HtmlExport {
     }
 
     private void write(File folderLobs, MetaTable metaTable, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
+
+        MetaTableFacade metaTableFacade = new MetaTableFacade(metaTable);
+
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");
         oswr.write("  <head>\r\n");
@@ -40,12 +44,16 @@ public class HtmlExport {
         oswr.write("    <p>" + metaTable.getDescription() + "</p>\r\n");
         oswr.write("    <table>\r\n");
         oswr.write("      <tr>\r\n");
-        for (int iColumn = 0; iColumn < metaTable.getMetaColumns(); iColumn++) {
-            oswr.write("        <th>");
-            oswr.write(SU.toHtml(metaTable.getMetaColumn(iColumn)
-                                          .getName()));
-            oswr.write("</th>\r\n");
-        }
+        metaTableFacade.getMetaColums().stream().forEach(col -> {
+            try {
+                oswr.write("        <th>");
+                oswr.write(SU.toHtml(col.getName()));
+                oswr.write("</th>\r\n");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         oswr.write("      </tr>\r\n");
 
         for (long lRow = 0; lRow < metaTable.getRows(); lRow++) {
