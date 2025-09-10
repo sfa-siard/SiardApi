@@ -5,11 +5,13 @@ import ch.admin.bar.siard2.api.facade.MetaTableFacade;
 import ch.admin.bar.siard2.api.facade.TableRecordFacade;
 import ch.admin.bar.siard2.api.generated.CategoryType;
 import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.sql.Types;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
@@ -42,46 +44,48 @@ public class HtmlExport {
 
     private void write(File folderLobs, OutputStreamWriter oswr) throws IOException {
         StringBuilder content = new StringBuilder();
-        content.append("<!DOCTYPE html>\r\n")
-               .append("<html lang=\"en\">\r\n")
-               .append("  <head>\r\n")
+        content.append("<!DOCTYPE html>\n")
+               .append("<html lang=\"en\">\n")
+               .append("  <head>\n")
                .append("    <title>")
                .append(escapeHtml4(metaTable.getName()))
-               .append("</title>\r\n")
-               .append("    <meta charset=\"utf-8\" />\r\n")
-               .append("  </head>\r\n")
-               .append("  <body>\r\n")
+               .append("</title>\n")
+               .append("    <meta charset=\"utf-8\" />\n")
+               .append("  </head>\n")
+               .append("  <body>\n")
                .append("    <p>")
                .append(metaTable.getName())
-               .append("</p>\r\n")
+               .append("</p>\n")
                .append("    <p>")
                .append(metaTable.getDescription())
-               .append("</p>\r\n")
-               .append("    <table>\r\n")
-               .append("      <tr>\r\n");
+               .append("</p>\n")
+               .append("    <table>\n")
+               .append("      <tr>\n");
 
-        addColumns(content);
-        content.append("      </tr>\r\n");
+        content.append(getColumnHeaders());
+        content.append("      </tr>\n");
         addRows(folderLobs, content);
-        content.append("    </table>\r\n");
-        content.append("  </body>\r\n");
-        content.append("</html>\r\n");
+        content.append("    </table>\n");
+        content.append("  </body>\n");
+        content.append("</html>\n");
         oswr.write(content.toString());
         oswr.flush();
     }
 
-    private void addColumns(StringBuilder content) {
-        metaTableFacade.getMetaColums()
-                       .forEach(col -> content.append("        <th>")
-                                              .append(escapeHtml4(col.getName()))
-                                              .append("</th>\r\n"));
+    private String getColumnHeaders() {
+        return metaTableFacade.getMetaColums().stream()
+                .map(MetaColumn::getName)
+                .map(StringEscapeUtils::escapeHtml4)
+                .map(name -> "        <th>" + name + "</th>\n")
+                .collect(Collectors.joining());
+
     }
 
     private void addRows(File folderLobs, StringBuilder content) throws IOException {
         for (long rows = 0; rows < metaTable.getRows(); rows++) {
-            content.append("      <tr>\r\n");
+            content.append("      <tr>\n");
             addColumns(folderLobs, content);
-            content.append("      </tr>\r\n");
+            content.append("      </tr>\n");
         }
     }
 
@@ -93,7 +97,7 @@ public class HtmlExport {
                                           try {
                                               content.append("        <td>");
                                               writeValue(content, cell, folderLobs);
-                                              content.append("</td>\r\n");
+                                              content.append("</td>\n");
                                           } catch (IOException e) {
                                               throw new RuntimeException(e);
                                           }
@@ -155,18 +159,18 @@ public class HtmlExport {
 
     private void writeUdtValue(StringBuilder content, Value value, File folderLobs)
             throws IOException {
-        content.append("<dl>\r\n");
+        content.append("<dl>\n");
         MetaValue mv = value.getMetaValue();
         for (int i = 0; i < value.getAttributes(); i++) {
             MetaField mf = mv.getMetaField(i);
             content.append("  <dt>");
             content.append(escapeHtml4(mf.getName()));
-            content.append("</dt>\r\n");
+            content.append("</dt>\n");
             content.append("  <dd>");
             writeValue(content, value.getAttribute(i), folderLobs);
-            content.append("</dd>\r\n");
+            content.append("</dd>\n");
         }
-        content.append("</dl>\r\n");
+        content.append("</dl>\n");
     }
 
     /**
@@ -179,13 +183,13 @@ public class HtmlExport {
      */
     private void writeArrayValue(StringBuilder content, Value value, File folderLobs)
             throws IOException {
-        content.append("<ol>\r\n");
+        content.append("<ol>\n");
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
             content.append("  <li>");
             writeValue(content, value.getElement(iElement), folderLobs);
-            content.append("</li>\r\n");
+            content.append("</li>\n");
         }
-        content.append("</ol>\r\n");
+        content.append("</ol>\n");
     }
 
     private void writeValue(StringBuilder content, Value value, File folderLobs) throws IOException {
