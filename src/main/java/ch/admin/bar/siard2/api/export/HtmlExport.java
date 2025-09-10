@@ -39,53 +39,50 @@ public class HtmlExport {
     }
 
     private void write(File folderLobs, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
-        oswr.write("<!DOCTYPE html>\r\n");
-        oswr.write("<html lang=\"en\">\r\n");
-        oswr.write("  <head>\r\n");
-        oswr.write("    <title>" + SU.toHtml(metaTable.getName()) + "</title>\r\n");
-        oswr.write("    <meta charset=\"utf-8\" />\r\n");
-        oswr.write("  </head>\r\n");
-        oswr.write("  <body>\r\n");
-        oswr.write("    <p>" + metaTable.getName() + "</p>\r\n");
-        oswr.write("    <p>" + metaTable.getDescription() + "</p>\r\n");
-        oswr.write("    <table>\r\n");
-        oswr.write("      <tr>\r\n");
+        StringBuilder content = new StringBuilder();
+        content.append("<!DOCTYPE html>\r\n");
+        content.append("<html lang=\"en\">\r\n");
+        content.append("  <head>\r\n");
+        content.append("    <title>" + SU.toHtml(metaTable.getName()) + "</title>\r\n");
+        content.append("    <meta charset=\"utf-8\" />\r\n");
+        content.append("  </head>\r\n");
+        content.append("  <body>\r\n");
+        content.append("    <p>" + metaTable.getName() + "</p>\r\n");
+        content.append("    <p>" + metaTable.getDescription() + "</p>\r\n");
+        content.append("    <table>\r\n");
+        content.append("      <tr>\r\n");
 
         metaTableFacade.getMetaColums()
                        .stream()
                        .forEach(col -> {
-                           try {
-                               oswr.write("        <th>");
-                               oswr.write(SU.toHtml(col.getName()));
-                               oswr.write("</th>\r\n");
-                           } catch (IOException e) {
-                               throw new RuntimeException(e);
-                           }
+                           content.append("        <th>");
+                           content.append(SU.toHtml(col.getName()));
+                           content.append("</th>\r\n");
                        });
 
-        oswr.write("      </tr>\r\n");
+        content.append("      </tr>\r\n");
 
         for (long lRow = 0; lRow < metaTable.getRows(); lRow++) {
-            oswr.write("      <tr>\r\n");
+            content.append("      <tr>\r\n");
 
             new TableRecordFacade(rd.get()).getCells()
-                                           .stream()
                                            .forEach(cell -> {
                                                try {
-                                                   oswr.write("        <td>");
-                                                   writeValue(oswr, cell, folderLobs);
-                                                   oswr.write("</td>\r\n");
+                                                   content.append("        <td>");
+                                                   writeValue(content, cell, folderLobs);
+                                                   content.append("</td>\r\n");
                                                } catch (IOException e) {
                                                    throw new RuntimeException(e);
                                                }
                                            });
 
-            oswr.write("      </tr>\r\n");
+            content.append("      </tr>\r\n");
         }
         rd.close();
-        oswr.write("    </table>\r\n");
-        oswr.write("  </body>\r\n");
-        oswr.write("</html>\r\n");
+        content.append("    </table>\r\n");
+        content.append("  </body>\r\n");
+        content.append("</html>\r\n");
+        oswr.write(content.toString());
         oswr.flush();
     }
 
@@ -97,7 +94,7 @@ public class HtmlExport {
      * @param sFilename file name for LOB.
      * @throws IOException if an I/O error occurred.
      */
-    private void writeLinkToLob(Writer wr, Value value, File folderLobs, String sFilename)
+    private void writeLinkToLob(StringBuilder wr, Value value, File folderLobs, String sFilename)
             throws IOException {
         URI uriAbsoluteFolder = value.getMetaValue()
                                      .getAbsoluteLobFolder();
@@ -142,77 +139,76 @@ public class HtmlExport {
             }
         }
         /* write a link to the LOB file to HTML */
-        wr.write("<a href=\"" + sFilename + "\">" + sFilename + "</a>");
+        wr.append("<a href=\"" + sFilename + "\">" + sFilename + "</a>");
     }
 
     /**
      * write the UDT value as a definition list.
      *
-     * @param wr         writer.
+     * @param content         writer.
      * @param value      UDT value to be written.
      * @param folderLobs root folder for internal LOBs in this table.
      * @throws IOException if an I/O error occurred.
      */
-    private void writeUdtValue(Writer wr, Value value, File folderLobs)
+    private void writeUdtValue(StringBuilder content, Value value, File folderLobs)
             throws IOException {
-        wr.write("<dl>\r\n");
+        content.append("<dl>\r\n");
         MetaValue mv = value.getMetaValue();
         for (int iAttribute = 0; iAttribute < value.getAttributes(); iAttribute++) {
             MetaField mf = mv.getMetaField(iAttribute);
-            wr.write("  <dt>");
-            wr.write(SU.toHtml(mf.getName()));
-            wr.write("</dt>\r\n");
-            wr.write("  <dd>");
-            writeValue(wr, value.getAttribute(iAttribute), folderLobs);
-            wr.write("</dd>\r\n");
+            content.append("  <dt>");
+            content.append(SU.toHtml(mf.getName()));
+            content.append("</dt>\r\n");
+            content.append("  <dd>");
+            writeValue(content, value.getAttribute(iAttribute), folderLobs);
+            content.append("</dd>\r\n");
         }
-        wr.write("</dl>\r\n");
+        content.append("</dl>\r\n");
     }
 
     /**
      * write the array value as an ordered list.
      *
-     * @param writer         writer.
+     * @param content         content.
      * @param value      array value to be written.
      * @param folderLobs root folder for internal LOBs in this table.
      * @throws IOException if an I/O error occurred.
      */
-    private void writeArrayValue(Writer writer, Value value, File folderLobs)
+    private void writeArrayValue(StringBuilder content, Value value, File folderLobs)
             throws IOException {
-        writer.write("<ol>\r\n");
+        content.append("<ol>\r\n");
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
-            writer.write("  <li>");
-            writeValue(writer, value.getElement(iElement), folderLobs);
-            writer.write("</li>\r\n");
+            content.append("  <li>");
+            writeValue(content, value.getElement(iElement), folderLobs);
+            content.append("</li>\r\n");
         }
-        writer.write("</ol>\r\n");
+        content.append("</ol>\r\n");
     }
 
-    private void writeValue(Writer wr, Value value, File folderLobs)
-            throws IOException {
+    private void writeValue(StringBuilder content, Value value, File folderLobs) throws IOException {
 
         if (value.isNull()) return;
 
         // if it is a Lob with a file name then create a link
         String fileName = value.getFilename();
         if (fileName != null) {
-            writeLinkToLob(wr, value, folderLobs, fileName);
+            writeLinkToLob(content, value, folderLobs, fileName);
             return;
         }
 
         MetaValue metaValue = value.getMetaValue();
         MetaType metaType = metaValue.getMetaType();
         if ((metaType != null) && (metaType.getCategoryType() == CategoryType.UDT)) {
-            writeUdtValue(wr, value, folderLobs);
+            writeUdtValue(content, value, folderLobs);
             return;
         }
 
         if (metaValue.getCardinality() > 0) {
-            writeArrayValue(wr, value, folderLobs);
+            writeArrayValue(content, value, folderLobs);
             return;
         }
 
-        wr.write(SU.toHtml(convert(value, metaValue)));
+        content.append(SU.toHtml(convert(value, metaValue)));
     }
 
 
