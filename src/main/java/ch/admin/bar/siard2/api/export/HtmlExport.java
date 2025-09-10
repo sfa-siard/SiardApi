@@ -27,9 +27,12 @@ public class HtmlExport {
     }
 
     public void write(OutputStream outputStream, File folderLobs) throws IOException {
-        TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
-        write(folderLobs, outputStreamWriter, dispenser);
+        try (TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
+        ) {
+            write(folderLobs, outputStreamWriter, dispenser);
+        }
+
     }
 
     private void write(File folderLobs, OutputStreamWriter oswr, TableRecordDispenserImpl dispenser) throws IOException {
