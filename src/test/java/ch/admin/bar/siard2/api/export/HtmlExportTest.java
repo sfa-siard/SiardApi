@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -38,8 +39,8 @@ public class HtmlExportTest {
         archive.close();
 
         // then
-        String generatedHtml = Files.readString(fileTable.toPath());
-        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/CUSTOMERS.html"));
+        String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
+        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/CUSTOMERS.html"), StandardCharsets.UTF_8);
 
         assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
     }
