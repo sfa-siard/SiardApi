@@ -21,23 +21,26 @@ public class HtmlExport {
 
     private final MetaTable metaTable;
 
-    public HtmlExport(MetaTable metaTable) {
+    private final TableRecordDispenserImpl dispenser;
+
+    public HtmlExport(MetaTable metaTable) throws IOException {
         this.metaTable = metaTable;
         this.metaTableFacade = new MetaTableFacade(metaTable);
+        this.dispenser = new TableRecordDispenserImpl(metaTable.getTable());
     }
 
     public void write(OutputStream outputStream, File folderLobs) {
-        try (TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
-             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
+        try (
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
         ) {
-            write(folderLobs, outputStreamWriter, dispenser);
+            write(folderLobs, outputStreamWriter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    private void write(File folderLobs, OutputStreamWriter oswr, TableRecordDispenserImpl dispenser) throws IOException {
+    private void write(File folderLobs, OutputStreamWriter oswr) throws IOException {
         StringBuilder content = new StringBuilder();
         content.append("<!DOCTYPE html>\r\n")
                .append("<html lang=\"en\">\r\n")
@@ -59,7 +62,7 @@ public class HtmlExport {
 
         addColumns(content);
         content.append("      </tr>\r\n");
-        addRows(folderLobs, dispenser, content);
+        addRows(folderLobs, content);
         content.append("    </table>\r\n");
         content.append("  </body>\r\n");
         content.append("</html>\r\n");
@@ -74,25 +77,27 @@ public class HtmlExport {
                                               .append("</th>\r\n"));
     }
 
-    private void addRows(File folderLobs, TableRecordDispenserImpl dispenser, StringBuilder content) throws IOException {
+    private void addRows(File folderLobs, StringBuilder content) throws IOException {
         for (long rows = 0; rows < metaTable.getRows(); rows++) {
             content.append("      <tr>\r\n");
-            addColumns(folderLobs, dispenser, content);
+            addColumns(folderLobs, content);
             content.append("      </tr>\r\n");
         }
     }
 
-    private void addColumns(File folderLobs, TableRecordDispenserImpl dispenser, StringBuilder content) throws IOException {
-        new TableRecordFacade(dispenser.get()).getCells()
-                                              .forEach(cell -> {
-                                                  try {
-                                                      content.append("        <td>");
-                                                      writeValue(content, cell, folderLobs);
-                                                      content.append("</td>\r\n");
-                                                  } catch (IOException e) {
-                                                      throw new RuntimeException(e);
-                                                  }
-                                              });
+    private void addColumns(File folderLobs, StringBuilder content) throws IOException {
+
+
+        new TableRecordFacade(this.dispenser.get()).getCells()
+                                      .forEach(cell -> {
+                                          try {
+                                              content.append("        <td>");
+                                              writeValue(content, cell, folderLobs);
+                                              content.append("</td>\r\n");
+                                          } catch (IOException e) {
+                                              throw new RuntimeException(e);
+                                          }
+                                      });
     }
 
     private void writeLinkToLob(StringBuilder content, Value value, File folderLobs, String fileName)

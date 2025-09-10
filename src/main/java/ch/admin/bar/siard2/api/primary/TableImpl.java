@@ -475,7 +475,7 @@ public class TableImpl
      * {@inheritDoc}
      */
     @Override
-    public void exportAsHtml(OutputStream os, File folderLobs) {
+    public void exportAsHtml(OutputStream os, File folderLobs) throws IOException {
         new HtmlExport(getMetaTable()).write(os, folderLobs);
     }
 }
