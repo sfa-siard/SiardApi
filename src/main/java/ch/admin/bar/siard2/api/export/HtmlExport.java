@@ -96,7 +96,7 @@ public class HtmlExport {
                                       .forEach(cell -> {
                                           try {
                                               content.append("        <td>");
-                                              writeValue(content, cell, folderLobs);
+                                              content.append(writeValue(cell, folderLobs));
                                               content.append("</td>\n");
                                           } catch (IOException e) {
                                               throw new RuntimeException(e);
@@ -104,8 +104,9 @@ public class HtmlExport {
                                       });
     }
 
-    private void writeLinkToLob(StringBuilder content, Value value, File folderLobs, String fileName)
+    private String writeLinkToLob(Value value, File folderLobs, String fileName)
             throws IOException {
+        StringBuilder sb = new StringBuilder();
         URI absoluteLobFolder = value.getMetaValue()
                                      .getAbsoluteLobFolder();
         if (absoluteLobFolder != null) {
@@ -150,70 +151,77 @@ public class HtmlExport {
             }
         }
         /* write a link to the LOB file to HTML */
-        content.append("<a href=\"")
+        sb.append("<a href=\"")
                .append(fileName)
                .append("\">")
                .append(fileName)
                .append("</a>");
+
+        return sb.toString();
     }
 
-    private void writeUdtValue(StringBuilder content, Value value, File folderLobs)
+    private String writeUdtValue( Value value, File folderLobs)
             throws IOException {
-        content.append("<dl>\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<dl>\n");
         MetaValue mv = value.getMetaValue();
         for (int i = 0; i < value.getAttributes(); i++) {
             MetaField mf = mv.getMetaField(i);
-            content.append("  <dt>");
-            content.append(escapeHtml4(mf.getName()));
-            content.append("</dt>\n");
-            content.append("  <dd>");
-            writeValue(content, value.getAttribute(i), folderLobs);
-            content.append("</dd>\n");
+            sb.append("  <dt>");
+            sb.append(escapeHtml4(mf.getName()));
+            sb.append("</dt>\n");
+            sb.append("  <dd>");
+            sb.append(writeValue( value.getAttribute(i), folderLobs));
+            sb.append("</dd>\n");
         }
-        content.append("</dl>\n");
+        sb.append("</dl>\n");
+        return sb.toString();
     }
 
     /**
      * write the array value as an ordered list.
      *
-     * @param content         content.
      * @param value      array value to be written.
      * @param folderLobs root folder for internal LOBs in this table.
      * @throws IOException if an I/O error occurred.
      */
-    private void writeArrayValue(StringBuilder content, Value value, File folderLobs)
+    private String writeArrayValue(Value value, File folderLobs)
             throws IOException {
-        content.append("<ol>\n");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<ol>\n");
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
-            content.append("  <li>");
-            writeValue(content, value.getElement(iElement), folderLobs);
-            content.append("</li>\n");
+            sb.append("  <li>");
+            sb.append(writeValue(value.getElement(iElement), folderLobs));
+            sb.append("</li>\n");
         }
-        content.append("</ol>\n");
+        sb.append("</ol>\n");
+        return sb.toString();
     }
 
-    private void writeValue(StringBuilder content, Value value, File folderLobs) throws IOException {
-
-        if (value.isNull()) return;
+    private String writeValue(Value value, File folderLobs) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        if (value.isNull()) return sb.toString();
 
         // if it is a Lob with a file name then create a link
         String fileName = value.getFilename();
         if (fileName != null) {
-            writeLinkToLob(content, value, folderLobs, fileName);
-            return;
+            sb.append(writeLinkToLob(value, folderLobs, fileName));
+            return sb.toString();
         }
 
         MetaValue metaValue = value.getMetaValue();
         MetaType metaType = metaValue.getMetaType();
         if ((metaType != null) && (metaType.getCategoryType() == CategoryType.UDT)) {
-            writeUdtValue(content, value, folderLobs);
-            return;
+            sb.append(writeUdtValue(value, folderLobs));
+            return sb.toString();
         }
 
         if (metaValue.getCardinality() > 0) {
-            writeArrayValue(content, value, folderLobs);
-            return;
+            sb.append(writeArrayValue(value, folderLobs));
+            return sb.toString();
         }
-        content.append(escapeHtml4(value.convert()));
+        sb.append(escapeHtml4(value.convert()));
+        return sb.toString();
     }
 }

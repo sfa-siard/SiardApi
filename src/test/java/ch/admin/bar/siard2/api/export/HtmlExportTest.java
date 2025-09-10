@@ -21,11 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HtmlExportTest {
 
     private static final File SFDBOE_SIARD = new File("src/test/resources/testfiles/sfdboe.siard");
+    private static final File DATALINK_SIARD = new File("src/test/resources/testfiles/sample-datalink-2-2.siard");
 
     @Test
     @DisplayName("Export a table as HTML")
     public void exportAsHtml() throws IOException {
-        // GIVEN
+        // given
         Archive archive = ArchiveImpl.newInstance();
         archive.open(SFDBOE_SIARD);
         Schema schema = archive.getSchema("OE");
@@ -41,6 +42,29 @@ public class HtmlExportTest {
         // then
         String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
         String expectedHtml = Files.readString(Paths.get("src/test/resources/export/CUSTOMERS.html"), StandardCharsets.UTF_8);
+
+        assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
+    }
+
+    @Test
+    @DisplayName("Export a table as HTML with Datalinks")
+    public void exportAsHtmlWithDatalink() throws IOException {
+        // given
+        Archive archive = ArchiveImpl.newInstance();
+        archive.open(DATALINK_SIARD);
+        Schema schema = archive.getSchema("SampleSchema");
+        File fileTable = new File("src/test/resources/tmp/TSIMPLE.html");
+        FileOutputStream fosTable = new FileOutputStream(fileTable);
+
+        // when
+        schema.getTable("TSIMPLE")
+              .exportAsHtml(fosTable, new File("src/test/resources/tmp/lobs"));
+        fosTable.close();
+        archive.close();
+
+        // then
+        String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
+        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
 
         assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
     }
