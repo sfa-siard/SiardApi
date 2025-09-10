@@ -15,10 +15,6 @@ import ch.admin.bar.siard2.api.generated.TableType;
 import ch.admin.bar.siard2.api.generated.TablesType;
 import ch.admin.bar.siard2.api.meta.MetaSchemaImpl;
 import ch.admin.bar.siard2.api.meta.MetaTableImpl;
-import ch.enterag.sqlparser.Interval;
-import ch.enterag.sqlparser.SqlLiterals;
-import ch.enterag.utils.BU;
-import ch.enterag.utils.DU;
 import ch.enterag.utils.SU;
 import ch.enterag.utils.background.Progress;
 import ch.enterag.utils.xml.XU;
@@ -29,16 +25,14 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 /**
  * TableImpl implements the interface Table.
