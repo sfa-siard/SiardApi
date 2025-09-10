@@ -9,6 +9,11 @@ Created    : 07.07.2016, Hartwig Thomas, Enter AG, Rüti ZH
 ======================================================================*/
 package ch.admin.bar.siard2.api;
 
+import ch.enterag.sqlparser.Interval;
+import ch.enterag.sqlparser.SqlLiterals;
+import ch.enterag.utils.BU;
+import ch.enterag.utils.DU;
+
 import javax.xml.datatype.Duration;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +23,10 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -327,7 +335,6 @@ public interface Value {
     void setDuration(Duration duration)
             throws IOException;
 
-    
 
     /**
      * return cell reader (or null for NULL).
@@ -365,7 +372,6 @@ public interface Value {
     String getFilename()
             throws IOException;
 
-    
 
     /**
      * return cell input stream (or null for NULL).
@@ -396,7 +402,6 @@ public interface Value {
 
     void setInputStream(InputStream isBlob, String filePath) throws IOException;
 
-    
 
     /**
      * return object of type appropriate for the data type, or null,
@@ -410,7 +415,6 @@ public interface Value {
     Object getObject()
             throws IOException;
 
-    
 
     /**
      * return number of elements of ARRAY cell (or 0 for NULL).
@@ -431,7 +435,6 @@ public interface Value {
     Field getElement(int iElement)
             throws IOException;
 
-    
 
     /**
      * return number of attributes of UDT cell (or 0 for NULL).
@@ -464,4 +467,39 @@ public interface Value {
     List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
             throws IOException;
 
-} 
+    /**
+     * convert value to string based on its predefined type
+     * @return String - the string representation of the value
+     * @throws IOException
+     */
+    default String convert() throws IOException {
+        DU dateUtils = DU.getInstance(Locale.getDefault()
+                                            .getLanguage(), (new SimpleDateFormat()).toPattern());
+        int preType = getMetaValue().getPreType();
+        return switch (preType) {
+            case Types.CHAR, Types.VARCHAR, Types.NCHAR, Types.NVARCHAR, Types.CLOB, Types.NCLOB, Types.SQLXML,
+                 Types.DATALINK -> this.getString();
+            case Types.BINARY, Types.VARBINARY, Types.BLOB -> "0x" + BU.toHex(this.getBytes());
+            case Types.NUMERIC, Types.DECIMAL -> this.getBigDecimal()
+                                                     .toPlainString();
+            case Types.SMALLINT -> this.getInt()
+                                       .toString();
+            case Types.INTEGER -> this.getLong()
+                                      .toString();
+            case Types.BIGINT -> this.getBigInteger()
+                                     .toString();
+            case Types.FLOAT, Types.DOUBLE -> this.getDouble()
+                                                  .toString();
+            case Types.REAL -> this.getFloat()
+                                   .toString();
+            case Types.BOOLEAN -> this.getBoolean()
+                                      .toString();
+            case Types.DATE -> dateUtils.fromSqlDate(this.getDate());
+            case Types.TIME -> dateUtils.fromSqlTime(this.getTime());
+            case Types.TIMESTAMP -> dateUtils.fromSqlTimestamp(this.getTimestamp());
+            case Types.OTHER -> SqlLiterals.formatIntervalLiteral(Interval.fromDuration(this.getDuration()));
+            default -> "";
+        };
+    }
+}
+

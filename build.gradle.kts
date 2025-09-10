@@ -52,13 +52,26 @@ dependencies {
     implementation("net.java.dev.msv:msv-core:2010.2")
     implementation("net.java.dev.msv:xsdlib:2013.2.2")
 
+    implementation("org.apache.commons:commons-text:1.14.0")
+
     // Test dependencies
     testImplementation("junit:junit:4.13.1")
     testImplementation("org.hamcrest:hamcrest-core:1.3")
 
+    testImplementation(platform("org.junit:junit-bom:5.13.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.1")
+
+    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
+
     // 4.x uses jakarta.* packages.  For a javax‑based project stick to 2.3.*.
     xjcConfiguration("org.glassfish.jaxb:jaxb-xjc:2.3.2")
     xjcConfiguration("org.glassfish.jaxb:jaxb-runtime:2.3.2")  // needed by the compiler itself
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 // Create necessary directories

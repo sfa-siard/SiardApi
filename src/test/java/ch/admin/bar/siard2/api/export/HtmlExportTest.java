@@ -4,7 +4,8 @@ package ch.admin.bar.siard2.api.export;
 import ch.admin.bar.siard2.api.Archive;
 import ch.admin.bar.siard2.api.Schema;
 import ch.admin.bar.siard2.api.primary.ArchiveImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,11 +16,13 @@ import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 
+@DisplayName("Test Html Export of Tables")
 public class HtmlExportTest {
 
     private static final File SFDBOE_SIARD = new File("src/test/resources/testfiles/sfdboe.siard");
 
     @Test
+    @DisplayName("Export a table as HTML")
     public void exportAsHtml() throws IOException {
         // GIVEN
         Archive archive = ArchiveImpl.newInstance();
