@@ -2,6 +2,7 @@ package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.facade.MetaTableFacade;
+import ch.admin.bar.siard2.api.facade.TableRecordFacade;
 import ch.admin.bar.siard2.api.generated.CategoryType;
 import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
 import ch.enterag.sqlparser.Interval;
@@ -38,7 +39,6 @@ public class HtmlExport {
     }
 
     private void write(File folderLobs, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
-
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");
         oswr.write("  <head>\r\n");
@@ -50,27 +50,36 @@ public class HtmlExport {
         oswr.write("    <p>" + metaTable.getDescription() + "</p>\r\n");
         oswr.write("    <table>\r\n");
         oswr.write("      <tr>\r\n");
-        metaTableFacade.getMetaColums().stream().forEach(col -> {
-            try {
-                oswr.write("        <th>");
-                oswr.write(SU.toHtml(col.getName()));
-                oswr.write("</th>\r\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+
+        metaTableFacade.getMetaColums()
+                       .stream()
+                       .forEach(col -> {
+                           try {
+                               oswr.write("        <th>");
+                               oswr.write(SU.toHtml(col.getName()));
+                               oswr.write("</th>\r\n");
+                           } catch (IOException e) {
+                               throw new RuntimeException(e);
+                           }
+                       });
 
         oswr.write("      </tr>\r\n");
 
         for (long lRow = 0; lRow < metaTable.getRows(); lRow++) {
             oswr.write("      <tr>\r\n");
-            TableRecord tableRecord = rd.get();
-            for (int iColumn = 0; iColumn < tableRecord.getCells(); iColumn++) {
-                oswr.write("        <td>");
-                Cell cell = tableRecord.getCell(iColumn);
-                writeValue(oswr, cell, folderLobs);
-                oswr.write("</td>\r\n");
-            }
+
+            new TableRecordFacade(rd.get()).getCells()
+                                           .stream()
+                                           .forEach(cell -> {
+                                               try {
+                                                   oswr.write("        <td>");
+                                                   writeValue(oswr, cell, folderLobs);
+                                                   oswr.write("</td>\r\n");
+                                               } catch (IOException e) {
+                                                   throw new RuntimeException(e);
+                                               }
+                                           });
+
             oswr.write("      </tr>\r\n");
         }
         rd.close();
@@ -163,110 +172,74 @@ public class HtmlExport {
     /**
      * write the array value as an ordered list.
      *
-     * @param wr         writer.
+     * @param writer         writer.
      * @param value      array value to be written.
      * @param folderLobs root folder for internal LOBs in this table.
      * @throws IOException if an I/O error occurred.
      */
-    private void writeArrayValue(Writer wr, Value value, File folderLobs)
+    private void writeArrayValue(Writer writer, Value value, File folderLobs)
             throws IOException {
-        wr.write("<ol>\r\n");
+        writer.write("<ol>\r\n");
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
-            wr.write("  <li>");
-            writeValue(wr, value.getElement(iElement), folderLobs);
-            wr.write("</li>\r\n");
+            writer.write("  <li>");
+            writeValue(writer, value.getElement(iElement), folderLobs);
+            writer.write("</li>\r\n");
         }
-        wr.write("</ol>\r\n");
+        writer.write("</ol>\r\n");
     }
 
-    /**
-     * write the value as HTML to the table cell.
-     *
-     * @param wr         writer.
-     * @param value      value to be written.
-     * @param folderLobs root folder for internal LOBs in this table.
-     * @throws IOException if an I/O error occurred.
-     */
     private void writeValue(Writer wr, Value value, File folderLobs)
             throws IOException {
 
         if (value.isNull()) return;
 
         // if it is a Lob with a file name then create a link
-        String sFilename = value.getFilename();
-        if (sFilename != null)
-            writeLinkToLob(wr, value, folderLobs, sFilename);
-        else {
-            MetaValue mv = value.getMetaValue();
-            MetaType mt = mv.getMetaType();
-            if ((mt != null) && (mt.getCategoryType() == CategoryType.UDT))
-                writeUdtValue(wr, value, folderLobs);
-            else if (mv.getCardinality() > 0)
-                writeArrayValue(wr, value, folderLobs);
-            else {
-                String sText = null;
-                int iType = mv.getPreType();
-                switch (iType) {
-                    case Types.CHAR:
-                    case Types.VARCHAR:
-                    case Types.NCHAR:
-                    case Types.NVARCHAR:
-                    case Types.CLOB:
-                    case Types.NCLOB:
-                    case Types.SQLXML:
-                    case Types.DATALINK:
-                        sText = value.getString();
-                        break;
-                    case Types.BINARY:
-                    case Types.VARBINARY:
-                    case Types.BLOB:
-                        sText = "0x" + BU.toHex(value.getBytes());
-                        break;
-                    case Types.NUMERIC:
-                    case Types.DECIMAL:
-                        sText = value.getBigDecimal()
-                                     .toPlainString();
-                        break;
-                    case Types.SMALLINT:
-                        sText = value.getInt()
-                                     .toString();
-                        break;
-                    case Types.INTEGER:
-                        sText = value.getLong()
-                                     .toString();
-                        break;
-                    case Types.BIGINT:
-                        sText = value.getBigInteger()
-                                     .toString();
-                        break;
-                    case Types.FLOAT:
-                    case Types.DOUBLE:
-                        sText = value.getDouble()
-                                     .toString();
-                        break;
-                    case Types.REAL:
-                        sText = value.getFloat()
-                                     .toString();
-                        break;
-                    case Types.BOOLEAN:
-                        sText = value.getBoolean()
-                                     .toString();
-                        break;
-                    case Types.DATE:
-                        sText = dateUtils.fromSqlDate(value.getDate());
-                        break;
-                    case Types.TIME:
-                        sText = dateUtils.fromSqlTime(value.getTime());
-                        break;
-                    case Types.TIMESTAMP:
-                        sText = dateUtils.fromSqlTimestamp(value.getTimestamp());
-                        break;
-                    case Types.OTHER:
-                        sText = SqlLiterals.formatIntervalLiteral(Interval.fromDuration(value.getDuration()));
-                        break;
-                }
-                wr.write(SU.toHtml(sText));
-            }
+        String fileName = value.getFilename();
+        if (fileName != null) {
+            writeLinkToLob(wr, value, folderLobs, fileName);
+            return;
         }
+
+        MetaValue metaValue = value.getMetaValue();
+        MetaType metaType = metaValue.getMetaType();
+        if ((metaType != null) && (metaType.getCategoryType() == CategoryType.UDT)) {
+            writeUdtValue(wr, value, folderLobs);
+            return;
+        }
+
+        if (metaValue.getCardinality() > 0) {
+            writeArrayValue(wr, value, folderLobs);
+            return;
+        }
+
+        wr.write(SU.toHtml(convert(value, metaValue)));
+    }
+
+
+    private String convert(Value value, MetaValue metaValue) throws IOException {
+        return switch (metaValue.getPreType()) {
+            case Types.CHAR, Types.VARCHAR, Types.NCHAR, Types.NVARCHAR, Types.CLOB, Types.NCLOB, Types.SQLXML,
+                 Types.DATALINK -> value.getString();
+            case Types.BINARY, Types.VARBINARY, Types.BLOB -> "0x" + BU.toHex(value.getBytes());
+            case Types.NUMERIC, Types.DECIMAL -> value.getBigDecimal()
+                                                      .toPlainString();
+            case Types.SMALLINT -> value.getInt()
+                                        .toString();
+            case Types.INTEGER -> value.getLong()
+                                       .toString();
+            case Types.BIGINT -> value.getBigInteger()
+                                      .toString();
+            case Types.FLOAT, Types.DOUBLE -> value.getDouble()
+                                                   .toString();
+            case Types.REAL -> value.getFloat()
+                                    .toString();
+            case Types.BOOLEAN -> value.getBoolean()
+                                       .toString();
+            case Types.DATE -> dateUtils.fromSqlDate(value.getDate());
+            case Types.TIME -> dateUtils.fromSqlTime(value.getTime());
+            case Types.TIMESTAMP -> dateUtils.fromSqlTimestamp(value.getTimestamp());
+            case Types.OTHER -> SqlLiterals.formatIntervalLiteral(Interval.fromDuration(value.getDuration()));
+            default -> "";
+        };
     }
 }
