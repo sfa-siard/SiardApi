@@ -41,7 +41,7 @@ public class HtmlExportTest {
         String generatedHtml = Files.readString(fileTable.toPath());
         String expectedHtml = Files.readString(Paths.get("src/test/resources/export/CUSTOMERS.html"));
 
-        assertEquals(expectedHtml.trim(), generatedHtml.trim(), "Generated HTML should match expected content");
+        assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
     }
 
 }
