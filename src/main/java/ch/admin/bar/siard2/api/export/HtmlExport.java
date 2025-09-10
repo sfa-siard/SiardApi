@@ -19,11 +19,16 @@ import java.util.Locale;
 public class HtmlExport {
 
     private static final int iBUFFER_SIZE = 8192;
+    private final DU dateUtils = DU.getInstance(Locale.getDefault()
+                                                      .getLanguage(), (new SimpleDateFormat()).toPattern());
 
-    public void write(OutputStream os, File folderLobs, MetaTable metaTable) throws IOException {
+    public void write(OutputStream outputStream, File folderLobs, MetaTable metaTable) throws IOException {
+        TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+        write(folderLobs, metaTable, outputStreamWriter, dispenser);
+    }
 
-        TableRecordDispenserImpl rd = new TableRecordDispenserImpl(metaTable.getTable());
-        OutputStreamWriter oswr = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+    private void write(File folderLobs, MetaTable metaTable, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");
         oswr.write("  <head>\r\n");
@@ -38,7 +43,7 @@ public class HtmlExport {
         for (int iColumn = 0; iColumn < metaTable.getMetaColumns(); iColumn++) {
             oswr.write("        <th>");
             oswr.write(SU.toHtml(metaTable.getMetaColumn(iColumn)
-                    .getName()));
+                                          .getName()));
             oswr.write("</th>\r\n");
         }
         oswr.write("      </tr>\r\n");
@@ -170,84 +175,83 @@ public class HtmlExport {
      */
     private void writeValue(Writer wr, Value value, File folderLobs)
             throws IOException {
-        DU du = DU.getInstance(Locale.getDefault()
-                                     .getLanguage(), (new SimpleDateFormat()).toPattern());
-        if (!value.isNull()) {
-            // if it is a Lob with a file name then create a link
-            String sFilename = value.getFilename();
-            if (sFilename != null)
-                writeLinkToLob(wr, value, folderLobs, sFilename);
+
+        if (value.isNull()) return;
+
+        // if it is a Lob with a file name then create a link
+        String sFilename = value.getFilename();
+        if (sFilename != null)
+            writeLinkToLob(wr, value, folderLobs, sFilename);
+        else {
+            MetaValue mv = value.getMetaValue();
+            MetaType mt = mv.getMetaType();
+            if ((mt != null) && (mt.getCategoryType() == CategoryType.UDT))
+                writeUdtValue(wr, value, folderLobs);
+            else if (mv.getCardinality() > 0)
+                writeArrayValue(wr, value, folderLobs);
             else {
-                MetaValue mv = value.getMetaValue();
-                MetaType mt = mv.getMetaType();
-                if ((mt != null) && (mt.getCategoryType() == CategoryType.UDT))
-                    writeUdtValue(wr, value, folderLobs);
-                else if (mv.getCardinality() > 0)
-                    writeArrayValue(wr, value, folderLobs);
-                else {
-                    String sText = null;
-                    int iType = mv.getPreType();
-                    switch (iType) {
-                        case Types.CHAR:
-                        case Types.VARCHAR:
-                        case Types.NCHAR:
-                        case Types.NVARCHAR:
-                        case Types.CLOB:
-                        case Types.NCLOB:
-                        case Types.SQLXML:
-                        case Types.DATALINK:
-                            sText = value.getString();
-                            break;
-                        case Types.BINARY:
-                        case Types.VARBINARY:
-                        case Types.BLOB:
-                            sText = "0x" + BU.toHex(value.getBytes());
-                            break;
-                        case Types.NUMERIC:
-                        case Types.DECIMAL:
-                            sText = value.getBigDecimal()
-                                         .toPlainString();
-                            break;
-                        case Types.SMALLINT:
-                            sText = value.getInt()
-                                         .toString();
-                            break;
-                        case Types.INTEGER:
-                            sText = value.getLong()
-                                         .toString();
-                            break;
-                        case Types.BIGINT:
-                            sText = value.getBigInteger()
-                                         .toString();
-                            break;
-                        case Types.FLOAT:
-                        case Types.DOUBLE:
-                            sText = value.getDouble()
-                                         .toString();
-                            break;
-                        case Types.REAL:
-                            sText = value.getFloat()
-                                         .toString();
-                            break;
-                        case Types.BOOLEAN:
-                            sText = value.getBoolean()
-                                         .toString();
-                            break;
-                        case Types.DATE:
-                            sText = du.fromSqlDate(value.getDate());
-                            break;
-                        case Types.TIME:
-                            sText = du.fromSqlTime(value.getTime());
-                            break;
-                        case Types.TIMESTAMP:
-                            sText = du.fromSqlTimestamp(value.getTimestamp());
-                            break;
-                        case Types.OTHER:
-                            sText = SqlLiterals.formatIntervalLiteral(Interval.fromDuration(value.getDuration()));
-                            break;
-                    }
-                    wr.write(SU.toHtml(sText));
+                String sText = null;
+                int iType = mv.getPreType();
+                switch (iType) {
+                    case Types.CHAR:
+                    case Types.VARCHAR:
+                    case Types.NCHAR:
+                    case Types.NVARCHAR:
+                    case Types.CLOB:
+                    case Types.NCLOB:
+                    case Types.SQLXML:
+                    case Types.DATALINK:
+                        sText = value.getString();
+                        break;
+                    case Types.BINARY:
+                    case Types.VARBINARY:
+                    case Types.BLOB:
+                        sText = "0x" + BU.toHex(value.getBytes());
+                        break;
+                    case Types.NUMERIC:
+                    case Types.DECIMAL:
+                        sText = value.getBigDecimal()
+                                     .toPlainString();
+                        break;
+                    case Types.SMALLINT:
+                        sText = value.getInt()
+                                     .toString();
+                        break;
+                    case Types.INTEGER:
+                        sText = value.getLong()
+                                     .toString();
+                        break;
+                    case Types.BIGINT:
+                        sText = value.getBigInteger()
+                                     .toString();
+                        break;
+                    case Types.FLOAT:
+                    case Types.DOUBLE:
+                        sText = value.getDouble()
+                                     .toString();
+                        break;
+                    case Types.REAL:
+                        sText = value.getFloat()
+                                     .toString();
+                        break;
+                    case Types.BOOLEAN:
+                        sText = value.getBoolean()
+                                     .toString();
+                        break;
+                    case Types.DATE:
+                        sText = dateUtils.fromSqlDate(value.getDate());
+                        break;
+                    case Types.TIME:
+                        sText = dateUtils.fromSqlTime(value.getTime());
+                        break;
+                    case Types.TIMESTAMP:
+                        sText = dateUtils.fromSqlTimestamp(value.getTimestamp());
+                        break;
+                    case Types.OTHER:
+                        sText = SqlLiterals.formatIntervalLiteral(Interval.fromDuration(value.getDuration()));
+                        break;
                 }
+                wr.write(SU.toHtml(sText));
             }
         }
     }
