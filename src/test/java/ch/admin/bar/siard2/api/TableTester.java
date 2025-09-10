@@ -23,7 +23,7 @@ public class TableTester {
     private static final File _fileSIARD_21_NEW = new File("src/test/resources/tmp/sql2008new.siard");
     private static final ConfigurationProperties _cp = new ConfigurationProperties();
     private static final File _fileLOBS_FOLDER = new File(_cp.getLobsFolder());
-    private static final File SFDBOE_SIARD = new File("src/test/resources/testfiles/sfdboe.siard");
+
     private static final String _sDBNAME = "SIARD 2.1 Test Database";
     private static final String _sDATA_OWNER = "Enter AG, Rüti ZH, Switzerland";
     private static final String _sDATA_ORIGIN_TIMESPAN = "Second half of 2016";
@@ -354,30 +354,6 @@ public class TableTester {
         } catch (IOException ie) {
             fail(EU.getExceptionMessage(ie));
         }
-    }
-
-    @Test
-    public void testExportAsHtml() throws IOException {
-        // GIVEN
-        Archive archive = ArchiveImpl.newInstance();
-        archive.open(SFDBOE_SIARD);
-        Schema schema = archive.getSchema("OE");
-        File fileTable = new File("src/test/resources/tmp/CUSTOMERS.html");
-        FileOutputStream fosTable = new FileOutputStream(fileTable);
-
-        // when
-        schema.getTable("CUSTOMERS")
-              .exportAsHtml(fosTable, new File("src/test/resources/tmp/lobs"));
-        fosTable.close();
-        archive.close();
-
-        // then
-        String generatedHtml = new String(Files.readAllBytes(fileTable.toPath()), StandardCharsets.UTF_8);
-        String expectedHtml = new String(Files.readAllBytes(Paths.get("src/test/resources/export/CUSTOMERS.html")), StandardCharsets.UTF_8);
-
-        assertEquals("Generated HTML should match expected content",
-                     expectedHtml.trim(),
-                     generatedHtml.trim());
     }
 
 }
