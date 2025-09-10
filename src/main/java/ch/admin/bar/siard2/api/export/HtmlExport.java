@@ -22,16 +22,22 @@ public class HtmlExport {
     private static final int iBUFFER_SIZE = 8192;
     private final DU dateUtils = DU.getInstance(Locale.getDefault()
                                                       .getLanguage(), (new SimpleDateFormat()).toPattern());
+    private final MetaTableFacade metaTableFacade;
 
-    public void write(OutputStream outputStream, File folderLobs, MetaTable metaTable) throws IOException {
-        TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
-        write(folderLobs, metaTable, outputStreamWriter, dispenser);
+    private final MetaTable metaTable;
+
+    public HtmlExport(MetaTable metaTable) {
+        this.metaTable = metaTable;
+        this.metaTableFacade = new MetaTableFacade(metaTable);
     }
 
-    private void write(File folderLobs, MetaTable metaTable, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
+    public void write(OutputStream outputStream, File folderLobs) throws IOException {
+        TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+        write(folderLobs, outputStreamWriter, dispenser);
+    }
 
-        MetaTableFacade metaTableFacade = new MetaTableFacade(metaTable);
+    private void write(File folderLobs, OutputStreamWriter oswr, TableRecordDispenserImpl rd) throws IOException {
 
         oswr.write("<!DOCTYPE html>\r\n");
         oswr.write("<html lang=\"en\">\r\n");

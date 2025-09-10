@@ -5,6 +5,7 @@ import ch.admin.bar.siard2.api.MetaTable;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 // provides a simplified API to MetaTable
 public class MetaTableFacade {

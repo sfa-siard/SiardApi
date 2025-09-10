@@ -482,6 +482,6 @@ public class TableImpl
      */
     @Override
     public void exportAsHtml(OutputStream os, File folderLobs) throws IOException {
-        new HtmlExport().write(os, folderLobs, getMetaTable());
+        new HtmlExport(getMetaTable()).write(os, folderLobs);
     }
 }
