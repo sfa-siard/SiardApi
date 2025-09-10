@@ -26,11 +26,13 @@ public class HtmlExport {
         this.metaTableFacade = new MetaTableFacade(metaTable);
     }
 
-    public void write(OutputStream outputStream, File folderLobs) throws IOException {
+    public void write(OutputStream outputStream, File folderLobs) {
         try (TableRecordDispenserImpl dispenser = new TableRecordDispenserImpl(metaTable.getTable());
              OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
         ) {
             write(folderLobs, outputStreamWriter, dispenser);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }

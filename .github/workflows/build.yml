@@ -16,3 +16,11 @@ jobs:
           distribution: 'adopt'
       - name: build project
         run: ./gradlew build
+      - name: Store reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
