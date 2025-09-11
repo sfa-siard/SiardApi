@@ -24,16 +24,23 @@ public class HtmlExport {
     private final MetaTable metaTable;
 
     private final TableRecordDispenserImpl dispenser;
+    
+    private final HtmlExportConfig config;
 
     public HtmlExport(MetaTable metaTable) throws IOException {
+        this(metaTable, HtmlExportConfig.defaultConfig());
+    }
+    
+    public HtmlExport(MetaTable metaTable, HtmlExportConfig config) throws IOException {
         this.metaTable = metaTable;
         this.metaTableFacade = new MetaTableFacade(metaTable);
         this.dispenser = new TableRecordDispenserImpl(metaTable.getTable());
+        this.config = config;
     }
 
     public void write(OutputStream outputStream, File folderLobs) {
         try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, config.charset())
         ) {
             write(outputStreamWriter, folderLobs);
         } catch (IOException e) {
@@ -45,7 +52,6 @@ public class HtmlExport {
     private void write(OutputStreamWriter oswr, File folderLobs) throws IOException {
         StringBuilder sb = new StringBuilder();
         
-        // Use HtmlTemplate for document structure
         sb.append(HtmlTemplate.documentStart(metaTable.getName(), metaTable.getName(), metaTable.getDescription()));
         sb.append(HtmlTemplate.rowStart());
         sb.append(getColumnHeaders());
@@ -82,6 +88,10 @@ public class HtmlExport {
                                                    .forEach(cell -> {
                                                        try {
                                                            String cellContent = getValue(cell, folderLobs);
+                                                           // Apply max content length if configured
+                                                           if (config.maxCellContentLength() > 0 && cellContent.length() > config.maxCellContentLength()) {
+                                                               cellContent = cellContent.substring(0, config.maxCellContentLength()) + "...";
+                                                           }
                                                            sb.append(HtmlTemplate.tableCell(cellContent));
                                                        } catch (IOException e) {
                                                            throw new RuntimeException(e);
