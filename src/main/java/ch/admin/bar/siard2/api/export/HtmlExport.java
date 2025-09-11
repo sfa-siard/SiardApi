@@ -8,9 +8,6 @@ import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.sql.Types;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
@@ -42,21 +39,21 @@ public class HtmlExport {
         try (
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, config.charset())
         ) {
-            write(outputStreamWriter, folderLobs);
+            write(outputStreamWriter, new LobFileHandler(folderLobs));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    private void write(OutputStreamWriter oswr, File folderLobs) throws IOException {
+    private void write(OutputStreamWriter oswr, LobFileHandler lobHandler) throws IOException {
         StringBuilder sb = new StringBuilder();
         
         sb.append(HtmlTemplate.documentStart(metaTable.getName(), metaTable.getName(), metaTable.getDescription()));
         sb.append(HtmlTemplate.rowStart());
         sb.append(getColumnHeaders());
         sb.append(HtmlTemplate.rowEnd());
-        sb.append(getRows(folderLobs));
+        sb.append(getRows(lobHandler));
         sb.append(HtmlTemplate.documentEnd());
         
         oswr.write(sb.toString());
@@ -71,23 +68,23 @@ public class HtmlExport {
                               .collect(Collectors.joining());
     }
 
-    private String getRows(File folderLobs) throws IOException {
+    private String getRows(LobFileHandler lobHandler) throws IOException {
         StringBuilder sb = new StringBuilder();
         for (long rows = 0; rows < metaTable.getRows(); rows++) {
             sb.append(HtmlTemplate.rowStart());
-            sb.append(getColumns(folderLobs));
+            sb.append(getColumns(lobHandler));
             sb.append(HtmlTemplate.rowEnd());
         }
         return sb.toString();
     }
 
-    private String getColumns(File folderLobs) throws IOException {
+    private String getColumns(LobFileHandler lobHandler) throws IOException {
         StringBuilder sb = new StringBuilder();
 
         new TableRecordFacade(this.dispenser.get()).getCells()
                                                    .forEach(cell -> {
                                                        try {
-                                                           String cellContent = getValue(cell, folderLobs);
+                                                           String cellContent = getValue(cell, lobHandler);
                                                            // Apply max content length if configured
                                                            if (config.maxCellContentLength() > 0 && cellContent.length() > config.maxCellContentLength()) {
                                                                cellContent = cellContent.substring(0, config.maxCellContentLength()) + "...";
@@ -101,59 +98,13 @@ public class HtmlExport {
         return sb.toString();
     }
 
-    private String getLinkToLob(Value value, File folderLobs, String fileName)
+    private String getLinkToLob(Value value, LobFileHandler lobHandler, String fileName)
             throws IOException {
-        StringBuilder sb = new StringBuilder();
-        URI absoluteLobFolder = value.getMetaValue()
-                                     .getAbsoluteLobFolder();
-        if (absoluteLobFolder != null) {
-            fileName = absoluteLobFolder.resolve(fileName)
-                                        .toURL()
-                                        .toString();
-            /* leave external LOB file where it is */
-        } else if (folderLobs != null) {
-
-            File fileLob = new File("/" + folderLobs.getAbsolutePath()
-                                                    .replace('\\', '/') + "/" + fileName);
-            fileLob.getParentFile()
-                   .mkdirs();
-            /* copy internal LOB file to lobFolder */
-            int predefinedType = value.getMetaValue()
-                                      .getPreType();
-            if ((predefinedType == Types.BINARY) ||
-                    (predefinedType == Types.VARBINARY) ||
-                    (predefinedType == Types.BLOB) ||
-                    (predefinedType == Types.DATALINK)) {
-                InputStream inputStream = value.getInputStream();
-                if (inputStream != null) {
-                    FileOutputStream lobOutputStream = new FileOutputStream("/" + folderLobs.getAbsolutePath()
-                                                                                            .replace('\\', '/') + "/" + fileName);
-                    byte[] buf = new byte[BUFFER_SIZE];
-                    for (int i = inputStream.read(buf); i != -1; i = inputStream.read(buf)) {
-                        lobOutputStream.write(buf, 0, i);
-                    }
-                    lobOutputStream.close();
-                    inputStream.close();
-                }
-            } else {
-                Reader rdr = value.getReader();
-                if (rdr != null) {
-                    Writer fwLob = new FileWriter(fileLob);
-                    char[] cbuf = new char[BUFFER_SIZE];
-                    for (int iRead = rdr.read(cbuf); iRead != -1; iRead = rdr.read(cbuf))
-                        fwLob.write(cbuf, 0, iRead);
-                    fwLob.close();
-                    rdr.close();
-                }
-            }
-        }
-        /* write a link to the LOB file to HTML */
-        sb.append(HtmlTemplate.link(fileName, fileName));
-
-        return sb.toString();
+        String processedFileName = lobHandler.processLobFile(value, fileName);
+        return HtmlTemplate.link(processedFileName, fileName);
     }
 
-    private String getUdtValue(Value value, File folderLobs)
+    private String getUdtValue(Value value, LobFileHandler lobHandler)
             throws IOException {
         StringBuilder sb = new StringBuilder();
         sb.append(HtmlTemplate.definitionListStart());
@@ -161,53 +112,46 @@ public class HtmlExport {
         for (int i = 0; i < value.getAttributes(); i++) {
             MetaField mf = mv.getMetaField(i);
             sb.append(HtmlTemplate.definitionTerm(mf.getName()));
-            String attributeValue = getValue(value.getAttribute(i), folderLobs);
+            String attributeValue = getValue(value.getAttribute(i), lobHandler);
             sb.append(HtmlTemplate.definitionDescription(attributeValue));
         }
         sb.append(HtmlTemplate.definitionListEnd());
         return sb.toString();
     }
 
-    /**
-     * write the array value as an ordered list.
-     *
-     * @param value      array value to be written.
-     * @param folderLobs root folder for internal LOBs in this table.
-     * @throws IOException if an I/O error occurred.
-     */
-    private String getArrayValue(Value value, File folderLobs)
+    private String getArrayValue(Value value, LobFileHandler lobHandler)
             throws IOException {
 
         StringBuilder sb = new StringBuilder();
         sb.append(HtmlTemplate.orderedListStart());
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
-            String elementValue = getValue(value.getElement(iElement), folderLobs);
+            String elementValue = getValue(value.getElement(iElement), lobHandler);
             sb.append(HtmlTemplate.listItem(elementValue));
         }
         sb.append(HtmlTemplate.orderedListEnd());
         return sb.toString();
     }
 
-    private String getValue(Value value, File folderLobs) throws IOException {
+    private String getValue(Value value, LobFileHandler lobHandler) throws IOException {
         StringBuilder sb = new StringBuilder();
         if (value.isNull()) return sb.toString();
 
         // if it is a Lob with a file name then create a link
         String fileName = value.getFilename();
         if (fileName != null) {
-            sb.append(getLinkToLob(value, folderLobs, fileName));
+            sb.append(getLinkToLob(value, lobHandler, fileName));
             return sb.toString();
         }
 
         MetaValue metaValue = value.getMetaValue();
         MetaType metaType = metaValue.getMetaType();
         if ((metaType != null) && (metaType.getCategoryType() == CategoryType.UDT)) {
-            sb.append(getUdtValue(value, folderLobs));
+            sb.append(getUdtValue(value, lobHandler));
             return sb.toString();
         }
 
         if (metaValue.getCardinality() > 0) {
-            sb.append(getArrayValue(value, folderLobs));
+            sb.append(getArrayValue(value, lobHandler));
             return sb.toString();
         }
         sb.append(escapeHtml4(value.convert()));
