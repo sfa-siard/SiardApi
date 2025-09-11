@@ -44,30 +44,15 @@ public class HtmlExport {
 
     private void write(OutputStreamWriter oswr, File folderLobs) throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append("<!DOCTYPE html>\n")
-          .append("<html lang=\"en\">\n")
-          .append("  <head>\n")
-          .append("    <title>")
-          .append(escapeHtml4(metaTable.getName()))
-          .append("</title>\n")
-          .append("    <meta charset=\"utf-8\" />\n")
-          .append("  </head>\n")
-          .append("  <body>\n")
-          .append("    <p>")
-          .append(metaTable.getName())
-          .append("</p>\n")
-          .append("    <p>")
-          .append(metaTable.getDescription())
-          .append("</p>\n")
-          .append("    <table>\n")
-          .append("      <tr>\n");
-
+        
+        // Use HtmlTemplate for document structure
+        sb.append(HtmlTemplate.documentStart(metaTable.getName(), metaTable.getName(), metaTable.getDescription()));
+        sb.append(HtmlTemplate.rowStart());
         sb.append(getColumnHeaders());
-        sb.append("      </tr>\n");
+        sb.append(HtmlTemplate.rowEnd());
         sb.append(getRows(folderLobs));
-        sb.append("    </table>\n");
-        sb.append("  </body>\n");
-        sb.append("</html>\n");
+        sb.append(HtmlTemplate.documentEnd());
+        
         oswr.write(sb.toString());
         oswr.flush();
     }
@@ -76,18 +61,16 @@ public class HtmlExport {
         return metaTableFacade.getMetaColums()
                               .stream()
                               .map(MetaColumn::getName)
-                              .map(StringEscapeUtils::escapeHtml4)
-                              .map(name -> "        <th>" + name + "</th>\n")
+                              .map(HtmlTemplate::tableHeader)
                               .collect(Collectors.joining());
-
     }
 
     private String getRows(File folderLobs) throws IOException {
         StringBuilder sb = new StringBuilder();
         for (long rows = 0; rows < metaTable.getRows(); rows++) {
-            sb.append("      <tr>\n");
+            sb.append(HtmlTemplate.rowStart());
             sb.append(getColumns(folderLobs));
-            sb.append("      </tr>\n");
+            sb.append(HtmlTemplate.rowEnd());
         }
         return sb.toString();
     }
@@ -98,9 +81,8 @@ public class HtmlExport {
         new TableRecordFacade(this.dispenser.get()).getCells()
                                                    .forEach(cell -> {
                                                        try {
-                                                           sb.append("        <td>");
-                                                           sb.append(getValue(cell, folderLobs));
-                                                           sb.append("</td>\n");
+                                                           String cellContent = getValue(cell, folderLobs);
+                                                           sb.append(HtmlTemplate.tableCell(cellContent));
                                                        } catch (IOException e) {
                                                            throw new RuntimeException(e);
                                                        }
@@ -156,11 +138,7 @@ public class HtmlExport {
             }
         }
         /* write a link to the LOB file to HTML */
-        sb.append("<a href=\"")
-          .append(fileName)
-          .append("\">")
-          .append(fileName)
-          .append("</a>");
+        sb.append(HtmlTemplate.link(fileName, fileName));
 
         return sb.toString();
     }
@@ -168,18 +146,15 @@ public class HtmlExport {
     private String getUdtValue(Value value, File folderLobs)
             throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append("<dl>\n");
+        sb.append(HtmlTemplate.definitionListStart());
         MetaValue mv = value.getMetaValue();
         for (int i = 0; i < value.getAttributes(); i++) {
             MetaField mf = mv.getMetaField(i);
-            sb.append("  <dt>");
-            sb.append(escapeHtml4(mf.getName()));
-            sb.append("</dt>\n");
-            sb.append("  <dd>");
-            sb.append(getValue(value.getAttribute(i), folderLobs));
-            sb.append("</dd>\n");
+            sb.append(HtmlTemplate.definitionTerm(mf.getName()));
+            String attributeValue = getValue(value.getAttribute(i), folderLobs);
+            sb.append(HtmlTemplate.definitionDescription(attributeValue));
         }
-        sb.append("</dl>\n");
+        sb.append(HtmlTemplate.definitionListEnd());
         return sb.toString();
     }
 
@@ -194,13 +169,12 @@ public class HtmlExport {
             throws IOException {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("<ol>\n");
+        sb.append(HtmlTemplate.orderedListStart());
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
-            sb.append("  <li>");
-            sb.append(value.getElement(iElement).convert());
-            sb.append("</li>\n");
+            String elementValue = getValue(value.getElement(iElement), folderLobs);
+            sb.append(HtmlTemplate.listItem(elementValue));
         }
-        sb.append("</ol>\n");
+        sb.append(HtmlTemplate.orderedListEnd());
         return sb.toString();
     }
 
