@@ -1,11 +1,15 @@
 package ch.admin.bar.siard2.api.export;
 
-import ch.admin.bar.siard2.api.*;
+import ch.admin.bar.siard2.api.MetaColumn;
+import ch.admin.bar.siard2.api.MetaTable;
 import ch.admin.bar.siard2.api.facade.MetaTableFacade;
 import ch.admin.bar.siard2.api.facade.TableRecordFacade;
 import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.stream.Collectors;
 
 public class HtmlExport {
@@ -17,19 +21,19 @@ public class HtmlExport {
     private final MetaTable metaTable;
 
     private final TableRecordDispenserImpl dispenser;
-    
+
     private final HtmlExportConfig config;
-    
+
     private final ValueRendererRegistry rendererRegistry;
 
     public HtmlExport(MetaTable metaTable) throws IOException {
         this(metaTable, HtmlExportConfig.defaultConfig());
     }
-    
+
     public HtmlExport(MetaTable metaTable, HtmlExportConfig config) throws IOException {
         this(metaTable, config, ValueRendererRegistry.createDefault());
     }
-    
+
     public HtmlExport(MetaTable metaTable, HtmlExportConfig config, ValueRendererRegistry rendererRegistry) throws IOException {
         this.metaTable = metaTable;
         this.metaTableFacade = new MetaTableFacade(metaTable);
@@ -39,28 +43,25 @@ public class HtmlExport {
     }
 
     public void write(OutputStream outputStream, File folderLobs) {
-        try (
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, config.charset())
-        ) {
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, config.charset())) {
             LobFileHandler lobHandler = new LobFileHandler(folderLobs);
             ValueRenderingContext context = new ValueRenderingContext(lobHandler, config, rendererRegistry);
             write(outputStreamWriter, context);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void write(OutputStreamWriter oswr, ValueRenderingContext context) throws IOException {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append(HtmlTemplate.documentStart(metaTable.getName(), metaTable.getName(), metaTable.getDescription()));
         sb.append(HtmlTemplate.rowStart());
         sb.append(getColumnHeaders());
         sb.append(HtmlTemplate.rowEnd());
         sb.append(getRows(context));
         sb.append(HtmlTemplate.documentEnd());
-        
+
         oswr.write(sb.toString());
         oswr.flush();
     }
@@ -89,8 +90,8 @@ public class HtmlExport {
         new TableRecordFacade(this.dispenser.get()).getCells()
                                                    .forEach(cell -> {
                                                        try {
-                                                           String cellContent = context.rendererRegistry().render(cell, context);
-                                                           sb.append(HtmlTemplate.tableCell(cellContent));
+                                                           sb.append(HtmlTemplate.tableCell(context.rendererRegistry()
+                                                                                                   .render(cell, context)));
                                                        } catch (IOException e) {
                                                            throw new RuntimeException(e);
                                                        }
