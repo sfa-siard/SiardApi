@@ -62,7 +62,7 @@ class HtmlTemplate {
      * @return formatted HTML th element
      */
     static String tableHeader(String columnName) {
-        return "        <th>" + escapeHtml4(columnName) + "</th>\n";
+        return "        <th>" + escapeHtml4(columnName) + "</th>\r\n";
     }
     
     /**
@@ -72,7 +72,7 @@ class HtmlTemplate {
      * @return formatted HTML td element
      */
     static String tableCell(String content) {
-        return "        <td>" + content + "</td>\n";
+        return "        <td>" + content + "</td>\r\n";
     }
     
     /**
@@ -81,7 +81,7 @@ class HtmlTemplate {
      * @return HTML tr opening tag
      */
     static String rowStart() {
-        return "      <tr>\n";
+        return "      <tr>\r\n";
     }
     
     /**
@@ -90,7 +90,7 @@ class HtmlTemplate {
      * @return HTML tr closing tag
      */
     static String rowEnd() {
-        return "      </tr>\n";
+        return "      </tr>\r\n";
     }
     
     /**
@@ -112,7 +112,7 @@ class HtmlTemplate {
      * @return HTML dl opening tag
      */
     static String definitionListStart() {
-        return "<dl>\n";
+        return "<dl>\r\n";
     }
     
     /**
@@ -121,7 +121,7 @@ class HtmlTemplate {
      * @return HTML dl closing tag
      */
     static String definitionListEnd() {
-        return "</dl>\n";
+        return "</dl>\r\n";
     }
     
     /**
@@ -131,7 +131,7 @@ class HtmlTemplate {
      * @return formatted HTML dt element
      */
     static String definitionTerm(String term) {
-        return "  <dt>" + escapeHtml4(term) + "</dt>\n";
+        return "  <dt>" + escapeHtml4(term) + "</dt>\r\n";
     }
     
     /**
@@ -141,7 +141,7 @@ class HtmlTemplate {
      * @return formatted HTML dd element
      */
     static String definitionDescription(String description) {
-        return "  <dd>" + description + "</dd>\n";
+        return "  <dd>" + description + "</dd>\r\n";
     }
     
     /**
@@ -150,7 +150,7 @@ class HtmlTemplate {
      * @return HTML ol opening tag
      */
     static String orderedListStart() {
-        return "<ol>\n";
+        return "<ol>\r\n";
     }
     
     /**
@@ -159,7 +159,7 @@ class HtmlTemplate {
      * @return HTML ol closing tag
      */
     static String orderedListEnd() {
-        return "</ol>\n";
+        return "</ol>\r\n";
     }
     
     /**
@@ -169,6 +169,6 @@ class HtmlTemplate {
      * @return formatted HTML li element
      */
     static String listItem(String content) {
-        return "  <li>" + content + "</li>\n";
+        return "  <li>" + content + "</li>\r\n";
     }
 }
