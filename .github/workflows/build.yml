@@ -7,6 +7,8 @@ on:
 jobs:
   gradle-build:
     runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Zurich
     steps:
       - uses: actions/checkout@v2
 
@@ -18,6 +20,8 @@ jobs:
 
       - name: build project
         run: ./gradlew build
+        env:
+          TZ: Europe/Zurich
 
       - name: Store reports
         if: failure()
