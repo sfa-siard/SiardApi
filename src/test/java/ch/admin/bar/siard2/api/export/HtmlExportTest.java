@@ -45,7 +45,11 @@ public class HtmlExportTest {
         String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
         String expectedHtml = Files.readString(Paths.get("src/test/resources/export/CUSTOMERS.html"), StandardCharsets.UTF_8);
 
-        assertEquals(expectedHtml.trim().toLowerCase(), generatedHtml.trim().toLowerCase(), "Generated HTML should match expected content");
+        // Normalize line endings for cross-platform compatibility
+        String normalizedGenerated = generatedHtml.replaceAll("\\r\\n|\\r", "\\n").trim().toLowerCase();
+        String normalizedExpected = expectedHtml.replaceAll("\\r\\n|\\r", "\\n").trim().toLowerCase();
+
+        assertEquals(normalizedExpected, normalizedGenerated, "Generated HTML should match expected content");
     }
 
     @Test
@@ -68,7 +72,11 @@ public class HtmlExportTest {
         String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
         String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
 
-        assertEquals(expectedHtml, generatedHtml, "Generated HTML should match expected content");
+        // Normalize line endings for cross-platform compatibility
+        String normalizedGenerated = generatedHtml.replaceAll("\\r\\n|\\r", "\\n");
+        String normalizedExpected = expectedHtml.replaceAll("\\r\\n|\\r", "\\n");
+
+        assertEquals(normalizedExpected, normalizedGenerated, "Generated HTML should match expected content");
     }
 
 }
