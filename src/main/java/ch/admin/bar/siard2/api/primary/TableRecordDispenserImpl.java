@@ -33,7 +33,7 @@ import java.util.List;
  *
  */
 public class TableRecordDispenserImpl
-        implements TableRecordDispenser {
+        implements TableRecordDispenser, AutoCloseable {
     private static final ch.admin.bar.siard2.api.generated.table.ObjectFactory _OF_TABLE = new ch.admin.bar.siard2.api.generated.table.ObjectFactory();
     private Table _table = null;
     private CountingInputStream _isXml = null;

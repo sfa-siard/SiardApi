@@ -100,25 +100,31 @@ public interface MetaTable
 
     /**
      * get number of column meta data entries.
-     *
+     * @deprecated use MetaTableFacade.getMetaColums() instead
      * @return number of column meta data entries.
+     *
      */
+    @Deprecated
     int getMetaColumns();
 
     /**
      * get the column meta data with the given index.
      *
+     * @deprecated use MetaTableFacade.getMetaColums() instead
      * @param iColumn index of column meta data.
      * @return column meta data.
      */
+    @Deprecated
     MetaColumn getMetaColumn(int iColumn);
 
     /**
      * get the column meta data with the given name.
      *
+     * @deprecated use MetaTableFacade.getMetaColums() instead
      * @param sName name of column.
      * @return column meta data.
      */
+    @Deprecated
     MetaColumn getMetaColumn(String sName);
 
     /**
