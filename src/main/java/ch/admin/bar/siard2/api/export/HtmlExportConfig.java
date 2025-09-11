@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @param maxCellContentLength the maximum cell content length (-1 for unlimited)
  * @param prettifyOutput whether to format output with proper indentation
  */
-public record HtmlExportConfig(
+record HtmlExportConfig(
     Charset charset,
     String dateFormat,
     int maxCellContentLength,
@@ -24,7 +24,7 @@ public record HtmlExportConfig(
      *
      * @return default HTML export configuration
      */
-    public static HtmlExportConfig defaultConfig() {
+    static HtmlExportConfig defaultConfig() {
         return new Builder().build();
     }
     
@@ -33,14 +33,14 @@ public record HtmlExportConfig(
      *
      * @return a new builder instance
      */
-    public static Builder builder() {
+    static Builder builder() {
         return new Builder();
     }
     
     /**
      * Builder class for creating HtmlExportConfig instances with fluent API.
      */
-    public static class Builder {
+    static class Builder {
         private Charset charset = StandardCharsets.UTF_8;
         private String dateFormat = "yyyy-MM-dd";
         private int maxCellContentLength = -1; // unlimited
@@ -52,7 +52,7 @@ public record HtmlExportConfig(
          * @param charset the charset
          * @return this builder
          */
-        public Builder charset(Charset charset) {
+        Builder charset(Charset charset) {
             this.charset = charset;
             return this;
         }
@@ -63,7 +63,7 @@ public record HtmlExportConfig(
          * @param format the date format pattern
          * @return this builder
          */
-        public Builder dateFormat(String format) {
+        Builder dateFormat(String format) {
             this.dateFormat = format;
             return this;
         }
@@ -74,7 +74,7 @@ public record HtmlExportConfig(
          * @param length the maximum length (-1 for unlimited)
          * @return this builder
          */
-        public Builder maxCellContentLength(int length) {
+        Builder maxCellContentLength(int length) {
             this.maxCellContentLength = length;
             return this;
         }
@@ -85,7 +85,7 @@ public record HtmlExportConfig(
          * @param prettify true to prettify output
          * @return this builder
          */
-        public Builder prettifyOutput(boolean prettify) {
+        Builder prettifyOutput(boolean prettify) {
             this.prettifyOutput = prettify;
             return this;
         }
@@ -95,7 +95,7 @@ public record HtmlExportConfig(
          *
          * @return the HTML export configuration
          */
-        public HtmlExportConfig build() {
+        HtmlExportConfig build() {
             return new HtmlExportConfig(charset, dateFormat, maxCellContentLength, prettifyOutput);
         }
     }

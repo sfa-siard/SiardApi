@@ -8,7 +8,7 @@ import java.io.IOException;
  * Renderer for array values.
  * Renders array values as HTML ordered lists with each element as a list item.
  */
-public class ArrayValueRenderer implements ValueRenderer {
+class ArrayValueRenderer implements ValueRenderer {
     
     @Override
     public boolean canRender(Value value) throws IOException {
@@ -17,14 +17,10 @@ public class ArrayValueRenderer implements ValueRenderer {
     
     @Override
     public String render(Value value, ValueRenderingContext context) throws IOException {
-        // Check if array is empty
-        if (value.getElements() == 0) {
-            return ""; // Return empty string for empty arrays
-        }
-        
+        if (value.getElements() == 0) return "";
+
         StringBuilder sb = new StringBuilder();
         sb.append(HtmlTemplate.orderedListStart());
-        
         for (int iElement = 0; iElement < value.getElements(); iElement++) {
             // Recursively render each array element
             String elementValue = context.rendererRegistry().render(value.getElement(iElement), context);

@@ -31,7 +31,7 @@ public class ValueRendererRegistry {
      *
      * @return a registry with standard HTML renderers
      */
-    public static ValueRendererRegistry createDefault() {
+    static ValueRendererRegistry createDefault() {
         List<ValueRenderer> defaultRenderers = List.of(
             new LobValueRenderer(),
             new UdtValueRenderer(),
@@ -50,7 +50,7 @@ public class ValueRendererRegistry {
      * @throws IOException if an I/O error occurs during rendering
      * @throws IllegalArgumentException if no renderer can handle the value
      */
-    public String render(Value value, ValueRenderingContext context) throws IOException {
+    String render(Value value, ValueRenderingContext context) throws IOException {
         for (ValueRenderer renderer : renderers) {
             if (renderer.canRender(value)) {
                 return renderer.render(value, context);
@@ -66,7 +66,7 @@ public class ValueRendererRegistry {
      *
      * @return a copy of the renderer list
      */
-    public List<ValueRenderer> getRenderers() {
+    List<ValueRenderer> getRenderers() {
         return new ArrayList<>(renderers);
     }
 }

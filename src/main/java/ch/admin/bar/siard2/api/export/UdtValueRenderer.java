@@ -12,7 +12,7 @@ import java.io.IOException;
  * Renderer for User Defined Type (UDT) values.
  * Renders UDT values as HTML definition lists with field names and values.
  */
-public class UdtValueRenderer implements ValueRenderer {
+class UdtValueRenderer implements ValueRenderer {
     
     @Override
     public boolean canRender(Value value) throws IOException {
@@ -23,27 +23,10 @@ public class UdtValueRenderer implements ValueRenderer {
     
     @Override
     public String render(Value value, ValueRenderingContext context) throws IOException {
-        if (value.isNull()) {
-            return "";
-        }
+        if (value.isNull()) return "";
+        if (!hasNonEmptyAttribute(value, context)) return "";
 
-        // Check if all attributes are empty - if so, render as empty
         MetaValue mv = value.getMetaValue();
-        boolean hasNonEmptyAttribute = false;
-        
-        for (int i = 0; i < value.getAttributes(); i++) {
-            String attributeValue = context.rendererRegistry().render(value.getAttribute(i), context);
-            if (attributeValue != null && !attributeValue.trim().isEmpty()) {
-                hasNonEmptyAttribute = true;
-                break;
-            }
-        }
-        
-        // If all attributes are empty, render as empty
-        if (!hasNonEmptyAttribute) {
-            return "";
-        }
-
         StringBuilder sb = new StringBuilder();
         sb.append(HtmlTemplate.definitionListStart());
         
@@ -59,7 +42,20 @@ public class UdtValueRenderer implements ValueRenderer {
         sb.append(HtmlTemplate.definitionListEnd());
         return sb.toString();
     }
-    
+
+    private static boolean hasNonEmptyAttribute(Value value, ValueRenderingContext context) throws IOException {
+        boolean hasNonEmptyAttribute = false;
+
+        for (int i = 0; i < value.getAttributes(); i++) {
+            String attributeValue = context.rendererRegistry().render(value.getAttribute(i), context);
+            if (attributeValue != null && !attributeValue.trim().isEmpty()) {
+                hasNonEmptyAttribute = true;
+                break;
+            }
+        }
+        return hasNonEmptyAttribute;
+    }
+
     @Override
     public int getPriority() {
         return 80; // High priority - UDTs should be handled before arrays

@@ -11,7 +11,7 @@ import java.sql.Types;
  * Service class for handling LOB (Large Object) file operations during HTML export.
  * Manages copying internal LOBs to external folders and generating appropriate file links.
  */
-public class LobFileHandler {
+class LobFileHandler {
     
     private static final int BUFFER_SIZE = 8192;
     
@@ -22,7 +22,7 @@ public class LobFileHandler {
      *
      * @param lobFolder the folder where LOB files should be copied (can be null for external LOBs only)
      */
-    public LobFileHandler(File lobFolder) {
+    LobFileHandler(File lobFolder) {
         this.lobFolder = lobFolder;
     }
     
@@ -35,7 +35,7 @@ public class LobFileHandler {
      * @return the processed file name/path for HTML links
      * @throws IOException if an I/O error occurs during file operations
      */
-    public String processLobFile(Value value, String fileName) throws IOException {
+    String processLobFile(Value value, String fileName) throws IOException {
         MetaValue metaValue = value.getMetaValue();
         URI absoluteLobFolder = metaValue.getAbsoluteLobFolder();
         
@@ -138,7 +138,7 @@ public class LobFileHandler {
      *
      * @return the LOB folder, or null if not configured
      */
-    public File getLobFolder() {
+    File getLobFolder() {
         return lobFolder;
     }
 }

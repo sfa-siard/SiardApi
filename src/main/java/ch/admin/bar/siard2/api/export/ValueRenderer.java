@@ -8,7 +8,7 @@ import java.io.IOException;
  * Strategy interface for rendering different types of SIARD values to HTML.
  * Implementations handle specific value types (LOBs, UDTs, arrays, primitives).
  */
-public interface ValueRenderer {
+interface ValueRenderer {
     
     /**
      * Check if this renderer can handle the given value type.

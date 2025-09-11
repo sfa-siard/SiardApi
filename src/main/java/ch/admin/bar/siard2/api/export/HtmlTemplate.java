@@ -6,7 +6,7 @@ import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
  * HTML template generator for table exports.
  * Provides static methods to generate consistent HTML structure.
  */
-public class HtmlTemplate {
+class HtmlTemplate {
     
     private static final String DOCUMENT_START_TEMPLATE = """
         <!DOCTYPE html>
@@ -39,7 +39,7 @@ public class HtmlTemplate {
      * @param description the table description
      * @return formatted HTML document start
      */
-    public static String documentStart(String title, String tableName, String description) {
+    static String documentStart(String title, String tableName, String description) {
         return String.format(DOCUMENT_START_TEMPLATE, 
             escapeHtml4(title), 
             escapeHtml4(tableName), 
@@ -51,7 +51,7 @@ public class HtmlTemplate {
      *
      * @return HTML document closing tags
      */
-    public static String documentEnd() {
+    static String documentEnd() {
         return DOCUMENT_END_TEMPLATE;
     }
     
@@ -61,7 +61,7 @@ public class HtmlTemplate {
      * @param columnName the column name
      * @return formatted HTML th element
      */
-    public static String tableHeader(String columnName) {
+    static String tableHeader(String columnName) {
         return "        <th>" + escapeHtml4(columnName) + "</th>\n";
     }
     
@@ -71,7 +71,7 @@ public class HtmlTemplate {
      * @param content the cell content (already escaped if needed)
      * @return formatted HTML td element
      */
-    public static String tableCell(String content) {
+    static String tableCell(String content) {
         return "        <td>" + content + "</td>\n";
     }
     
@@ -80,7 +80,7 @@ public class HtmlTemplate {
      *
      * @return HTML tr opening tag
      */
-    public static String rowStart() {
+    static String rowStart() {
         return "      <tr>\n";
     }
     
@@ -89,7 +89,7 @@ public class HtmlTemplate {
      *
      * @return HTML tr closing tag
      */
-    public static String rowEnd() {
+    static String rowEnd() {
         return "      </tr>\n";
     }
     
@@ -100,7 +100,7 @@ public class HtmlTemplate {
      * @param text the link text
      * @return formatted HTML a element
      */
-    public static String link(String href, String text) {
+    static String link(String href, String text) {
         return String.format("<a href=\"%s\">%s</a>", 
             escapeHtml4(href), 
             escapeHtml4(text));
@@ -111,7 +111,7 @@ public class HtmlTemplate {
      *
      * @return HTML dl opening tag
      */
-    public static String definitionListStart() {
+    static String definitionListStart() {
         return "<dl>\n";
     }
     
@@ -120,7 +120,7 @@ public class HtmlTemplate {
      *
      * @return HTML dl closing tag
      */
-    public static String definitionListEnd() {
+    static String definitionListEnd() {
         return "</dl>\n";
     }
     
@@ -130,7 +130,7 @@ public class HtmlTemplate {
      * @param term the term text
      * @return formatted HTML dt element
      */
-    public static String definitionTerm(String term) {
+    static String definitionTerm(String term) {
         return "  <dt>" + escapeHtml4(term) + "</dt>\n";
     }
     
@@ -140,7 +140,7 @@ public class HtmlTemplate {
      * @param description the description content (already escaped if needed)
      * @return formatted HTML dd element
      */
-    public static String definitionDescription(String description) {
+    static String definitionDescription(String description) {
         return "  <dd>" + description + "</dd>\n";
     }
     
@@ -149,7 +149,7 @@ public class HtmlTemplate {
      *
      * @return HTML ol opening tag
      */
-    public static String orderedListStart() {
+    static String orderedListStart() {
         return "<ol>\n";
     }
     
@@ -158,7 +158,7 @@ public class HtmlTemplate {
      *
      * @return HTML ol closing tag
      */
-    public static String orderedListEnd() {
+    static String orderedListEnd() {
         return "</ol>\n";
     }
     
@@ -168,7 +168,7 @@ public class HtmlTemplate {
      * @param content the item content (already escaped if needed)
      * @return formatted HTML li element
      */
-    public static String listItem(String content) {
+    static String listItem(String content) {
         return "  <li>" + content + "</li>\n";
     }
 }

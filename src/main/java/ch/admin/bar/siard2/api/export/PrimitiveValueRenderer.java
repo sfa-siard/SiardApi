@@ -10,7 +10,7 @@ import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
  * Renderer for primitive values (strings, numbers, dates, etc.).
  * This is the fallback renderer that handles all basic value types.
  */
-public class PrimitiveValueRenderer implements ValueRenderer {
+class PrimitiveValueRenderer implements ValueRenderer {
     
     @Override
     public boolean canRender(Value value) {
@@ -20,23 +20,8 @@ public class PrimitiveValueRenderer implements ValueRenderer {
     
     @Override
     public String render(Value value, ValueRenderingContext context) throws IOException {
-        // Special check for Boolean values - check if the content is actually empty
-/*        try {
-            if (value.getMetaValue().getPreType() == java.sql.Types.BOOLEAN) {
-                // Check if the Boolean field is actually empty (not just parsed as false)
-                String stringContent = value.getString();
-                if (stringContent == null || stringContent.trim().isEmpty()) {
-                    return "";
-                }
-            }
-        } catch (Exception boolEx) {
-            // Not a Boolean type or error accessing, continue with normal processing
-        }*/
-        
-        if (value.isNull()) {
-            return "";
-        }
-        
+        if (value.isNull()) return "";
+
         String stringValue;
         try {
             stringValue = value.convert();

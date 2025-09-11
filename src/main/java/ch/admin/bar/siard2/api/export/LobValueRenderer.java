@@ -8,7 +8,7 @@ import java.io.IOException;
  * Renderer for LOB (Large Object) values that have associated file names.
  * Handles both internal and external LOBs by delegating to the LobFileHandler.
  */
-public class LobValueRenderer implements ValueRenderer {
+class LobValueRenderer implements ValueRenderer {
     
     @Override
     public boolean canRender(Value value) throws IOException {
