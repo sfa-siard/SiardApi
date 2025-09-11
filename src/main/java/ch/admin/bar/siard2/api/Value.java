@@ -492,8 +492,7 @@ public interface Value {
                                                   .toString();
             case Types.REAL -> this.getFloat()
                                    .toString();
-            case Types.BOOLEAN -> this.getBoolean()
-                                      .toString();
+            case Types.BOOLEAN -> this.getString().isEmpty() ? "" : this.getBoolean().toString();
             case Types.DATE -> dateUtils.fromSqlDate(this.getDate());
             case Types.TIME -> dateUtils.fromSqlTime(this.getTime());
             case Types.TIMESTAMP -> dateUtils.fromSqlTimestamp(this.getTimestamp());

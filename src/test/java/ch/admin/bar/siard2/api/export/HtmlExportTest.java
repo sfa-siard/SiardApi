@@ -65,10 +65,10 @@ public class HtmlExportTest {
         archive.close();
 
         // then
-        List<String> generatedHtml = Files.readAllLines(fileTable.toPath(), StandardCharsets.UTF_8);
-        List<String> expectedHtml = Files.readAllLines(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
+        String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
+        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
 
-        assertIterableEquals(expectedHtml, generatedHtml, "Generated HTML should match expected content");
+        assertEquals(expectedHtml, generatedHtml, "Generated HTML should match expected content");
     }
 
 }

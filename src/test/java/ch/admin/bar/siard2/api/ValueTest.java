@@ -255,6 +255,7 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a boolean true value")
     public void shouldConvertValue_BooleanTrue() throws IOException {
+        doReturn("true").when(value).getString();
         doReturn(true).when(value).getBoolean();
         doReturn(Types.BOOLEAN).when(metaValue).getPreType();
 
@@ -266,12 +267,24 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a boolean false value")
     public void shouldConvertValue_BooleanFalse() throws IOException {
+        doReturn("false").when(value).getString();
         doReturn(false).when(value).getBoolean();
         doReturn(Types.BOOLEAN).when(metaValue).getPreType();
 
         String result = value.convert();
 
         Assertions.assertEquals("false", result);
+    }
+
+    @Test
+    @DisplayName("Converts a boolean null value")
+    public void shouldConvertValue_BooleanNull() throws IOException {
+        doReturn("").when(value).getString();
+        doReturn(Types.BOOLEAN).when(metaValue).getPreType();
+
+        String result = value.convert();
+
+        Assertions.assertEquals("", result);
     }
 
     @Test
