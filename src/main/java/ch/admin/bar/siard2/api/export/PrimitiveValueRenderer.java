@@ -2,8 +2,6 @@ package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.Value;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
-
 /**
  * Renderer for primitive values (strings, numbers, dates, etc.).
  * This is the fallback renderer that handles all basic value types.
@@ -18,8 +16,6 @@ class PrimitiveValueRenderer implements ValueRenderer {
     
     @Override
     public String render(Value value, ValueRenderingContext context) {
-        if (value.isNull()) return "";
-
         String stringValue;
         try {
             stringValue = value.convert();
@@ -45,7 +41,7 @@ class PrimitiveValueRenderer implements ValueRenderer {
             stringValue = stringValue.substring(0, context.config().maxCellContentLength()) + "...";
         }
         
-        return escapeHtml4(stringValue);
+        return stringValue;
     }
     
     @Override

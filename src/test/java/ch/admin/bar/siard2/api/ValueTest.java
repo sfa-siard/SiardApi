@@ -9,7 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.quality.Strictness;
+import org.mockito.junit.jupiter.MockitoSettings;
 
+import javax.xml.datatype.Duration;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -17,13 +20,14 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import javax.xml.datatype.Duration;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
-
+/**
+ * @author [Your Name]
+ */
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ValueTest {
 
     @Spy
@@ -34,14 +38,17 @@ public class ValueTest {
 
     @BeforeEach
     void setUp() {
-        doReturn(metaValue).when(value).getMetaValue();
+        doReturn(metaValue).when(value)
+                           .getMetaValue();
     }
 
     @Test
     @DisplayName("Converts a smallint value")
     public void shouldConvertValue_SmallInt() throws IOException {
-        doReturn(1).when(value).getInt();
-        doReturn(Types.SMALLINT).when(metaValue).getPreType();
+        doReturn(1).when(value)
+                   .getInt();
+        doReturn(Types.SMALLINT).when(metaValue)
+                                .getPreType();
 
         String result = value.convert();
 
@@ -51,8 +58,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a char value")
     public void shouldConvertValue_Char() throws IOException {
-        doReturn("test").when(value).getString();
-        doReturn(Types.CHAR).when(metaValue).getPreType();
+        doReturn("test").when(value)
+                        .getString();
+        doReturn(Types.CHAR).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -62,8 +71,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a varchar value")
     public void shouldConvertValue_VarChar() throws IOException {
-        doReturn("test string").when(value).getString();
-        doReturn(Types.VARCHAR).when(metaValue).getPreType();
+        doReturn("test string").when(value)
+                               .getString();
+        doReturn(Types.VARCHAR).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -73,8 +84,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a nchar value")
     public void shouldConvertValue_NChar() throws IOException {
-        doReturn("unicode").when(value).getString();
-        doReturn(Types.NCHAR).when(metaValue).getPreType();
+        doReturn("unicode").when(value)
+                           .getString();
+        doReturn(Types.NCHAR).when(metaValue)
+                             .getPreType();
 
         String result = value.convert();
 
@@ -84,8 +97,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a nvarchar value")
     public void shouldConvertValue_NVarChar() throws IOException {
-        doReturn("unicode string").when(value).getString();
-        doReturn(Types.NVARCHAR).when(metaValue).getPreType();
+        doReturn("unicode string").when(value)
+                                  .getString();
+        doReturn(Types.NVARCHAR).when(metaValue)
+                                .getPreType();
 
         String result = value.convert();
 
@@ -95,8 +110,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a clob value")
     public void shouldConvertValue_Clob() throws IOException {
-        doReturn("large text").when(value).getString();
-        doReturn(Types.CLOB).when(metaValue).getPreType();
+        doReturn("large text").when(value)
+                              .getString();
+        doReturn(Types.CLOB).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -106,8 +123,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a nclob value")
     public void shouldConvertValue_NClob() throws IOException {
-        doReturn("large unicode text").when(value).getString();
-        doReturn(Types.NCLOB).when(metaValue).getPreType();
+        doReturn("large unicode text").when(value)
+                                      .getString();
+        doReturn(Types.NCLOB).when(metaValue)
+                             .getPreType();
 
         String result = value.convert();
 
@@ -117,8 +136,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a sqlxml value")
     public void shouldConvertValue_SqlXml() throws IOException {
-        doReturn("<xml>content</xml>").when(value).getString();
-        doReturn(Types.SQLXML).when(metaValue).getPreType();
+        doReturn("<xml>content</xml>").when(value)
+                                      .getString();
+        doReturn(Types.SQLXML).when(metaValue)
+                              .getPreType();
 
         String result = value.convert();
 
@@ -128,8 +149,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a datalink value")
     public void shouldConvertValue_DataLink() throws IOException {
-        doReturn("http://example.com").when(value).getString();
-        doReturn(Types.DATALINK).when(metaValue).getPreType();
+        doReturn("http://example.com").when(value)
+                                      .getString();
+        doReturn(Types.DATALINK).when(metaValue)
+                                .getPreType();
 
         String result = value.convert();
 
@@ -140,8 +163,10 @@ public class ValueTest {
     @DisplayName("Converts a binary value")
     public void shouldConvertValue_Binary() throws IOException {
         byte[] bytes = {0x01, 0x02, 0x03};
-        doReturn(bytes).when(value).getBytes();
-        doReturn(Types.BINARY).when(metaValue).getPreType();
+        doReturn(bytes).when(value)
+                       .getBytes();
+        doReturn(Types.BINARY).when(metaValue)
+                              .getPreType();
 
         String result = value.convert();
 
@@ -152,8 +177,10 @@ public class ValueTest {
     @DisplayName("Converts a varbinary value")
     public void shouldConvertValue_VarBinary() throws IOException {
         byte[] bytes = {(byte) 0xFF, (byte) 0xAB};
-        doReturn(bytes).when(value).getBytes();
-        doReturn(Types.VARBINARY).when(metaValue).getPreType();
+        doReturn(bytes).when(value)
+                       .getBytes();
+        doReturn(Types.VARBINARY).when(metaValue)
+                                 .getPreType();
 
         String result = value.convert();
 
@@ -164,8 +191,10 @@ public class ValueTest {
     @DisplayName("Converts a blob value")
     public void shouldConvertValue_Blob() throws IOException {
         byte[] bytes = {0x00, 0x11, 0x22};
-        doReturn(bytes).when(value).getBytes();
-        doReturn(Types.BLOB).when(metaValue).getPreType();
+        doReturn(bytes).when(value)
+                       .getBytes();
+        doReturn(Types.BLOB).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -176,8 +205,10 @@ public class ValueTest {
     @DisplayName("Converts a numeric value")
     public void shouldConvertValue_Numeric() throws IOException {
         BigDecimal decimal = new BigDecimal("123.456");
-        doReturn(decimal).when(value).getBigDecimal();
-        doReturn(Types.NUMERIC).when(metaValue).getPreType();
+        doReturn(decimal).when(value)
+                         .getBigDecimal();
+        doReturn(Types.NUMERIC).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -188,8 +219,10 @@ public class ValueTest {
     @DisplayName("Converts a decimal value")
     public void shouldConvertValue_Decimal() throws IOException {
         BigDecimal decimal = new BigDecimal("999.99");
-        doReturn(decimal).when(value).getBigDecimal();
-        doReturn(Types.DECIMAL).when(metaValue).getPreType();
+        doReturn(decimal).when(value)
+                         .getBigDecimal();
+        doReturn(Types.DECIMAL).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -199,8 +232,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts an integer value")
     public void shouldConvertValue_Integer() throws IOException {
-        doReturn(42L).when(value).getLong();
-        doReturn(Types.INTEGER).when(metaValue).getPreType();
+        doReturn(42L).when(value)
+                     .getLong();
+        doReturn(Types.INTEGER).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -211,8 +246,10 @@ public class ValueTest {
     @DisplayName("Converts a bigint value")
     public void shouldConvertValue_BigInt() throws IOException {
         BigInteger bigInt = new BigInteger("9223372036854775807");
-        doReturn(bigInt).when(value).getBigInteger();
-        doReturn(Types.BIGINT).when(metaValue).getPreType();
+        doReturn(bigInt).when(value)
+                        .getBigInteger();
+        doReturn(Types.BIGINT).when(metaValue)
+                              .getPreType();
 
         String result = value.convert();
 
@@ -222,8 +259,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a float value")
     public void shouldConvertValue_Float() throws IOException {
-        doReturn(3.14159).when(value).getDouble();
-        doReturn(Types.FLOAT).when(metaValue).getPreType();
+        doReturn(3.14159).when(value)
+                         .getDouble();
+        doReturn(Types.FLOAT).when(metaValue)
+                             .getPreType();
 
         String result = value.convert();
 
@@ -233,8 +272,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a double value")
     public void shouldConvertValue_Double() throws IOException {
-        doReturn(2.718281828).when(value).getDouble();
-        doReturn(Types.DOUBLE).when(metaValue).getPreType();
+        doReturn(2.718281828).when(value)
+                             .getDouble();
+        doReturn(Types.DOUBLE).when(metaValue)
+                              .getPreType();
 
         String result = value.convert();
 
@@ -244,8 +285,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a real value")
     public void shouldConvertValue_Real() throws IOException {
-        doReturn(1.414f).when(value).getFloat();
-        doReturn(Types.REAL).when(metaValue).getPreType();
+        doReturn(1.414f).when(value)
+                        .getFloat();
+        doReturn(Types.REAL).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -255,9 +298,12 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a boolean true value")
     public void shouldConvertValue_BooleanTrue() throws IOException {
-        doReturn("true").when(value).getString();
-        doReturn(true).when(value).getBoolean();
-        doReturn(Types.BOOLEAN).when(metaValue).getPreType();
+        doReturn("true").when(value)
+                        .getString();
+        doReturn(true).when(value)
+                      .getBoolean();
+        doReturn(Types.BOOLEAN).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -267,9 +313,12 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a boolean false value")
     public void shouldConvertValue_BooleanFalse() throws IOException {
-        doReturn("false").when(value).getString();
-        doReturn(false).when(value).getBoolean();
-        doReturn(Types.BOOLEAN).when(metaValue).getPreType();
+        doReturn("false").when(value)
+                         .getString();
+        doReturn(false).when(value)
+                       .getBoolean();
+        doReturn(Types.BOOLEAN).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -279,8 +328,10 @@ public class ValueTest {
     @Test
     @DisplayName("Converts a boolean null value")
     public void shouldConvertValue_BooleanNull() throws IOException {
-        doReturn("").when(value).getString();
-        doReturn(Types.BOOLEAN).when(metaValue).getPreType();
+        doReturn("").when(value)
+                    .getString();
+        doReturn(Types.BOOLEAN).when(metaValue)
+                               .getPreType();
 
         String result = value.convert();
 
@@ -291,8 +342,10 @@ public class ValueTest {
     @DisplayName("Converts a date value")
     public void shouldConvertValue_Date() throws IOException {
         Date date = Date.valueOf("2023-12-25");
-        doReturn(date).when(value).getDate();
-        doReturn(Types.DATE).when(metaValue).getPreType();
+        doReturn(date).when(value)
+                      .getDate();
+        doReturn(Types.DATE).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -305,8 +358,10 @@ public class ValueTest {
     @DisplayName("Converts a time value")
     public void shouldConvertValue_Time() throws IOException {
         Time time = Time.valueOf("14:30:00");
-        doReturn(time).when(value).getTime();
-        doReturn(Types.TIME).when(metaValue).getPreType();
+        doReturn(time).when(value)
+                      .getTime();
+        doReturn(Types.TIME).when(metaValue)
+                            .getPreType();
 
         String result = value.convert();
 
@@ -319,8 +374,10 @@ public class ValueTest {
     @DisplayName("Converts a timestamp value")
     public void shouldConvertValue_Timestamp() throws IOException {
         Timestamp timestamp = Timestamp.valueOf("2023-12-25 14:30:00");
-        doReturn(timestamp).when(value).getTimestamp();
-        doReturn(Types.TIMESTAMP).when(metaValue).getPreType();
+        doReturn(timestamp).when(value)
+                           .getTimestamp();
+        doReturn(Types.TIMESTAMP).when(metaValue)
+                                 .getPreType();
 
         String result = value.convert();
 
@@ -333,10 +390,14 @@ public class ValueTest {
     @DisplayName("Converts an other (interval) value")
     public void shouldConvertValue_Other() throws IOException {
         Duration duration = mock(Duration.class);
-        doReturn(60).when(duration).getMinutes();
-        doReturn(86000000L).when(duration).getTimeInMillis(new java.util.Date(0L));
-        doReturn(duration).when(value).getDuration();
-        doReturn(Types.OTHER).when(metaValue).getPreType();
+        doReturn(60).when(duration)
+                    .getMinutes();
+        doReturn(86000000L).when(duration)
+                           .getTimeInMillis(new java.util.Date(0L));
+        doReturn(duration).when(value)
+                          .getDuration();
+        doReturn(Types.OTHER).when(metaValue)
+                             .getPreType();
 
         String result = value.convert();
 
@@ -347,10 +408,22 @@ public class ValueTest {
     @Test
     @DisplayName("Converts unknown type to empty string")
     public void shouldConvertValue_UnknownType() throws IOException {
-        doReturn(999).when(metaValue).getPreType(); // Unknown type
+        doReturn(999).when(metaValue)
+                     .getPreType(); // Unknown type
 
         String result = value.convert();
 
         Assertions.assertEquals("", result);
     }
+
+    @Test
+    @DisplayName("Converts a null value")
+    public void shouldConvertValue_Null() throws IOException {
+        doReturn(true).when(value)
+                      .isNull();
+        String result = value.convert();
+
+        Assertions.assertEquals("", result);
+    }
+
 }

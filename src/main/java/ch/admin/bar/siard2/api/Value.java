@@ -473,6 +473,7 @@ public interface Value {
      * @throws IOException
      */
     default String convert() throws IOException {
+        if (this.isNull()) return "";
         DU dateUtils = DU.getInstance(Locale.getDefault()
                                             .getLanguage(), (new SimpleDateFormat()).toPattern());
         int preType = getMetaValue().getPreType();
