@@ -27,7 +27,7 @@ class UdtValueRenderer implements ValueRenderer {
     @Override
     public String render(Value value, ValueRenderingContext context) {
         if (value.isNull()) return "";
-        if (!hasNonEmptyAttribute(value, context)) return "";
+        if (!hasAnyAttributes(value, context)) return "";
 
         MetaValue mv = value.getMetaValue();
         StringBuilder sb = new StringBuilder();
@@ -46,14 +46,13 @@ class UdtValueRenderer implements ValueRenderer {
         return sb.toString();
     }
 
-    private static boolean hasNonEmptyAttribute(Value value, ValueRenderingContext context) throws IOException {
+    private static boolean hasAnyAttributes(Value value, ValueRenderingContext context) throws IOException {
         boolean hasNonEmptyAttribute = false;
 
         for (int i = 0; i < value.getAttributes(); i++) {
             String attributeValue = context.rendererRegistry().render(value.getAttribute(i), context);
             if (attributeValue != null && !attributeValue.trim().isEmpty()) {
-                hasNonEmptyAttribute = true;
-                break;
+                return true;
             }
         }
         return hasNonEmptyAttribute;
