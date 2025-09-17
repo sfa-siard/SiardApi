@@ -54,16 +54,11 @@ dependencies {
 
     implementation("org.apache.commons:commons-text:1.14.0")
 
-    // Test dependencies
-    testImplementation("junit:junit:4.13.1")
-    testImplementation("org.hamcrest:hamcrest-core:1.3")
-
-    testImplementation(platform("org.junit:junit-bom:5.13.1"))
+    testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.vintage:junit-vintage-engine")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.1")
-
-    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.19.0")
 
     // 4.x uses jakarta.* packages.  For a javax‑based project stick to 2.3.*.
     xjcConfiguration("org.glassfish.jaxb:jaxb-xjc:2.3.2")
