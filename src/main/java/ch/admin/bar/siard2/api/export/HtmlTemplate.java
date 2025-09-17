@@ -1,36 +1,35 @@
 package ch.admin.bar.siard2.api.export;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
  * HTML template generator for table exports.
  * Provides static methods to generate consistent HTML structure.
  */
 class HtmlTemplate {
-    
+
     private static final String DOCUMENT_START_TEMPLATE = """
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <title>%s</title>
-            <meta charset="utf-8" />
-          </head>
-          <body>
-            <p>%s</p>
-            <p>%s</p>
-            <table>
-        """;
-    
+            <!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <title>%s</title>
+                <meta charset="utf-8" />
+              </head>
+              <body>
+                <p>%s</p>
+                <p>%s</p>
+                <table>
+            """;
+
     private static final String DOCUMENT_END_TEMPLATE = """
-            </table>
-          </body>
-        </html>
-        """;
-    
+                </table>
+              </body>
+            </html>
+            """;
+
     private HtmlTemplate() {
         // Utility class - prevent instantiation
     }
-    
+
     /**
      * Generate the HTML document start including head and table opening.
      *
@@ -40,12 +39,12 @@ class HtmlTemplate {
      * @return formatted HTML document start
      */
     static String documentStart(String title, String tableName, String description) {
-        return String.format(DOCUMENT_START_TEMPLATE, 
-            escapeHtml4(title), 
-            escapeHtml4(tableName), 
-            escapeHtml4(description != null ? description : ""));
+        return String.format(DOCUMENT_START_TEMPLATE,
+                             title,
+                             tableName,
+                             description != null ? description : "");
     }
-    
+
     /**
      * Generate the HTML document end.
      *
@@ -54,7 +53,7 @@ class HtmlTemplate {
     static String documentEnd() {
         return DOCUMENT_END_TEMPLATE;
     }
-    
+
     /**
      * Generate a table header cell.
      *
@@ -62,9 +61,9 @@ class HtmlTemplate {
      * @return formatted HTML th element
      */
     static String tableHeader(String columnName) {
-        return "        <th>" + escapeHtml4(columnName) + "</th>\n";
+        return "<th>" + columnName + "</th>\n";
     }
-    
+
     /**
      * Generate a table data cell.
      *
@@ -72,27 +71,27 @@ class HtmlTemplate {
      * @return formatted HTML td element
      */
     static String tableCell(String content) {
-        return "        <td>" + content + "</td>\n";
+        return "<td>" + content + "</td>\n";
     }
-    
+
     /**
      * Generate a table row start tag.
      *
      * @return HTML tr opening tag
      */
     static String rowStart() {
-        return "      <tr>\n";
+        return "<tr>\n";
     }
-    
+
     /**
      * Generate a table row end tag.
      *
      * @return HTML tr closing tag
      */
     static String rowEnd() {
-        return "      </tr>\n";
+        return "</tr>\n";
     }
-    
+
     /**
      * Generate an HTML link element.
      *
@@ -101,11 +100,9 @@ class HtmlTemplate {
      * @return formatted HTML a element
      */
     static String link(String href, String text) {
-        return String.format("<a href=\"%s\">%s</a>", 
-            escapeHtml4(href), 
-            escapeHtml4(text));
+        return String.format("<a href=\"%s\">%s</a>", href, text);
     }
-    
+
     /**
      * Generate an HTML definition list start.
      *
@@ -114,7 +111,7 @@ class HtmlTemplate {
     static String definitionListStart() {
         return "<dl>\n";
     }
-    
+
     /**
      * Generate an HTML definition list end.
      *
@@ -123,7 +120,7 @@ class HtmlTemplate {
     static String definitionListEnd() {
         return "</dl>\n";
     }
-    
+
     /**
      * Generate an HTML definition term.
      *
@@ -131,9 +128,9 @@ class HtmlTemplate {
      * @return formatted HTML dt element
      */
     static String definitionTerm(String term) {
-        return "  <dt>" + escapeHtml4(term) + "</dt>\n";
+        return "<dt>" + term + "</dt>\n";
     }
-    
+
     /**
      * Generate an HTML definition description.
      *
@@ -141,9 +138,9 @@ class HtmlTemplate {
      * @return formatted HTML dd element
      */
     static String definitionDescription(String description) {
-        return "  <dd>" + description + "</dd>\n";
+        return "<dd>" + description + "</dd>\n";
     }
-    
+
     /**
      * Generate an HTML ordered list start.
      *
@@ -152,7 +149,7 @@ class HtmlTemplate {
     static String orderedListStart() {
         return "<ol>\n";
     }
-    
+
     /**
      * Generate an HTML ordered list end.
      *
@@ -161,7 +158,7 @@ class HtmlTemplate {
     static String orderedListEnd() {
         return "</ol>\n";
     }
-    
+
     /**
      * Generate an HTML list item.
      *
@@ -169,6 +166,6 @@ class HtmlTemplate {
      * @return formatted HTML li element
      */
     static String listItem(String content) {
-        return "  <li>" + content + "</li>\n";
+        return "<li>" + content + "</li>\n";
     }
 }

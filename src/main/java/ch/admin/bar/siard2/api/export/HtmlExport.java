@@ -13,9 +13,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.stream.Collectors;
 
-public class HtmlExport {
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Entities;
 
-    private static final int BUFFER_SIZE = 8192;
+public class HtmlExport {
 
     private final MetaTableFacade metaTableFacade;
 
@@ -62,8 +64,9 @@ public class HtmlExport {
         sb.append(HtmlTemplate.rowEnd());
         sb.append(getRows(context));
         sb.append(HtmlTemplate.documentEnd());
-
-        oswr.write(sb.toString());
+        Document doc = Jsoup.parse(sb.toString());
+        doc.outputSettings().escapeMode(Entities.EscapeMode.xhtml);
+        oswr.write(doc.toString());
         oswr.flush();
     }
 

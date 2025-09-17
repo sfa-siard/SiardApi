@@ -53,6 +53,7 @@ dependencies {
     implementation("net.java.dev.msv:xsdlib:2013.2.2")
 
     implementation("org.apache.commons:commons-text:1.14.0")
+    implementation("org.jsoup:jsoup:1.21.2") // html pretty printing in html export
 
     testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
