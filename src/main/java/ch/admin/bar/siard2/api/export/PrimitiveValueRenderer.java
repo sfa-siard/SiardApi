@@ -1,6 +1,7 @@
 package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.Value;
+import lombok.SneakyThrows;
 
 /**
  * Renderer for primitive values (strings, numbers, dates, etc.).
@@ -14,27 +15,10 @@ class PrimitiveValueRenderer implements ValueRenderer {
         return true;
     }
     
+    @SneakyThrows
     @Override
     public String render(Value value, ValueRenderingContext context) {
-        String stringValue;
-        try {
-            stringValue = value.convert();
-            if (stringValue == null) {
-                return "";
-            }
-        } catch (Exception e) {
-            // If conversion fails, try to get string representation directly
-            try {
-                stringValue = value.getString();
-                if (stringValue == null) {
-                    return "";
-                }
-            } catch (Exception ex) {
-                // Last resort - return empty string for problematic values
-                return "";
-            }
-        }
-        
+        String stringValue = value.convert();
         // Apply max content length if configured
         if (context.config().maxCellContentLength() > 0 && 
             stringValue.length() > context.config().maxCellContentLength()) {

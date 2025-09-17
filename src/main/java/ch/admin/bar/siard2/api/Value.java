@@ -13,6 +13,7 @@ import ch.enterag.sqlparser.Interval;
 import ch.enterag.sqlparser.SqlLiterals;
 import ch.enterag.utils.BU;
 import ch.enterag.utils.DU;
+import lombok.SneakyThrows;
 
 import javax.xml.datatype.Duration;
 import java.io.IOException;
@@ -472,7 +473,8 @@ public interface Value {
      * @return String - the string representation of the value
      * @throws IOException
      */
-    default String convert() throws IOException {
+    @SneakyThrows
+    default String convert() {
         if (this.isNull()) return "";
         DU dateUtils = DU.getInstance(Locale.getDefault()
                                             .getLanguage(), (new SimpleDateFormat()).toPattern());
@@ -481,8 +483,7 @@ public interface Value {
             case Types.CHAR, Types.VARCHAR, Types.NCHAR, Types.NVARCHAR, Types.CLOB, Types.NCLOB, Types.SQLXML,
                  Types.DATALINK -> this.getString();
             case Types.BINARY, Types.VARBINARY, Types.BLOB -> "0x" + BU.toHex(this.getBytes());
-            case Types.NUMERIC, Types.DECIMAL -> this.getBigDecimal()
-                                                     .toPlainString();
+            case Types.NUMERIC, Types.DECIMAL -> this.getBigDecimal() != null ? this.getBigDecimal().toPlainString() : "";
             case Types.SMALLINT -> this.getInt()
                                        .toString();
             case Types.INTEGER -> this.getLong()
@@ -497,7 +498,7 @@ public interface Value {
             case Types.DATE -> dateUtils.fromSqlDate(this.getDate());
             case Types.TIME -> dateUtils.fromSqlTime(this.getTime());
             case Types.TIMESTAMP -> dateUtils.fromSqlTimestamp(this.getTimestamp());
-            case Types.OTHER -> SqlLiterals.formatIntervalLiteral(Interval.fromDuration(this.getDuration()));
+            case Types.OTHER -> this.getDuration() != null ? SqlLiterals.formatIntervalLiteral(Interval.fromDuration(this.getDuration())) : "";
             default -> "";
         };
     }
