@@ -40,9 +40,10 @@ public interface TableRecord {
      *
      * @return number of cells of the record.
      * @throws IOException if an I/O error occurred.
+     * @deprecated use TableRecordFacade instead
      */
-    int getCells()
-            throws IOException;
+    @Deprecated
+    int getCells() throws IOException;
 
     /**
      * get cell with given (0-based) index.
@@ -50,9 +51,10 @@ public interface TableRecord {
      * @param iCell index.
      * @return cell instance.
      * @throws IOException if an I/O error occurred.
+     * @deprecated use TableRecordFacade instead
      */
-    Cell getCell(int iCell)
-            throws IOException;
+    @Deprecated
+    Cell getCell(int iCell) throws IOException;
 
     /**
      * get a linearized ("flattened") list of values represented by this
@@ -63,7 +65,6 @@ public interface TableRecord {
      * @return "flattened" list of values.
      * @throws IOException if an I/O error occurred.
      */
-    List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts)
-            throws IOException;
+    List<Value> getValues(boolean bSupportsArrays, boolean bSupportsUdts) throws IOException;
 
 } 

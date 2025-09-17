@@ -89,26 +89,26 @@ public abstract class ValueImpl
         if (_elValue == null) {
             if (this instanceof Cell)
                 _elValue = TableRecordImpl.getDocument()
-                                     .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getColumnTag(getIndex()));
+                                          .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getColumnTag(getIndex()));
             else {
                 ValueImpl viParent = (ValueImpl) ((Field) this).getParent();
                 int iCardinalityParent = viParent.getCardinality();
                 if (iCardinalityParent >= 0)
                     _elValue = TableRecordImpl.getDocument()
-                                         .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getElementTag(getIndex()));
+                                              .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getElementTag(getIndex()));
                 else {
                     MetaType mtParent = viParent.getMetaType();
                     CategoryType catParent = mtParent.getCategoryType();
                     if (catParent == CategoryType.UDT)
                         _elValue = TableRecordImpl.getDocument()
-                                             .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getAttributeTag(getIndex()));
+                                                  .createElementNS(Archive.sSIARD2_TABLE_NAMESPACE, getAttributeTag(getIndex()));
                 }
                 viParent.getValueElement()
                         .appendChild(_elValue);
             }
         }
         return _elValue;
-    } 
+    }
 
     private MetaValue _mv = null;
 
@@ -138,7 +138,7 @@ public abstract class ValueImpl
                 getFieldMap().put(sTag, createField(iField, mfNull, null));
             }
         }
-    } 
+    }
 
     /**
      * create a child field of this cell or field.
@@ -178,7 +178,7 @@ public abstract class ValueImpl
     private int getMetaFields()
             throws IOException {
         return getMetaValue().getMetaFields();
-    } 
+    }
 
     /**
      * return the field meta data with the given index in this column's or
@@ -191,7 +191,7 @@ public abstract class ValueImpl
     private MetaField getMetaField(int iField)
             throws IOException {
         return getMetaValue().getMetaField(iField);
-    } 
+    }
 
     /**
      * return the absolute LOB folder for externally storing the LOB of
@@ -202,7 +202,7 @@ public abstract class ValueImpl
      */
     private URI getAbsoluteLobFolder() {
         return getMetaValue().getAbsoluteLobFolder();
-    } 
+    }
 
     /**
      * return the Table implementation to which this cell or field belongs.
@@ -212,7 +212,7 @@ public abstract class ValueImpl
     private TableImpl getTableImpl() {
         return (TableImpl) getAncestorCell().getParentRecord()
                                             .getParentTable();
-    } 
+    }
 
     /**
      * return the Archive implementation
@@ -222,7 +222,7 @@ public abstract class ValueImpl
     private ArchiveImpl getArchiveImpl() {
         return (ArchiveImpl) getTableImpl().getParentSchema()
                                            .getParentArchive();
-    } 
+    }
 
     /**
      * return the cardinality (maximum length of array) associated with
@@ -234,7 +234,7 @@ public abstract class ValueImpl
     private int getCardinality()
             throws IOException {
         return getMetaValue().getCardinality();
-    } 
+    }
 
     /**
      * return the predefined type of this cell or field as a java.sql.Types
@@ -270,7 +270,7 @@ public abstract class ValueImpl
     private int getPreType()
             throws IOException {
         return getMetaValue().getPreType();
-    } 
+    }
 
     /**
      * return the type meta data associated with this cell or field.
@@ -281,7 +281,7 @@ public abstract class ValueImpl
     private MetaType getMetaType()
             throws IOException {
         return getMetaValue().getMetaType();
-    } 
+    }
 
     /**
      * return the MIME type of the LOBs in this column or field, or null, if
@@ -292,7 +292,7 @@ public abstract class ValueImpl
      */
     private String getMimeType() {
         return getMetaValue().getMimeType();
-    } 
+    }
 
     /**
      * column tag
@@ -302,7 +302,7 @@ public abstract class ValueImpl
      */
     public static String getColumnTag(int iColumn) {
         return "c" + (iColumn + 1);
-    } 
+    }
 
     /**
      * ARRAY element tag
@@ -312,7 +312,7 @@ public abstract class ValueImpl
      */
     public static String getElementTag(int iIndex) {
         return "a" + (iIndex + 1);
-    } 
+    }
 
     /**
      * UDT attribute tag
@@ -322,7 +322,7 @@ public abstract class ValueImpl
      */
     public static String getAttributeTag(int iIndex) {
         return "u" + (iIndex + 1);
-    } 
+    }
 
     /**
      * ROW field tag
@@ -332,7 +332,7 @@ public abstract class ValueImpl
      */
     public static String getFieldTag(int iIndex) {
         return "r" + (iIndex + 1);
-    } 
+    }
 
     /**
      * get the index of a cell of field from its tag.
@@ -342,7 +342,7 @@ public abstract class ValueImpl
      */
     public static int getIndex(String sTag) {
         return Integer.parseInt(sTag.substring(1)) - 1;
-    } 
+    }
 
     /**
      * get suitable tag for the type and index of this cell's or field's child field.
@@ -364,7 +364,7 @@ public abstract class ValueImpl
                 sTag = getFieldTag(iField);
         }
         return sTag;
-    } 
+    }
 
     /**
      * return the file name for a non-inlined value of this cell or field.
@@ -389,7 +389,7 @@ public abstract class ValueImpl
         }
         String sFilename = _sRECORD_PREFIX + getRecord();
         return sFilename + "." + sExtension;
-    } 
+    }
 
     /* the map of the fields contained in this cell or field */
     private Map<String, Field> _mapFields = null;
@@ -412,7 +412,7 @@ public abstract class ValueImpl
             }
         }
         return _mapFields;
-    } 
+    }
 
     /**
      * set the DOM element of the value of this cell or field.
@@ -440,7 +440,7 @@ public abstract class ValueImpl
             }
         }
         _elValue = elValue;
-    } 
+    }
 
     /**
      * get the DOM element for this cell's or field's value.
@@ -453,7 +453,7 @@ public abstract class ValueImpl
         if (getFieldMap() != null) {
             if (getMetaFields() > 0)
                 XU.clearElement(getValueElement());
-            
+
             int iCardinality = getCardinality();
             MetaType mt = getMetaType();
             for (int iField = 0; iField < getMetaFields(); iField++) {
@@ -467,7 +467,7 @@ public abstract class ValueImpl
             }
         }
         return _elValue;
-    } 
+    }
 
     /**
      * to be called in constructor of CellImpl and FieldImpl.
@@ -498,14 +498,14 @@ public abstract class ValueImpl
                         elChild = (Element) nodeChild;
                 }
                 if (elChild != null) {
-                    
+
                     int iArrayIndex = getIndex(elChild.getTagName());
                     /* create NULL fields for array */
                     extendArray(iArrayIndex + 1, iCardinality);
                 }
             }
         }
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -513,7 +513,7 @@ public abstract class ValueImpl
     @Override
     public boolean isNull() {
         return _elValue == null;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -795,12 +795,17 @@ public abstract class ValueImpl
                     (iPreType == Types.BIGINT) ||
                     (iPreType == Types.FLOAT) ||
                     (iPreType == Types.REAL) ||
-                    (iPreType == Types.DOUBLE))
-                bd = new BigDecimal(getValueElement().getTextContent());
-            else if (iPreType != Types.NULL)
+                    (iPreType == Types.DOUBLE)) {
+
+                String textContent = getValueElement().getTextContent();
+                if (textContent != null && !textContent.isEmpty()) {
+                    bd = new BigDecimal(textContent);
+                }
+            } else if (iPreType != Types.NULL) {
                 throw new IllegalArgumentException("Cell of type " + SqlTypes.getTypeName(iPreType) + " cannot be converted to BigDecimal!");
-            else
+            } else {
                 throw new IllegalArgumentException("Value of cell of complex type cannot be converted to BigDecimal!");
+            }
         }
         return bd;
     } /* getBigDecimal */
@@ -1035,7 +1040,10 @@ public abstract class ValueImpl
             int iPreType = getPreType();
             if (iPreType == Types.OTHER) {
                 try {
-                    duration = _du.fromXsDuration(getValueElement().getTextContent());
+                    String textContent = getValueElement().getTextContent();
+                    if (textContent != null && !textContent.isEmpty()) {
+                        duration = _du.fromXsDuration(textContent);
+                    }
                 } catch (ParseException pe) {
                     throw new IllegalArgumentException("Cell value " + getValueElement().getTextContent() + " could not be parsed as xs:duration!", pe);
                 }

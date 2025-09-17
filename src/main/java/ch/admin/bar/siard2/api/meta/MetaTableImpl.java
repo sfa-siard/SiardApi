@@ -808,7 +808,8 @@ public class MetaTableImpl
             throws IOException {
         MetaColumn mc = getMetaColumn(listNames.get(0));
         return mc.getType(listNames);
-    } 
+    }
+
 
     /**
      * {@inheritDoc}
