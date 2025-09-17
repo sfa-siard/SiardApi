@@ -1,6 +1,7 @@
 package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.Value;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 
@@ -10,13 +11,15 @@ import java.io.IOException;
  */
 class ArrayValueRenderer implements ValueRenderer {
     
+    @SneakyThrows
     @Override
-    public boolean canRender(Value value) throws IOException {
+    public boolean canRender(Value value) {
         return value.getMetaValue().getCardinality() > 0;
     }
     
+    @SneakyThrows
     @Override
-    public String render(Value value, ValueRenderingContext context) throws IOException {
+    public String render(Value value, ValueRenderingContext context) {
         if (value.getElements() == 0) return "";
 
         StringBuilder sb = new StringBuilder();

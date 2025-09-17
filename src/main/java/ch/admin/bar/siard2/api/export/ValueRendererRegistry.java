@@ -50,7 +50,7 @@ public class ValueRendererRegistry {
      * @throws IOException if an I/O error occurs during rendering
      * @throws IllegalArgumentException if no renderer can handle the value
      */
-    String render(Value value, ValueRenderingContext context) throws IOException {
+    String render(Value value, ValueRenderingContext context) {
         for (ValueRenderer renderer : renderers) {
             if (renderer.canRender(value)) {
                 return renderer.render(value, context);
@@ -59,14 +59,5 @@ public class ValueRendererRegistry {
         
         // Fallback - should not happen with proper default renderers
         throw new IllegalArgumentException("No renderer found for value type: " + value.getClass().getSimpleName());
-    }
-    
-    /**
-     * Get all registered renderers.
-     *
-     * @return a copy of the renderer list
-     */
-    List<ValueRenderer> getRenderers() {
-        return new ArrayList<>(renderers);
     }
 }

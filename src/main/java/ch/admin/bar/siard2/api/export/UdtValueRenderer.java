@@ -5,6 +5,7 @@ import ch.admin.bar.siard2.api.MetaType;
 import ch.admin.bar.siard2.api.MetaValue;
 import ch.admin.bar.siard2.api.Value;
 import ch.admin.bar.siard2.api.generated.CategoryType;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 
@@ -14,15 +15,17 @@ import java.io.IOException;
  */
 class UdtValueRenderer implements ValueRenderer {
     
+    @SneakyThrows
     @Override
-    public boolean canRender(Value value) throws IOException {
+    public boolean canRender(Value value) {
         MetaValue metaValue = value.getMetaValue();
         MetaType metaType = metaValue.getMetaType();
         return metaType != null && metaType.getCategoryType() == CategoryType.UDT;
     }
     
+    @SneakyThrows
     @Override
-    public String render(Value value, ValueRenderingContext context) throws IOException {
+    public String render(Value value, ValueRenderingContext context) {
         if (value.isNull()) return "";
         if (!hasNonEmptyAttribute(value, context)) return "";
 

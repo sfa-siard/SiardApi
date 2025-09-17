@@ -2,8 +2,6 @@ package ch.admin.bar.siard2.api.export;
 
 import ch.admin.bar.siard2.api.Value;
 
-import java.io.IOException;
-
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
 /**
@@ -19,7 +17,7 @@ class PrimitiveValueRenderer implements ValueRenderer {
     }
     
     @Override
-    public String render(Value value, ValueRenderingContext context) throws IOException {
+    public String render(Value value, ValueRenderingContext context) {
         if (value.isNull()) return "";
 
         String stringValue;

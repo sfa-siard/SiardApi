@@ -16,7 +16,7 @@ interface ValueRenderer {
      * @param value the value to check
      * @return true if this renderer can handle the value
      */
-    boolean canRender(Value value) throws IOException;
+    boolean canRender(Value value);
     
     /**
      * Render the value to HTML string.
@@ -26,7 +26,7 @@ interface ValueRenderer {
      * @return the HTML representation of the value
      * @throws IOException if an I/O error occurs during rendering
      */
-    String render(Value value, ValueRenderingContext context) throws IOException;
+    String render(Value value, ValueRenderingContext context);
     
     /**
      * Get the priority of this renderer. Higher priority renderers are checked first.

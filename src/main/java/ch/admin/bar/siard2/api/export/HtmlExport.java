@@ -5,6 +5,7 @@ import ch.admin.bar.siard2.api.MetaTable;
 import ch.admin.bar.siard2.api.facade.MetaTableFacade;
 import ch.admin.bar.siard2.api.facade.TableRecordFacade;
 import ch.admin.bar.siard2.api.primary.TableRecordDispenserImpl;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class HtmlExport {
                               .collect(Collectors.joining());
     }
 
-    private String getRows(ValueRenderingContext context) throws IOException {
+    private String getRows(ValueRenderingContext context) {
         StringBuilder sb = new StringBuilder();
         for (long rows = 0; rows < metaTable.getRows(); rows++) {
             sb.append(HtmlTemplate.rowStart());
@@ -84,17 +85,14 @@ public class HtmlExport {
         return sb.toString();
     }
 
-    private String getColumns(ValueRenderingContext context) throws IOException {
+    @SneakyThrows
+    private String getColumns(ValueRenderingContext context) {
         StringBuilder sb = new StringBuilder();
 
         new TableRecordFacade(this.dispenser.get()).getCells()
                                                    .forEach(cell -> {
-                                                       try {
                                                            sb.append(HtmlTemplate.tableCell(context.rendererRegistry()
                                                                                                    .render(cell, context)));
-                                                       } catch (IOException e) {
-                                                           throw new RuntimeException(e);
-                                                       }
                                                    });
 
         return sb.toString();
