@@ -16,6 +16,7 @@ import ch.enterag.utils.FU;
 import ch.enterag.utils.database.SqlTypes;
 import ch.enterag.utils.mime.MimeTypes;
 import ch.enterag.utils.xml.XU;
+import lombok.SneakyThrows;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -1519,4 +1520,18 @@ public abstract class ValueImpl
         else
             System.out.println("null");
     } /* dumpDom */
-} /* class ValueImpl */
+
+    @SneakyThrows
+    @Override
+    public String toString() {
+        String newLine = System.getProperty("line.separator");
+        MetaValue metaValue = this.getMetaValue();
+        return "{ name: " + metaValue.getName()
+                + newLine
+                + "  type: " + metaValue.getType()
+                + newLine
+                + "  typeOriginal: " + metaValue.getTypeOriginal()
+                + newLine
+                + "}";
+    }
+}

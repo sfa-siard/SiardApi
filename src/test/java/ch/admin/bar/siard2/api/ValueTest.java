@@ -23,9 +23,7 @@ import java.sql.Types;
 
 import static org.mockito.Mockito.*;
 
-/**
- * @author [Your Name]
- */
+
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ValueTest {
