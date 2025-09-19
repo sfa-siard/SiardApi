@@ -12,7 +12,6 @@ import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.generated.*;
 import ch.admin.bar.siard2.api.primary.MetaDataXml;
 import ch.enterag.utils.cli.Arguments;
-import ch.enterag.utils.configuration.ManifestAttributes;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +24,6 @@ public class RandomArchive {
     public static final int iRETURN_ERROR = 8;
     public static final int iRETURN_FATAL = 12;
 
-    private static final ManifestAttributes _ma = ManifestAttributes.getInstance();
     private int _iReturn = iRETURN_ERROR;
     private SiardArchive _sa = null;
 
@@ -240,7 +238,7 @@ public class RandomArchive {
     } 
 
     public static void main(String[] args) {
-        System.out.println("Random application of " + _ma.getImplementationTitle() + " " + _ma.getImplementationVersion());
+        System.out.println("Random application of  SIARD 2.2");
         int iReturn = iRETURN_FATAL;
         try {
             RandomArchive random = new RandomArchive(args);

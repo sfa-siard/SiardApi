@@ -4,7 +4,6 @@ import ch.admin.bar.siard2.api.*;
 import ch.admin.bar.siard2.api.primary.ArchiveImpl;
 import ch.enterag.utils.DU;
 import ch.enterag.utils.cli.Arguments;
-import ch.enterag.utils.configuration.ManifestAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,6 @@ public class SampleArchive {
     public static final int iRETURN_ERROR = 8;
     public static final int iRETURN_FATAL = 12;
 
-    private static final ManifestAttributes _ma = ManifestAttributes.getInstance();
     private static final DU _du = DU.getInstance("en", "yyyy-MM-dd");
     private int _iReturn = iRETURN_ERROR;
 
@@ -238,7 +236,7 @@ public class SampleArchive {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("Sample application of " + _ma.getImplementationTitle() + " " + _ma.getImplementationVersion());
+        System.out.println("Sample application of SIARD 2.2");
         int iReturn = iRETURN_FATAL;
         try {
             SampleArchive sample = new SampleArchive(args);
