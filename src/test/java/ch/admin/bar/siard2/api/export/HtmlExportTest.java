@@ -51,8 +51,8 @@ public class HtmlExportTest {
     }
 
     @Test
-    @DisplayName("Export a table as HTML with Datalinks")
-    public void exportAsHtmlWithDatalink() throws IOException {
+    @DisplayName("Export TSIMPLE Table to HTML from sample-datalink-2-2.siard")
+    public void exportAsHtmlWithDatalink_TSIMPLE() throws IOException {
         // given
         Archive archive = ArchiveImpl.newInstance();
         archive.open(DATALINK_SIARD);
@@ -69,6 +69,33 @@ public class HtmlExportTest {
         // then
         String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
         String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TSIMPLE.html"), StandardCharsets.UTF_8);
+
+        // Normalize line endings for cross-platform compatibility
+        String normalizedGenerated = generatedHtml.replaceAll("\\r\\n|\\r", "\\n");
+        String normalizedExpected = expectedHtml.replaceAll("\\r\\n|\\r", "\\n");
+
+        assertEquals(normalizedExpected, normalizedGenerated, "Generated HTML should match expected content");
+    }
+
+    @Test
+    @DisplayName("Export TCOMPLEX Table to HTML from sample-datalink-2-2.siard")
+    public void exportAsHtmlWithDatalink_TCOMPLEX() throws IOException {
+        // given
+        Archive archive = ArchiveImpl.newInstance();
+        archive.open(DATALINK_SIARD);
+        Schema schema = archive.getSchema("SampleSchema");
+        File fileTable = new File("src/test/resources/tmp/TCOMPLEX.html");
+        FileOutputStream fosTable = new FileOutputStream(fileTable);
+
+        // when
+        schema.getTable("TCOMPLEX")
+              .exportAsHtml(fosTable, new File("src/test/resources/tmp/lobs"));
+        fosTable.close();
+        archive.close();
+
+        // then
+        String generatedHtml = Files.readString(fileTable.toPath(), StandardCharsets.UTF_8);
+        String expectedHtml = Files.readString(Paths.get("src/test/resources/export/TCOMPLEX.html"), StandardCharsets.UTF_8);
 
         // Normalize line endings for cross-platform compatibility
         String normalizedGenerated = generatedHtml.replaceAll("\\r\\n|\\r", "\\n");

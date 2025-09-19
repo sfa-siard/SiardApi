@@ -3,11 +3,15 @@ package ch.admin.bar.siard2.api.export;
 import ch.admin.bar.siard2.api.Value;
 import lombok.SneakyThrows;
 
+import java.util.logging.Logger;
+
 /**
  * Renderer for primitive values (strings, numbers, dates, etc.).
  * This is the fallback renderer that handles all basic value types.
  */
 class PrimitiveValueRenderer implements ValueRenderer {
+
+    Logger logger = Logger.getLogger(PrimitiveValueRenderer.class.getName());
     
     @Override
     public boolean canRender(Value value) {
@@ -18,7 +22,14 @@ class PrimitiveValueRenderer implements ValueRenderer {
     @SneakyThrows
     @Override
     public String render(Value value, ValueRenderingContext context) {
-        String stringValue = value.convert();
+        String stringValue = "";
+
+        try {
+            stringValue = value.convert();
+        } catch (Exception e) {
+            logger.warning("failed to convert value! fallback to empty string. The value was: " + value);
+            stringValue = "";
+        }
         // Apply max content length if configured
         if (context.config().maxCellContentLength() > 0 && 
             stringValue.length() > context.config().maxCellContentLength()) {

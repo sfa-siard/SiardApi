@@ -99,7 +99,7 @@ public class FieldImpl
         if (el != null) {
             int iCardinality = mf.getCardinality();
             if (iCardinality > 0)
-                super.extendArray(iField, iCardinality);
+                super.extendArray(iField);
         }
         return FieldImpl.newInstance(iField, this, getAncestorCell(), mf, el);
     } 
